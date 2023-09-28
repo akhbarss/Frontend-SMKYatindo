@@ -1,0 +1,59 @@
+import { Box, useMantineTheme } from '@mantine/core'
+import { useBreakPoints } from '../../utils/UseBreakpoints'
+import { JalurPendaftaranPPDB } from '../../types/global'
+
+const JadwalJalurPendaftaran = ({
+    jalur
+}: {
+    jalur: JalurPendaftaranPPDB | undefined
+}) => {
+
+    const { xs } = useBreakPoints()
+    const theme = useMantineTheme()
+    const dark = theme.colorScheme === 'dark'
+
+    return (
+        <Box
+            id='jadwal'
+            className={`flex flex-col   ${xs ?"rounded-md p-8 mt-10" : "py-8 px-2"}`}
+            style={{
+                backgroundColor: `${dark ? theme.colors.dark[9] : "#dbe1fe"}`,
+                color: `${dark ? "white" : "#0F172A"}`,
+            }}
+        >
+            <h1 className='text-[22px] '>Jadwal {jalur?.nama_jalur_pendaftaran}:</h1>
+            {
+                jalur && jalur.gelombang.length > 0 ? jalur?.gelombang.map(gelombang => (
+                    <Box
+                        key={gelombang.id}
+                        className=' text-[16px] mt-5'
+                        style={{
+                            backgroundColor: `${dark ? "black" : "white"}`,
+                            color: `${dark ? "white" : "#0F172A"}`,
+                        }}
+                    >
+                        <div id='judul-biaya' className=' border-b   py-2 text-[20px] text-center'>
+                            <span>{gelombang.nama_gelombang}</span>
+                        </div>
+                        <div className='font-semibold px-2'>
+                            <div className='py-2 flex gap-4' >
+                                <span className='flex-1'>Pendaftaran Gelombang</span>
+                                <span className='flex-1'>{gelombang.waktu_oendaftaran_dibuka} - {gelombang.waktu_oendaftaran_ditutup}</span>
+                            </div>
+                            {
+                                gelombang.ujian_penerimaan.map(ujian => (
+                                    <div key={ujian.id} className='py-2 flex gap-4' >
+                                        <span className='flex-1'>{ujian.nama_ujian_penerimaan}</span>
+                                        <span className='flex-1'>{ujian.waktu_dibuka} - {ujian.waktu_ditutup}</span>
+                                    </div>
+                                ))
+                            }
+                        </div>
+                    </Box>
+                )) : "-"
+            }
+        </Box>
+    )
+}
+
+export default JadwalJalurPendaftaran
