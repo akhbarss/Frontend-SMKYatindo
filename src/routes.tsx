@@ -1,4 +1,4 @@
-import { Outlet, createBrowserRouter } from "react-router-dom";
+import { Navigate, Outlet, createBrowserRouter } from "react-router-dom";
 import MissingPPDB from "./components/ppdb/missingPPDB";
 import {
   AlurPPPDB,
@@ -112,5 +112,9 @@ export const routeConfigs = createBrowserRouter([
   {
     path: "/ppdb/*",
     Component: MissingPPDB
+  },
+  {
+    path: "*",
+    Component: () => Navigate({to: "/ppdb"})
   }
 ], { window, });
