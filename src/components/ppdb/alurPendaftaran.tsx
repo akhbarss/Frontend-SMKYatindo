@@ -4,6 +4,7 @@ import {
     Stepper,
     useMantineTheme
 } from "@mantine/core"
+import { Element } from 'react-scroll'
 import { useBreakPoints } from "../../utils/UseBreakpoints"
 
 const AlurPendaftaran = () => {
@@ -11,13 +12,17 @@ const AlurPendaftaran = () => {
     const theme = useMantineTheme()
     const dark = theme.colorScheme === 'dark'
 
+
     return (
-        <Box
+        <Element
+            name="alur-pendaftaran"
             id="alur-pendaftaran"
-            className={`  min-h-[87vh] flex flex-col justify-center   ${xs && "items-center py-[2rem] "}`}
-            sx={(theme => ({
-                backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[9] : theme.colors.gray[4],
-            }))}
+            className={`  min-h-[87vh] flex flex-col justify-center 
+            ${xs && "items-center py-[2rem] "}
+            ${dark ? "backdrop-brightness-75" : "backdrop-brightness-50"}
+            `}
+            // ${dark ? "bg-[#1A1B1E]" : "bg-[#FFA94D]"}
+            // ${dark ? "bg-[#1A1B1E]" : "bg-[#CED4DA]"}
         >
             <Box
                 className={`   ${xs ? "w-[65%] p-[2rem] min-h-[450px] rounded-[20px]" : "flex-1  p-[1rem]"}`}
@@ -94,8 +99,8 @@ const AlurPendaftaran = () => {
                                         }}
                                         className={`  rounded-xl ${xs ? "p-[1rem]" : "p-[0.5rem]"}`}
                                     >
-                                        <div className={`title w-fit font-bold text-[22px] ${dark ? "text-[#6449da]" : "text-[#020731]"}`}>
-                                            <h1 className="">
+                                        <div className={`title w-fit font-bold  ${dark ? "text-[#6449da]" : "text-[#020731]"}`}>
+                                            <h1 className="text-[22px]">
                                                 PEMBELIAN FORMULIR
                                             </h1>
                                             <Divider size={4} color={dark ? "#6449da" : "#020731"} w={'60%'} />
@@ -121,8 +126,8 @@ const AlurPendaftaran = () => {
                                         }}
                                         className={`  rounded-xl ${xs ? "p-[1rem]" : "p-[0.5rem]"}`}
                                     >
-                                  <div className={`title w-fit font-bold text-[22px] ${dark ? "text-[#6449da]" : "text-[#020731]"}`}>
-                                            <h1 className="">
+                                        <div className={`title w-fit font-bold  ${dark ? "text-[#6449da]" : "text-[#020731]"}`}>
+                                            <h1 className="text-[22px]">
                                                 PENGEMBALIAN FORMULIR
                                             </h1>
                                             <Divider size={4} color={dark ? "#6449da" : "#020731"} w={'60%'} />
@@ -144,7 +149,7 @@ const AlurPendaftaran = () => {
                     </div>
                 </div>
             </Box>
-        </Box>
+        </Element>
     )
 }
 

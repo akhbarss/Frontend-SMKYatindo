@@ -65,6 +65,7 @@ export default function RootStyleRegistry({
                 <MantineProvider
                     withGlobalStyles
                     withNormalizeCSS
+                    
                     theme={{
                         colorScheme,
                         colors: {
@@ -104,14 +105,23 @@ export default function RootStyleRegistry({
                                 "#4b3400",
                                 "#1d1000",
                             ],
+                            "me" : [
+                                // "#fff"
+                            ]
                         },
-                        primaryColor: "brand-sky-blue",
-                        primaryShade: 3,
+                        // primaryColor: "brand-sky-blue",
+                        // primaryShade: 3,
+                        // primaryColor: "me",
+                        // primaryShade: 0,
                         // fontFamily: "MyriadPro, sans-serif",
                         fontFamily: "Ubuntu, sans-serif",
                         headings: {
-                            // fontFamily: "Open Sans, sans-serif",
+                            // fontFamily: "Ubuntu, sans-serif"
                         },
+                        // fontFamily: "MyriadPro, sans-serif",
+						// headings: {
+						// 	fontFamily: "Open Sans, sans-serif",
+						// },
                     }}
                 >
                     <CustomFonts />

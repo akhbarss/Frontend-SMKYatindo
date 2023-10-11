@@ -2,7 +2,6 @@ import {
     ActionIcon,
     useMantineColorScheme
 } from "@mantine/core"
-// import { IconBrightnessUp, IconMoon } from "@tabler/icons-react"
 import { FaMoon, FaSun } from 'react-icons/fa'
 
 const ToggleTheme = ({

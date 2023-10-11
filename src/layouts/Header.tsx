@@ -5,8 +5,8 @@ import {
 } from '@mantine/core';
 import { FaBars } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import { useBreakPoints } from '../utils/UseBreakpoints';
 import ToggleTheme from '../components/toggleTheme';
+import { useBreakPoints } from '../utils/UseBreakpoints';
 
 const Header = () => {
 

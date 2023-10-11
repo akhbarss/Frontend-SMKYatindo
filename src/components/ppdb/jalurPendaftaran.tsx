@@ -1,5 +1,6 @@
 import { Box, useMantineTheme } from '@mantine/core'
 import { useState } from 'react'
+import { Element } from 'react-scroll'
 import { dataJalurPendaftaran } from '../../components/ppdb/dataJalurPendaftaran'
 import { useBreakPoints } from "../../utils/UseBreakpoints"
 import BiayaJalurPendaftaran from './biayaJalurPendaftaran'
@@ -18,14 +19,16 @@ const JalurPendaftaran = () => {
     const [activeCard, setActiveCard] = useState(1)
 
     return (
-        <Box
+        <Element
             id="jalur-pendaftaran"
-            className={`  min-h-[87vh] flex flex-col    ${xs && "items-center py-[2rem] "}`}
-            sx={(theme => ({
-                backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[9] : theme.colors.gray[4],
-            }))}
+            name="jalur-pendaftaran"
+            className={`  min-h-[87vh] flex flex-col 
+                ${xs && "items-center py-[2rem] "}
+                ${dark ? "backdrop-brightness-75" : "backdrop-brightness-50"}
+                `}
+                // ${dark ? "bg-[#1A1B1E]" : "bg-[#FFA94D]"}
+                // ${dark ? "bg-[#1A1B1E]" : "bg-[#CED4DA]"}
         >
-
             <Box
                 className={` flex flex-col  ${xs ? "w-[85%] p-[2rem] min-h-[450px] rounded-[20px] " : "flex-1  pt-10"}`}
                 sx={(theme => ({
@@ -54,7 +57,7 @@ const JalurPendaftaran = () => {
                 </Box>
             </Box>
 
-        </Box>
+        </Element>
     )
 }
 

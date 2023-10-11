@@ -21,7 +21,7 @@ const BiayaJalurPendaftaran = ({
                 color: `${dark ? "white" : "#0F172A"}`,
             }}
         >
-            <h1>Biaya {jalur?.nama_jalur_pendaftaran}:</h1>
+            <h1 className='text-[22px]'>Biaya {jalur?.nama_jalur_pendaftaran}:</h1>
             {
                 jalur && jalur?.informasi_umum.biaya_tambahan.length > 0 ?
                     jalur?.informasi_umum.biaya_tambahan.map(biayaJalur => (
