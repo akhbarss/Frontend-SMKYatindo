@@ -1,31 +1,35 @@
 import {
     Collapse,
     Divider,
+    MantineTheme,
     Paper,
     useMantineTheme
 } from '@mantine/core'
+import React from "react"
+import ReactDOM from "react-dom"
 import { Link, useLocation } from 'react-router-dom'
 import { scroller } from 'react-scroll'
 
-const CollapseCustomPPDB = ({
+const CollapseNavbarPortal = ({
     opened,
-    toggle,
+    dark,
+    theme,
+    routeGuest,
     menus,
+    toggle,
+    routeAdmin,
+    routeSiswa,
+
 }: {
     opened: boolean
     toggle: () => void
     menus: { label: string, path: string }[]
+    dark: boolean
+    theme: MantineTheme
+    routeGuest: boolean
+    routeAdmin: boolean
+    routeSiswa: boolean
 }) => {
-
-    const { pathname, } = useLocation()
-
-    const routeGuest = pathname === "/ppdb"
-    const routeAdmin = pathname.split("/").includes("admin")
-    const routeSiswa = pathname.split("/").includes("siswa")
-
-    const theme = useMantineTheme()
-    const dark = theme.colorScheme === 'dark'
-
     return (
         <Collapse
             in={opened}
@@ -38,15 +42,6 @@ const CollapseCustomPPDB = ({
                     backgroundColor: `${dark ? theme.colors.dark[9] : ""}`
                 }}
             >
-                {/* {routeAdmin || routeSiswa && (
-                    <>
-                        <Avatar color='cyan' size={100} className='rounded-full mx-auto' >A</Avatar>
-
-                        <h1 className='mx-auto'>Muhammad Akhbar Firdaus</h1>
-                    </>
-                )} */}
-
-                {/* {routeSiswa && <Divider />} */}
 
                 {routeGuest && menus.map((menu, i) => (
                     <div
@@ -122,6 +117,47 @@ const CollapseCustomPPDB = ({
 
             </Paper>
         </Collapse>
+    )
+}
+
+const CollapseCustomPPDB = ({
+    opened,
+    toggle,
+    menus,
+}: {
+    opened: boolean
+    toggle: () => void
+    menus: { label: string, path: string }[]
+}) => {
+
+    const { pathname, } = useLocation()
+
+    const routeGuest = pathname === "/ppdb"
+    const routeAdmin = pathname.split("/").includes("admin")
+    const routeSiswa = pathname.split("/").includes("siswa")
+
+    const theme = useMantineTheme()
+    const dark = theme.colorScheme === 'dark'
+
+    return (
+        <React.Fragment>
+            {
+                ReactDOM.createPortal(
+                    <CollapseNavbarPortal
+                        dark={dark}
+                        menus={menus}
+                        opened={opened}
+                        routeAdmin={routeAdmin}
+                        routeGuest={routeGuest}
+                        routeSiswa={routeSiswa}
+                        theme={theme}
+                        toggle={toggle}
+
+                    />,
+                    document.getElementById("navbar-collapse") as Element
+                )
+            }
+        </React.Fragment>
     )
 }
 

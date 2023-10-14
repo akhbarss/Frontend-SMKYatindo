@@ -1,41 +1,46 @@
 import { CacheProvider } from "@emotion/react"
 import {
+    Button,
     ColorScheme,
     ColorSchemeProvider,
+    Divider,
+    Group,
     MantineProvider,
+    Stack,
     useEmotionCache
 } from "@mantine/core"
 import { useHotkeys, useLocalStorage } from "@mantine/hooks"
+import { ContextModalProps, ModalsProvider } from "@mantine/modals"
 import { CustomFonts } from "./customFonts"
-// import { ContextModalProps, ModalsProvider } from "@mantine/modals"
-// import { useServerInsertedHTML } from "next/navigation"
 
-// const createDataModel = ({
-//     context,
-//     id,
-//     innerProps,
-// }: ContextModalProps<{ modalBody: string }>) => (
-//     <>
-//         <Stack>
-//             {innerProps.modalBody}
-//             <Divider />
-//             <Group position="right">
-//                 <Button variant="default" onClick={() => context.closeModal(id)}>
-//                     Cancel
-//                 </Button>
-//                 <Button onClick={() => context.closeModal(id)}>Submit</Button>
-//             </Group>
-//         </Stack>
-//     </>
-// )
-// const modals = {
-//     createData: createDataModel,
-// }
-// declare module "@mantine/modals" {
-//     export interface MantineModalsOverride {
-//         modals: typeof modals
-//     }
-// }
+const createDataModel = ({
+    context,
+    id,
+    innerProps,
+}: ContextModalProps<{ modalBody: string }>) => (
+    <>
+        <Stack>
+
+            {innerProps.modalBody}
+
+            <Divider />
+            <Group position="right">
+                <Button variant="default" onClick={() => context.closeModal(id)}>
+                    Batal
+                </Button>
+                <Button className="bg-blue-500" onClick={() => context.closeModal(id)}>Simpan</Button>
+            </Group>
+        </Stack>
+    </>
+)
+const modals = {
+    createData: createDataModel,
+}
+declare module "@mantine/modals" {
+    export interface MantineModalsOverride {
+        modals: typeof modals
+    }
+}
 
 export default function RootStyleRegistry({
     children,
@@ -65,7 +70,7 @@ export default function RootStyleRegistry({
                 <MantineProvider
                     withGlobalStyles
                     withNormalizeCSS
-                    
+
                     theme={{
                         colorScheme,
                         colors: {
@@ -105,29 +110,25 @@ export default function RootStyleRegistry({
                                 "#4b3400",
                                 "#1d1000",
                             ],
-                            "me" : [
-                                // "#fff"
-                            ]
                         },
-                        // primaryColor: "brand-sky-blue",
-                        // primaryShade: 3,
-                        // primaryColor: "me",
-                        // primaryShade: 0,
-                        // fontFamily: "MyriadPro, sans-serif",
+                        primaryColor: "brand-sky-blue",
+                        primaryShade: 3,
                         fontFamily: "Ubuntu, sans-serif",
                         headings: {
-                            // fontFamily: "Ubuntu, sans-serif"
+                            fontFamily: "Ubuntu, sans-serif"
                         },
-                        // fontFamily: "MyriadPro, sans-serif",
-						// headings: {
-						// 	fontFamily: "Open Sans, sans-serif",
-						// },
                     }}
                 >
                     <CustomFonts />
-                    {/* <ModalsProvider modals={modals}> */}
+                    <ModalsProvider
+                        modals={modals}
+                        modalProps={{
+                            centered: true,
+                            size: "lg",
+                        }}
+                    >
                         {children}
-                    {/* </ModalsProvider> */}
+                    </ModalsProvider>
                 </MantineProvider>
             </CacheProvider>
         </ColorSchemeProvider>

@@ -32,18 +32,18 @@ const AlurPPPDB = () => {
   }
 
   return (
-    <div
-      className={`style-box  mx-auto flex-1 py-5  ${xs ? "w-[85%] h-full" : "flex-1  "}`}
-    >
+    <Box className={`style-box relative flex-1  ${xs ? "" : "flex-1  "}`} >
 
-      <h1 className="text-center text-4xl underline font-bold ">Alur PPDB</h1>
+      <div className="w-fit  mx-auto">
+        <h1 className="text-center [font-size:_clamp(1.8rem,3vw,3rem)]  font-bold mt-10 leading-8">Alur PPDB</h1>
+      </div>
 
-      <Box mt={50} className="flex flex-col gap-4">
-        <Accordion variant="separated" multiple chevronPosition="left">
+      <Box mt={50} className="flex flex-col gap-4 px-4 pb-10 lg:w-[50rem] mx-auto">
+        <Accordion variant="separated" multiple chevronPosition="left" >
           {map.map((item, i) => (
-            <Accordion.Item value={i.toString()} >
+            <Accordion.Item value={i.toString()} className="shadow-lg ">
               <AccordionControl id={item.toString()}>
-                <h1 className="font-bold text-2xl">1. PEMBELIAN FORMULIR</h1>
+                <h1 className="font-bold text-2xl ">1. PEMBELIAN FORMULIR</h1>
               </AccordionControl>
               <Accordion.Panel className="border-t">
                 <div className="h-[50vh] ">
@@ -65,8 +65,7 @@ const AlurPPPDB = () => {
 
       </Box>
 
-
-    </div>
+    </Box>
   )
 }
 

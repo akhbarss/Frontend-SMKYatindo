@@ -25,10 +25,10 @@ const PageHeader = ({
                 justifyContent: 'space-between',
                 alignItems: "center",
                 paddingInline: "2rem",
-                position: "fixed",
+                position: `${pageLogin ? "fixed" : "fixed"}`,
                 backgroundColor: `${pageLogin ? "transparent" : `${dark ? theme.colors.dark[9] : ""}`} `,
                 border: `${pageLogin ? "none" : ""}`,
-                backdropFilter: `${pageLogin ? "blur(4px)" : ""}`
+                backdropFilter: `${pageLogin ? "blur(4px)" : ""}`,
             }}
         >
 
@@ -43,27 +43,3 @@ const PageHeader = ({
 }
 
 export default PageHeader
-
-{/* <MantineHeader
-height={'13vh'}
-sx={{
-    boxShadow: `${dark ? "" : "0px -40px 50px 10px black"}`,
-    display: "flex",
-    justifyContent: 'space-between',
-    alignItems: "center",
-    paddingInline: "2rem",
-    position: "fixed",
-    backgroundColor: "transparent",
-    border: "none",
-    backdropFilter: "blur(4px)"
-    // backgroundColor: `${dark ? theme.colors.dark[9] : ""}`
-}}
->
-
-<ScrollRestoration />
-
-<img src="/logo-yatindo-hd.png" alt="Yatindo" className="w-[60px]" />
-
-{children}
-
-</MantineHeader> */}

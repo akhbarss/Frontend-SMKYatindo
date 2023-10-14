@@ -21,8 +21,6 @@ const AlurPendaftaran = () => {
             ${xs && "items-center py-[2rem] "}
             ${dark ? "backdrop-brightness-75" : "backdrop-brightness-50"}
             `}
-            // ${dark ? "bg-[#1A1B1E]" : "bg-[#FFA94D]"}
-            // ${dark ? "bg-[#1A1B1E]" : "bg-[#CED4DA]"}
         >
             <Box
                 className={`   ${xs ? "w-[65%] p-[2rem] min-h-[450px] rounded-[20px]" : "flex-1  p-[1rem]"}`}
@@ -52,9 +50,7 @@ const AlurPendaftaran = () => {
                                 stepIcon: {
                                     border: "none",
                                     backgroundColor: `${dark ? "#291872" : "#020731"}`,
-                                    // backgroundColor: "white",
                                     color: "white",
-                                    // color: "#020731",
                                     borderRadius: "100%",
                                     display: 'flex',
                                     justifyContent: 'center',
@@ -62,7 +58,6 @@ const AlurPendaftaran = () => {
                                     width: '100%',
                                     height: '100%',
                                     boxShadow: `5px 5px 10px -5px ${dark ? "#291872" : "black"}`
-                                    // boxShadow: "5px 5px 10px -5px white"
                                 },
                                 verticalSeparator: {
                                     borderLeft: `2px solid ${dark ? "#291872" : "#020731"}`,
@@ -77,9 +72,6 @@ const AlurPendaftaran = () => {
                                     display: 'flex',
                                     width: '100%',
                                     gap: xs ? '2rem' : "",
-                                    // flexDirection: 'column',
-                                    // justifyContent: "center",
-                                    // alignItems: "center"
                                 },
                                 stepBody: {
                                     flex: 1,

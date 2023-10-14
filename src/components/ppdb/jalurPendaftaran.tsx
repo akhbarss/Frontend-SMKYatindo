@@ -26,8 +26,6 @@ const JalurPendaftaran = () => {
                 ${xs && "items-center py-[2rem] "}
                 ${dark ? "backdrop-brightness-75" : "backdrop-brightness-50"}
                 `}
-                // ${dark ? "bg-[#1A1B1E]" : "bg-[#FFA94D]"}
-                // ${dark ? "bg-[#1A1B1E]" : "bg-[#CED4DA]"}
         >
             <Box
                 className={` flex flex-col  ${xs ? "w-[85%] p-[2rem] min-h-[450px] rounded-[20px] " : "flex-1  pt-10"}`}

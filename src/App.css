@@ -7,7 +7,9 @@
   /* scroll-behavior: smooth; */
 }
 
-
+body {
+  margin: 0 !important;
+}
 
 .mantine-Stepper-stepWrapper {
   background-color: transparent;

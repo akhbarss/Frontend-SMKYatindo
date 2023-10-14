@@ -29,117 +29,101 @@ const LoginPPDB = () => {
       <MantineProvider theme={{ colorScheme: "dark" }}>
 
 
-      <PageHeader>
+        <PageHeader>
 
-        <h1 className="text-[#C1C2C5] text-2xl font-bold max-md:hidden">PPDB SMK TINTA EMAS INDONESIA</h1>
+          <h1 className="text-[#C1C2C5] text-2xl font-bold max-md:hidden">PPDB SMK TINTA EMAS INDONESIA</h1>
 
-        <Group>
+          <Group>
 
-          <Link to={"/ppdb"}>
-            <FaHome
-              size={30}
-              style={{
+            <Link to={"/ppdb"}>
+              <FaHome
+                size={30}
+                style={{
 
-              }}
-              className={`cursor-pointer text-gray-300 hover:text-white`}
-            />
-          </Link>
+                }}
+                className={`cursor-pointer text-gray-300 hover:text-white`}
+              />
+            </Link>
 
-        </Group>
+          </Group>
 
-      </PageHeader>
+        </PageHeader>
 
-      <Paper pt={"13vh"} className={` bg-center bg-fixed bg-no-repeat bg-cover 
+        <Paper className={` bg-center bg-fixed bg-no-repeat bg-cover 
       `} >
-        {/* ${dark ? " bg-[url(/yatindo/bg-login-dark.png)]" : " bg-[url(/yatindo/bg-login-light.png)]"} */}
 
-        <Particles
-          id="name"
-          init={particlesInit}
-          options={{ preset: "stars", }}
-        />
+          <Particles
+            id="name"
+            init={particlesInit}
+            options={{ preset: "stars", }}
+          />
 
-        <Box
-          className="style-box flex flex-col min-h-[87vh] p-5 "
-          sx={{
-            // backgroundColor: `${dark ? theme.colors.dark[7] : theme.colors.gray[1]}`,
-            // backgroundColor: `${dark ? theme.colors.dark[9] : theme.colors.gray[1]}`,
-            // backgroundImage: "/bg-login-dark.png"
-
-            // backgroundColor: `${dark ? "black" : theme.colors.gray[1]}`
-          }}
-        >
           <Box
-            className="w-[100%] max-w-[40rem] p-8 border flex flex-col mx-auto min-h-[20rem] mt-20 mb-20 z-50"
-            sx={{
-              // backgroundColor: `${dark ? "black" : "white"}`,
-              borderImageSource: "linear-gradient(to right bottom, #948BB8, blue, #020731)",
-              borderImageSlice: '1',
-              backdropFilter: "blur(3px)"
-              // backgroundAttachment: ""
-              // filter: "blur(8px)"
-              // boxShadow: "0 0 1000px -80px blue",
-            }}
+            className="flex flex-col min-h-[87vh] p-5 "
           >
-
-            <SegmentedControl
-              value={value}
-              w={200}
-              transitionDuration={400}
-              radius={'xl'}
-              onChange={setValue}
-              className='mx-auto text-white '
-              data={[
-                { label: "Masuk", value: "masuk" },
-                { label: "Daftar", value: "daftar" },
-              ]}
-              // color='white'
-              // classNames={{  }}
-
-              styles={{
-                indicator: {
-                  // backgroundImage: `linear-gradient(to bottom right, black, yellow)`,
-                  backgroundImage: "linear-gradient(160deg, #291872, #020731, black) ",
-                  color: "white"
-                },
-                root: {
-                  backgroundColor: "#141517",
-                  color: "white"
-                },
-                input: {
-                  color: "wheat"
-                },
-                control: {
-                  color: "white"
-                },
-                label: {
-                  color: "white"
-                },
-                controlActive: {
-                  color: "white"
-                },
+            <Box
+              className="w-[100%] max-w-[40rem] p-8 border flex flex-col mx-auto min-h-[20rem] mt-20 mb-20 z-50"
+              sx={{
+                borderImageSource: "linear-gradient(to right bottom, #948BB8, blue, #020731)",
+                borderImageSlice: '1',
+                backdropFilter: "blur(3px)"
               }}
-            />
+            >
 
-            <AuthMasuk
-              auth={value}
-              load={load}
-              setLoad={setLoad}
-            />
+              <SegmentedControl
+                value={value}
+                w={200}
+                transitionDuration={400}
+                radius={'xl'}
+                onChange={setValue}
+                className='mx-auto text-white '
+                data={[
+                  { label: "Masuk", value: "masuk" },
+                  { label: "Daftar", value: "daftar" },
+                ]}
+                styles={{
+                  indicator: {
+                    backgroundImage: "linear-gradient(160deg, #291872, #020731, black) ",
+                    color: "white"
+                  },
+                  root: {
+                    backgroundColor: "#141517",
+                    color: "white"
+                  },
+                  input: {
+                    color: "wheat"
+                  },
+                  control: {
+                    color: "white"
+                  },
+                  label: {
+                    color: "white"
+                  },
+                  controlActive: {
+                    color: "white"
+                  },
+                }}
+              />
 
-            <AuthDaftar
-              auth={value}
-              load={load}
-              setLoad={setLoad}
-              setValue={setValue}
-            />
+              <AuthMasuk
+                auth={value}
+                load={load}
+                setLoad={setLoad}
+              />
 
-            <div className="mt-10 text-gray-400 text-center">
-              © 2023 D'Coders TKJ Yatindo. All Rights Reserved
-            </div>
+              <AuthDaftar
+                auth={value}
+                load={load}
+                setLoad={setLoad}
+                setValue={setValue}
+              />
+
+              <div className="mt-10 text-gray-400 text-center">
+                © 2023 D'Coders TKJ Yatindo. All Rights Reserved
+              </div>
+            </Box>
           </Box>
-        </Box>
-      </Paper>
+        </Paper>
 
       </MantineProvider>
 

@@ -15,22 +15,7 @@ import {
 } from "./pages";
 import LoginPPDB from "./pages/auth/LoginPPDB";
 import BerandaAdmin from "./pages/ppdb/admin/BerandaAdmin";
-
-// const LazyGuestPPDB = React.lazy(() => import("./pages/ppdb/guest/GuestPPDB"))
-// const LazyLogin = React.lazy(() => import("./pages/auth/LoginPPDB"))
-
-// const LazyRootSiswaPPDB = React.lazy(() => import("./pages/ppdb/siswa/RootSiswaPPDB"))
-// const LazyBerandaSiswaPPDB = React.lazy(() => import("./pages/ppdb/siswa/BerandaSiswaPPDB"))
-// const LazyPembelianSiswaPPDB = React.lazy(() => import("./pages/ppdb/siswa/PembelianSiswaPPDB"))
-// const LazyPengembalianSiswaPPDB = React.lazy(() => import("./pages/ppdb/siswa/PengembalianSiswaPPDB"))
-// const LazyUjianSiswaPPDB = React.lazy(() => import("./pages/ppdb/siswa/UjianSiswaPPDB"))
-
-// const LazyRootAdminPPDB = React.lazy(() => import("./pages/ppdb/admin/RootAdminPPDB"))
-// const LazyBerandaAdmin = React.lazy(() => import("./pages/ppdb/admin/BerandaAdmin"))
-// const LazyAlurPPPDB = React.lazy(() => import("./pages/ppdb/admin/AlurPPPDB"))
-// const LazyJalurPendaftaran = React.lazy(() => import("./pages/ppdb/admin/JalurPendaftaran"))
-// const LazyPendaftarPPDB = React.lazy(() => import("./pages/ppdb/admin/PendaftarPPDB"))
-// const LazyUjianPPDB = React.lazy(() => import("./pages/ppdb/admin/UjianPPDB"))
+import { AppShell } from "@mantine/core";
 
 export const routeConfigs = createBrowserRouter([
   {
@@ -41,16 +26,20 @@ export const routeConfigs = createBrowserRouter([
         Component: GuestPPDB
       },
       {
-        path: "login",
         Component: () => (
-          <LoginPPDB />
-        )
-      },
-      {
-        Component: () => (
-          <Outlet />
+          <AppShell
+            padding={0}
+          >
+            <Outlet />
+          </AppShell>
         ),
         children: [
+          {
+            path: "login",
+            Component: () => (
+              <LoginPPDB />
+            )
+          },
           {
             path: "siswa",
             Component: () => (
@@ -78,9 +67,7 @@ export const routeConfigs = createBrowserRouter([
           {
             path: "admin",
             Component: () => (
-              // <React.Suspense fallback={<div>loading</div>}>
-                < RootAdminPPDB />
-            // * </React.Suspense> */}
+              < RootAdminPPDB />
             ),
             children: [
               {
@@ -115,6 +102,6 @@ export const routeConfigs = createBrowserRouter([
   },
   {
     path: "*",
-    Component: () => Navigate({to: "/ppdb"})
+    Component: () => Navigate({ to: "/ppdb" })
   }
 ], { window, });

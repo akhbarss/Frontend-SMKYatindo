@@ -1,5 +1,4 @@
 import {
-    Box,
     Group,
     Menu,
     Paper,
@@ -38,16 +37,15 @@ const RootAdminPPDB = () => {
 
     useEffect(() => {
         const activeLink = menuAdmin.find(menu => pathUrl === menu.path)
-        console.log("activeLink :", activeLink)
-
 
         if (activeLink) {
             setActive(activeLink.label)
         }
+
     }, [menuAdmin, pathUrl])
 
     return (
-        <Box className="h-[100vh]">
+        <div id="root-admin">
 
             <PageHeader>
                 {sm ? (
@@ -60,7 +58,7 @@ const RootAdminPPDB = () => {
                                     to={menu.path}
                                     className={`font-bold `}
                                     style={{
-                                        color: `${active === menu.label ? "#6767e0" : ""}`
+                                        color: `${active === menu.label ? "#3B82F6" : ""}`
                                     }}
 
                                 >
@@ -106,11 +104,8 @@ const RootAdminPPDB = () => {
                 )}
             </PageHeader>
 
-            <Paper
-                className={`style-box pt-[13vh] flex relative h-[100vh]
-                ${dark ? "" : "bg-white"}
-                `}
-            >
+            <Paper className={`style-box  flex flex-col  min-h-[87vh] ${dark ? "" : "bg-neutral-100"}`} >
+
                 <CollapseAdminPPDB
                     menus={menuAdmin}
                     opened={opened}
@@ -123,7 +118,8 @@ const RootAdminPPDB = () => {
 
             <Footer />
 
-        </Box>
+
+        </div>
     )
 }
 

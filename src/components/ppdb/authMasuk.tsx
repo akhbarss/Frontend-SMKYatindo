@@ -14,6 +14,7 @@ import { ImCancelCircle } from 'react-icons/im'
 import { Link, useNavigate } from "react-router-dom"
 import * as yup from "yup"
 import { user } from "../../utils/user"
+import { useBreakPoints } from "../../utils/UseBreakpoints"
 
 const schema = yup.object({
     noWhatsapp: yup
@@ -40,6 +41,7 @@ const AuthMasuk = ({
 
     const usersdata = user
 
+    const {md} = useBreakPoints()
     const navigate = useNavigate()
     const theme = useMantineTheme()
     const dark = theme.colorScheme === 'dark'
@@ -97,7 +99,7 @@ const AuthMasuk = ({
             )}
 
             <TextInput
-                autoFocus
+                autoFocus={md}
                 label="No Whatsapp"
                 styles={{
                     label: {

@@ -10,10 +10,6 @@ const Ppdb = () => {
     return (
         <Box
             id="beranda"
-            sx={{
-                // backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.colors.gray[4],
-                // backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.colors.orange[4],
-            }}
             className={`relative  flex flex-col justify-center 
             ${xs ? "items-center min-h-[87vh]" : "min-h-[80vh]"} 
             ${dark ? "backdrop-brightness-75" : "backdrop-brightness-50"}
@@ -38,7 +34,7 @@ const Ppdb = () => {
                 </div>
                 <Link
                     to={'/ppdb/login'}
-                    className={`mt-10  ${dark ? "bg-[#291872]" : "bg-[#020731]"} h-14 flex items-center px-10 rounded-sm text-white font-bold text-[24px] shadow-[0_0_20px_-5px_#291872]`}
+                    className={`mt-10  ${dark ? "bg-[#291872]" : "bg-[#020731]"} h-14 flex items-center px-10 rounded-sm text-white font-bold text-[24px] shadow-[0_10px_20px_-10px_#291872]`}
                 >
                     Daftar
                 </Link>

@@ -6,6 +6,7 @@ import {
     TextInput,
     useMantineTheme
 } from "@mantine/core"
+import { useBreakPoints } from "../../utils/UseBreakpoints"
 
 // type LoginDaftarFormValues = {
 //     namaLengkap: string 
@@ -28,12 +29,14 @@ const AuthDaftar = ({
     setValue: React.Dispatch<React.SetStateAction<string>>
 }) => {
 
+    const { md } = useBreakPoints()
     const theme = useMantineTheme()
     const dark = theme.colorScheme === 'dark'
 
     if (auth === "daftar") return (
         <form className='mt-5'>
             <TextInput
+                autoFocus={md}
                 label="Nama Lengkap"
                 styles={{
                     label: {
@@ -43,7 +46,6 @@ const AuthDaftar = ({
 
                     },
                 }}
-                autoFocus  
             />
             <TextInput
                 mt={16}
@@ -52,11 +54,6 @@ const AuthDaftar = ({
                     label: {
                         fontWeight: "bold"
                     },
-                    input: {
-
-                    },
-                }}
-                sx={{
                 }}
             />
             <TextInput
@@ -66,11 +63,6 @@ const AuthDaftar = ({
                     label: {
                         fontWeight: "bold"
                     },
-                    input: {
-
-                    },
-                }}
-                sx={{
                 }}
             />
             <TextInput
@@ -80,11 +72,6 @@ const AuthDaftar = ({
                     label: {
                         fontWeight: "bold"
                     },
-                    input: {
-
-                    },
-                }}
-                sx={{
                 }}
             />
             <PasswordInput
@@ -92,9 +79,6 @@ const AuthDaftar = ({
                 label="Password"
                 styles={{
                     label: { fontWeight: "bold" },
-                    input: {
-
-                    },
                     visibilityToggle: {
                         color: "gray"
                     }
@@ -105,9 +89,6 @@ const AuthDaftar = ({
                 label="Ulangi Password"
                 styles={{
                     label: { fontWeight: "bold" },
-                    input: {
-
-                    },
                     visibilityToggle: {
                         color: "gray"
                     }

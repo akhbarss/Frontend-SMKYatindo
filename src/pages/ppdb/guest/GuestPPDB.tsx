@@ -77,7 +77,7 @@ const GuestPPDB = () => {
                 <Link
                   to={'/ppdb/login'}
                   className={`  text-white rounded-[3px] h-[35px] flex justify-center items-center px-[1.125rem] font-bold 
-                    ${dark ? "bg-[#876cff] shadow-[0_0_30px_-10px_#876cff]" : "bg-[#020731] shadow-[0_0_30px_-10px_#020731]"}`}
+                    ${dark ? "bg-[#876cff] shadow-[0_10px_30px_-10px_#876cff]" : "bg-[#020731] shadow-[0_10px_30px_-10px_#020731]"}`}
                 >
                   Daftar
                 </Link>
