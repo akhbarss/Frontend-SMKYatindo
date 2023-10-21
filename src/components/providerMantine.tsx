@@ -15,7 +15,6 @@ import {
 import { useHotkeys, useLocalStorage } from "@mantine/hooks";
 import { ContextModalProps, ModalsProvider } from "@mantine/modals";
 import { FiInfo } from "react-icons/fi";
-import { CustomFonts } from "./customFonts";
 
 const createDataModel = ({
   context,
@@ -129,43 +128,43 @@ export default function ProviderMantine({
           theme={{
             colorScheme,
             colors: {
-              // "brand-blue": [
-              //     "#e4f2ff",
-              //     "#bad6f8",
-              //     "#90bbef",
-              //     "#66a0e7",
-              //     "#3c85de",
-              //     "#256bc6",
-              //     "#1a539a",
-              //     "#103c6f", // main color
-              //     "#052445",
-              //     "#000d1c",
-              // ],
-              // "brand-sky-blue": [
-              //     "#e2f4ff",
-              //     "#bcdcf6",
-              //     "#93c3ea",
-              //     "#6babe0", // main color
-              //     "#4493d7",
-              //     "#2b79bd",
-              //     "#1f5e94",
-              //     "#13436b",
-              //     "#052842",
-              //     "#000e1b",
-              // ],
-              // "brand-yellow": [
-              //     "#fff7db",
-              //     "#ffe7af",
-              //     "#fcd681",
-              //     "#f9c650",
-              //     "#f8b621", // main color
-              //     "#de9c07",
-              //     "#ad7a02",
-              //     "#7c5700",
-              //     "#4b3400",
-              //     "#1d1000",
-              // ],
-              "brand-blues": ["#2A166F"],
+              "brand-blue": [
+                "#e4f2ff",
+                "#bad6f8",
+                "#90bbef",
+                "#66a0e7",
+                "#3c85de",
+                "#256bc6",
+                "#1a539a",
+                "#103c6f", // main color
+                "#052445",
+                "#000d1c",
+              ],
+              "brand-sky-blue": [
+                "#e2f4ff",
+                "#bcdcf6",
+                "#93c3ea",
+                "#6babe0", // main color
+                "#4493d7",
+                "#2b79bd",
+                "#1f5e94",
+                "#13436b",
+                "#052842",
+                "#000e1b",
+              ],
+              "brand-yellow": [
+                "#fff7db",
+                "#ffe7af",
+                "#fcd681",
+                "#f9c650",
+                "#f8b621", // main color
+                "#de9c07",
+                "#ad7a02",
+                "#7c5700",
+                "#4b3400",
+                "#1d1000",
+              ],
+              // "brand-blues": ["#2A166F"],
             },
             // primaryColor: "brand-blues",
             // primaryShade:4,
@@ -175,6 +174,9 @@ export default function ProviderMantine({
             },
             components: {
               Button: {
+                defaultProps: {
+                  color: "brand-blue",
+                },
                 variants: {
                   danger: (theme) => ({
                     root: {

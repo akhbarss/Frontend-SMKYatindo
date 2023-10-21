@@ -1,11 +1,12 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  corePlugins: {
+    preflight: false,
+  },
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
-      listStyleType: {
-        
-      }
+      listStyleType: {},
     },
     screens: {
       mm: "450px",
@@ -17,7 +18,7 @@ export default {
       lg: "1024px",
       xl: "1280px",
     },
-    listStyleType: "disc"
+    listStyleType: "disc",
   },
   plugins: [],
 };
