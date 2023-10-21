@@ -1,8 +1,6 @@
 import { createBrowserRouter, Navigate, Outlet } from "react-router-dom";
 import MissingPPDB from "./components/ppdb/missingPPDB";
-import RequireAuth from "./components/ppdb/requireAuth";
 import Unauthorized from "./components/ppdb/unauthorized";
-import RoleRequire from "./components/roleRequire";
 import {
   AlurPPPDB,
   BerandaSiswaPPDB,

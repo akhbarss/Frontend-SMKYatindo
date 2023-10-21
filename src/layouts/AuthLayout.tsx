@@ -29,8 +29,8 @@ const AuthLayout: React.FC<TAuthLayout> = ({ children }) => {
               </Link>
             </Group>
           </PageHeader>
+          {children}
         </MantineProvider>
-        {children}
       </main>
     </Suspense>
   );
