@@ -1,4 +1,4 @@
-import { Navigate, Outlet, createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate, Outlet } from "react-router-dom";
 import MissingPPDB from "./components/ppdb/missingPPDB";
 import RequireAuth from "./components/ppdb/requireAuth";
 import Unauthorized from "./components/ppdb/unauthorized";
@@ -13,9 +13,6 @@ import {
   PendaftarPPDB,
   PengembalianSiswaPPDB,
   RootAdminPPDB,
-  RootSiswaPPDB,
-  UjianPPDB,
-  UjianSiswaPPDB,
 } from "./pages";
 import BerandaAdmin from "./pages/ppdb/admin/BerandaAdmin";
 import { AppShell } from "@mantine/core";
@@ -34,7 +31,7 @@ export const routeConfigs = createBrowserRouter(
           Component: GuestPPDB,
         },
         {
-          path: "/auth",
+          path: "auth",
           Component: () => (
             <AuthLayout>
               <Outlet />
@@ -48,10 +45,10 @@ export const routeConfigs = createBrowserRouter(
           ],
         },
         {
-          Component: () => <RequireAuth />,
+          Component: () => <Outlet />,
           children: [
             {
-              Component: () => <RoleRequire allowedRole={ROLES.SISWA} />,
+              Component: () => <Outlet />,
               children: [
                 {
                   path: "siswa",
@@ -76,10 +73,10 @@ export const routeConfigs = createBrowserRouter(
           ],
         },
         {
-          Component: () => <RequireAuth />,
+          Component: () => <Outlet />,
           children: [
             {
-              Component: () => <RoleRequire allowedRole={ROLES.ADMIN} />,
+              Component: () => <Outlet />,
               children: [
                 {
                   path: "admin",
