@@ -58,7 +58,7 @@ const Ppdb = () => {
                     </h1>
                 </div>
                 <Link
-                    to={'/ppdb/login'}
+                    to={'/ppdb/auth/register'}
                     style={{
                         height: "3.5rem",
                         marginTop: "2.5rem",
