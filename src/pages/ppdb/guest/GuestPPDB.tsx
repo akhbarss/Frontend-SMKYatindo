@@ -70,7 +70,7 @@ const GuestPPDB = () => {
                 <ToggleTheme color={`${dark ? "#6449da" : "#020731"}`} />
 
                 <Link
-                  to={'/ppdb/login'}
+                  to={'/ppdb/auth/login'}
                   // className={`border   rounded-[3px] h-[35px] flex justify-center items-center px-[1.125rem] font-bold
                   //   ${dark ? "border-[#6449da] tex-[#876cff] text-white " : "border-[#020731] text-[#020731] "}`}
                   style={{
@@ -92,7 +92,7 @@ const GuestPPDB = () => {
                 </Link>
 
                 <Link
-                  to={'/ppdb/login'}
+                  to={'/ppdb/auth/register'}
                   // className={`  text-white rounded-[3px] h-[35px] flex justify-center items-center px-[1.125rem] font-bold 
                   //   ${dark ? "bg-[#876cff] shadow-[0_10px_30px_-10px_#876cff]" : "bg-[#020731] shadow-[0_10px_30px_-10px_#020731]"}`}
                   style={{
