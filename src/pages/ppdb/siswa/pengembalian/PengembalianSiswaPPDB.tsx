@@ -1,8 +1,11 @@
+import Page from "../../../../components/Page.tsx";
 
 const PengembalianSiswaPPDB = () => {
   return (
-    <div>PengembalianSiswaPPDB</div>
-  )
-}
+    <Page title={"Pengembalian"}>
+      <div>PengembalianSiswaPPDB</div>
+    </Page>
+  );
+};
 
-export default PengembalianSiswaPPDB
+export default PengembalianSiswaPPDB;

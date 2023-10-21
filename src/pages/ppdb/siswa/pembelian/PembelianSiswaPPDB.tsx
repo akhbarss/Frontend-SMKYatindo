@@ -1,18 +1,13 @@
-import {
-  Divider,
-  Stack,
-  Tabs,
-  TabsProps
-} from "@mantine/core"
-import { useState } from "react"
-import { FaAddressCard, FaRegFlag, FaWpforms } from "react-icons/fa"
-import { RiGitMergeFill } from "react-icons/ri"
-import TabList from "../../../../components/ppdb/siswa/tabList"
-import TabsContent from "../../../../components/ppdb/siswa/tabsContent"
-import { JalurPendaftaranPPDB } from "../../../../types/global"
+import { Divider, Stack, Tabs, TabsProps } from "@mantine/core";
+import { useState } from "react";
+import { FaAddressCard, FaRegFlag, FaWpforms } from "react-icons/fa";
+import { RiGitMergeFill } from "react-icons/ri";
+import TabList from "../../../../components/ppdb/siswa/tabList";
+import TabsContent from "../../../../components/ppdb/siswa/tabsContent";
+import { JalurPendaftaranPPDB } from "../../../../types/global";
+import Page from "../../../../components/Page.tsx";
 
 const PembelianSiswaPPDB = () => {
-
   function StyledTabs(props: TabsProps) {
     return (
       <Tabs
@@ -20,22 +15,24 @@ const PembelianSiswaPPDB = () => {
         styles={(theme) => ({
           tab: {
             ...theme.fn.focusStyles(),
-            backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.white,
-            color: theme.colorScheme === 'dark' ? "white" : theme.colors.gray[9],
+            backgroundColor:
+              theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.white,
+            color:
+              theme.colorScheme === "dark" ? "white" : theme.colors.gray[9],
             border: "none",
             boxShadow: "0 10px 20px -10px rgba(0,0,0,0.2)",
             // padding: `${theme.spacing.xs} ${theme.spacing.md}`,
-            cursor: 'pointer',
+            cursor: "pointer",
             fontSize: theme.fontSizes.sm,
             borderRadius: "5px",
             // gap: "1rem",
 
-            '&:disabled': {
+            "&:disabled": {
               opacity: 0.5,
-              cursor: 'not-allowed',
+              cursor: "not-allowed",
             },
 
-            '&[data-active]': {
+            "&[data-active]": {
               background: "linear-gradient(45deg, #4c6ef5 0%, #15aabf 100%)",
               borderColor: theme.colors.blue[7],
               color: theme.white,
@@ -44,7 +41,7 @@ const PembelianSiswaPPDB = () => {
           },
 
           tabsList: {
-            overflowX: "auto"
+            overflowX: "auto",
             // display: 'flex',
             // justifyContent: "space-between",
             // gap: "2rem",
@@ -53,7 +50,7 @@ const PembelianSiswaPPDB = () => {
           },
           panel: {
             // width: "100px"
-          }
+          },
         })}
         {...props}
       />
@@ -63,41 +60,39 @@ const PembelianSiswaPPDB = () => {
   const card = [
     {
       label: "Pilih Gelombang PPDB",
-      icon: RiGitMergeFill
+      icon: RiGitMergeFill,
     },
     {
       label: "Pembelian Formulir",
-      icon: FaWpforms
+      icon: FaWpforms,
     },
     {
       label: "Pilih Jurusan",
-      icon: FaRegFlag
+      icon: FaRegFlag,
     },
     {
       label: "Cetak Kartu Peserta",
-      icon: FaAddressCard
+      icon: FaAddressCard,
     },
-  ]
+  ];
 
   const [activeTabIndex, setActiveTabIndex] = useState(1);
 
   // gelombang
-  const [focus, setFocus] = useState("")
-  const [pilihanGelombang, setPilihanGelombang] = useState<JalurPendaftaranPPDB | null>(null)
+  const [focus, setFocus] = useState("");
+  const [pilihanGelombang, setPilihanGelombang] =
+    useState<JalurPendaftaranPPDB | null>(null);
 
   // pemvbelian formulir
-  const [konfirmasiPembelian, setKonfirmasiPembelian] = useState(false)
-  const [konfirmasiPembayaran, setKonfirmasiPembayaran] = useState(false)
+  const [konfirmasiPembelian, setKonfirmasiPembelian] = useState(false);
+  const [konfirmasiPembayaran, setKonfirmasiPembayaran] = useState(false);
 
-  const [load, setLoad] = useState(false)
+  const [load, setLoad] = useState(false);
 
-  
   return (
-    <>
-      <Stack>
-
+    <Page title={"Pembelian"}>
+      <Stack className={"style-box"}>
         <StyledTabs defaultValue={card[activeTabIndex - 1].label}>
-
           <TabList activeTabIndex={activeTabIndex} card={card} />
 
           <Divider mt={20} />
@@ -116,11 +111,10 @@ const PembelianSiswaPPDB = () => {
             setLoad={setLoad}
             load={load}
           />
-
         </StyledTabs>
       </Stack>
-    </>
-  )
-}
+    </Page>
+  );
+};
 
-export default PembelianSiswaPPDB
+export default PembelianSiswaPPDB;

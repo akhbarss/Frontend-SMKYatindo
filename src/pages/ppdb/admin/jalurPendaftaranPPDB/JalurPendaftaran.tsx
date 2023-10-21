@@ -1,47 +1,45 @@
-import { useState } from "react"
+import { useState } from "react";
 import {
   ActionIcon,
   Box,
   useMantineTheme,
   TextInput,
   Input,
-  Radio
-} from "@mantine/core"
-import { useDisclosure } from "@mantine/hooks"
-import { AiFillEdit } from "react-icons/ai"
-import { BsFillTrashFill } from "react-icons/bs"
-import { Link } from "react-router-dom"
-import CustomModal from "../../../../components/ppdb/modalCreate"
-import { dataJalurPendaftaran } from "../../../../components/ppdb/dataJalurPendaftaran"
-import { useBreakPoints } from "../../../../utils/UseBreakpoints"
-import TiptapEditor from "../../../../components/ppdb/tiptapInput"
+  Radio,
+} from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
+import { AiFillEdit } from "react-icons/ai";
+import { BsFillTrashFill } from "react-icons/bs";
+import { Link } from "react-router-dom";
+import CustomModal from "../../../../components/ppdb/modalCreate";
+import { dataJalurPendaftaran } from "../../../../components/ppdb/dataJalurPendaftaran";
+import { useBreakPoints } from "../../../../utils/UseBreakpoints";
+import TiptapEditor from "../../../../components/ppdb/tiptapInput";
 
 const AlurPPPDB = () => {
-
-  const [value, setValue] = useState('react');
+  const [value, setValue] = useState("react");
   const [opened, { open, close }] = useDisclosure(false);
-  const { xs, md } = useBreakPoints()
-  const theme = useMantineTheme()
-  const dark = theme.colorScheme === 'dark'
-  const focus = true
+  const { xs, md } = useBreakPoints();
+  const theme = useMantineTheme();
+  const dark = theme.colorScheme === "dark";
+  const focus = true;
 
-  const data = dataJalurPendaftaran
+  const data = dataJalurPendaftaran;
 
   return (
     <Box
-      //  className={`style-box relative flex-1  ${xs ? "" : "flex-1  "}`} 
+      //  className={`style-box relative flex-1  ${xs ? "" : "flex-1  "}`}
       className="style-box"
       sx={{
         position: "relative",
-        flex: 1
+        flex: 1,
       }}
     >
-
       <div
         // className="w-fit  mx-auto"
         style={{
           width: "fit-content",
-          marginInline: "auto"
+          marginInline: "auto",
         }}
       >
         <h1
@@ -68,98 +66,98 @@ const AlurPPPDB = () => {
           paddingInline: "16px",
           paddingBottom: "40px",
           width: `${md ? "50rem" : ""}`,
-          marginInline: "auto"
+          marginInline: "auto",
         }}
       >
-        {
-          data.map(item => {
+        {data.map((item) => {
+          const pendaftarPerJalur = item.gelombang.map(
+            (item) => item.jumlah_penerimaan
+          );
+          // console.log(pendaftarPerJalur)
+          const jumlahPendaftarPerJalur = pendaftarPerJalur.reduce(
+            (total, current) => total + current,
+            0
+          );
+          // console.log(jumlahPendaftarPerJalur)
 
-            const pendaftarPerJalur = item.gelombang.map(item => item.jumlah_penerimaan)
-            // console.log(pendaftarPerJalur)
-            const jumlahPendaftarPerJalur = pendaftarPerJalur.reduce((total, current) => total + current, 0)
-            // console.log(jumlahPendaftarPerJalur)
-
-
-            return (
-              <Box
-                key={item.id}
-                // className={`p-4   rounded-sm shadow-lg flex items-center ${dark ? "bg-zinc-800" : "bg-white"}`}
-                style={{
-                  padding: "16px",
-                  borderRadius: "10px",
-                  boxShadow: "0 5px 10px -5px black",
-                  display: "flex",
-                  alignItems: "center",
-                  backgroundColor: `${dark ? "black" : "white"}`,
-                  // flexDirection: "column"
-                }}
+          return (
+            <Box
+              key={item.id}
+              // className={`p-4   rounded-sm shadow-lg flex items-center ${dark ? "bg-zinc-800" : "bg-white"}`}
+              style={{
+                padding: "16px",
+                borderRadius: "10px",
+                boxShadow: "0 5px 10px -5px black",
+                display: "flex",
+                alignItems: "center",
+                backgroundColor: `${dark ? "black" : "white"}`,
+                // flexDirection: "column"
+              }}
+            >
+              <Link
+                //  className="flex-1"
+                style={{ flex: 1 }}
+                to={`${item.id}/informasi-umum`}
               >
-
-                <Link
-                  //  className="flex-1"
-                  style={{ flex: 1 }}
-                  to={`${item.id}/informasi-umum`}
+                <h2
+                  // className="font-bold text-2xl"
+                  style={{
+                    fontWeight: "bold",
+                  }}
                 >
-                  <h2
-                    // className="font-bold text-2xl"
-                    style={{
-                      fontWeight: "bold",
-                    }}
-                  >
-                    {item.nama_jalur_pendaftaran}
-                  </h2>
+                  {item.nama_jalur_pendaftaran}
+                </h2>
 
-                  <span
-                    style={{
-                      display: "flex",
-                      gap: "8px"
-                    }}
-                  >
-                    <p>{item.waktu_dibuka} &ndash; {item.waktu_ditutup}  </p>
-                    <p>{jumlahPendaftarPerJalur} Pendaftar </p>
-                  </span>
-                </Link>
+                <span
+                  style={{
+                    display: "flex",
+                    gap: "8px",
+                  }}
+                >
+                  <p>
+                    {item.waktu_dibuka} &ndash; {item.waktu_ditutup}{" "}
+                  </p>
+                  <p>{jumlahPendaftarPerJalur} Pendaftar </p>
+                </span>
+              </Link>
 
-                <div className="px-4 flex gap-2 ">
-                  <ActionIcon
-                    variant="filled"
-                    color="blue"
-                    size={40}
-                    radius={100}
-                    className="bg-blue-500"
-                    onClick={() =>
-                      open()
-                      // modals.openContextModal({
-                      //   modal: 'createData',
-                      //   title: 'Test modal from context',
-                      //   innerProps: {
-                      //     modalBody:
-                      //       <div className="">
+              <div className="px-4 flex gap-2 ">
+                <ActionIcon
+                  variant="filled"
+                  color="blue"
+                  size={40}
+                  radius={100}
+                  className="bg-blue-500"
+                  onClick={
+                    () => open()
+                    // modals.openContextModal({
+                    //   modal: 'createData',
+                    //   title: 'Test modal from context',
+                    //   innerProps: {
+                    //     modalBody:
+                    //       <div className="">
 
-                      //       </div>,
-                      //   },
-                      //   size: "md"
-                      // })
-                    }
-                  >
-                    <AiFillEdit size={20} />
-                  </ActionIcon>
-                  <ActionIcon
-                    variant="filled"
-
-                    color="blue"
-                    size={40}
-                    radius={100}
-                    className="bg-blue-500"
-                  >
-                    <BsFillTrashFill size={20} />
-                  </ActionIcon>
-                </div>
-
-              </Box>
-            )
-          })
-        }
+                    //       </div>,
+                    //   },
+                    //   size: "md"
+                    // })
+                  }
+                >
+                  <AiFillEdit size={20} />
+                </ActionIcon>
+                <ActionIcon
+                  variant="filled"
+                  color="blue"
+                  size={40}
+                  radius={100}
+                  className="bg-blue-500"
+                >
+                  <BsFillTrashFill size={20} />
+                </ActionIcon>
+              </div>
+            </Box>
+          );
+        })}
       </Box>
 
       <CustomModal
@@ -183,7 +181,9 @@ const AlurPPPDB = () => {
             {/* <TextInput
               autoFocus={focus}
             /> */}
-            <p style={{ fontWeight: "bold", marginTop: "15px" }}>Deskripsi Keterangan</p>
+            <p style={{ fontWeight: "bold", marginTop: "15px" }}>
+              Deskripsi Keterangan
+            </p>
             {/* <TiptapEditor
               desc={"descAlurPPDB"}
               setDesc={setDescAlurPPDB}
@@ -191,16 +191,14 @@ const AlurPPPDB = () => {
                 // marginTop: "10px"
               }}
             /> */}
-
           </>
         }
         close={close}
         opened={opened}
         title="Ubah Alur PPDB"
       />
-
     </Box>
-  )
-}
+  );
+};
 
-export default AlurPPPDB
+export default AlurPPPDB;
