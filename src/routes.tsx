@@ -41,6 +41,10 @@ export const routeConfigs = createBrowserRouter(
               path: "login",
               Component: lazy(() => import("./pages/auth/LoginPPDB")),
             },
+            {
+              path: "register",
+              Component: lazy(() => import("./pages/auth/Register.tsx"))
+            }
           ],
         },
         {

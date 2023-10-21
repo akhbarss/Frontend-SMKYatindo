@@ -12,9 +12,9 @@ type TAuthLayout = {
 const AuthLayout: React.FC<TAuthLayout> = ({ children }) => {
   return (
     <Suspense fallback={<PageLoading />}>
-      <main id="login" className="bg-white">
-        <MantineProvider theme={{ colorScheme: "dark" }}>
-          <PageHeader>
+      <main id="login" className="">
+        {/* <MantineProvider theme={{ colorScheme: "light" }}> */}
+          {/* <PageHeader>
             <h1 className="text-[#C1C2C5] text-2xl font-bold max-md:hidden">
               PPDB SMK TINTA EMAS INDONESIA
             </h1>
@@ -28,9 +28,9 @@ const AuthLayout: React.FC<TAuthLayout> = ({ children }) => {
                 />
               </Link>
             </Group>
-          </PageHeader>
+          </PageHeader> */}
           {children}
-        </MantineProvider>
+        {/* </MantineProvider> */}
       </main>
     </Suspense>
   );
