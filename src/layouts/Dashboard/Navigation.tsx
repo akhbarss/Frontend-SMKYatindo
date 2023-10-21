@@ -3,42 +3,65 @@ import { useMemo } from "react";
 import { FiGitPullRequest, FiHome } from "react-icons/fi";
 import { RiFileList3Line } from "react-icons/ri";
 import { useLocation, useNavigate } from "react-router-dom";
+import { MdAppRegistration, MdDashboard } from "react-icons/md";
+import { FaLine } from "react-icons/fa";
 
 const Navigation = ({ opened }: { opened: boolean }) => {
-  const IconHome = () => (
-    <ThemeIcon color="blue" variant="light">
-      <FiHome />
-    </ThemeIcon>
-  );
-
-  const IconPembelian = () => (
-    <ThemeIcon color="green" variant="light">
-      <RiFileList3Line />
-    </ThemeIcon>
-  );
-
-  const IconPengembalian = () => (
-    <ThemeIcon variant="light" color="violet">
-      <FiGitPullRequest />
-    </ThemeIcon>
-  );
-
   const menusSiswa = useMemo(
     () => [
       {
         label: "Home",
         path: "/ppdb/main/home",
-        icon: IconHome,
+        icon: (
+          <ThemeIcon color="blue" variant="light">
+            <FiHome />
+          </ThemeIcon>
+        ),
       },
       {
         label: "Pembelian",
         path: "/ppdb/main/pembelian",
-        icon: IconPembelian,
+        icon: (
+          <ThemeIcon color="green" variant="light">
+            <RiFileList3Line />
+          </ThemeIcon>
+        ),
       },
       {
         label: "Jalur Pendaftaran/Pengembalian",
         path: "/ppdb/main/pengembalian",
-        icon: IconPengembalian,
+        icon: (
+          <ThemeIcon variant="light" color="violet">
+            <FiGitPullRequest />
+          </ThemeIcon>
+        ),
+      },
+      {
+        label: "Dashboard",
+        path: "/ppdb/main/dashboard",
+        icon: (
+          <ThemeIcon variant="light" color="cyan">
+            <MdDashboard />
+          </ThemeIcon>
+        ),
+      },
+      {
+        label: "Jalur Pendaftaran",
+        path: "/ppdb/main/jalur-pendaftaran",
+        icon: (
+          <ThemeIcon variant="light" color="lime">
+            <FaLine />
+          </ThemeIcon>
+        ),
+      },
+      {
+        label: "Pendaftar",
+        path: "/ppdb/main/pendaftar-ppdb",
+        icon: (
+          <ThemeIcon variant="light" color="lime">
+            <MdAppRegistration />
+          </ThemeIcon>
+        ),
       },
     ],
     []
@@ -61,7 +84,7 @@ const Navigation = ({ opened }: { opened: boolean }) => {
           return (
             <NavLink
               active={pathUrl === menu.path}
-              icon={<menu.icon />}
+              icon={menu.icon}
               key={i}
               variant="light"
               color="gray"

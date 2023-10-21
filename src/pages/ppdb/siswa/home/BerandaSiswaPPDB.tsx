@@ -4,6 +4,7 @@ import { useState } from "react";
 import { FaCheck } from "react-icons/fa";
 import { TbAlertCircleFilled } from "react-icons/tb";
 import { useBreakPoints } from "../../../../utils/UseBreakpoints";
+import Page from "../../../../components/Page.tsx";
 
 const BerandaSiswaPPDB = () => {
   const { md } = useBreakPoints();
@@ -11,8 +12,8 @@ const BerandaSiswaPPDB = () => {
   const [showAlert, setShowAler] = useState(true);
 
   return (
-    <>
-      <Stack>
+    <Page title={"Beranda"}>
+      <Stack className={"style-box"}>
         <Box
           sx={{
             background:
@@ -127,7 +128,7 @@ const BerandaSiswaPPDB = () => {
           </Card>
         </Box>
       </Stack>
-    </>
+    </Page>
   );
 };
 

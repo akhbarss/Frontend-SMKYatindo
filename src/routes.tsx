@@ -12,7 +12,7 @@ import {
   PengembalianSiswaPPDB,
   RootAdminPPDB,
 } from "./pages";
-import BerandaAdmin from "./pages/ppdb/admin/BerandaAdmin";
+import Dashboard from "./pages/ppdb/admin/Dashboard.tsx";
 import { AppShell } from "@mantine/core";
 import { lazy } from "react";
 import InformasiUmum from "./pages/ppdb/admin/jalurPendaftaranPPDB/InformasiUmum.tsx";
@@ -66,60 +66,41 @@ export const routeConfigs = createBrowserRouter(
               path: "pengembalian",
               Component: () => <PengembalianSiswaPPDB />,
             },
-          ],
-        },
-        {
-          Component: () => <Outlet />,
-          children: [
+
             {
-              Component: () => <Outlet />,
+              path: "dashboard",
+              Component: lazy(() => import("./pages/ppdb/admin/Dashboard")),
+            },
+            {
+              path: "alur-ppdb",
+              Component: () => <AlurPPPDB />,
+            },
+            {
+              path: "jalur-pendaftaran",
               children: [
                 {
-                  path: "admin",
-                  Component: () => (
-                    <AppShell padding={0}>
-                      <RootAdminPPDB />
-                    </AppShell>
-                  ),
+                  index: true,
+                  Component: () => <JalurPendaftaran />,
+                },
+                {
+                  path: ":idJalurPendaftaran",
+                  Component: () => <Outlet />,
                   children: [
                     {
-                      index: true,
-                      Component: () => <BerandaAdmin />,
+                      path: "informasi-umum",
+                      Component: InformasiUmum,
                     },
                     {
-                      path: "alur-ppdb",
-                      Component: () => <AlurPPPDB />,
-                    },
-                    {
-                      path: "jalur-pendaftaran",
-                      children: [
-                        {
-                          index: true,
-                          Component: () => <JalurPendaftaran />,
-                        },
-                        {
-                          path: ":idJalurPendaftaran",
-                          Component: () => <Outlet />,
-                          children: [
-                            {
-                              path: "informasi-umum",
-                              Component: InformasiUmum,
-                            },
-                            {
-                              path: "gelombang",
-                              Component: Gelombang,
-                            },
-                          ],
-                        },
-                      ],
-                    },
-                    {
-                      path: "pendaftar-ppdb",
-                      Component: () => <PendaftarPPDB />,
+                      path: "gelombang",
+                      Component: Gelombang,
                     },
                   ],
                 },
               ],
+            },
+            {
+              path: "pendaftar-ppdb",
+              Component: () => <PendaftarPPDB />,
             },
           ],
         },
