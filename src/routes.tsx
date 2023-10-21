@@ -1,8 +1,6 @@
 import { createBrowserRouter, Navigate, Outlet } from "react-router-dom";
 import MissingPPDB from "./components/ppdb/missingPPDB";
-import RequireAuth from "./components/ppdb/requireAuth";
 import Unauthorized from "./components/ppdb/unauthorized";
-import RoleRequire from "./components/roleRequire";
 import {
   AlurPPPDB,
   BerandaSiswaPPDB,
@@ -20,6 +18,7 @@ import { lazy } from "react";
 import InformasiUmum from "./pages/ppdb/admin/jalurPendaftaranPPDB/InformasiUmum.tsx";
 import Gelombang from "./components/ppdb/siswa/gelombang.tsx";
 import AuthLayout from "./layouts/AuthLayout.tsx";
+import DashboardLayout from "./layouts/DashboardLayout.tsx";
 
 export const routeConfigs = createBrowserRouter(
   [
@@ -49,30 +48,27 @@ export const routeConfigs = createBrowserRouter(
           ],
         },
         {
-          Component: () => <Outlet />,
+          path: "main",
+          Component: () => (
+            <DashboardLayout>
+              <Outlet />
+            </DashboardLayout>
+          ),
           children: [
             {
-              Component: () => <Outlet />,
-              children: [
-                {
-                  path: "siswa",
-                  Component: () => <LayoutSiswa />,
-                  children: [
-                    {
-                      index: true,
-                      Component: () => <BerandaSiswaPPDB />,
-                    },
-                    {
-                      path: "pembelian",
-                      Component: () => <PembelianSiswaPPDB />,
-                    },
-                    {
-                      path: "pengembalian",
-                      Component: () => <PengembalianSiswaPPDB />,
-                    },
-                  ],
-                },
-              ],
+              path: "home",
+              index: true,
+              Component: lazy(
+                () => import("./pages/ppdb/siswa/home/BerandaSiswaPPDB")
+              ),
+            },
+            {
+              path: "pembelian",
+              Component: () => <PembelianSiswaPPDB />,
+            },
+            {
+              path: "pengembalian",
+              Component: () => <PengembalianSiswaPPDB />,
             },
           ],
         },

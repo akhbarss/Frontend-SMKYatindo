@@ -1,0 +1,47 @@
+import { AppShell, Paper } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
+import AppBar from "./Dashboard/AppBar.tsx";
+import Navigation from "./Dashboard/Navigation.tsx";
+import { useBreakPoints } from "../utils/UseBreakpoints.tsx";
+import { Footer } from "./index.tsx";
+import { Suspense } from "react";
+import PageLoading from "../components/PageLoading.tsx";
+
+type TDashboard = {
+  children: any;
+};
+
+const DashboardLayout: React.FC<TDashboard> = ({ children }) => {
+  const [opened, { toggle }] = useDisclosure(false);
+  const { sm } = useBreakPoints();
+
+  return (
+    <Suspense fallback={<PageLoading />}>
+      <AppShell
+        padding={0}
+        header={<AppBar opened={opened} setOpened={toggle} />}
+        navbar={<Navigation opened={opened} />}
+        navbarOffsetBreakpoint="md"
+      >
+        <Paper
+          p={`${sm ? "3rem 2.5rem" : "3rem 1rem"}`}
+          className="style-box"
+          sx={(theme) => ({
+            minHeight: "80vh",
+            backgroundColor: `${
+              theme.colorScheme === "dark"
+                ? theme.colors.dark[9]
+                : theme.colors.gray[0]
+            }`,
+          })}
+        >
+          {children}
+        </Paper>
+
+        <Footer />
+      </AppShell>
+    </Suspense>
+  );
+};
+
+export default DashboardLayout;
