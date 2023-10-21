@@ -2,7 +2,11 @@
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      listStyleType: {
+        
+      }
+    },
     screens: {
       mm: "450px",
       antd: "575px",
@@ -13,6 +17,7 @@ export default {
       lg: "1024px",
       xl: "1280px",
     },
+    listStyleType: "disc"
   },
   plugins: [],
 };

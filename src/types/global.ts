@@ -1,3 +1,7 @@
+export type JWT = {
+  sub: string
+}
+
 export interface Biaya {
   id: number;
   nama_biaya: string;

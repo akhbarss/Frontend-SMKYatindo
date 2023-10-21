@@ -1,19 +1,21 @@
 import { JalurPendaftaranPPDB } from "../../types/global";
 
-export const dataJalurPendaftaran: JalurPendaftaranPPDB[] = [
+
+
+export type TypeDataJalurPendaftaranPembelian = [
   {
-    id: 1,
-    tipe: "pembelian",
-    nama_jalur_pendaftaran: "PEMBELIAN FORMULIR",
-    waktu_dibuka: "2022-11-01 06:00:00",
-    waktu_ditutup: "2023-08-31 15:00:00",
-    biaya_pendaftaran: 1,
+    id: number,
+    tipe: string,
+    nama_jalur_pendaftaran: string
+    waktu_dibuka: string
+    waktu_ditutup: string
+    biaya_pendaftaran: number
     informasi_umum: {
       keterangan: [
         {
-          id: 1,
-          nama_keterangan: "",
-          deskripsi_keterangan: "",
+          id: number
+          nama_keterangan: string
+          deskripsi_keterangan: string
         },
       ],
       biaya_tambahan: [
@@ -52,8 +54,8 @@ export const dataJalurPendaftaran: JalurPendaftaranPPDB[] = [
           //   nama_ujian_penerimaan: "Test Akademik Gel.1",
           //   media_test: "test-online",
           //   keterangan: "tes online",
-          //   waktu_dibuka: "1 Desember 2023 00:00",
-          //   waktu_ditutup: "1 Desember 2023 23:59",
+          //   waktu_dibuka: "2023-10-11T10:00:00",
+          //   waktu_ditutup: "2023-11-11T10:00:00",
           //   lokasi_test: "",
           //   kkm: 70,
           // },
@@ -62,8 +64,8 @@ export const dataJalurPendaftaran: JalurPendaftaranPPDB[] = [
           //   nama_ujian_penerimaan: "Test Akademik Gel.2",
           //   media_test: "test-online",
           //   keterangan: "tes online",
-          //   waktu_dibuka: "1 Desember 2023 00:00",
-          //   waktu_ditutup: "1 Desember 2023 23:59",
+          //   waktu_dibuka: "2023-10-11T10:00:00",
+          //   waktu_ditutup: "2023-11-11T10:00:00",
           //   lokasi_test: "",
           //   kkm: 70,
           // },
@@ -77,8 +79,180 @@ export const dataJalurPendaftaran: JalurPendaftaranPPDB[] = [
         kegiatan: [
           {
             nama_kegiatan: "",
-            waktu_dibuka: "",
-            waktu_ditutup: "",
+            waktu_dibuka: "2023-10-11T10:00:00",
+            waktu_ditutup: "2023-11-11T10:00:00",
+          },
+        ],
+      },
+    ],  
+  }
+]
+
+export const dataJalurPendaftaranPembelian = [
+  {
+    id: 1,
+    tipe: "pembelian",
+    nama_jalur_pendaftaran: "PEMBELIAN FORMULIR",
+    waktu_dibuka: "2023-10-11T10:00:00",
+    waktu_ditutup: "2023-10-12T10:00:00",
+    biaya_pendaftaran: 100.000,
+    informasi_umum: {
+      keterangan: [
+        {
+          id: 1,
+          nama_keterangan: "",
+          deskripsi_keterangan: ``,
+        },
+      ],
+      biaya_tambahan: [
+        // {
+        //   id: 1,
+        //   judul_biaya: "Biaya Uang Gedung",
+        //   biaya: [
+        //     {
+        //       id: 1,
+        //       nama_biaya_tambahan: "Gelombang 1",
+        //       jumlah_biaya_tambahan: 1
+        //     },
+        //     {
+        //       id: 2,
+        //       nama_biaya_tambahan: "Gelombang 2",
+        //       jumlah_biaya_tambahan: 1
+        //     },
+        //   ]
+        // }
+      ],
+    },
+    gelombang: [
+      {
+        id: 1,
+        nama_gelombang: "PEMBELIAN FORMULIR",
+        jumlah_penerimaan: 200,
+        waktu_oendaftaran_dibuka: "1 November 2023",
+        waktu_oendaftaran_ditutup: "30 November 2023",
+        nama_bank: "BCA",
+        nomor_rekening: 123456789,
+        nama_pemilik_rekening: "",
+        biaya_pendaftaran: 1,
+        ujian_penerimaan: [
+          // {
+          //   id: 1,
+          //   nama_ujian_penerimaan: "Test Akademik Gel.1",
+          //   media_test: "test-online",
+          //   keterangan: "tes online",
+          //   waktu_dibuka: "2023-10-11T10:00:00",
+          //   waktu_ditutup: "2023-11-11T10:00:00",
+          //   lokasi_test: "",
+          //   kkm: 70,
+          // },
+          // {
+          //   id: 2,
+          //   nama_ujian_penerimaan: "Test Akademik Gel.2",
+          //   media_test: "test-online",
+          //   keterangan: "tes online",
+          //   waktu_dibuka: "2023-10-11T10:00:00",
+          //   waktu_ditutup: "2023-11-11T10:00:00",
+          //   lokasi_test: "",
+          //   kkm: 70,
+          // },
+        ],
+        pengumuman: [
+          {
+            nama_pengumuman: "",
+            tanggal_pengumuman: "",
+          },
+        ],
+        kegiatan: [
+          {
+            nama_kegiatan: "",
+            waktu_dibuka: "2023-10-11T10:00:00",
+            waktu_ditutup: "2023-11-11T10:00:00",
+          },
+        ],
+      },
+    ],
+  },
+];
+
+export const dataJalurPendaftaran: JalurPendaftaranPPDB[] = [
+  {
+    id: 1,
+    tipe: "pembelian",
+    nama_jalur_pendaftaran: "PEMBELIAN FORMULIR",
+    waktu_dibuka: "2023-10-11T10:00:00",
+    waktu_ditutup: "2023-10-12T10:00:00",
+    biaya_pendaftaran: 1,
+    informasi_umum: {
+      keterangan: [
+        {
+          id: 1,
+          nama_keterangan: "",
+          deskripsi_keterangan: ``,
+        },
+      ],
+      biaya_tambahan: [
+        // {
+        //   id: 1,
+        //   judul_biaya: "Biaya Uang Gedung",
+        //   biaya: [
+        //     {
+        //       id: 1,
+        //       nama_biaya_tambahan: "Gelombang 1",
+        //       jumlah_biaya_tambahan: 1
+        //     },
+        //     {
+        //       id: 2,
+        //       nama_biaya_tambahan: "Gelombang 2",
+        //       jumlah_biaya_tambahan: 1
+        //     },
+        //   ]
+        // }
+      ],
+    },
+    gelombang: [
+      {
+        id: 1,
+        nama_gelombang: "PEMBELIAN FORMULIR",
+        jumlah_penerimaan: 200,
+        waktu_oendaftaran_dibuka: "1 November 2023",
+        waktu_oendaftaran_ditutup: "30 November 2023",
+        nama_bank: "BCA",
+        nomor_rekening: 123456789,
+        nama_pemilik_rekening: "",
+        biaya_pendaftaran: 1,
+        ujian_penerimaan: [
+          // {
+          //   id: 1,
+          //   nama_ujian_penerimaan: "Test Akademik Gel.1",
+          //   media_test: "test-online",
+          //   keterangan: "tes online",
+          //   waktu_dibuka: "2023-10-11T10:00:00",
+          //   waktu_ditutup: "2023-11-11T10:00:00",
+          //   lokasi_test: "",
+          //   kkm: 70,
+          // },
+          // {
+          //   id: 2,
+          //   nama_ujian_penerimaan: "Test Akademik Gel.2",
+          //   media_test: "test-online",
+          //   keterangan: "tes online",
+          //   waktu_dibuka: "2023-10-11T10:00:00",
+          //   waktu_ditutup: "2023-11-11T10:00:00",
+          //   lokasi_test: "",
+          //   kkm: 70,
+          // },
+        ],
+        pengumuman: [
+          {
+            nama_pengumuman: "",
+            tanggal_pengumuman: "",
+          },
+        ],
+        kegiatan: [
+          {
+            nama_kegiatan: "",
+            waktu_dibuka: "2023-10-11T10:00:00",
+            waktu_ditutup: "2023-11-11T10:00:00",
           },
         ],
       },
@@ -88,8 +262,8 @@ export const dataJalurPendaftaran: JalurPendaftaranPPDB[] = [
     id: 2,
     tipe: "pengembalian",
     nama_jalur_pendaftaran: "PENGEMBALIAN FORMULIR REGULER",
-    waktu_dibuka: "2022-11-01 06:00:00",
-    waktu_ditutup: "2023-08-31 15:00:00",
+    waktu_dibuka: "2023-10-11T10:00:00",
+    waktu_ditutup: "2024-01-01T10:00:00",
     biaya_pendaftaran: 1,
     informasi_umum: {
       keterangan: [
@@ -135,8 +309,8 @@ export const dataJalurPendaftaran: JalurPendaftaranPPDB[] = [
             nama_ujian_penerimaan: "Test Akademik Gel.1",
             media_test: "test-online",
             keterangan: "tes online",
-            waktu_dibuka: "21 Mei 2023 00:00",
-            waktu_ditutup: "21 Mei 2023 23:59",
+            waktu_dibuka: "2023-10-11T10:00:00",
+            waktu_ditutup: "2023-11-11T10:00:00",
             lokasi_test: "",
             kkm: 70,
           },
@@ -145,8 +319,8 @@ export const dataJalurPendaftaran: JalurPendaftaranPPDB[] = [
             nama_ujian_penerimaan: "Test Ujian Akademik Gel.1",
             media_test: "test-online",
             keterangan: "tes online",
-            waktu_dibuka: "27 Mei 2023 00:00",
-            waktu_ditutup: "27 Mei 2023 23:59",
+            waktu_dibuka: "2023-10-11T10:00:00",
+            waktu_ditutup: "2023-11-11T10:00:00",
             lokasi_test: "",
             kkm: 70,
           },
@@ -160,8 +334,8 @@ export const dataJalurPendaftaran: JalurPendaftaranPPDB[] = [
         kegiatan: [
           {
             nama_kegiatan: "",
-            waktu_dibuka: "",
-            waktu_ditutup: "",
+            waktu_dibuka: "2023-10-11T10:00:00",
+            waktu_ditutup: "2023-11-11T10:00:00",
           },
         ],
       },
@@ -181,8 +355,8 @@ export const dataJalurPendaftaran: JalurPendaftaranPPDB[] = [
             nama_ujian_penerimaan: "Test Akademik Gel.2",
             media_test: "test-online",
             keterangan: "tes online",
-            waktu_dibuka: "12 Juli 2024 00:00",
-            waktu_ditutup: "12 Juli 2024 23:59",
+            waktu_dibuka: "2023-10-11T10:00:00",
+            waktu_ditutup: "2023-11-11T10:00:00",
             lokasi_test: "",
             kkm: 70,
           },
@@ -191,8 +365,8 @@ export const dataJalurPendaftaran: JalurPendaftaranPPDB[] = [
             nama_ujian_penerimaan: "Test Ujian Akademik Gel.2",
             media_test: "test-online",
             keterangan: "tes online",
-            waktu_dibuka: "13 Juli 2024 00:00",
-            waktu_ditutup: "13 Juli 2024 23:59",
+            waktu_dibuka: "2023-10-11T10:00:00",
+            waktu_ditutup: "2023-11-11T10:00:00",
             lokasi_test: "",
             kkm: 70,
           },
@@ -206,8 +380,8 @@ export const dataJalurPendaftaran: JalurPendaftaranPPDB[] = [
         kegiatan: [
           {
             nama_kegiatan: "",
-            waktu_dibuka: "",
-            waktu_ditutup: "",
+            waktu_dibuka: "2023-10-11T10:00:00",
+            waktu_ditutup: "2023-11-11T10:00:00",
           },
         ],
       },
@@ -217,8 +391,8 @@ export const dataJalurPendaftaran: JalurPendaftaranPPDB[] = [
     id: 3,
     tipe: "pengembalian",
     nama_jalur_pendaftaran: "PENGEMBALIAN FORMULIR PRESTASI",
-    waktu_dibuka: "2022-11-01 06:00:00",
-    waktu_ditutup: "2023-08-31 15:00:00",
+    waktu_dibuka: "2023-10-11T10:00:00",
+    waktu_ditutup: "2023-11-11T10:00:00",
     biaya_pendaftaran: 1,
     informasi_umum: {
       keterangan: [
@@ -264,8 +438,8 @@ export const dataJalurPendaftaran: JalurPendaftaranPPDB[] = [
             nama_ujian_penerimaan: "Test Akademik Gel.1",
             media_test: "test-online",
             keterangan: "tes online",
-            waktu_dibuka: "1 Desember 2023 00:00",
-            waktu_ditutup: "1 Desember 2023 23:59",
+            waktu_dibuka: "2023-10-11T10:00:00",
+            waktu_ditutup: "2023-11-11T10:00:00",
             lokasi_test: "",
             kkm: 70,
           },
@@ -274,8 +448,8 @@ export const dataJalurPendaftaran: JalurPendaftaranPPDB[] = [
             nama_ujian_penerimaan: "Test Akademik Gel.2",
             media_test: "test-online",
             keterangan: "tes online",
-            waktu_dibuka: "1 Desember 2023 00:00",
-            waktu_ditutup: "1 Desember 2023 23:59",
+            waktu_dibuka: "2023-10-11T10:00:00",
+            waktu_ditutup: "2023-11-11T10:00:00",
             lokasi_test: "",
             kkm: 70,
           },
@@ -289,8 +463,8 @@ export const dataJalurPendaftaran: JalurPendaftaranPPDB[] = [
         kegiatan: [
           {
             nama_kegiatan: "",
-            waktu_dibuka: "",
-            waktu_ditutup: "",
+            waktu_dibuka: "2023-10-11T10:00:00",
+            waktu_ditutup: "2023-11-11T10:00:00",
           },
         ],
       },
@@ -300,8 +474,8 @@ export const dataJalurPendaftaran: JalurPendaftaranPPDB[] = [
     id: 4,
     tipe: "pengembalian",
     nama_jalur_pendaftaran: "PENGEMBALIAN FORMULIR DISKON",
-    waktu_dibuka: "2022-11-01 06:00:00",
-    waktu_ditutup: "2023-08-31 15:00:00",
+    waktu_dibuka: "2023-10-11T10:00:00",
+    waktu_ditutup: "2023-10-19T10:00:00",
     biaya_pendaftaran: 1,
     informasi_umum: {
       keterangan: [
@@ -347,8 +521,8 @@ export const dataJalurPendaftaran: JalurPendaftaranPPDB[] = [
             nama_ujian_penerimaan: "Test Akademik Gel.1",
             media_test: "test-online",
             keterangan: "tes online",
-            waktu_dibuka: "1 Desember 2023 00:00",
-            waktu_ditutup: "1 Desember 2023 23:59",
+            waktu_dibuka: "2023-10-11T10:00:00",
+            waktu_ditutup: "2023-11-11T10:00:00",
             lokasi_test: "",
             kkm: 70,
           },
@@ -357,8 +531,8 @@ export const dataJalurPendaftaran: JalurPendaftaranPPDB[] = [
             nama_ujian_penerimaan: "Test Akademik Gel.2",
             media_test: "test-online",
             keterangan: "tes online",
-            waktu_dibuka: "1 Desember 2023 00:00",
-            waktu_ditutup: "1 Desember 2023 23:59",
+            waktu_dibuka: "2023-10-11T10:00:00",
+            waktu_ditutup: "2023-11-11T10:00:00",
             lokasi_test: "",
             kkm: 70,
           },
@@ -372,8 +546,8 @@ export const dataJalurPendaftaran: JalurPendaftaranPPDB[] = [
         kegiatan: [
           {
             nama_kegiatan: "",
-            waktu_dibuka: "",
-            waktu_ditutup: "",
+            waktu_dibuka: "2023-10-11T10:00:00",
+            waktu_ditutup: "2023-11-11T10:00:00",
           },
         ],
       },

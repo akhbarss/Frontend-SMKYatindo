@@ -1,103 +1,141 @@
-import { createBrowserRouter, Navigate, Outlet } from "react-router-dom";
+import { Navigate, Outlet, createBrowserRouter } from "react-router-dom";
 import MissingPPDB from "./components/ppdb/missingPPDB";
+import RequireAuth from "./components/ppdb/requireAuth";
+import Unauthorized from "./components/ppdb/unauthorized";
+import RoleRequire from "./components/roleRequire";
 import {
   AlurPPPDB,
   BerandaSiswaPPDB,
   GuestPPDB,
   JalurPendaftaran,
+  LayoutSiswa,
   PembelianSiswaPPDB,
   PendaftarPPDB,
   PengembalianSiswaPPDB,
   RootAdminPPDB,
   RootSiswaPPDB,
   UjianPPDB,
-  UjianSiswaPPDB,
+  UjianSiswaPPDB
 } from "./pages";
 import BerandaAdmin from "./pages/ppdb/admin/BerandaAdmin";
-import { lazy } from "react";
-import AuthLayout from "./layouts/AuthLayout.tsx";
-import PageLoading from "./components/PageLoading.tsx";
+import { AppShell } from "@mantine/core";
 
-export const routeConfigs = createBrowserRouter(
-  [
-    {
-      path: "/ppdb",
-      children: [
-        {
-          index: true,
-          Component: GuestPPDB,
-        },
-        {
-          Component: () => (
-            <AuthLayout>
-              <Outlet />
-            </AuthLayout>
-          ),
-          children: [
-            {
-              path: "login",
-              Component: lazy(() => import("./pages/auth/LoginPPDB")),
-            },
-          ],
-        },
-        {
-          path: "siswa",
-          Component: () => <RootSiswaPPDB />,
-          children: [
-            {
-              index: true,
-              Component: () => <BerandaSiswaPPDB />,
-            },
-            {
-              path: "pembelian",
-              Component: () => <PembelianSiswaPPDB />,
-            },
-            {
-              path: "pengembalian",
-              Component: () => <PengembalianSiswaPPDB />,
-            },
-            {
-              path: "ujian",
-              Component: () => <UjianSiswaPPDB />,
-            },
-          ],
-        },
-        {
-          path: "admin",
-          Component: () => <RootAdminPPDB />,
-          children: [
-            {
-              index: true,
-              Component: () => <BerandaAdmin />,
-            },
-            {
-              path: "alur-ppdb",
-              Component: () => <AlurPPPDB />,
-            },
-            {
-              path: "jalur-pendaftaran",
-              Component: () => <JalurPendaftaran />,
-            },
-            {
-              path: "pendaftar-ppdb",
-              Component: () => <PendaftarPPDB />,
-            },
-            {
-              path: "ujian-ppdb",
-              Component: () => <UjianPPDB />,
-            },
-          ],
-        },
-      ],
-    },
-    {
-      path: "/ppdb/*",
-      Component: MissingPPDB,
-    },
-    {
-      path: "*",
-      Component: () => Navigate({ to: "/ppdb" }),
-    },
-  ],
-  { window }
-);
+export const routeConfigs = createBrowserRouter([
+  {
+    path: "/ppdb",
+    children: [
+      {
+        index: true,
+        Component: GuestPPDB
+      },
+      {
+        path: "login",
+        Component: () => (
+          <LoginPPDB />
+        )
+      },
+      {
+        Component: () => (
+          <RequireAuth />
+        ),
+        children: [
+          {
+            Component: () => <RoleRequire allowedRole={ROLES.SISWA} />,
+            children: [
+              {
+                path: "siswa",
+                Component: () => (
+                  < LayoutSiswa />
+                ),
+                children: [
+                  {
+                    index: true,
+                    Component: () => (< BerandaSiswaPPDB />)
+                  },
+                  {
+                    path: "pembelian",
+                    Component: () => (< PembelianSiswaPPDB />)
+                  },
+                  {
+                    path: "pengembalian",
+                    Component: () => (< PengembalianSiswaPPDB />)
+                  },
+                ]
+              },
+            ]
+          }
+        ]
+      },
+      {
+        Component: () => (
+          <RequireAuth />
+        ),
+        children: [
+          {
+            Component: () => <RoleRequire allowedRole={ROLES.ADMIN} />,
+            children: [
+              {
+                path: "admin",
+                Component: () => (
+                  <AppShell padding={0}>
+                    < RootAdminPPDB />
+                  </AppShell>
+                ),
+                children: [
+                  {
+                    index: true,
+                    Component: () => (< BerandaAdmin />)
+                  },
+                  {
+                    path: "alur-ppdb",
+                    Component: () => (< AlurPPPDB />)
+                  },
+                  {
+                    path: "jalur-pendaftaran",
+                    children: [
+                      {
+                        index: true,
+                        Component: () => (< JalurPendaftaran />),
+                      },
+                      {
+                        path: ":idJalurPendaftaran",
+                        Component: () => <Outlet />,
+                        children: [
+                          {
+                            path: "informasi-umum",
+                            Component: InformasiUmum
+                          },
+                          {
+                            path: "gelombang",
+                            Component: Gelombang
+                          },
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    path: "pendaftar-ppdb",
+                    Component: () => (< PendaftarPPDB />)
+                  },
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        path: "unauthorized",
+        Component: Unauthorized
+
+      }
+    ],
+  },
+  {
+    path: "/ppdb/*",
+    Component: MissingPPDB
+  },
+  {
+    path: "*",
+    Component: () => Navigate({ to: "/ppdb" })
+  }
+], { window, });

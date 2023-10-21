@@ -10,31 +10,68 @@ const Ppdb = () => {
     return (
         <Box
             id="beranda"
-            className={`relative  flex flex-col justify-center 
-            ${xs ? "items-center min-h-[87vh]" : "min-h-[80vh]"} 
-            ${dark ? "backdrop-brightness-75" : "backdrop-brightness-50"}
-            `}
+            sx={{
+                position: "relative",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: `${xs ? "center" : ""}`,
+                minHeight: `${xs ? "87vh" : "80vh"}`,
+                backdropFilter: `${dark ? "brightness(.75)" : "brightness(.5)"}`
+            }}
         >
             <Box
                 sx={(theme => ({
                     backgroundColor: theme.colorScheme === 'dark' ? "black" : theme.colors.gray[0],
                     color: theme.colorScheme === 'dark' ? theme.colors.gray[1] : "#020731",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    width: `${xs ? "65%" : ""}`,
+                    height: `${xs ? "450px" : ""}`,
+                    borderRadius: `${xs ? "20px" : ""}`,
+                    boxShadow: `${xs ? "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)" : ""}`,
+                    flex: `${xs ? "" : "1"}`
                 }))}
-                className={`flex flex-col justify-center items-center ${xs ? "w-[65%] h-[450px] rounded-[20px]   shadow-xl" : "flex-1  "}`}
             >
-                <div className={`font-bold  text-center  
-                
-                `}>
-                    <h1 className={`${dark ? "bg-clip-text text-transparent bg-gradient-to-tl from-white to-[#281a67]" : ""} ${xs ? "text-[40px] " : "text-[24px]"}`} >
+                <div style={{ fontWeight: "bold", textAlign: "center" }}>
+                    <h1
+                        style={{
+                            WebkitBackgroundClip: "text",
+                            color: `${dark ? "transparent" : ""}`,
+                            backgroundImage: "linear-gradient(to top left, white, #281a67)",
+                            fontSize: `${xs ? "40px" : "24px"}`
+                        }}
+                    >
                         PPDB Online
                     </h1>
-                    <h1 className={`${dark ? "bg-clip-text text-transparent bg-gradient-to-tl from-white to-[#281a67]" : ""} ${xs ? "text-[40px] " : "text-[24px]"}`}>
+                    <h1
+                        style={{
+                            WebkitBackgroundClip: "text",
+                            color: `${dark ? "transparent" : ""}`,
+                            backgroundImage: "linear-gradient(to top left, #281a67, white)",
+                            fontSize: `${xs ? "40px" : "24px"}`
+                        }}
+                    >
                         SMK Tinta Emas Indonesia
                     </h1>
                 </div>
                 <Link
                     to={'/ppdb/login'}
-                    className={`mt-10  ${dark ? "bg-[#291872]" : "bg-[#020731]"} h-14 flex items-center px-10 rounded-sm text-white font-bold text-[24px] shadow-[0_10px_20px_-10px_#291872]`}
+                    style={{
+                        height: "3.5rem",
+                        marginTop: "2.5rem",
+                        backgroundColor: `${dark ? "#291872" : "#020731"}`,
+                        display: "flex",
+                        alignItems: 'center',
+                        paddingInline: "2.5rem",
+                        fontWeight: "bold",
+                        fontSize: "24px",
+                        boxShadow: "0 10px 20px -10px #291872",
+                        color: "white",
+                        textDecoration: "none"
+                    }}
                 >
                     Daftar
                 </Link>

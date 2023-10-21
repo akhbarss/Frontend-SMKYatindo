@@ -6,8 +6,7 @@ const MissingPPDB = () => {
     return (
         <div className="h-[100vh]">
             <h1>Not Found</h1>
-            {/* <Link to={"/ppdb"} >back to ppdb</Link> */}
-            <button onClick={() => navigate("/ppdb")}>Back</button>
+            <button onClick={() => navigate(-1)}>Back</button>
         </div>
     )
 }
