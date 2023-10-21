@@ -15,6 +15,8 @@ import CustomModal from "../../../../components/ppdb/modalCreate";
 import { dataJalurPendaftaran } from "../../../../components/ppdb/dataJalurPendaftaran";
 import { useBreakPoints } from "../../../../utils/UseBreakpoints";
 import TiptapEditor from "../../../../components/ppdb/tiptapInput";
+import PageLabel from "../../../../components/PageLabel";
+import Page from "../../../../components/Page";
 
 const AlurPPPDB = () => {
   const [value, setValue] = useState("react");
@@ -27,34 +29,8 @@ const AlurPPPDB = () => {
   const data = dataJalurPendaftaran;
 
   return (
-    <Box
-      //  className={`style-box relative flex-1  ${xs ? "" : "flex-1  "}`}
-      className="style-box"
-      sx={{
-        position: "relative",
-        flex: 1,
-      }}
-    >
-      <div
-        // className="w-fit  mx-auto"
-        style={{
-          width: "fit-content",
-          marginInline: "auto",
-        }}
-      >
-        <h1
-          //  className="text-center [font-size:_clamp(1.8rem,3vw,3rem)]  font-bold mt-10 leading-8"
-          style={{
-            textAlign: "center",
-            fontWeight: "bold",
-            marginTop: "40px",
-            // fontSize: clamp(1.8, 3)
-          }}
-        >
-          Jalur Pendaftaran PPDB
-        </h1>
-        {/* <Divider size={"lg"} color="" w={"70%"} className="mx-auto" /> */}
-      </div>
+    <Page title={"Jalur Pendaftaran"}>
+      <PageLabel label={"Jalur Pendaftaran"} />
 
       <Box
         mt={50}
@@ -63,10 +39,7 @@ const AlurPPPDB = () => {
           display: "flex",
           flexDirection: "column",
           gap: "16px",
-          paddingInline: "16px",
           paddingBottom: "40px",
-          width: `${md ? "50rem" : ""}`,
-          marginInline: "auto",
         }}
       >
         {data.map((item) => {
@@ -197,7 +170,7 @@ const AlurPPPDB = () => {
         opened={opened}
         title="Ubah Alur PPDB"
       />
-    </Box>
+    </Page>
   );
 };
 

@@ -43,8 +43,8 @@ export const routeConfigs = createBrowserRouter(
             },
             {
               path: "register",
-              Component: lazy(() => import("./pages/auth/Register.tsx"))
-            }
+              Component: lazy(() => import("./pages/auth/Register.tsx")),
+            },
           ],
         },
         {
@@ -76,7 +76,7 @@ export const routeConfigs = createBrowserRouter(
               Component: lazy(() => import("./pages/ppdb/admin/Dashboard")),
             },
             {
-              path: "alur-ppdb",
+              path: "alur",
               Component: () => <AlurPPPDB />,
             },
             {
