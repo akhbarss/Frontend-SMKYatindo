@@ -15,6 +15,7 @@ import {
 import { useHotkeys, useLocalStorage } from "@mantine/hooks";
 import { ContextModalProps, ModalsProvider } from "@mantine/modals";
 import { FiInfo } from "react-icons/fi";
+import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 
 const createDataModel = ({
   context,
@@ -37,6 +38,48 @@ const createDataModel = ({
     </>
   );
 };
+
+const createModalSuccess = ({
+  context,
+  id,
+  innerProps,
+}: ContextModalProps<{
+  modalBody: string;
+  onAccept: () => void;
+  onCancel: () => void;
+}>) => {
+
+  const { onAccept, modalBody } = innerProps
+
+  return (
+    <>
+      <Stack>
+
+        <Box sx={{ color: "#339AF0", marginInline: "auto" }}>
+          <IoMdCheckmarkCircleOutline size={100} color="#33FF00" />
+        </Box>
+
+        <Text align="center" mt={20}>
+          {modalBody}
+        </Text>
+
+        <Divider mt={30} />
+        <Group position="center">
+          <Button
+            variant="success"
+            onClick={() => {
+              onAccept();
+              context.closeModal(id);
+            }}
+          >
+            Lanjutkan
+          </Button>
+        </Group>
+      </Stack>
+    </>
+  )
+
+}
 
 const createInformasi = ({
   context,
@@ -90,6 +133,7 @@ const createInformasi = ({
 const modals = {
   createData: createDataModel,
   createInformasi,
+  modalSuccess: createModalSuccess
 };
 declare module "@mantine/modals" {
   export interface MantineModalsOverride {

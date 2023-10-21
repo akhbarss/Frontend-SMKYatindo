@@ -88,7 +88,7 @@ const AppBar = ({
             <Menu.Item
               onClick={() => {
                 localStorage.removeItem("accessToken");
-                navigate("/ppdb/login");
+                navigate("/ppdb/auth/login");
               }}
             >
               Logout

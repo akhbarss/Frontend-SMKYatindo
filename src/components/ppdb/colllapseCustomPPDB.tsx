@@ -33,7 +33,7 @@ const CollapseNavbarPortal = ({
 }) => {
 
     const navigate = useNavigate()
-    
+
     return (
         <Collapse
             in={opened}
@@ -82,10 +82,10 @@ const CollapseNavbarPortal = ({
 
                 {routeGuest && (
                     <>
-                        <Link to={"/ppdb/login"}>
+                        <Link to={"/ppdb/auth/login"}>
                             Masuk
                         </Link>
-                        <Link to={"/ppdb/login"}>
+                        <Link to={"/ppdb/auth/register"}>
                             Daftar
                         </Link>
                     </>

@@ -85,6 +85,7 @@ const GelombangPPDB = ({
                 modalBody:
                     `Anda yakin ingin membatalkan pilihan ${pilihanGelombang?.nama_jalur_pendaftaran}?`,
             },
+            
         })
     }
 
