@@ -54,7 +54,10 @@ const GuestPPDB = () => {
 
                 {
                   menuGuest.map((menu, i) => (
-                    <Anchor key={i} to={menu.path} smooth={true} duration={500} offset={-90} className='cursor-pointer'>
+                    <Anchor key={i} to={menu.path} smooth={true} duration={500} offset={-90}
+                      style={{ cursor: "pointer", fontWeight: "bold" }}
+                    // className='cursor-pointer'
+                    >
                       {menu.label}
                     </Anchor>
                   ))
@@ -62,22 +65,51 @@ const GuestPPDB = () => {
 
               </Group>
 
-              <Group sx={{ color: 'blue' }}>
+              <Group sx={{ color: 'blue' }} style={{}}>
 
                 <ToggleTheme color={`${dark ? "#6449da" : "#020731"}`} />
 
                 <Link
                   to={'/ppdb/login'}
-                  className={`border   rounded-[3px] h-[35px] flex justify-center items-center px-[1.125rem] font-bold
-                    ${dark ? "border-[#6449da] tex-[#876cff] text-white " : "border-[#020731] text-[#020731] "}`}
+                  // className={`border   rounded-[3px] h-[35px] flex justify-center items-center px-[1.125rem] font-bold
+                  //   ${dark ? "border-[#6449da] tex-[#876cff] text-white " : "border-[#020731] text-[#020731] "}`}
+                  style={{
+                    border: `1px solid ${dark ? "#6449da" : "#020731"}`,
+                    borderRadius: "3px",
+                    height: "35px",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    paddingInline: "1.1123rem",
+                    fontWeight: "bold",
+                    color: `${dark ? "white" : "#020731"}`,
+                    textDecoration: "none"
+
+
+                  }}
                 >
                   Masuk
                 </Link>
 
                 <Link
                   to={'/ppdb/login'}
-                  className={`  text-white rounded-[3px] h-[35px] flex justify-center items-center px-[1.125rem] font-bold 
-                    ${dark ? "bg-[#876cff] shadow-[0_10px_30px_-10px_#876cff]" : "bg-[#020731] shadow-[0_10px_30px_-10px_#020731]"}`}
+                  // className={`  text-white rounded-[3px] h-[35px] flex justify-center items-center px-[1.125rem] font-bold 
+                  //   ${dark ? "bg-[#876cff] shadow-[0_10px_30px_-10px_#876cff]" : "bg-[#020731] shadow-[0_10px_30px_-10px_#020731]"}`}
+                  style={{
+                    border: `1px solid ${dark ? "#6449da" : "#020731"}`,
+                    borderRadius: "3px",
+                    height: "35px",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    paddingInline: "1.1123rem",
+                    fontWeight: "bold",
+                    color: "white",
+                    textDecoration: "none",
+                    backgroundColor: `${dark ? "#876cff" : "#020731"}`,
+                    boxShadow: `${dark ? "0 10px 30px -10px #876cff" : "0 10px 30px -10px #020731"}`
+
+                  }}
                 >
                   Daftar
                 </Link>
@@ -85,7 +117,10 @@ const GuestPPDB = () => {
               </Group>
             </>
           ) : (
-            <div className='flex items-center gap-5'>
+            <div
+              // className='flex items-center gap-5'
+              style={{ display: "flex" , alignItems: "center", gap: "1.25rem" }}
+            >
 
               <ToggleTheme color={`${dark ? "#6449da" : "#020731"}`} />
 

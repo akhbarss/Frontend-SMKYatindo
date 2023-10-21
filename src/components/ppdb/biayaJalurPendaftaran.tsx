@@ -15,25 +15,46 @@ const BiayaJalurPendaftaran = ({
     return (
         <Box
             id='biaya'
-            className={`flex flex-col mt-10 ${xs ? "p-8 rounded-md" : "py-8 px-2 "}`}
+            // className={`flex flex-col mt-10 ${xs ? "p-8 rounded-md" : "py-8 px-2 "}`}
             style={{
                 backgroundColor: `${dark ? theme.colors.dark[9] : "#dbe1fe"}`,
                 color: `${dark ? "white" : "#0F172A"}`,
+                display: "flex",
+                flexDirection: "column",
+                marginTop: "40px",
+                padding: `${xs ? "32px" : "32px 8px"}`
             }}
         >
-            <h1 className='text-[22px]'>Biaya {jalur?.nama_jalur_pendaftaran}:</h1>
+            <h1
+                // className='text-[22px]'
+                style={{ fontSize: "22px" }}
+            >
+                Biaya {jalur?.nama_jalur_pendaftaran}:
+            </h1>
             {
                 jalur && jalur?.informasi_umum.biaya_tambahan.length > 0 ?
                     jalur?.informasi_umum.biaya_tambahan.map(biayaJalur => (
                         <Box
                             key={biayaJalur.id}
-                            className={`flex flex-col mt-5    `}
+                            // className={`flex flex-col mt-5    `}
                             style={{
                                 backgroundColor: `${dark ? "black" : "white"}`,
                                 color: `${dark ? "white" : "#0F172A"}`,
+                                display: "flex",
+                                flexDirection: "column",
+                                marginTop: "20px"
                             }}
                         >
-                            <div id='judul-biaya' className=' border-b px-6 py-2 text-center'>
+                            <div
+                                id='judul-biaya'
+                                // className=' border-b px-6 py-2 text-center'
+                                style={{
+                                    borderBottom: "1px solid",
+                                    padding: "8px 24px",
+                                    textAlign: "center"
+                                }}
+
+                            >
                                 <p >{biayaJalur.judul_biaya}</p>
                             </div>
                             <div>
@@ -44,9 +65,17 @@ const BiayaJalurPendaftaran = ({
                                     })
 
                                     return (
-                                        <div key={item.id} className='flex text-[16px] py-2 px-8'>
-                                            <span className='flex-[2] '>{item.nama_biaya_tambahan}</span>
-                                            <span className='flex-[1]'>{formatedAngka.endsWith(",00") ? formatedAngka.slice(0, -3) : formatedAngka}</span>
+                                        <div
+                                            key={item.id}
+                                            // className='flex text-[16px] py-2 px-8'
+                                            style={{
+                                                display: "flex",
+                                                fontSize: "16px",
+                                                padding: "8px 32px",
+                                            }}
+                                        >
+                                            <span style={{ flex: 2 }}>{item.nama_biaya_tambahan}</span>
+                                            <span style={{ flex: 1 }}>{formatedAngka.endsWith(",00") ? formatedAngka.slice(0, -3) : formatedAngka}</span>
                                         </div>
                                     )
                                 })}

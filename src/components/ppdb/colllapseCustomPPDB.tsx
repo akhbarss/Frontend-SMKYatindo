@@ -1,5 +1,6 @@
 import {
     Collapse,
+    Button,
     Divider,
     MantineTheme,
     Paper,
@@ -7,7 +8,7 @@ import {
 } from '@mantine/core'
 import React from "react"
 import ReactDOM from "react-dom"
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { scroller } from 'react-scroll'
 
 const CollapseNavbarPortal = ({
@@ -30,6 +31,9 @@ const CollapseNavbarPortal = ({
     routeAdmin: boolean
     routeSiswa: boolean
 }) => {
+
+    const navigate = useNavigate()
+    
     return (
         <Collapse
             in={opened}
@@ -97,9 +101,12 @@ const CollapseNavbarPortal = ({
                             Pengaturan
                         </Link>
 
-                        <Link to={'/ppdb/login'}>
+                        <Button onClick={() => {
+                            localStorage.removeItem("accessToken")
+                            navigate("/ppdb/login")
+                        }}>
                             Logout
-                        </Link>
+                        </Button>
                     </>
                 )}
 

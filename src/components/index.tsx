@@ -1,11 +1,7 @@
-import CustomCarousel from "./carousel"
 import { CustomFonts } from "./customFonts"
-import { imageCarousel } from "./imageByIndex"
-import Provider from "./provider"
+import ProviderMantine from "./providerMantine"
 
 export {
-    CustomCarousel,
     CustomFonts,
-    imageCarousel,
-    Provider,
+    ProviderMantine,
 }

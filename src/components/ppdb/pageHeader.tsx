@@ -26,7 +26,7 @@ const PageHeader = ({
                 alignItems: "center",
                 paddingInline: "2rem",
                 position: `${pageLogin ? "fixed" : "fixed"}`,
-                backgroundColor: `${pageLogin ? "transparent" : `${dark ? theme.colors.dark[9] : ""}`} `,
+                backgroundColor: `${pageLogin ? "transparent" : `${dark ? theme.colors.dark[9] : "#2A166F"}`} `,
                 border: `${pageLogin ? "none" : ""}`,
                 backdropFilter: `${pageLogin ? "blur(4px)" : ""}`,
             }}
@@ -34,7 +34,12 @@ const PageHeader = ({
 
             <ScrollRestoration />
 
-            <img src="/logo-yatindo-hd.png" alt="Yatindo" className="w-[60px]" />
+            <img
+                src="/logo-yatindo-hd.png"
+                alt="Yatindo"
+                style={{ width: "60px" }}
+            //    className="w-[60px]" 
+            />
 
             {children}
 

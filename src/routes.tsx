@@ -1,21 +1,29 @@
+import { AppShell } from "@mantine/core";
 import { Navigate, Outlet, createBrowserRouter } from "react-router-dom";
 import MissingPPDB from "./components/ppdb/missingPPDB";
+import RequireAuth from "./components/ppdb/requireAuth";
+import Unauthorized from "./components/ppdb/unauthorized";
+import RoleRequire from "./components/roleRequire";
 import {
   AlurPPPDB,
   BerandaSiswaPPDB,
   GuestPPDB,
   JalurPendaftaran,
+  LayoutSiswa,
   PembelianSiswaPPDB,
   PendaftarPPDB,
   PengembalianSiswaPPDB,
   RootAdminPPDB,
-  RootSiswaPPDB,
-  UjianPPDB,
-  UjianSiswaPPDB
 } from "./pages";
 import LoginPPDB from "./pages/auth/LoginPPDB";
 import BerandaAdmin from "./pages/ppdb/admin/BerandaAdmin";
-import { AppShell } from "@mantine/core";
+import Gelombang from "./pages/ppdb/admin/jalurPendaftaranPPDB/Gelombang";
+import InformasiUmum from "./pages/ppdb/admin/jalurPendaftaranPPDB/InformasiUmum";
+
+const ROLES = {
+  ADMIN: "ADMIN",
+  SISWA: "SISWA"
+}
 
 export const routeConfigs = createBrowserRouter([
   {
@@ -26,74 +34,105 @@ export const routeConfigs = createBrowserRouter([
         Component: GuestPPDB
       },
       {
+        path: "login",
         Component: () => (
-          <AppShell
-            padding={0}
-          >
-            <Outlet />
-          </AppShell>
+          <LoginPPDB />
+        )
+      },
+      {
+        Component: () => (
+          <RequireAuth />
         ),
         children: [
           {
-            path: "login",
-            Component: () => (
-              <LoginPPDB />
-            )
-          },
-          {
-            path: "siswa",
-            Component: () => (
-              < RootSiswaPPDB />
-            ),
+            Component: () => <RoleRequire allowedRole={ROLES.SISWA} />,
             children: [
               {
-                index: true,
-                Component: () => (< BerandaSiswaPPDB />)
-              },
-              {
-                path: "pembelian",
-                Component: () => (< PembelianSiswaPPDB />)
-              },
-              {
-                path: "pengembalian",
-                Component: () => (< PengembalianSiswaPPDB />)
-              },
-              {
-                path: "ujian",
-                Component: () => (< UjianSiswaPPDB />)
-              },
-            ]
-          },
-          {
-            path: "admin",
-            Component: () => (
-              < RootAdminPPDB />
-            ),
-            children: [
-              {
-                index: true,
-                Component: () => (< BerandaAdmin />)
-              },
-              {
-                path: "alur-ppdb",
-                Component: () => (< AlurPPPDB />)
-              },
-              {
-                path: "jalur-pendaftaran",
-                Component: () => (< JalurPendaftaran />)
-              },
-              {
-                path: "pendaftar-ppdb",
-                Component: () => (< PendaftarPPDB />)
-              },
-              {
-                path: "ujian-ppdb",
-                Component: () => (< UjianPPDB />)
+                path: "siswa",
+                Component: () => (
+                  < LayoutSiswa />
+                ),
+                children: [
+                  {
+                    index: true,
+                    Component: () => (< BerandaSiswaPPDB />)
+                  },
+                  {
+                    path: "pembelian",
+                    Component: () => (< PembelianSiswaPPDB />)
+                  },
+                  {
+                    path: "pengembalian",
+                    Component: () => (< PengembalianSiswaPPDB />)
+                  },
+                ]
               },
             ]
           }
         ]
       },
+      {
+        Component: () => (
+          <RequireAuth />
+        ),
+        children: [
+          {
+            Component: () => <RoleRequire allowedRole={ROLES.ADMIN} />,
+            children: [
+              {
+                path: "admin",
+                Component: () => (
+                  <AppShell padding={0}>
+                    < RootAdminPPDB />
+                  </AppShell>
+                ),
+                children: [
+                  {
+                    index: true,
+                    Component: () => (< BerandaAdmin />)
+                  },
+                  {
+                    path: "alur-ppdb",
+                    Component: () => (< AlurPPPDB />)
+                  },
+                  {
+                    path: "jalur-pendaftaran",
+                    children: [
+                      {
+                        index: true,
+                        Component: () => (< JalurPendaftaran />),
+                      },
+                      {
+                        path: ":idJalurPendaftaran",
+                        Component: () => <Outlet />,
+                        children: [
+                          {
+                            path: "informasi-umum",
+                            Component: InformasiUmum
+                          },
+                          {
+                            path: "gelombang",
+                            Component: Gelombang
+                          },
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    path: "pendaftar-ppdb",
+                    Component: () => (< PendaftarPPDB />)
+                  },
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        path: "unauthorized",
+        Component: Unauthorized
+
+      }
     ],
   },
   {

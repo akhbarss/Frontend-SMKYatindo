@@ -1,21 +1,27 @@
 import {
+  ActionIcon,
   Box,
-  Group,
   MantineProvider,
   Paper,
   SegmentedControl
 } from "@mantine/core";
-import { useCallback, useState } from "react";
+import jwtDecode from "jwt-decode";
+import { useCallback, useEffect, useState } from "react";
 import { FaHome } from "react-icons/fa";
 import Particles from "react-particles";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import type { Engine } from "tsparticles-engine";
 import { loadStarsPreset } from "tsparticles-preset-stars";
 import AuthDaftar from '../../components/ppdb/authDaftar';
 import AuthMasuk from '../../components/ppdb/authMasuk';
 import PageHeader from "../../components/ppdb/pageHeader";
+import useAuth from "../../hooks/useAuth";
+import { JWT } from "../../types/global";
+import { useBreakPoints } from "../../utils/UseBreakpoints";
 
 const LoginPPDB = () => {
+
+  const { sm } = useBreakPoints()
 
   const [value, setValue] = useState("masuk")
   const [load, setLoad] = useState(false)
@@ -24,34 +30,77 @@ const LoginPPDB = () => {
     await loadStarsPreset(engine);
   }, []);
 
+  const { setAuthUser } = useAuth()
+
+  const accessToken = localStorage.getItem("accessToken")
+
+  const navigate = useNavigate()
+  const location = useLocation()
+  const from = location.state?.from?.pathname || "/ppdb/login"
+
+  console.log(location.state)
+  console.log(from)
+
+  useEffect(() => {
+
+    if (accessToken) {
+      const jwt: JWT = jwtDecode(accessToken)
+      const username = jwt.sub
+
+      if (username === "admin") {
+        
+        setAuthUser({
+          accessToken: accessToken,
+          role: ["ADMIN"]
+        })
+        if (!location.state) {
+          navigate("/ppdb/admin")
+        } else {
+          navigate(from, { replace: true })
+        }
+        
+      } else {
+        
+        setAuthUser({
+          accessToken: accessToken,
+          role: ["SISWA"]
+        })
+
+        if (!location.state) {
+          navigate("/ppdb/siswa")
+        } else {
+          navigate(from, { replace: true })
+        }
+        
+      }
+    }
+  }, [setAuthUser, accessToken, navigate, from, location.state])
+
   return (
-    <main id="login" className="bg-white">
+    <main id="login" style={{ backgroundColor: "white" }}>
       <MantineProvider theme={{ colorScheme: "dark" }}>
 
-
         <PageHeader>
+          <h1
+            style={{
+              color: "#C1C2C5",
+              fontSize: "24px",
+              fontWeight: "bold",
+              display: `${!sm ? "none" : ""}`
 
-          <h1 className="text-[#C1C2C5] text-2xl font-bold max-md:hidden">PPDB SMK TINTA EMAS INDONESIA</h1>
+            }}
+          >
+            PPDB SMK TINTA EMAS INDONESIA
+          </h1>
 
-          <Group>
-
-            <Link to={"/ppdb"}>
-              <FaHome
-                size={30}
-                style={{
-
-                }}
-                className={`cursor-pointer text-gray-300 hover:text-white`}
-              />
-            </Link>
-
-          </Group>
-
+          <Link to={"/ppdb"}>
+            <ActionIcon variant="light" color="dark">
+              <FaHome size={30} />
+            </ActionIcon>
+          </Link>
         </PageHeader>
 
-        <Paper className={` bg-center bg-fixed bg-no-repeat bg-cover 
-      `} >
-
+        <Paper>
           <Particles
             id="name"
             init={particlesInit}
@@ -62,11 +111,20 @@ const LoginPPDB = () => {
             className="flex flex-col min-h-[87vh] p-5 "
           >
             <Box
-              className="w-[100%] max-w-[40rem] p-8 border flex flex-col mx-auto min-h-[20rem] mt-20 mb-20 z-50"
-              sx={{
-                borderImageSource: "linear-gradient(to right bottom, #948BB8, blue, #020731)",
-                borderImageSlice: '1',
-                backdropFilter: "blur(3px)"
+              style={{
+                borderImage: "linear-gradient(to right bottom, #948BB8, blue, #020731) 1",
+                borderWidth: "1px",
+                borderStyle: "solid",
+                backdropFilter: "blur(3px)",
+                width: "100%",
+                maxWidth: "40rem",
+                padding: "32px",
+                display: "flex",
+                flexDirection: "column",
+                margin: "auto",
+                minHeight: "20rem",
+                marginTop: "80px",
+                marginBottom: "80px",
               }}
             >
 
@@ -76,7 +134,10 @@ const LoginPPDB = () => {
                 transitionDuration={400}
                 radius={'xl'}
                 onChange={setValue}
-                className='mx-auto text-white '
+                // className='mx-auto text-white '
+                style={{
+                  marginInline: "auto"
+                }}
                 data={[
                   { label: "Masuk", value: "masuk" },
                   { label: "Daftar", value: "daftar" },
@@ -84,23 +145,6 @@ const LoginPPDB = () => {
                 styles={{
                   indicator: {
                     backgroundImage: "linear-gradient(160deg, #291872, #020731, black) ",
-                    color: "white"
-                  },
-                  root: {
-                    backgroundColor: "#141517",
-                    color: "white"
-                  },
-                  input: {
-                    color: "wheat"
-                  },
-                  control: {
-                    color: "white"
-                  },
-                  label: {
-                    color: "white"
-                  },
-                  controlActive: {
-                    color: "white"
                   },
                 }}
               />
@@ -118,9 +162,15 @@ const LoginPPDB = () => {
                 setValue={setValue}
               />
 
-              <div className="mt-10 text-gray-400 text-center">
+              <footer
+                // className="mt-10 text-gray-400 text-center"
+                style={{
+                  marginTop: "40px",
+                  textAlign: "center"
+                }}
+              >
                 © 2023 D'Coders TKJ Yatindo. All Rights Reserved
-              </div>
+              </footer>
             </Box>
           </Box>
         </Paper>

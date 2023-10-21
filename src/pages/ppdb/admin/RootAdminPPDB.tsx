@@ -2,7 +2,8 @@ import {
     Group,
     Menu,
     Paper,
-    useMantineTheme
+    useMantineTheme,
+    ActionIcon
 } from "@mantine/core"
 import { useDisclosure } from '@mantine/hooks'
 import { useEffect, useMemo, useState } from 'react'
@@ -69,7 +70,7 @@ const RootAdminPPDB = () => {
 
                         </Group>
 
-                        <Group>
+                        <Group >
 
                             <ToggleTheme color="black" />
 
@@ -79,15 +80,21 @@ const RootAdminPPDB = () => {
                                 closeDelay={400}
                             >
                                 <Menu.Target>
-                                    <div>
-                                        <FaBars size={30} />
-                                    </div>
+                                    <ActionIcon >
+                                        <FaBars size={35} />
+                                    </ActionIcon>
                                 </Menu.Target>
                                 <Menu.Dropdown>
                                     <Menu.Label>Muhammad Akhbar Firdaus</Menu.Label>
                                     <Menu.Item >Profile</Menu.Item>
                                     <Menu.Item >Pengaturan</Menu.Item>
-                                    <Menu.Item onClick={() => navigate("/ppdb/login")} >Logout</Menu.Item>
+                                    <Menu.Item onClick={() => {
+                                        localStorage.removeItem("accessToken")
+                                        navigate("/ppdb/login")
+                                    }}
+                                    >
+                                        Logout
+                                    </Menu.Item>
                                 </Menu.Dropdown>
                             </Menu>
 
@@ -104,7 +111,15 @@ const RootAdminPPDB = () => {
                 )}
             </PageHeader>
 
-            <Paper className={`style-box  flex flex-col  min-h-[87vh] ${dark ? "" : "bg-neutral-100"}`} >
+            <Paper
+                // className={`style-box  flex flex-col  min-h-[87vh] ${dark ? "" : "bg-neutral-200"}`}
+                sx={theme => ({
+                    display: "flex",
+                    flexDirection: "column",
+                    minHeight: "87vh",
+                    backgroundColor: `${dark ? theme.colors.dark[9] : theme.colors.gray[0]}`
+                })}
+            >
 
                 <CollapseAdminPPDB
                     menus={menuAdmin}

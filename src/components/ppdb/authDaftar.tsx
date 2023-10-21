@@ -34,7 +34,13 @@ const AuthDaftar = ({
     const dark = theme.colorScheme === 'dark'
 
     if (auth === "daftar") return (
-        <form className='mt-5'>
+        <form
+            // className='mt-5'
+
+            style={{
+                marginTop: "20px"
+            }}
+        >
             <TextInput
                 autoFocus={md}
                 label="Nama Lengkap"
@@ -94,10 +100,13 @@ const AuthDaftar = ({
                     }
                 }}
             />
-            <Group className='mt-5 '>
+            <Group
+                //  className='mt-5 '
+                style={{ marginTop: "20px" }}
+            >
                 <Button
                     loading={load}
-                    className='ml-auto '
+                    style={{ marginLeft: "auto" }}
                     variant='outline'
                     color={`${dark ? "indigo" : "black"}`}
                     onClick={() => {
