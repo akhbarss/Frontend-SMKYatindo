@@ -1,139 +1,19 @@
 import { CacheProvider } from "@emotion/react";
-
 import {
-  Box,
-  Button,
   ColorScheme,
   ColorSchemeProvider,
-  Divider,
-  Group,
   MantineProvider,
-  Stack,
-  Text,
-  useEmotionCache,
+  useEmotionCache
 } from "@mantine/core";
 import { useHotkeys, useLocalStorage } from "@mantine/hooks";
-import { ContextModalProps, ModalsProvider } from "@mantine/modals";
-import { FiInfo } from "react-icons/fi";
-import { IoMdCheckmarkCircleOutline } from "react-icons/io";
-
-const createDataModel = ({
-  context,
-  id,
-  innerProps,
-}: ContextModalProps<{ modalBody: string; ayam: string }>) => {
-  return (
-    <>
-      <Stack>
-        {innerProps.modalBody}
-
-        <Divider />
-        <Group position="right">
-          <Button variant="default" onClick={() => context.closeModal(id)}>
-            Batal
-          </Button>
-          <Button onClick={() => context.closeModal(id)}>Simpan</Button>
-        </Group>
-      </Stack>
-    </>
-  );
-};
-
-const createModalSuccess = ({
-  context,
-  id,
-  innerProps,
-}: ContextModalProps<{
-  modalBody: string;
-  onAccept: () => void;
-  onCancel: () => void;
-}>) => {
-
-  const { onAccept, modalBody } = innerProps
-
-  return (
-    <>
-      <Stack>
-
-        <Box sx={{ color: "#339AF0", marginInline: "auto" }}>
-          <IoMdCheckmarkCircleOutline size={100} color="#33FF00" />
-        </Box>
-
-        <Text align="center" mt={20}>
-          {modalBody}
-        </Text>
-
-        <Divider mt={30} />
-        <Group position="center">
-          <Button
-            variant="success"
-            onClick={() => {
-              onAccept();
-              context.closeModal(id);
-            }}
-          >
-            Lanjutkan
-          </Button>
-        </Group>
-      </Stack>
-    </>
-  )
-
-}
-
-const createInformasi = ({
-  context,
-  id,
-  innerProps,
-}: ContextModalProps<{
-  modalBody: string;
-  onAccept: () => void;
-  onCancel: () => void;
-}>) => {
-  const { modalBody, onAccept, onCancel } = innerProps;
-
-  return (
-    <>
-      <Stack>
-        {/* <ThemeIcon size={130} variant="outline" color="cyan" sx={{ border: "none" }}> */}
-        <Box sx={{ color: "#339AF0", marginInline: "auto" }}>
-          <FiInfo size={100} />
-        </Box>
-        {/* </ThemeIcon> */}
-        <Text align="center" mt={20}>
-          {modalBody}
-        </Text>
-
-        <Divider mt={30} />
-        <Group position="center">
-          <Button
-            variant="danger"
-            onClick={() => {
-              onCancel();
-              context.closeModal(id);
-            }}
-          >
-            Batalkan
-          </Button>
-          <Button
-            variant="success"
-            onClick={() => {
-              onAccept();
-              context.closeModal(id);
-            }}
-          >
-            Lanjutkan
-          </Button>
-        </Group>
-      </Stack>
-    </>
-  );
-};
+import { ModalsProvider } from "@mantine/modals";
+import { createDataModel, createInformasi, createModalSuccess, modalAlurAdmin } from "./modals";
 
 const modals = {
   createData: createDataModel,
   createInformasi,
-  modalSuccess: createModalSuccess
+  modalSuccess: createModalSuccess,
+  modalAlurAdmin
 };
 declare module "@mantine/modals" {
   export interface MantineModalsOverride {

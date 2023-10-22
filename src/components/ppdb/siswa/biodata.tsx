@@ -16,11 +16,22 @@ import {
 import { DateInput } from '@mantine/dates';
 import { Dropzone, FileWithPath, IMAGE_MIME_TYPE } from "@mantine/dropzone";
 
+type TBiodata = {
+    setActiveTabIndex: React.Dispatch<React.SetStateAction<number>>
+}
 
-const Biodata = () => {
+const Biodata: React.FC<TBiodata> = ({ setActiveTabIndex }) => {
 
     const [files, setFiles] = useState<FileWithPath[]>([]);
     const openRef = useRef<() => void>(null);
+
+    const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
+
+        e.preventDefault()
+
+        setActiveTabIndex(index => index + 1)
+
+    }
 
     const previews = files.map((file, index) => {
         const imageUrl = URL.createObjectURL(file);
@@ -69,7 +80,6 @@ const Biodata = () => {
 
 
             <Dropzone
-                // sx={{ display: "none" }}
                 onReject={(files) => {
                     const fileToLarge = files[0].errors[0].code == "file-too-large"
                     if (fileToLarge) {
@@ -91,135 +101,132 @@ const Biodata = () => {
                 {/* children */}
             </Dropzone>
 
-            <Stack className="">
+            <form onSubmit={submitHandler}>
 
-                <Title>Identitas Diri</Title>
+                <Stack className="">
 
-                <Box >
-                    <Text align="center" size={20}>Foto Profil</Text>
+                    <Title>Identitas Diri</Title>
+
+                    <Box >
+                        <Text align="center" size={20}>Foto Profil</Text>
 
 
-                    <Avatar size={150} className="mx-auto" radius={500} mt={20} 
-                    />
+                        <Avatar size={150} className="mx-auto" radius={500} mt={20}
+                        />
 
-                    {/* <ActionIcon sx={{ position: "absolute", }} onClick={() => openRef.current()}>
+                        {/* <ActionIcon sx={{ position: "absolute", }} onClick={() => openRef.current()}>
                         <FaEdit size={30} />
                     </ActionIcon> */}
-                </Box>
+                    </Box>
 
-                <Grid gutter={30} mt={40}>
-                    <Grid.Col sm={6}>
-                        <TextInput
-                            label="NISN"
-                            required
-                        />
-                    </Grid.Col>
-                    <Grid.Col sm={6}>
-                        <TextInput
-                            label="Nomor Whatsapp"
-                            required
-                        />
-                    </Grid.Col>
-                    <Grid.Col sm={6}>
-                        <TextInput
-                            label="Nama Lengkap"
-                            required
-                        />
-                    </Grid.Col>
-                    <Grid.Col sm={6}>
-                        <TextInput
-                            label="Nama Panggilan"
-                            required
-                        />
-                    </Grid.Col>
-                    <Grid.Col sm={6}>
-                        <Select
-                            data={["Laki-laki", "Perempuan"]}
-                            label="Gender"
-                            required
-                        />
-                    </Grid.Col>
-                    <Grid.Col sm={6}>
-                        <Select
-                            data={[
-                                "Islam",
-                                "Kristen Protestan",
-                                "Kristen Katolik",
-                                "Kristen Katolik",
-                                "Hindu",
-                                "Budha",
-                                "Konghucu",
-                                "Lainnya",
-                            ]}
-                            label="Agama"
-                            required
-                        />
-                    </Grid.Col>
-                    <Grid.Col sm={6}>
-                        <TextInput
-                            label="Tempat Lahir"
-                            required
-                        />
-                    </Grid.Col>
-                    <Grid.Col sm={6}>
-                        <DateInput
-                            label="Tanggal Lahir"
-                            valueFormat="DD MMMM YYYY"
-                            required
-                        />
-                    </Grid.Col>
-                    <Grid.Col sm={6}>
-                        <TextInput
-                            label="Alamat"
-                            required
-                        />
-                    </Grid.Col>
-                    <Grid.Col sm={6}>
-                        <TextInput
-                            label="Provinsi"
-                            required
-                        />
-                    </Grid.Col>
-                    <Grid.Col sm={6}>
-                        <TextInput
-                            label="Kabupaten/Kota"
-                            required
-                        />
-                    </Grid.Col>
-                    <Grid.Col sm={6}>
-                        <TextInput
-                            label="Kecamatan"
-                            required
-                        />
-                    </Grid.Col>
-                    <Grid.Col sm={6}>
-                        <TextInput
-                            label="Kelurahan"
-                            required
-                        />
-                    </Grid.Col>
-                    <Grid.Col sm={6}>
-                        <TextInput
-                            label="Kodepos"
-                            required
-                        />
-                    </Grid.Col>
-                    <Grid.Col sm={6}>
-                        <TextInput
-                            label="Asal Sekolah"
-                            required
-                        />
-                    </Grid.Col>
-                </Grid>
+                    <Grid gutter={30} mt={40}>
+                        <Grid.Col sm={6}>
+                            <TextInput
+                                label="NISN"
+                                type="number"
+                            />
+                        </Grid.Col>
+                        <Grid.Col sm={6}>
+                            <TextInput
+                                label="Nomor Whatsapp"
+                                required
+                                type="number"
+                            />
+                        </Grid.Col>
+                        <Grid.Col sm={6}>
+                            <TextInput
+                                label="Nama Lengkap"
+                                required
+                            />
+                        </Grid.Col>
+                        <Grid.Col sm={6}>
+                            <TextInput
+                                label="Nama Panggilan"
+                            />
+                        </Grid.Col>
+                        <Grid.Col sm={6}>
+                            <Select
+                                data={["Laki-laki", "Perempuan"]}
+                                label="Gender"
+                                required
+                            />
+                        </Grid.Col>
+                        <Grid.Col sm={6}>
+                            <Select
+                                data={[
+                                    "Islam",
+                                    "Kristen Protestan",
+                                    "Kristen Katolik",
+                                    "Kristen Katolik",
+                                    "Hindu",
+                                    "Budha",
+                                    "Konghucu",
+                                    "Lainnya",
+                                ]}
+                                label="Agama"
+                                required
+                            />
+                        </Grid.Col>
+                        <Grid.Col sm={6}>
+                            <TextInput
+                                label="Tempat Lahir"
+                                required
+                            />
+                        </Grid.Col>
+                        <Grid.Col sm={6}>
+                            <DateInput
+                                label="Tanggal Lahir"
+                                valueFormat="DD MMMM YYYY"
+                                required
+                            />
+                        </Grid.Col>
+                        <Grid.Col sm={6}>
+                            <TextInput
+                                label="Alamat"
+                                required
+                            />
+                        </Grid.Col>
+                        <Grid.Col sm={6}>
+                            <TextInput
+                                label="Provinsi"
+                            />
+                        </Grid.Col>
+                        <Grid.Col sm={6}>
+                            <TextInput
+                                label="Kabupaten/Kota"
+                            />
+                        </Grid.Col>
+                        <Grid.Col sm={6}>
+                            <TextInput
+                                label="Kecamatan"
+                            />
+                        </Grid.Col>
+                        <Grid.Col sm={6}>
+                            <TextInput
+                                label="Kelurahan"
+                            />
+                        </Grid.Col>
+                        <Grid.Col sm={6}>
+                            <TextInput
+                                label="Kodepos"
+                                type="number"
+                            />
+                        </Grid.Col>
+                        <Grid.Col sm={6}>
+                            <TextInput
+                                label="Asal Sekolah"
+                            />
+                        </Grid.Col>
+                    </Grid>
 
-                <Group position='right' mt={20}>
-                    <Button>
-                        SIMPAN
-                    </Button>
-                </Group>
+                    <Group position='right' mt={20}>
+                        <Button type="submit">
+                            Simpan
+                        </Button>
+                    </Group>
 
-            </Stack>
-
+                </Stack>
+            </form>
         </Box>
     )
 }

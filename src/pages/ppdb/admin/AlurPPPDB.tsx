@@ -1,31 +1,34 @@
-import Highlight from "@tiptap/extension-highlight";
-import StarterKit from "@tiptap/starter-kit";
-import Underline from "@tiptap/extension-underline";
-import TextAlign from "@tiptap/extension-text-align";
-import Superscript from "@tiptap/extension-superscript";
-import SubScript from "@tiptap/extension-subscript";
-import { Link } from "@mantine/tiptap";
-import { useEditor } from "@tiptap/react";
 import {
   Accordion,
   AccordionControlProps,
   ActionIcon,
   Box,
   Center,
+  Text,
   TextInput,
 } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
+import { Link } from "@mantine/tiptap";
+import Highlight from "@tiptap/extension-highlight";
+import SubScript from "@tiptap/extension-subscript";
+import Superscript from "@tiptap/extension-superscript";
+import TextAlign from "@tiptap/extension-text-align";
+import Underline from "@tiptap/extension-underline";
+import { useEditor } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import { useState } from "react";
 import { AiFillEdit } from "react-icons/ai";
 import { BsFillTrashFill } from "react-icons/bs";
-import { useBreakPoints } from "../../../utils/UseBreakpoints";
-import CustomModal from "../../../components/ppdb/modalCreate";
-import { useDisclosure } from "@mantine/hooks";
-import TiptapEditor from "../../../components/ppdb/tiptapInput";
-import { useState } from "react";
-import { DarkTheme } from "../../../utils/darkTheme";
-import { dataAlurPPDB } from "../../../components/ppdb/dataAlurPPDB";
-import TiptapOutput from "../../../components/ppdb/tiptapOutput";
 import Page from "../../../components/Page";
 import PageLabel from "../../../components/PageLabel";
+import { dataAlurPPDB } from "../../../components/ppdb/dataAlurPPDB";
+import CustomModal from "../../../components/ppdb/modalCreate";
+import TiptapEditor from "../../../components/ppdb/tiptapInput";
+import TiptapOutput from "../../../components/ppdb/tiptapOutput";
+import { DarkTheme } from "../../../utils/darkTheme";
+import { modals } from "@mantine/modals";
+
+type ModalAlurAdmin = "modal"
 
 const AlurPPPDB = () => {
   const [opened, { open, close }] = useDisclosure(false);
@@ -50,14 +53,17 @@ const AlurPPPDB = () => {
     editable: false,
   });
 
-  // const map = [1, 2, 3, 4]
+  function AccordionControl({ propss, data }: { propss: AccordionControlProps, data: any }): JSX.Element {
 
-  function AccordionControl(props: AccordionControlProps) {
+    const onAccept = () => {
+      console.log(data)
+      console.log("simpan")
+    }
+
     return (
       <Center>
-        <Accordion.Control {...props} className="font-bold" />
+        <Accordion.Control {...propss} className="font-bold" />
         <div
-          // className="px-4 flex gap-2"
           style={{
             paddingInline: "16px",
             display: "flex",
@@ -69,8 +75,58 @@ const AlurPPPDB = () => {
             color="blue"
             size={40}
             radius={100}
-            onClick={open}
-            // className="bg-blue-500"
+            // onClick={open}
+            onClick={() => {
+
+
+
+              modals.openContextModal({
+                modal: "modalAlurAdmin",
+                title: "Ubah Alur Pendaftaran",
+                innerProps: {
+                  onAccept,
+                  onCancel: () => console.log("cancel"),
+                  modalBody: (
+                    <>
+                      <Text align="left" weight={"bold"} >Nama</Text>
+                      <TextInput
+                        value={data?.nama}
+                        onChange={(val) => console.log(val)}
+                      />
+                      <Text align="left" mt={30} weight={"bold"}>Deskripsi Keterangan</Text>
+                      <TiptapEditor
+
+                        desc={descAlurPPDB}
+                        setDesc={setDescAlurPPDB}
+                      />
+                    </>
+                  ),
+                },
+                styles: {
+                  header: {
+                    backgroundColor: "#2A166F",
+                    // height: "80px"
+
+                  },
+                  title: {
+                    color: "white"
+                  },
+                  root: {
+                    borderRadius: "100px"
+                  },
+                  body: {
+                    overflow: "hidden",
+                    height: "80vh",
+                    position: "relative",
+                    display: "flex",
+                    flexDirection: "column",
+                    padding: 0
+                  }
+
+                },
+                size: "80rem"
+              });
+            }}
           >
             <AiFillEdit size={20} />
           </ActionIcon>
@@ -79,7 +135,6 @@ const AlurPPPDB = () => {
             color="blue"
             size={40}
             radius={100}
-            // className="bg-blue-500"
           >
             <BsFillTrashFill size={20} />
           </ActionIcon>
@@ -94,7 +149,6 @@ const AlurPPPDB = () => {
 
       <Box
         mt={50}
-        // className="flex flex-col gap-4 px-4 pb-10 lg:w-[50rem] mx-auto"
         sx={{
           display: "flex",
           flexDirection: "column",
@@ -105,24 +159,13 @@ const AlurPPPDB = () => {
         <Accordion
           multiple
           variant="separated"
-          styles={{
-            panel: {
-              // backgroundColor: ""
-            },
-            content: {
-              // backgroundColor: "black"
-            },
-            item: {
-              // backgroundColor: "black"
-            },
-          }}
           chevronPosition="left"
         >
+
           {data.map((item, i) => (
             <Accordion.Item
               key={i}
               value={i.toString()}
-              // className="shadow-lg "
               sx={{
                 boxShadow: "0 4px 10px -6px black",
                 backgroundColor: `${dark ? "#25262B" : "white"}`,
@@ -134,45 +177,29 @@ const AlurPPPDB = () => {
                 },
               }}
             >
-              <AccordionControl id={item.id.toString()}>
-                <h2>{item.nama}</h2>
-              </AccordionControl>
+              <AccordionControl
+                propss={{
+                  id: item.id.toString(),
+                  children: (
+                    <h2>{item.nama}</h2>
+
+                  )
+                }}
+                data={item}
+              />
               <Accordion.Panel
                 sx={{
                   borderTop: `1px solid ${dark ? "gray" : "#d9d9d9"}`,
-                  // backgroundColor: "gray"
                 }}
               >
                 <TiptapOutput desc={item.deskripsi} />
               </Accordion.Panel>
             </Accordion.Item>
           ))}
-        </Accordion>
-      </Box>
 
-      <CustomModal
-        body={
-          <>
-            <p style={{ fontWeight: "bold" }}>Nama</p>
-            <TextInput />
-            <p style={{ fontWeight: "bold", marginTop: "15px" }}>
-              Deskripsi Keterangan
-            </p>
-            <TiptapEditor
-              desc={descAlurPPDB}
-              setDesc={setDescAlurPPDB}
-              style={
-                {
-                  // marginTop: "10px"
-                }
-              }
-            />
-          </>
-        }
-        close={close}
-        opened={opened}
-        title="Ubah Alur PPDB"
-      />
+        </Accordion>
+
+      </Box>
     </Page>
   );
 };

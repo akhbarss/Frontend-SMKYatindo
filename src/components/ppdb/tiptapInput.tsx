@@ -87,6 +87,7 @@ const TiptapInput = ({
     return (
         <RichTextEditor
             editor={editorInput}
+            
             // style={style}
             // styles={{
             //     content: {

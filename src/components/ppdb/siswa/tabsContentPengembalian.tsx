@@ -92,7 +92,7 @@ const TabsContentPengembalian = ({
             </Tabs.Panel>
 
             <Tabs.Panel value="Isi Biodata" mt={20}>
-                <Biodata />
+                <Biodata setActiveTabIndex={setActiveTabIndex} />
             </Tabs.Panel>
 
             <Tabs.Panel value="Pilih Jurusan" mt={20}>

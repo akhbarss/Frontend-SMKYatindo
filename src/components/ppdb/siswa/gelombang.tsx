@@ -131,7 +131,6 @@ const GelombangPPDB = ({
                     outline: "none",
                   },
                   "&:disabled": {
-                    // opacity: 0.8,
                     cursor: "not-allowed",
                     backgroundColor: `${dark ? theme.colors.dark[4] : "rgba(233, 233, 233, 1)"
                       }`,
@@ -170,10 +169,6 @@ const GelombangPPDB = ({
               </Group>
 
               <Badge variant="light" color={`${isJalurDibuka ? "green" : "red"}`} size="lg">
-                {/* jika tidak sesuai dengan jangka waktu = ditutup */}
-                {/* jika  sesuai dengan jangka waktu = dibuka */}
-
-                {/* Dibuka */}
                 {isJalurDibuka ? "Dibuka" : "Ditutup"}
               </Badge>
             </Button>
@@ -199,7 +194,6 @@ const GelombangPPDB = ({
           justifyContent: "space-between",
           border: "1px solid blue",
           borderRadius: "5px"
-          // boxShadow: "0 10px 20px -10px rgba(0,0,0,0.2)",
         })}
         
       >

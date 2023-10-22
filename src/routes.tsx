@@ -9,11 +9,10 @@ import {
   AlurPPPDB,
   GuestPPDB,
   JalurPendaftaran,
-  PembelianSiswaPPDB,
-  PendaftarPPDB,
-  PengembalianSiswaPPDB
+  PendaftarPPDB
 } from "./pages";
 import InformasiUmum from "./pages/ppdb/admin/jalurPendaftaranPPDB/InformasiUmum";
+import GuestLayout from "./layouts/GuestLayout";
 
 export const routeConfigs = createBrowserRouter(
   [
@@ -21,8 +20,17 @@ export const routeConfigs = createBrowserRouter(
       path: "/ppdb",
       children: [
         {
-          index: true,
-          Component: GuestPPDB,
+          Component: () => (
+            <GuestLayout >
+              <Outlet />
+            </GuestLayout>
+          ),
+          children: [
+            {
+              index: true,
+              Component: lazy(() => import("./pages/ppdb/guest/GuestPPDB")),
+            }
+          ]
         },
         {
           path: "auth",
@@ -59,11 +67,11 @@ export const routeConfigs = createBrowserRouter(
             },
             {
               path: "pembelian",
-              Component: () => <PembelianSiswaPPDB />,
+              Component: lazy(() => import("./pages/ppdb/siswa/pembelian/PembelianSiswaPPDB")),
             },
             {
               path: "pengembalian",
-              Component: () => <PengembalianSiswaPPDB />,
+              Component: lazy(() => import("./pages/ppdb/siswa/pengembalian/PengembalianSiswaPPDB")),
             },
 
             {
