@@ -71,7 +71,7 @@ export const routeConfigs = createBrowserRouter(
               Component: lazy(() => import("./pages/ppdb/admin/Dashboard")),
             },
             {
-              path: "alur-ppdb",
+              path: "alur",
               Component: () => <AlurPPPDB />,
             },
             {

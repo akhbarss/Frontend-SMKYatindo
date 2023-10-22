@@ -5,6 +5,9 @@ import { RiFileList3Line } from "react-icons/ri";
 import { useLocation, useNavigate } from "react-router-dom";
 import { MdAppRegistration, MdDashboard } from "react-icons/md";
 import { FaLine } from "react-icons/fa";
+import { LineWave } from "react-loader-spinner";
+import { BsFiletypeWav } from "react-icons/bs";
+import { GiWaves } from "react-icons/gi";
 
 const Navigation = ({ opened }: { opened: boolean }) => {
   const menusSiswa = useMemo(
@@ -42,6 +45,15 @@ const Navigation = ({ opened }: { opened: boolean }) => {
         icon: (
           <ThemeIcon variant="light" color="cyan">
             <MdDashboard />
+          </ThemeIcon>
+        ),
+      },
+      {
+        label: "Alur Pendaftaran",
+        path: "/ppdb/main/alur",
+        icon: (
+          <ThemeIcon variant="light" color="indigo">
+            <GiWaves />
           </ThemeIcon>
         ),
       },
