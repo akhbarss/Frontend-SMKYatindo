@@ -1,15 +1,16 @@
 import {
+    Paper,
     Stack,
     Tabs,
     Text
 } from "@mantine/core"
 import { JalurPendaftaranPPDB } from "../../../types/global"
 import GelombangPPDB from "./gelombang"
-import PembelianFormulir from "./pembelianFormulir"
+import Transaksi from "./Transaksi"
 import PilihJurusan from "./pilihJurusan"
 import CetakKartu from "./cetakKartu"
 
-const TabsContent = ({
+const TabsContentPembelian = ({
     pilihanGelombang,
     focus,
     setFocus,
@@ -48,23 +49,33 @@ const TabsContent = ({
     return (
         <>
             <Tabs.Panel value="Pilih Gelombang PPDB" mt={20}  >
-                <Stack>
-                    <Text>{pilihanGelombang ? "Pilihan Anda" : "Pilih Salah Satu Gelombang PPDB"}</Text>
+                <Paper
+                    withBorder
+                    radius="md"
+                    sx={theme => ({
+                        backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[9] : theme.white,
+                        padding: "2rem",
 
-                    <GelombangPPDB
-                        setActiveTabIndex={setActiveTabIndex}
-                        focus={focus}
-                        pilihanGelombang={pilihanGelombang}
-                        setFocus={setFocus}
-                        setPilihanGelombang={setPilihanGelombang}
-                        setKonfirmasiPembelian={setKonfirmasiPembelian}
-                        setKonfirmasiPembayaran={setKonfirmasiPembayaran}
-                    />
-                </Stack>
+                    })}
+                >
+                    <Stack>
+                        <Text>{pilihanGelombang ? "Pilihan Anda" : "Pilih Salah Satu Gelombang PPDB"}</Text>
+
+                        <GelombangPPDB
+                            setActiveTabIndex={setActiveTabIndex}
+                            focus={focus}
+                            pilihanGelombang={pilihanGelombang}
+                            setFocus={setFocus}
+                            setPilihanGelombang={setPilihanGelombang}
+                            setKonfirmasiPembelian={setKonfirmasiPembelian}
+                            setKonfirmasiPembayaran={setKonfirmasiPembayaran}
+                        />
+                    </Stack>
+                </Paper>
             </Tabs.Panel>
 
-            <Tabs.Panel value="Pembelian Formulir" mt={20}>
-                <PembelianFormulir
+            <Tabs.Panel value="Transaksi Pembelian" mt={20}>
+                <Transaksi
                     activeTabIndex={activeTabIndex}
                     setActiveTabIndex={setActiveTabIndex}
                     konfirmasiPembelian={konfirmasiPembelian}
@@ -87,4 +98,4 @@ const TabsContent = ({
     )
 }
 
-export default TabsContent
+export default TabsContentPembelian

@@ -18,7 +18,7 @@ const PageHeader = ({
 
     return (
         <MantineHeader
-            height={'13vh'}
+            height={'70px'}
             sx={{
                 boxShadow: `${dark ? "" : "0px -40px 50px 10px black"}`,
                 display: "flex",

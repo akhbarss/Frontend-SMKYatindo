@@ -1,11 +1,11 @@
 import { AppShell, Paper } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import AppBar from "./Dashboard/AppBar.tsx";
-import Navigation from "./Dashboard/Navigation.tsx";
-import { useBreakPoints } from "../utils/UseBreakpoints.tsx";
-import { Footer } from "./index.tsx";
+import AppBar from "./Dashboard/AppBar";
+import Navigation from "./Dashboard/Navigation";
+import { useBreakPoints } from "../utils/UseBreakpoints";
+import { Footer } from "./index";
 import { Suspense } from "react";
-import PageLoading from "../components/PageLoading.tsx";
+import PageLoading from "../components/PageLoading";
 
 type TDashboard = {
   children: any;

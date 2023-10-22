@@ -35,7 +35,7 @@ const GuestPPDB = () => {
   return (
     <main id="dashboard-ppdb">
       <MantineHeader
-        height={"13vh"}
+        height={"70px"}
         sx={{
           boxShadow: `${dark ? "" : "0px -40px 50px 10px black"}`,
           display: "flex",
@@ -126,7 +126,7 @@ const GuestPPDB = () => {
         </>
       </MantineHeader>
 
-      <Paper pt={"13vh"} className="style-box ">
+      <Paper pt={"70px"} className="style-box ">
         <CollapseCustomPPDB menus={menuGuest} opened={opened} toggle={toggle} />
 
         <div className="parralax ">

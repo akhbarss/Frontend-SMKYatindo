@@ -1,47 +1,36 @@
+import { useRef, useState } from "react";
 import toast, { Toaster } from 'react-hot-toast';
-import { useState, useRef } from "react"
 // import axios from "axios";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
     Box,
-    Title,
     Button,
     Group,
+    Image,
     Radio,
     Stack,
     Text,
     TextInput,
+    Title,
     rem,
-    useMantineTheme,
-    Image,
-    Card
+    useMantineTheme
 } from "@mantine/core";
-import { Dropzone, IMAGE_MIME_TYPE, FileWithPath } from '@mantine/dropzone';
+import { Dropzone, FileWithPath, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 import { useForm } from "react-hook-form";
 import { FaUpload } from "react-icons/fa";
 import { HiPhoto } from "react-icons/hi2";
 import { ImCross } from "react-icons/im";
 import { NumericFormat } from "react-number-format";
 import * as yup from "yup";
-import { FiInfo } from "react-icons/fi";
-import Loading from "../../loading";
 
 type TMetodePembayaran = "transfer" | "tunai"
 
 type FormValues = {
-    metodePembayaran: string
-    nominal: string
     buktiPembayaran: yup.AnyObject | string
 }
 
 const schema = yup.object({
-    metodePembayaran: yup.
-        string().required("Tolong pilih metode pembayaran"),
-    nominal: yup.string().required("Tolong masukkan nominal pembayaran"),
     buktiPembayaran: yup.mixed().required("Tolong masukkan bukti pembayaran"),
-    namaBank: yup.string().required("Tolong masukkan nama bank"),
-    nomorRekening: yup.number().required("Tolong masukkan nama bank"),
-    namaPemilikRekening: yup.string().required("Tolong masukkan nama pemilik rekening")
 })
 
 const PembelianFormulir = ({
@@ -88,8 +77,6 @@ const PembelianFormulir = ({
     const [files, setFiles] = useState<FileWithPath[]>([]);
     const openRef = useRef<() => void>(null);
 
-    console.log(metodePembayaran)
-
     const theme = useMantineTheme()
 
     const form = useForm<FormValues>({
@@ -106,6 +93,7 @@ const PembelianFormulir = ({
     const submitHandler = async (data: FormValues) => {
         console.log("submited")
         console.log(data)
+        setKonfirmasiPembelian(true)
         // setActiveTabIndex(index => index + 1)
 
         const formData = new FormData()
@@ -157,7 +145,7 @@ const PembelianFormulir = ({
             console.error('Kesalahan:', error);
         }
 
-        // setKonfirmasiPembayaran(true)
+        setKonfirmasiPembayaran(true)
     }
 
     const previews = files.map((file, index) => {
@@ -224,7 +212,7 @@ const PembelianFormulir = ({
                 Harap menunggu konfirmasi admin, untuk mengetahui nilai pembelian dan upload bukti transfer
             </Text>
 
-            <Button variant="filled" onClick={() => setKonfirmasiPembelian(true)} mt={40}>
+            <Button variant="filled" onClick={() => setActiveTabIndex(index => index + 1)} mt={40}>
                 Click Me
             </Button>
         </Box>
@@ -234,7 +222,51 @@ const PembelianFormulir = ({
 
     const contentPembelianFormulir = (
         <>
-            <form onSubmit={handleSubmit(submitHandler)}>
+
+            <Stack>
+
+                <Title>Bayar Pendaftaran</Title>
+
+                <Text className="font-semibold">Silahkan melakukan transfer ke rekening dibawah ini :</Text>
+
+                <table className="w-[35rem]">
+                    <tr>
+                        <td>
+                            Bank
+                        </td>
+                        <td>
+                            <Text>: <Text component="span" weight={"bold"}>Bank Danamon</Text></Text>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Nomor Rekening
+                        </td>
+                        <td>
+                            <Text>: <Text component="span" weight={"bold"}>320940492</Text></Text>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Atas Nama
+                        </td>
+                        <td>
+                            <Text>: <Text component="span" weight={"bold"}>SMK Tinta Emas Indonesia</Text></Text>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Status Pembayaran
+                        </td>
+                        <td>
+                            <Text>: <Text component="span" weight={"bold"}>Menunggu Biaya Pendaftaran</Text></Text>
+                        </td>
+                    </tr>
+                </table>
+
+            </Stack>
+
+            <form onSubmit={handleSubmit(submitHandler)} className="mt-20">
                 <Stack>
 
                     <Title order={1}>Bukti Transfer</Title>
@@ -260,25 +292,25 @@ const PembelianFormulir = ({
                             }}
                             maxSize={3 * 1024 ** 2}
                             accept={IMAGE_MIME_TYPE}
-                        // {...register("buktiPembayaran")}
+                            {...register("buktiPembayaran")}
                         >
                             <Group position="center" spacing="xl" style={{ minHeight: rem(220), pointerEvents: 'none' }}>
                                 <Dropzone.Accept>
                                     <FaUpload
                                         size="3.2rem"
-                                        stroke={1.5}
                                         color={theme.colors[theme.primaryColor][theme.colorScheme === 'dark' ? 4 : 6]}
                                     />
                                 </Dropzone.Accept>
                                 <Dropzone.Reject>
                                     <ImCross
                                         size="3.2rem"
-                                        stroke={1.5}
                                         color={theme.colors.red[theme.colorScheme === 'dark' ? 4 : 6]}
                                     />
                                 </Dropzone.Reject>
                                 <Dropzone.Idle>
-                                    <HiPhoto size="3.2rem" stroke={1.5} />
+                                    <HiPhoto
+                                        size="3.2rem"
+                                    />
                                 </Dropzone.Idle>
 
                                 {/* <div> */}
@@ -303,33 +335,26 @@ const PembelianFormulir = ({
                         prefix="Rp. "
                         customInput={TextInput}
                         placeholder='Rp. 0'
-                        // disabled={activeTabIndex > 2}
                         label="Nominal"
                         description="Input Nominal"
                         value={activeTabIndex > 2 ? "150000" : ""}
-                        error={errors.nominal?.message}
+                        required
                         withAsterisk
-                        onValueChange={(values) => {
-                            setValue("nominal", values.value)
-                        }}
-                    // {...register("nominal")}
+
                     />
 
                     <Radio.Group
                         label="Metode Pembayaran"
                         description="Pilih salah satu"
-                        error={errors.metodePembayaran?.message}
                         styles={{
                             error: {
                                 marginTop: "10px",
                             },
                         }}
-                        defaultValue={activeTabIndex > 2 ? "transfer" : ""}
                         onChange={(value: TMetodePembayaran) => {
-                            setValue("metodePembayaran", value)
                             setMetodePembayaran(value)
-                            // console.log(value)
                         }}
+                        required
                     >
                         <Group
                             mt={"xs"}
@@ -343,16 +368,13 @@ const PembelianFormulir = ({
                             <Radio
                                 label="Tunai"
                                 value={"tunai"}
-                                {...register("metodePembayaran")}
-
-                            // disabled={activeTabIndex > 2}
+                                required
                             />
 
                             <Radio
                                 label="Transfer"
                                 value={"transfer"}
-                                {...register("metodePembayaran")}
-                            // disabled={activeTabIndex > 2}
+                                required
                             />
                         </Group>
                     </Radio.Group>
@@ -364,19 +386,22 @@ const PembelianFormulir = ({
                                 label="Nama Bank"
                                 placeholder='Bank BCA'
                                 withAsterisk
-                                />
+                                required
+                            />
 
                             <TextInput
                                 label="Nomor Rekening"
                                 description="Masukkan nomor rekening"
                                 withAsterisk
                                 type='number'
-                                />
+                                required
+                            />
 
                             <TextInput
                                 label="Nama Pemilik Rekening"
                                 description="Masukkan nama pemilik rekening"
                                 withAsterisk
+                                required
                             />
 
 
@@ -387,7 +412,6 @@ const PembelianFormulir = ({
                     <Box mt={20} >
                         <Button
                             type="submit"
-                        //   disabled={activeTabIndex > 2}
                         >
                             Simpan
                         </Button>
@@ -397,28 +421,7 @@ const PembelianFormulir = ({
         </>
     )
 
-    const contentMenungguKonfirmasiPembayaran = (
-        <Card
-            // shadow="lg"
-            sx={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center"
-            }}
-        >
-            <FiInfo size={100} color="#339AF0" />
-            <Text mt={40}>Harap Menunggu Konfirmasi Pembayaran</Text>
-            <Button
-                mt={40}
-                onClick={() => { setActiveTabIndex(index => index + 1) }}
-            >
-                Next
-            </Button>
-        </Card>
-    )
-
-    const content = konfirmasiPembelian === true ? contentPembelianFormulir : contentMenungguKonfirmasiPembelian
+    const content = konfirmasiPembelian && activeTabIndex <= 2 ? contentMenungguKonfirmasiPembelian : contentPembelianFormulir
 
     return (
         <>
@@ -430,7 +433,7 @@ const PembelianFormulir = ({
                     borderRadius: "7px"
                 })}
             >
-                {konfirmasiPembayaran && activeTabIndex <= 2 ? contentMenungguKonfirmasiPembayaran : content}
+                {content}
             </Box>
 
             <Toaster />

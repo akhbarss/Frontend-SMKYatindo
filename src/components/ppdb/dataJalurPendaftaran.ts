@@ -180,7 +180,7 @@ export const dataJalurPendaftaran: JalurPendaftaranPPDB[] = [
     tipe: "pembelian",
     nama_jalur_pendaftaran: "PEMBELIAN FORMULIR",
     waktu_dibuka: "2023-10-11T10:00:00",
-    waktu_ditutup: "2023-10-12T10:00:00",
+    waktu_ditutup: "2023-10-28T10:00:00",
     biaya_pendaftaran: 1,
     informasi_umum: {
       keterangan: [

@@ -15,7 +15,7 @@ import { Link, useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import { user } from "../../utils/user";
 import { useBreakPoints } from "../../utils/UseBreakpoints";
-import useAuth from "../../hooks/useAuth.tsx";
+import useAuth from "../../hooks/useAuth";
 
 const schema = yup.object({
   noWhatsapp: yup.string().when({

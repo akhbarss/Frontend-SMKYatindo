@@ -1,7 +1,6 @@
 import {
     Box,
     Paper,
-    ScrollArea,
     Stack,
     Stepper,
     Title,
@@ -9,11 +8,11 @@ import {
 } from "@mantine/core";
 import { useState } from "react";
 import { BsCheck } from "react-icons/bs";
-import Page from "../../components/Page.tsx";
-import RegisterIdentitasDiri from "../../components/auth/RegisterIdentitasDiri.tsx";
-import RegisterInformasiKredensial from "../../components/auth/RegisterInformasiKredensial.tsx";
-import SideAuthLayout from "../../layouts/SideAuthLayout.tsx";
-import { useBreakPoints } from "../../utils/UseBreakpoints.tsx";
+import Page from "../../components/Page";
+import RegisterIdentitasDiri from "../../components/auth/RegisterIdentitasDiri";
+import RegisterInformasiKredensial from "../../components/auth/RegisterInformasiKredensial";
+import SideAuthLayout from "../../layouts/SideAuthLayout";
+import { useBreakPoints } from "../../utils/UseBreakpoints";
 
 const Register = () => {
 
@@ -38,7 +37,7 @@ const Register = () => {
     return (
         <Page title={"Daftar"}>
             <Paper
-                pt={`${!md ? "13vh" : 0}`}
+                pt={`${!md ? "70px" : 0}`}
                 className={`flex  min-h-[100vh]`}
             >
                 <Box
@@ -66,8 +65,6 @@ const Register = () => {
                                 label="Identitas Diri"
                                 allowStepSelect={shouldAllowSelectStep(0)}
                                 icon={<BsCheck size={30} />}
-                                // ml={40}
-                                className=""
                             >
                                 <RegisterIdentitasDiri
                                     active={active}

@@ -31,13 +31,13 @@ const TabList = ({
                     // width: "60rem",
                     display: "flex",
                     gap: "1rem",
-                    minWidth: "60rem",
-                    justifyContent: "space-between",
-                    padding: "2rem 0 1rem"
-                    // zIndex: 10000
-
-                    // minWidth:"70rem"
-                    // overflowX: "auto"
+                    // minWidth: "60rem",
+                    // justifyContent: "space-around",
+                    padding: "2rem 0 1rem",
+                    flexWrap: "wrap",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    rowGap: "2rem"
                 }}
             >
 
@@ -62,7 +62,7 @@ const TabList = ({
                                             top: -15,
                                             right: 10,
                                             cursor: "not-allowed",
-                                            backgroundColor: `${theme.colorScheme === "dark" ? theme.colors.dark[6] : "white"}`,
+                                            backgroundColor: `${theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[4]}`,
                                             borderRadius: "100px",
                                             padding: "5px"
                                         }}

@@ -24,7 +24,10 @@ const GelombangPPDB = ({
   setKonfirmasiPembelian: React.Dispatch<React.SetStateAction<boolean>>;
   setKonfirmasiPembayaran: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  const data = dataJalurPendaftaran;
+
+  // const dataJalur = dataJalurPendaftaran;
+  const dataPembelian = dataJalurPendaftaran.filter(jalur => jalur.tipe === "pembelian")
+
   const dark = DarkTheme();
 
   const tanggalMulai =
@@ -85,101 +88,102 @@ const GelombangPPDB = ({
 
   const contentGelombang = (
     <>
-      {data.map((jalur) => {
-        const tanggalMulai = new Date(jalur.waktu_dibuka);
-        const tanggalSelesai = new Date(jalur.waktu_ditutup);
-        const waktuSekarang = new Date();
+      {
+        dataPembelian.map((jalur) => {
+          const tanggalMulai = new Date(jalur.waktu_dibuka);
+          const tanggalSelesai = new Date(jalur.waktu_ditutup);
+          const waktuSekarang = new Date();
 
-        const isJalurDibuka =
-          waktuSekarang >= tanggalMulai && waktuSekarang <= tanggalSelesai;
+          const isJalurDibuka =
+            waktuSekarang >= tanggalMulai && waktuSekarang <= tanggalSelesai;
 
-        return (
-          <Button
-            unstyled
-            disabled={!isJalurDibuka}
-            key={jalur.id}
-            onClick={() => {
-              clickHandler(jalur);
-            }}
-            style={{
-              border: `${
-                `${jalur.id}` === focus ? "2px solid rgba(51, 154, 240, 1)" : ""
-              }`,
-              backgroundColor: `${
-                `${jalur.id}` === focus
+          return (
+            <Button
+              unstyled
+              disabled={!isJalurDibuka}
+              key={jalur.id}
+              onClick={() => {
+                clickHandler(jalur);
+              }}
+              style={{
+                border: `${`${jalur.id}` === focus ? "2px solid rgba(51, 154, 240, 1)" : ""
+                  }`,
+                backgroundColor: `${`${jalur.id}` === focus
                   ? dark
                     ? "rgba(51,102,255,0.2)"
                     : "rgba(193, 227, 255, 1)"
                   : ""
-              }`,
-            }}
-            styles={(theme) => ({
-              root: {
-                border: "none",
-                padding: "1rem",
-                backgroundColor: `${
-                  theme.colorScheme === "dark"
+                  }`,
+              }}
+              styles={(theme) => ({
+                root: {
+                  borderColor: `${isJalurDibuka ? "#51CF66" : "red"}`,
+                  padding: "1rem",
+                  backgroundColor: `${theme.colorScheme === "dark"
                     ? theme.colors.dark[7]
                     : theme.white
-                }`,
-                cursor: "pointer",
-                boxShadow: "0 10px 20px -10px rgba(0,0,0,0.2)",
-                color:
-                  theme.colorScheme === "dark" ? "white" : theme.colors.gray[9],
-                borderRadius: "8px",
-                ":focus": {
-                  outline: "none",
+                    }`,
+                  cursor: "pointer",
+                  color:
+                    theme.colorScheme === "dark" ? "white" : theme.colors.gray[9],
+                  borderRadius: "8px",
+                  ":focus": {
+                    outline: "none",
+                  },
+                  "&:disabled": {
+                    // opacity: 0.8,
+                    cursor: "not-allowed",
+                    backgroundColor: `${dark ? theme.colors.dark[4] : "rgba(233, 233, 233, 1)"
+                      }`,
+                  },
                 },
-                "&:disabled": {
-                  // opacity: 0.8,
-                  cursor: "not-allowed",
-                  backgroundColor: `${
-                    dark ? theme.colors.dark[4] : "rgba(233, 233, 233, 1)"
-                  }`,
+                label: {
+                  justifyContent: "space-between",
+                  display: "flex",
+                  alignItems: "center",
                 },
-              },
-              label: {
-                justifyContent: "space-between",
-                display: "flex",
-                alignItems: "center",
-              },
-            })}
-          >
-            <Group>
-              <BiSolidTagAlt size={30} />
+              })}
+            >
+              <Group>
+                <BiSolidTagAlt size={30} />
 
-              <Box>
-                <Title order={3} align="left" weight={"bolder"}>
-                  {/* PEMBELIAN FORMULIR GEL. 1 */}
-                  {jalur.nama_jalur_pendaftaran}
-                </Title>
+                <Box>
+                  <Title order={3} align="left" weight={"bolder"}>
+                    {/* PEMBELIAN FORMULIR GEL. 1 */}
+                    {jalur.nama_jalur_pendaftaran}
+                  </Title>
 
-                <Text align="left">
-                  {tanggalMulai.toLocaleDateString("id-ID", {
-                    day: "2-digit",
-                    month: "long",
-                    year: "numeric",
-                  })}{" "}
-                  -{" "}
-                  {tanggalSelesai.toLocaleDateString("id-ID", {
-                    day: "2-digit",
-                    month: "long",
-                    year: "numeric",
-                  })}
-                </Text>
-              </Box>
-            </Group>
+                  <Text align="left">
+                    {tanggalMulai.toLocaleDateString("id-ID", {
+                      day: "2-digit",
+                      month: "long",
+                      year: "numeric",
+                    })}{" "}
+                    -{" "}
+                    {tanggalSelesai.toLocaleDateString("id-ID", {
+                      day: "2-digit",
+                      month: "long",
+                      year: "numeric",
+                    })}
+                  </Text>
+                </Box>
+              </Group>
 
-            <Badge variant="light" color={`${isJalurDibuka ? "green" : "red"}`}>
-              {/* jika tidak sesuai dengan jangka waktu = ditutup */}
-              {/* jika  sesuai dengan jangka waktu = dibuka */}
+              <Badge variant="light" color={`${isJalurDibuka ? "green" : "red"}`} size="lg">
+                {/* jika tidak sesuai dengan jangka waktu = ditutup */}
+                {/* jika  sesuai dengan jangka waktu = dibuka */}
 
-              {/* Dibuka */}
-              {isJalurDibuka ? "Dibuka" : "Ditutup"}
-            </Badge>
-          </Button>
-        );
-      })}
+                {/* Dibuka */}
+                {isJalurDibuka ? "Dibuka" : "Ditutup"}
+              </Badge>
+            </Button>
+          );
+        })
+      }
+
+      {
+
+      }
     </>
   );
 
@@ -189,13 +193,15 @@ const GelombangPPDB = ({
         sx={(theme) => ({
           display: "flex",
           alignItems: "center",
-          backgroundColor: `${
-            theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white
-          }`,
+          backgroundColor: `${theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white
+            }`,
           padding: "1rem",
           justifyContent: "space-between",
-          boxShadow: "0 10px 20px -10px rgba(0,0,0,0.2)",
+          border: "1px solid blue",
+          borderRadius: "5px"
+          // boxShadow: "0 10px 20px -10px rgba(0,0,0,0.2)",
         })}
+        
       >
         <Group>
           <BiSolidTagAlt size={30} />
@@ -221,12 +227,12 @@ const GelombangPPDB = ({
           </Box>
         </Group>
 
-        <Badge variant="light">
+        <Badge variant="light" >
           {daysRemaining && daysRemaining > 0
             ? `${daysRemaining} Hari Lagi`
             : "Ditutup"}
 
-          {/*  2 Bulan Lagi  */}
+           {/* 2 Bulan Lagi  */}
         </Badge>
       </Box>
 
@@ -244,11 +250,9 @@ const GelombangPPDB = ({
 
   return (
     <>
-      {/* <Stack> */}
 
       {pilihanGelombang ? contentGelombangPilihan : contentGelombang}
 
-      {/* </Stack> */}
     </>
   );
 };

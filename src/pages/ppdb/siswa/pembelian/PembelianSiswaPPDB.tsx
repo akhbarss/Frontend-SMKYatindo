@@ -3,9 +3,10 @@ import { useState } from "react";
 import { FaAddressCard, FaRegFlag, FaWpforms } from "react-icons/fa";
 import { RiGitMergeFill } from "react-icons/ri";
 import TabList from "../../../../components/ppdb/siswa/tabList";
-import TabsContent from "../../../../components/ppdb/siswa/tabsContent";
+import TabsContentPembelian from "../../../../components/ppdb/siswa/tabsContentPembelian";
 import { JalurPendaftaranPPDB } from "../../../../types/global";
-import Page from "../../../../components/Page.tsx";
+import Page from "../../../../components/Page";
+import { FaMoneyCheckDollar } from "react-icons/fa6";
 
 const PembelianSiswaPPDB = () => {
   function StyledTabs(props: TabsProps) {
@@ -28,8 +29,10 @@ const PembelianSiswaPPDB = () => {
             // gap: "1rem",
 
             "&:disabled": {
-              opacity: 0.5,
+              // opacity: 0.5,
               cursor: "not-allowed",
+              color: theme.colorScheme === "dark" ? theme.colors.gray[4] : theme.colors.gray[8],
+              backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[4],
             },
 
             "&[data-active]": {
@@ -63,8 +66,8 @@ const PembelianSiswaPPDB = () => {
       icon: RiGitMergeFill,
     },
     {
-      label: "Pembelian Formulir",
-      icon: FaWpforms,
+      label: "Transaksi Pembelian",
+      icon: FaMoneyCheckDollar,
     },
     {
       label: "Pilih Jurusan",
@@ -93,11 +96,12 @@ const PembelianSiswaPPDB = () => {
     <Page title={"Pembelian"}>
       <Stack className={"style-box"}>
         <StyledTabs defaultValue={card[activeTabIndex - 1].label}>
+
           <TabList activeTabIndex={activeTabIndex} card={card} />
 
           <Divider mt={20} />
 
-          <TabsContent
+          <TabsContentPembelian
             activeTabIndex={activeTabIndex}
             focus={focus}
             setFocus={setFocus}

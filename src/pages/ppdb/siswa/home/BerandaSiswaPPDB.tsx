@@ -4,7 +4,7 @@ import { useState } from "react";
 import { FaCheck } from "react-icons/fa";
 import { TbAlertCircleFilled } from "react-icons/tb";
 import { useBreakPoints } from "../../../../utils/UseBreakpoints";
-import Page from "../../../../components/Page.tsx";
+import Page from "../../../../components/Page";
 
 const BerandaSiswaPPDB = () => {
   const { md } = useBreakPoints();
@@ -62,44 +62,6 @@ const BerandaSiswaPPDB = () => {
             pembelian formulir untuk melanjutkan proses pendaftaran
           </Alert>
         )}
-
-        <Button
-          onClick={async () => {
-            // axios.get("http://localhost:8080/api/v1/admin/alur-ppdb/index?userId=1", {
-            //     headers: {
-            //         Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTY5Nzc4OTgwMywiZXhwIjoxNjk3ODc2MjAzfQ.DowHCxhygbzldjHFxmvyFkkJ1hlEVYBE03PVzhNegU4",
-            //         'Content-Type' : 'application/x-www-form-urlencoded'
-            //     },
-            //     withCredentials: false,
-            //     method: "get",
-
-            // })
-
-            const response = await fetch(
-              "http://localhost:8080/api/v1/admin/alur-ppdb/index?userId=1",
-              {
-                headers: {
-                  Authorization:
-                    "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTY5Nzc4OTgwMywiZXhwIjoxNjk3ODc2MjAzfQ.DowHCxhygbzldjHFxmvyFkkJ1hlEVYBE03PVzhNegU4",
-                },
-                credentials: "include",
-                // mode: "same-origin"
-              }
-            )
-              .then((res) => {
-                console.log("SUCCES");
-                console.log(res.ok);
-              })
-              // .then(res => console.log(res))
-              .catch((err) => {
-                console.log("FAILEDDD");
-                console.log(err);
-              });
-            // console.log(await response)
-          }}
-        >
-          CLick Mw
-        </Button>
 
         <Box>
           <Card shadow="xl">

@@ -1,24 +1,19 @@
+import { lazy } from "react";
 import { createBrowserRouter, Navigate, Outlet } from "react-router-dom";
 import MissingPPDB from "./components/ppdb/missingPPDB";
+import Gelombang from "./components/ppdb/siswa/gelombang";
 import Unauthorized from "./components/ppdb/unauthorized";
+import AuthLayout from "./layouts/AuthLayout";
+import DashboardLayout from "./layouts/DashboardLayout";
 import {
   AlurPPPDB,
-  BerandaSiswaPPDB,
   GuestPPDB,
   JalurPendaftaran,
-  LayoutSiswa,
   PembelianSiswaPPDB,
   PendaftarPPDB,
-  PengembalianSiswaPPDB,
-  RootAdminPPDB,
+  PengembalianSiswaPPDB
 } from "./pages";
-import Dashboard from "./pages/ppdb/admin/Dashboard.tsx";
-import { AppShell } from "@mantine/core";
-import { lazy } from "react";
-import InformasiUmum from "./pages/ppdb/admin/jalurPendaftaranPPDB/InformasiUmum.tsx";
-import Gelombang from "./components/ppdb/siswa/gelombang.tsx";
-import AuthLayout from "./layouts/AuthLayout.tsx";
-import DashboardLayout from "./layouts/DashboardLayout.tsx";
+import InformasiUmum from "./pages/ppdb/admin/jalurPendaftaranPPDB/InformasiUmum";
 
 export const routeConfigs = createBrowserRouter(
   [
@@ -43,7 +38,7 @@ export const routeConfigs = createBrowserRouter(
             },
             {
               path: "register",
-              Component: lazy(() => import("./pages/auth/Register.tsx"))
+              Component: lazy(() => import("./pages/auth/Register"))
             }
           ],
         },
