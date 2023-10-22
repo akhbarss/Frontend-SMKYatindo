@@ -1,11 +1,4 @@
-import {
-    Box,
-    Paper,
-    Stack,
-    Stepper,
-    Title,
-    rem
-} from "@mantine/core";
+import { Box, Paper, Stack, Stepper, Title, rem } from "@mantine/core";
 import { useState } from "react";
 import { BsCheck } from "react-icons/bs";
 import Page from "../../components/Page";
@@ -13,88 +6,92 @@ import RegisterIdentitasDiri from "../../components/auth/RegisterIdentitasDiri";
 import RegisterInformasiKredensial from "../../components/auth/RegisterInformasiKredensial";
 import SideAuthLayout from "../../layouts/SideAuthLayout";
 import { useBreakPoints } from "../../utils/UseBreakpoints";
+import { useMutation } from "@tanstack/react-query";
+import { registration, RegistrationPayload } from "../../apis/registration";
 
 const Register = () => {
+  const [active, setActive] = useState(0);
+  const [highestStepVisited, setHighestStepVisited] = useState(active);
+  const registrationMutation = useMutation({
+    mutationFn: registration,
+  });
+  const { md } = useBreakPoints();
 
-    const [active, setActive] = useState(0);
-    const [highestStepVisited, setHighestStepVisited] = useState(active);
+  const handleStepChange = (nextStep: number) => {
+    const isOutOfBounds = nextStep > 3 || nextStep < 0;
 
-    const { md, } = useBreakPoints()
+    if (isOutOfBounds) {
+      return;
+    }
 
-    const handleStepChange = (nextStep: number) => {
-        const isOutOfBounds = nextStep > 3 || nextStep < 0;
+    setActive(nextStep);
+    setHighestStepVisited((hSC) => Math.max(hSC, nextStep));
+  };
 
-        if (isOutOfBounds) {
-            return;
-        }
+  const sampleSubmitData = (payload: RegistrationPayload) => {
+    registrationMutation.mutate(payload, {
+      onSuccess: (response) => {},
+      onError: (err) => {},
+    });
+  };
 
-        setActive(nextStep);
-        setHighestStepVisited((hSC) => Math.max(hSC, nextStep));
-    };
+  const shouldAllowSelectStep = (step: number) =>
+    highestStepVisited >= step && active !== step;
 
-    const shouldAllowSelectStep = (step: number) => highestStepVisited >= step && active !== step;
+  return (
+    <Page title={"Daftar"}>
+      <Paper pt={`${!md ? "70px" : 0}`} className={`flex  min-h-[100vh]`}>
+        <Box
+          // h={"100vh"}
+          className="flex-[2] p-[0_1rem_] flex flex-col overflow-y-auto min-h-[100vh]"
+        >
+          <Stack w={`${md ? "30rem" : "20rem"}`} className="py-[2rem] mx-auto ">
+            <Title align="center">Daftar</Title>
 
-    return (
-        <Page title={"Daftar"}>
-            <Paper
-                pt={`${!md ? "70px" : 0}`}
-                className={`flex  min-h-[100vh]`}
+            <Stepper
+              active={active}
+              onStepClick={setActive}
+              radius={"xs"}
+              mt={20}
+              className=" "
+              styles={{
+                stepIcon: {
+                  borderWidth: rem(4),
+                },
+              }}
+              breakpoint={"sm"}
             >
-                <Box
-                    // h={"100vh"}
-                    className="flex-[2] p-[0_1rem_] flex flex-col overflow-y-auto min-h-[100vh]"
-                >
-                    <Stack w={`${md ? "30rem" : "20rem"}`} className="py-[2rem] mx-auto ">
+              <Stepper.Step
+                label="Identitas Diri"
+                allowStepSelect={shouldAllowSelectStep(0)}
+                icon={<BsCheck size={30} />}
+              >
+                <RegisterIdentitasDiri
+                  active={active}
+                  handleStepChange={handleStepChange}
+                />
+              </Stepper.Step>
 
-                        <Title align="center" >Daftar</Title>
+              <Stepper.Step
+                label="Informasi Kredensial"
+                allowStepSelect={shouldAllowSelectStep(1)}
+                icon={<BsCheck size={30} />}
+              >
+                <RegisterInformasiKredensial />
+              </Stepper.Step>
+              {registrationMutation.isLoading ? "Loading" : "kagak"}
 
-                        <Stepper
-                            active={active}
-                            onStepClick={setActive}
-                            radius={"xs"}
-                            mt={20}
-                            className=" "
-                            styles={{
-                                stepIcon: {
-                                    borderWidth: rem(4),
-                                }
-                            }}
-                            breakpoint={"sm"}
-                        >
-                            <Stepper.Step
-                                label="Identitas Diri"
-                                allowStepSelect={shouldAllowSelectStep(0)}
-                                icon={<BsCheck size={30} />}
-                            >
-                                <RegisterIdentitasDiri
-                                    active={active}
-                                    handleStepChange={handleStepChange}
-                                />
-                            </Stepper.Step>
+              <Stepper.Completed>
+                <>Completed, click back button to get to previous step</>
+              </Stepper.Completed>
+            </Stepper>
+          </Stack>
+        </Box>
 
-                            <Stepper.Step
-                                label="Informasi Kredensial"
-                                allowStepSelect={shouldAllowSelectStep(1)}
-                                icon={<BsCheck size={30} />}
-                            >
-                                <RegisterInformasiKredensial />
-                            </Stepper.Step>
-
-                            <Stepper.Completed>
-                                <>Completed, click back button to get to previous step</>
-                            </Stepper.Completed>
-                        </Stepper>
-
-                    </Stack>
-
-                </Box>
-
-                <SideAuthLayout />
-
-            </Paper>
-        </Page>
-    );
+        <SideAuthLayout />
+      </Paper>
+    </Page>
+  );
 };
 
 export default Register;
-
