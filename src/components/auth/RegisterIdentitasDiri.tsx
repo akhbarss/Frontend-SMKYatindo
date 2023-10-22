@@ -10,9 +10,30 @@ import {
 type TRegisterIdentitasDiri = {
   handleStepChange: (nextstep: number) => void
   active: number
+
+  noWhatsapp: string
+  setNoWhatsapp: React.Dispatch<React.SetStateAction<string>>
+  namaLengkap: string
+  setNamaLengkap: React.Dispatch<React.SetStateAction<string>>
+  alamat: string
+  setAlamat: React.Dispatch<React.SetStateAction<string>>
+  asalSekolah: string
+  setAsalSekolah: React.Dispatch<React.SetStateAction<string>>
+
 }
 
-const RegisterIdentitasDiri: React.FC<TRegisterIdentitasDiri> = ({ handleStepChange, active }) => {
+const RegisterIdentitasDiri: React.FC<TRegisterIdentitasDiri> = ({
+  handleStepChange,
+  active,
+  noWhatsapp,
+  setNoWhatsapp,
+  alamat,
+  asalSekolah,
+  namaLengkap,
+  setAlamat,
+  setAsalSekolah,
+  setNamaLengkap,
+}) => {
   return (
     <form onSubmit={() => handleStepChange(active + 1)}>
       <Stack mt={20}>
@@ -24,6 +45,8 @@ const RegisterIdentitasDiri: React.FC<TRegisterIdentitasDiri> = ({ handleStepCha
           type="number"
           required
           autoFocus
+          value={noWhatsapp}
+          onChange={(e) => setNoWhatsapp(e.target.value)}
         />
 
         <TextInput
@@ -31,6 +54,9 @@ const RegisterIdentitasDiri: React.FC<TRegisterIdentitasDiri> = ({ handleStepCha
           description="Harap masukan Nama Lengkap sesuai dengan akta kelahiran"
           withAsterisk
           required
+          value={namaLengkap}
+          onChange={(e) => setNamaLengkap(e.target.value)}
+
         />
 
         <Textarea
@@ -45,6 +71,8 @@ const RegisterIdentitasDiri: React.FC<TRegisterIdentitasDiri> = ({ handleStepCha
           description="Masukan asal sekolah"
           withAsterisk
           required
+          value={asalSekolah}
+          onChange={(e) => setAsalSekolah(e.target.value)}
         />
 
         <Group position="center" mt="xl">

@@ -9,7 +9,16 @@ import { useBreakPoints } from "../../utils/UseBreakpoints";
 import { useMutation } from "@tanstack/react-query";
 import { registration, RegistrationPayload } from "../../apis/registration";
 
+
+
 const Register = () => {
+  const [noWhatssap, setNoWhatsapp] = useState("")
+  const [namaLengkap, setNamaLengkap] = useState("")
+  const [alamat, setAlamat] = useState("")
+  const [password, setPassword] = useState("")
+  const [asalSekolah, setAsalSekolah] = useState("")
+  // const [] = useState("")
+
   const [active, setActive] = useState(0);
   const [highestStepVisited, setHighestStepVisited] = useState(active);
   const registrationMutation = useMutation({
@@ -30,10 +39,35 @@ const Register = () => {
 
   const sampleSubmitData = (payload: RegistrationPayload) => {
     registrationMutation.mutate(payload, {
-      onSuccess: (response) => {},
-      onError: (err) => {},
+      onSuccess: (response) => {
+        console.log("SUCESS")
+        console.log(response)
+      },
+      onError: (err) => {
+        console.log("FAILED")
+        console.log(err)
+      },
     });
   };
+
+
+  const submitHandler = () => {
+    const data = {
+      username: noWhatssap,
+      password: password,
+      role: "USER",
+      studentData: {
+        address: alamat,
+        name: namaLengkap,
+        school_origin: asalSekolah
+      }
+    }
+
+    sampleSubmitData(data)
+    console.log(data)
+
+  }
+
 
   const shouldAllowSelectStep = (step: number) =>
     highestStepVisited >= step && active !== step;
@@ -67,8 +101,16 @@ const Register = () => {
                 icon={<BsCheck size={30} />}
               >
                 <RegisterIdentitasDiri
+                  noWhatsapp={noWhatssap}
+                  setNoWhatsapp={setNoWhatsapp}
                   active={active}
                   handleStepChange={handleStepChange}
+                  alamat={alamat}
+                  asalSekolah={asalSekolah}
+                  namaLengkap={namaLengkap}
+                  setAlamat={setAlamat}
+                  setAsalSekolah={setAsalSekolah}
+                  setNamaLengkap={setNamaLengkap}
                 />
               </Stepper.Step>
 
@@ -77,15 +119,20 @@ const Register = () => {
                 allowStepSelect={shouldAllowSelectStep(1)}
                 icon={<BsCheck size={30} />}
               >
-                <RegisterInformasiKredensial />
+                <RegisterInformasiKredensial
+                  noWhatsapp={noWhatssap}
+                  password={password}
+                  setPassword={setPassword}
+                  onSubmit={submitHandler}
+                />
               </Stepper.Step>
-              {registrationMutation.isLoading ? "Loading" : "kagak"}
 
               <Stepper.Completed>
                 <>Completed, click back button to get to previous step</>
               </Stepper.Completed>
             </Stepper>
           </Stack>
+          {registrationMutation.status === "pending" ? "Loading" : "kagak"}
         </Box>
 
         <SideAuthLayout />

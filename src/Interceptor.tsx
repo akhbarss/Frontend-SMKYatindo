@@ -102,7 +102,7 @@ const Interceptors = ({ children }: { children: any }) => {
         }
       }
     );
-  }, []);
+  }, [navigate]);
 
   return children;
 };

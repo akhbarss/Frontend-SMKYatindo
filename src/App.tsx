@@ -15,13 +15,12 @@ const queryClient = new QueryClient({
 
 function App() {
   return (
-    <Interceptors>
-      <QueryClientProvider client={queryClient}>
+    // <Interceptors>
+      // <QueryClientProvider client={queryClient}>
         <ProviderMantine>
           <RouterProvider router={routeConfigs} />
         </ProviderMantine>
-      </QueryClientProvider>
-    </Interceptors>
+    // </Interceptors>
   );
 }
 

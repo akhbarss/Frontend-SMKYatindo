@@ -2,17 +2,32 @@ import axios from "../utils/axios";
 import { ResponseType } from "../types/global";
 
 export type RegistrationPayload = {
-  name: string;
+  username: string;
+  password: string
+  role: string
+  studentData: {
+    name: string;
+    address: string
+    school_origin: string
+  }
 };
 
 export type Response = {
-  name: string;
+  username: string;
+  password: string
+  role: string
+  studentData: {
+    name: string;
+    address: string
+    school_origin: string
+  }
+
 };
 
 export const registration = async (
   payload: RegistrationPayload
 ): Promise<ResponseType<Response>> => {
-  const response = await axios.post("/v1/registration", payload);
+  const response = await axios.post("/v1/register-student", payload);
 
   return response.data;
 };
