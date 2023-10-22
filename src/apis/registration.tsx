@@ -27,7 +27,7 @@ export type Response = {
 export const registration = async (
   payload: RegistrationPayload
 ): Promise<ResponseType<Response>> => {
-  const response = await axios.post("/v1/register-student", payload);
+  const response = await axios.post("/v1/auth/register-student", payload);
 
   return response.data;
 };

@@ -5,20 +5,27 @@ import {
     Group,
 } from "@mantine/core"
 import { modals } from "@mantine/modals"
+import { UseMutationResult } from "@tanstack/react-query"
 import { useNavigate } from "react-router-dom"
+import { RegistrationPayload, Response } from "../../apis/registration"
+import { ResponseType } from "../../types/global"
 
 type TRegisterInformasiKredensial = {
     noWhatsapp: string
     password: string
     setPassword: React.Dispatch<React.SetStateAction<string>>
     onSubmit: () => void
+    registrationMutation: UseMutationResult<ResponseType<Response>, Error, RegistrationPayload, unknown>
 }
 
 const RegisterInformasiKredensial: React.FC<TRegisterInformasiKredensial> = ({
     noWhatsapp,
     password,
     setPassword,
-    onSubmit
+    onSubmit,
+    registrationMutation
+
+
 }) => {
 
     const navigate = useNavigate()
@@ -69,9 +76,10 @@ const RegisterInformasiKredensial: React.FC<TRegisterInformasiKredensial> = ({
 
                 <Group position="center" mt="xl">
                     <Button
-                     type="submit"
-                     
-                     >Simpan dan lanjutkan</Button>
+                        loading={registrationMutation.status === "pending"}
+                        type="submit"
+
+                    >Simpan dan lanjutkan</Button>
                     {/* <Button onClick={() => console.log(noWhatsapp)}>Get Whatsapp</Button> */}
                 </Group>
 

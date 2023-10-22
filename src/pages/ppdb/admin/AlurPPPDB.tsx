@@ -76,10 +76,7 @@ const AlurPPPDB = () => {
             color="blue"
             size={40}
             radius={100}
-            // onClick={open}
             onClick={() => {
-
-
 
               modals.openContextModal({
                 modal: "modalAlurAdmin",
@@ -106,8 +103,6 @@ const AlurPPPDB = () => {
                 styles: {
                   header: {
                     backgroundColor: "#2A166F",
-                    // height: "80px"
-
                   },
                   title: {
                     color: "white",

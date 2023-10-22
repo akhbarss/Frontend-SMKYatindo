@@ -230,38 +230,41 @@ const PembelianFormulir = ({
                 <Text className="font-semibold">Silahkan melakukan transfer ke rekening dibawah ini :</Text>
 
                 <table className="w-[35rem]">
-                    <tr>
-                        <td>
-                            Bank
-                        </td>
-                        <td>
-                            <Text>: <Text component="span" weight={"bold"}>Bank Danamon</Text></Text>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Nomor Rekening
-                        </td>
-                        <td>
-                            <Text>: <Text component="span" weight={"bold"}>320940492</Text></Text>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Atas Nama
-                        </td>
-                        <td>
-                            <Text>: <Text component="span" weight={"bold"}>SMK Tinta Emas Indonesia</Text></Text>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Status Pembayaran
-                        </td>
-                        <td>
-                            <Text>: <Text component="span" weight={"bold"}>Menunggu Biaya Pendaftaran</Text></Text>
-                        </td>
-                    </tr>
+                    <tbody>
+
+                        <tr>
+                            <td>
+                                Bank
+                            </td>
+                            <td>
+                                <Text>: <Text component="span" weight={"bold"}>Bank Danamon</Text></Text>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Nomor Rekening
+                            </td>
+                            <td>
+                                <Text>: <Text component="span" weight={"bold"}>320940492</Text></Text>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Atas Nama
+                            </td>
+                            <td>
+                                <Text>: <Text component="span" weight={"bold"}>SMK Tinta Emas Indonesia</Text></Text>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Status Pembayaran
+                            </td>
+                            <td>
+                                <Text>: <Text component="span" weight={"bold"}>Menunggu Biaya Pendaftaran</Text></Text>
+                            </td>
+                        </tr>
+                    </tbody>
                 </table>
 
             </Stack>

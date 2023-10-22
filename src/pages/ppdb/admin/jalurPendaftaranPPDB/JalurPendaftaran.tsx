@@ -314,15 +314,28 @@ const AlurPPPDB = () => {
                 },
                 root: {
                   borderRadius: "100px"
+                  // overflow: "visible",
                 },
                 body: {
-                  overflow: "hidden",
+                  overflow: "visible",
                   height: "80vh",
                   position: "relative",
                   display: "flex",
                   flexDirection: "column",
                   padding: 0
                 },
+                content: {
+                  overflowY: "visible",
+                  
+                },
+                inner: {
+                  overflowY: "visible",
+                  
+                },
+                overlay: {
+                  overflowY: "visible",
+
+                }
 
               },
               size: "50rem",

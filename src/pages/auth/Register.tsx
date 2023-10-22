@@ -120,6 +120,7 @@ const Register = () => {
                 icon={<BsCheck size={30} />}
               >
                 <RegisterInformasiKredensial
+                  registrationMutation={registrationMutation}
                   noWhatsapp={noWhatssap}
                   password={password}
                   setPassword={setPassword}
