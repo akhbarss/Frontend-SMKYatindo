@@ -7,6 +7,7 @@ import TabsContentPembelian from "../../../../components/ppdb/siswa/tabsContentP
 import { JalurPendaftaranPPDB } from "../../../../types/global";
 import Page from "../../../../components/Page";
 import { FaMoneyCheckDollar } from "react-icons/fa6";
+import PageLabel from "../../../../components/PageLabel";
 
 const PembelianSiswaPPDB = () => {
   function StyledTabs(props: TabsProps) {
@@ -31,8 +32,14 @@ const PembelianSiswaPPDB = () => {
             "&:disabled": {
               // opacity: 0.5,
               cursor: "not-allowed",
-              color: theme.colorScheme === "dark" ? theme.colors.gray[4] : theme.colors.gray[8],
-              backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[4],
+              color:
+                theme.colorScheme === "dark"
+                  ? theme.colors.gray[4]
+                  : theme.colors.gray[8],
+              backgroundColor:
+                theme.colorScheme === "dark"
+                  ? theme.colors.dark[6]
+                  : theme.colors.gray[4],
             },
 
             "&[data-active]": {
@@ -94,9 +101,9 @@ const PembelianSiswaPPDB = () => {
 
   return (
     <Page title={"Pembelian"}>
+      <PageLabel label={"Pembelian"} />
       <Stack className={"style-box"}>
         <StyledTabs defaultValue={card[activeTabIndex - 1].label}>
-
           <TabList activeTabIndex={activeTabIndex} card={card} />
 
           <Divider mt={20} />

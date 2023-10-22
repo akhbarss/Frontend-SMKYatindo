@@ -8,7 +8,7 @@ import Page from "../../../../components/Page";
 import TabList from "../../../../components/ppdb/siswa/tabList";
 import TabsContentPengembalian from "../../../../components/ppdb/siswa/tabsContentPengembalian";
 import { JalurPendaftaranPPDB } from "../../../../types/global";
-
+import PageLabel from "../../../../components/PageLabel";
 
 const card = [
   {
@@ -56,8 +56,14 @@ const PengembalianSiswaPPDB = () => {
             "&:disabled": {
               // opacity: 0.5,
               cursor: "not-allowed",
-              color: theme.colorScheme === "dark" ? theme.colors.gray[4] : theme.colors.gray[8],
-              backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[4],
+              color:
+                theme.colorScheme === "dark"
+                  ? theme.colors.gray[4]
+                  : theme.colors.gray[8],
+              backgroundColor:
+                theme.colorScheme === "dark"
+                  ? theme.colors.dark[6]
+                  : theme.colors.gray[4],
             },
 
             "&[data-active]": {
@@ -80,7 +86,6 @@ const PengembalianSiswaPPDB = () => {
     );
   }
 
-
   const [activeTabIndex, setActiveTabIndex] = useState(1);
 
   // gelombang
@@ -96,9 +101,9 @@ const PengembalianSiswaPPDB = () => {
 
   return (
     <Page title={"Pengembalian"}>
+      <PageLabel label={"Pengembalian"} />
       <Stack className={"style-box"}>
         <StyledTabs defaultValue={card[activeTabIndex - 1].label}>
-
           <TabList activeTabIndex={activeTabIndex} card={card} />
 
           <Divider mt={20} />
