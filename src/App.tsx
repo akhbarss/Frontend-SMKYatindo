@@ -2,12 +2,26 @@
 import { RouterProvider } from "react-router-dom";
 import { ProviderMantine } from "./components";
 import { routeConfigs } from "./routes";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import Interceptors from "./Interceptor";
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 1,
+    },
+  },
+});
 
 function App() {
   return (
-    <ProviderMantine>
-      <RouterProvider router={routeConfigs} />
-    </ProviderMantine>
+    <Interceptors>
+      <QueryClientProvider client={queryClient}>
+        <ProviderMantine>
+          <RouterProvider router={routeConfigs} />
+        </ProviderMantine>
+      </QueryClientProvider>
+    </Interceptors>
   );
 }
 

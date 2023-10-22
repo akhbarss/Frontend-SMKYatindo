@@ -1,6 +1,6 @@
 export type JWT = {
-  sub: string
-}
+  sub: string;
+};
 
 export interface Biaya {
   id: number;
@@ -72,3 +72,14 @@ export interface JalurPendaftaranPPDB {
   }[];
 }
 [];
+
+export interface ResponseType<T> {
+  data: T;
+  timestamps: string;
+  statusCode: number;
+}
+
+export interface RefreshToken {
+  refresh_token: string;
+  token: string;
+}
