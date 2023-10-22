@@ -1,18 +1,17 @@
 import { lazy } from "react";
 import { createBrowserRouter, Navigate, Outlet } from "react-router-dom";
 import MissingPPDB from "./components/ppdb/missingPPDB";
-import Gelombang from "./components/ppdb/siswa/gelombang";
+// import Gelombang from "./components/ppdb/siswa/gelombang";
 import Unauthorized from "./components/ppdb/unauthorized";
 import AuthLayout from "./layouts/AuthLayout";
 import DashboardLayout from "./layouts/DashboardLayout";
+import GuestLayout from "./layouts/GuestLayout";
 import {
   AlurPPPDB,
-  GuestPPDB,
   JalurPendaftaran,
   PendaftarPPDB
 } from "./pages";
 import InformasiUmum from "./pages/ppdb/admin/jalurPendaftaranPPDB/InformasiUmum";
-import GuestLayout from "./layouts/GuestLayout";
 
 export const routeConfigs = createBrowserRouter(
   [
@@ -99,7 +98,7 @@ export const routeConfigs = createBrowserRouter(
                     },
                     {
                       path: "gelombang",
-                      Component: Gelombang,
+                      Component: () => <h1>sds</h1>,
                     },
                   ],
                 },

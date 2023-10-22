@@ -1,4 +1,5 @@
 import {
+  Button,
   Accordion,
   AccordionControlProps,
   ActionIcon,
@@ -96,7 +97,7 @@ const AlurPPPDB = () => {
                       <Text align="left" mt={30} weight={"bold"}>Deskripsi Keterangan</Text>
                       <TiptapEditor
 
-                        desc={descAlurPPDB}
+                        desc={data.deskripsi}
                         setDesc={setDescAlurPPDB}
                       />
                     </>
@@ -109,7 +110,9 @@ const AlurPPPDB = () => {
 
                   },
                   title: {
-                    color: "white"
+                    color: "white",
+                    fontWeight: "bold",
+                    fontSize: "25px"
                   },
                   root: {
                     borderRadius: "100px"
@@ -198,6 +201,65 @@ const AlurPPPDB = () => {
           ))}
 
         </Accordion>
+
+        <Button
+          mt={40}
+          onClick={() => {
+
+            const onAccept = () => {
+              console.log("create ALur")
+            }
+
+            modals.openContextModal({
+              modal: "modalAlurAdmin",
+              title: "Tambah Alur Pendaftaran",
+              innerProps: {
+                onAccept,
+                onCancel: () => console.log("cancel"),
+                modalBody: (
+                  <>
+                    <Text align="left" weight={"bold"} >Nama</Text>
+                    <TextInput
+                      onChange={(val) => console.log(val)}
+                    />
+                    <Text align="left" mt={30} weight={"bold"}>Deskripsi Keterangan</Text>
+                    <TiptapEditor
+
+                      desc={""}
+                      setDesc={setDescAlurPPDB}
+                    />
+                  </>
+                ),
+              },
+              styles: {
+                header: {
+                  backgroundColor: "#2A166F",
+                },
+                title: {
+                  color: "white",
+                  fontWeight: "bold",
+                  fontSize: "25px"
+                },
+                root: {
+                  borderRadius: "100px"
+                },
+                body: {
+                  overflow: "hidden",
+                  height: "80vh",
+                  position: "relative",
+                  display: "flex",
+                  flexDirection: "column",
+                  padding: 0
+                }
+
+              },
+              size: "80rem"
+            });
+
+          }}
+        >
+          Tambah
+        </Button>
 
       </Box>
     </Page>

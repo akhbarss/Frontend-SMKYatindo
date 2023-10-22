@@ -128,52 +128,66 @@ export const modalAlurAdmin = ({
 
     const { modalBody, onAccept, onCancel } = innerProps;
 
+    const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
+
+        e.preventDefault()
+
+        onAccept()
+
+    }
+
     return (
         <>
-            <Box
-                id='box-content'
-                sx={{
-                    flex: 1,
-                    display: "flex",
-                    flexDirection: "column",
-                    overflowY: "auto"
-                }}
+            <form onSubmit={submitHandler}
+                className="overflow-y-auto flex-[1] flex flex-col"
             >
+
                 <Box
-                    id='content'
+                    id='box-content'
                     sx={{
-                        paddingInline: "16px",
-                        paddingBlock: "50px"
+                        flex: 1,
+                        display: "flex",
+                        flexDirection: "column",
+                        overflowY: "auto"
                     }}
                 >
-                    {modalBody}
+                    <Box
+                        id='content'
+                        sx={{
+                            paddingInline: "16px",
+                            paddingBlock: "50px"
+                        }}
+                    >
+                        {modalBody}
+                    </Box>
                 </Box>
-            </Box>
-            <Group
-                position='right'
-                sx={theme => ({
-                    padding: "24px 40px",
-                    backgroundColor: `${theme.colorScheme === "dark" ? theme.colors.dark[9] : theme.colors.gray[0]}`
-                })}
-            >
-                <Button
-                    variant="outline"
-                    onClick={() => {
-                        onCancel()
-                        context.closeModal(id)
-                    }}
+                <Group
+                    position='right'
+                    sx={theme => ({
+                        padding: "24px 40px",
+                        backgroundColor: `${theme.colorScheme === "dark" ? theme.colors.dark[9] : theme.colors.gray[0]}`
+                    })}
                 >
-                    Batal
-                </Button>
-                <Button
-                    onClick={() => {
-                        onAccept()
-                        context.closeModal(id)
-                    }}
-                >
-                    Simpan
-                </Button>
-            </Group>
+                    <Button
+                        variant="outline"
+                        onClick={() => {
+                            onCancel()
+                            context.closeModal(id)
+                        }}
+                    >
+                        Batal
+                    </Button>
+                    <Button
+                        type="submit"
+                    // onClick={() => {
+                    //     onAccept()
+                    //     context.closeModal(id)
+                    // }}
+                    >
+                        Simpan
+                    </Button>
+                </Group>
+            </form>
         </>
     );
 

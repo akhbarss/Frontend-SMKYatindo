@@ -75,7 +75,7 @@ const TiptapInput = ({
             TextAlign.configure({ types: ['heading', 'paragraph'] }),
         ],
         // content: desc,
-        content: descAlur,
+        content: desc,
         onUpdate: ({ editor, }) => {
             const html = editor.getHTML()
             setDesc(html)
@@ -87,14 +87,14 @@ const TiptapInput = ({
     return (
         <RichTextEditor
             editor={editorInput}
-            
-            // style={style}
-            // styles={{
-            //     content: {
-            //         minHeight: "20vh",
-            //         padding: ""
-            //     }
-            // }}
+
+        // style={style}
+        // styles={{
+        //     content: {
+        //         minHeight: "20vh",
+        //         padding: ""
+        //     }
+        // }}
         >
             <RichTextEditor.Toolbar sticky stickyOffset={0}>
                 <RichTextEditor.ControlsGroup >

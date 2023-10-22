@@ -45,11 +45,10 @@ const TabList = ({
                 top: -15,
                 right: 10,
                 cursor: "not-allowed",
-                backgroundColor: `${
-                  theme.colorScheme === "dark"
+                backgroundColor: `${theme.colorScheme === "dark"
                     ? theme.colors.dark[6]
                     : theme.colors.gray[4]
-                }`,
+                  }`,
                 borderRadius: "100px",
                 padding: "5px",
               }}
@@ -65,9 +64,8 @@ const TabList = ({
                 top: -15,
                 right: 10,
                 cursor: "not-allowed",
-                backgroundColor: `${
-                  theme.colorScheme === "dark" ? theme.colors.dark[6] : "white"
-                }`,
+                backgroundColor: `${theme.colorScheme === "dark" ? theme.colors.dark[6] : "white"
+                  }`,
                 borderRadius: "100%",
                 padding: "4px",
                 color: "#51CF66",

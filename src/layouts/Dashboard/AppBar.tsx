@@ -63,9 +63,6 @@ const AppBar = ({
       </Group>
 
       <Group spacing={"lg"}>
-        <ActionIcon sx={{ color: "white" }} variant="outline">
-          <FaBell />
-        </ActionIcon>
 
         <Menu trigger="hover" openDelay={100} closeDelay={400}>
           <Menu.Target>
@@ -84,7 +81,6 @@ const AppBar = ({
           <Menu.Dropdown>
             <Menu.Label>Muhammad Akhbar Firdaus</Menu.Label>
             <Menu.Item>Profile</Menu.Item>
-            <Menu.Item>Pengaturan</Menu.Item>
             <Menu.Item
               onClick={() => {
                 localStorage.removeItem("accessToken");

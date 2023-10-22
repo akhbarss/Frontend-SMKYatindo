@@ -1,5 +1,5 @@
-
 import {
+    Box,
     Paper,
     Stack,
     Tabs,
@@ -93,6 +93,21 @@ const TabsContentPengembalian = ({
 
             <Tabs.Panel value="Isi Biodata" mt={20}>
                 <Biodata setActiveTabIndex={setActiveTabIndex} />
+            </Tabs.Panel>
+
+            <Tabs.Panel value="Isi Data Prestasi">
+                <Box
+                    sx={theme => ({
+                        backgroundColor: `${theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white}`,
+                        padding: "2rem",
+                        boxShadow: "0 5px 10px -8px black",
+                        borderRadius: "7px"
+                    })}
+                >
+
+                    <h1>Isi data Prestasi</h1>
+
+                </Box>
             </Tabs.Panel>
 
             <Tabs.Panel value="Pilih Jurusan" mt={20}>

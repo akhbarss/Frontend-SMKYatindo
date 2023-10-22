@@ -28,6 +28,10 @@ const card = [
     icon: FaRegFlag,
   },
   {
+    label: "Isi Data Prestasi",
+    icon: FaRegFlag,
+  },
+  {
     label: "Cetak Kartu Peserta",
     icon: FaAddressCard,
   },
@@ -86,7 +90,7 @@ const PengembalianSiswaPPDB = () => {
     );
   }
 
-  const [activeTabIndex, setActiveTabIndex] = useState(1);
+  const [activeTabIndex, setActiveTabIndex] = useState(5);
 
   // gelombang
   const [focus, setFocus] = useState("");

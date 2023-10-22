@@ -1,30 +1,29 @@
-import { useState } from "react";
 import {
   ActionIcon,
   Box,
-  useMantineTheme,
-  TextInput,
-  Input,
+  Button,
+  Grid,
+  Group,
   Radio,
+  Stack,
+  Text,
+  TextInput,
+  useMantineTheme
 } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
+import { DateTimePicker } from '@mantine/dates';
+import { modals } from "@mantine/modals";
 import { AiFillEdit } from "react-icons/ai";
 import { BsFillTrashFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
-import CustomModal from "../../../../components/ppdb/modalCreate";
+import Page from "../../../../components/Page";
+import PageLabel from "../../../../components/PageLabel";
 import { dataJalurPendaftaran } from "../../../../components/ppdb/dataJalurPendaftaran";
 import { useBreakPoints } from "../../../../utils/UseBreakpoints";
-import TiptapEditor from "../../../../components/ppdb/tiptapInput";
-import PageLabel from "../../../../components/PageLabel";
-import Page from "../../../../components/Page";
 
 const AlurPPPDB = () => {
-  const [value, setValue] = useState("react");
-  const [opened, { open, close }] = useDisclosure(false);
   const { xs, md } = useBreakPoints();
   const theme = useMantineTheme();
   const dark = theme.colorScheme === "dark";
-  const focus = true;
 
   const data = dataJalurPendaftaran;
 
@@ -34,7 +33,6 @@ const AlurPPPDB = () => {
 
       <Box
         mt={50}
-        // className="flex flex-col gap-4 px-4 pb-10 lg:w-[50rem] mx-auto"
         sx={{
           display: "flex",
           flexDirection: "column",
@@ -46,47 +44,41 @@ const AlurPPPDB = () => {
           const pendaftarPerJalur = item.gelombang.map(
             (item) => item.jumlah_penerimaan
           );
-          // console.log(pendaftarPerJalur)
+
           const jumlahPendaftarPerJalur = pendaftarPerJalur.reduce(
             (total, current) => total + current,
             0
           );
-          // console.log(jumlahPendaftarPerJalur)
+
+          const submitHandler = () => {
+            console.log("Accetp")
+            console.log(item)
+            console.log(jumlahPendaftarPerJalur)
+          }
 
           return (
             <Box
               key={item.id}
-              // className={`p-4   rounded-sm shadow-lg flex items-center ${dark ? "bg-zinc-800" : "bg-white"}`}
               style={{
                 padding: "16px",
-                borderRadius: "10px",
+                borderRadius: "6px",
                 boxShadow: "0 5px 10px -5px black",
                 display: "flex",
                 alignItems: "center",
-                backgroundColor: `${dark ? "black" : "white"}`,
-                // flexDirection: "column"
+                backgroundColor: `${dark ? "#25262B" : "white"}`,
               }}
             >
               <Link
-                //  className="flex-1"
-                style={{ flex: 1 }}
+                className="flex-[1] no-underline text-[#2A166F]"
                 to={`${item.id}/informasi-umum`}
               >
-                <h2
-                  // className="font-bold text-2xl"
-                  style={{
-                    fontWeight: "bold",
-                  }}
-                >
+                <Text size={"xl"} weight={"bold"} sx={{
+                  color: `${dark ? "white" : "black"}`
+                }}>
                   {item.nama_jalur_pendaftaran}
-                </h2>
+                </Text>
 
-                <span
-                  style={{
-                    display: "flex",
-                    gap: "8px",
-                  }}
-                >
+                <span className="flex gap-3">
                   <p>
                     {item.waktu_dibuka} &ndash; {item.waktu_ditutup}{" "}
                   </p>
@@ -100,20 +92,115 @@ const AlurPPPDB = () => {
                   color="blue"
                   size={40}
                   radius={100}
-                  className="bg-blue-500"
-                  onClick={
-                    () => open()
-                    // modals.openContextModal({
-                    //   modal: 'createData',
-                    //   title: 'Test modal from context',
-                    //   innerProps: {
-                    //     modalBody:
-                    //       <div className="">
+                  className="bg-[#2A166F] hover:bg-[#2A166F]"
+                  onClick={() => {
 
-                    //       </div>,
-                    //   },
-                    //   size: "md"
-                    // })
+                    modals.openContextModal({
+                      id: "",
+                      modal: "modalAlurAdmin",
+                      title: "Ubah Jalur Pendaftaran PPDB",
+                      innerProps: {
+                        onAccept: submitHandler,
+                        onCancel: () => console.log("cancel"),
+                        modalBody: (
+                          <>
+                            <Stack sx={{ minHeight: "90vh" }}>
+
+                              <Radio.Group
+                                label="Metode Pembayaran"
+                                description="Pilih salah satu"
+                                styles={{
+                                  error: {
+                                    marginTop: "10px",
+                                  },
+                                }}
+                                onChange={(value) => {
+                                  // setMetodePembayaran(value)
+                                  console.log(value)
+
+                                }}
+                                // defaultValue={item.tipe}
+                                required
+                              >
+                                <Group
+                                  mt={"xs"}
+                                  pt={10}
+                                  sx={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    alignItems: "start"
+                                  }}
+                                >
+                                  <Radio
+                                    label="Pembelian"
+                                    value={"pembelian"}
+                                    required
+                                  />
+
+                                  <Radio
+                                    label="Pengembalian"
+                                    value={"pengemmbalian"}
+                                    required
+                                  />
+                                </Group>
+                              </Radio.Group>
+
+                              <TextInput
+                                value={item.nama_jalur_pendaftaran}
+                                onChange={(val) => console.log(val)}
+                                label="Nama"
+                              />
+
+                              <Grid>
+                                <Grid.Col md={6}>
+
+                                  <DateTimePicker
+                                    label="Waktu Dibuka"
+                                  />
+                                </Grid.Col>
+                                <Grid.Col md={6}>
+
+                                  <DateTimePicker
+                                    label="Waktu Ditutup"
+                                  />
+                                </Grid.Col>
+
+                              </Grid>
+
+                              <TextInput
+                                label="Biaya Pendaftaran"
+                              />
+
+                            </Stack>
+                          </>
+                        ),
+                      },
+                      styles: {
+                        header: {
+                          backgroundColor: "#2A166F",
+                          zIndex: 0
+                        },
+                        title: {
+                          color: "white",
+                          fontWeight: "bold",
+                          fontSize: "25px"
+                        },
+                        root: {
+                          borderRadius: "100px"
+                        },
+                        body: {
+                          overflow: "hidden",
+                          height: "80vh",
+                          position: "relative",
+                          display: "flex",
+                          flexDirection: "column",
+                          padding: 0
+                        },
+                      },
+                      size: "50rem"
+                    });
+
+                  }
                   }
                 >
                   <AiFillEdit size={20} />
@@ -123,7 +210,7 @@ const AlurPPPDB = () => {
                   color="blue"
                   size={40}
                   radius={100}
-                  className="bg-blue-500"
+                  className="bg-[#2A166F] hover:bg-[#2A166F] "
                 >
                   <BsFillTrashFill size={20} />
                 </ActionIcon>
@@ -131,45 +218,124 @@ const AlurPPPDB = () => {
             </Box>
           );
         })}
+
+        <Button mt={40}
+          onClick={() => {
+            const onAccept = () => {
+              console.log("create Jalur")
+            }
+
+            modals.openContextModal({
+              modal: "modalAlurAdmin",
+              title: "Tambah Alur Pendaftaran",
+              innerProps: {
+                onAccept,
+                onCancel: () => console.log("cancel"),
+                modalBody: (
+                  <>
+                    <Stack sx={{ minHeight: "90vh" }}>
+
+                      <Radio.Group
+                        label="Metode Pembayaran"
+                        description="Pilih salah satu"
+                        styles={{
+                          error: {
+                            marginTop: "10px",
+                          },
+                        }}
+                        onChange={(value) => {
+                          console.log(value)
+
+                        }}
+                        required
+                      >
+                        <Group
+                          mt={"xs"}
+                          pt={10}
+                          sx={{
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "start"
+                          }}
+                        >
+                          <Radio
+                            label="Pembelian"
+                            value={"pembelian"}
+                            required
+                          />
+
+                          <Radio
+                            label="Pengembalian"
+                            value={"pengemmbalian"}
+                            required
+                          />
+                        </Group>
+                      </Radio.Group>
+
+                      <TextInput
+                        onChange={(val) => console.log(val)}
+                        label="Nama"
+                      />
+
+                      <Grid sx={{ zIndex: 10000000 }}>
+                        <Grid.Col md={6}>
+
+                          <DateTimePicker
+                            label="Waktu Dibuka"
+                            sx={{ zIndex: 10000000 }}
+                          />
+                        </Grid.Col>
+                        <Grid.Col md={6}>
+
+                          <DateTimePicker
+                            label="Waktu Ditutup"
+                          />
+                        </Grid.Col>
+
+                      </Grid>
+
+                      <TextInput
+                        label="Biaya Pendaftaran"
+                      />
+
+                    </Stack>
+                  </>
+                ),
+
+              },
+              styles: {
+                header: {
+                  backgroundColor: "#2A166F",
+                },
+                title: {
+                  color: "white",
+                  fontWeight: "bold",
+                  fontSize: "25px"
+                },
+                root: {
+                  borderRadius: "100px"
+                },
+                body: {
+                  overflow: "hidden",
+                  height: "80vh",
+                  position: "relative",
+                  display: "flex",
+                  flexDirection: "column",
+                  padding: 0
+                },
+
+              },
+              size: "50rem",
+            });
+
+          }}
+        >
+          Tambah
+        </Button>
+
       </Box>
 
-      <CustomModal
-        body={
-          <>
-            <p style={{ fontWeight: "bold" }}>Nama</p>
-            <Input />
-            <Radio.Group
-              value={value}
-              onChange={setValue}
-              name="favoriteFramework"
-              // label="Select your favorite framework/library"
-              // description="This is anonymous"
-              withAsterisk
-            >
-              <Radio value="react" label="React" />
-              <Radio value="svelte" label="Svelte" />
-              <Radio value="ng" label="Angular" />
-              <Radio value="vue" label="Vue" />
-            </Radio.Group>
-            {/* <TextInput
-              autoFocus={focus}
-            /> */}
-            <p style={{ fontWeight: "bold", marginTop: "15px" }}>
-              Deskripsi Keterangan
-            </p>
-            {/* <TiptapEditor
-              desc={"descAlurPPDB"}
-              setDesc={setDescAlurPPDB}
-              style={{
-                // marginTop: "10px"
-              }}
-            /> */}
-          </>
-        }
-        close={close}
-        opened={opened}
-        title="Ubah Alur PPDB"
-      />
+
     </Page>
   );
 };
