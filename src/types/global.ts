@@ -83,3 +83,7 @@ export interface RefreshToken {
   refresh_token: string;
   token: string;
 }
+
+export interface AccessToken {
+  token: string;
+}

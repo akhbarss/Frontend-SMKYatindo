@@ -342,6 +342,7 @@ const PembelianFormulir = ({
                         description="Input Nominal"
                         value={activeTabIndex > 2 ? "150000" : ""}
                         required
+                        // onValueChange={() => }
                         withAsterisk
 
                     />

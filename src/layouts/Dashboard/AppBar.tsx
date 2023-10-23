@@ -83,7 +83,7 @@ const AppBar = ({
             <Menu.Item>Profile</Menu.Item>
             <Menu.Item
               onClick={() => {
-                localStorage.removeItem("accessToken");
+                localStorage.removeItem("_TuVbwpW");
                 navigate("/ppdb/auth/login");
               }}
             >

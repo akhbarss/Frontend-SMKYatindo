@@ -1,15 +1,46 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Alert, Box, Button, Card, Stack, Text, Timeline } from "@mantine/core";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaCheck } from "react-icons/fa";
 import { TbAlertCircleFilled } from "react-icons/tb";
 import { useBreakPoints } from "../../../../utils/UseBreakpoints";
 import Page from "../../../../components/Page";
+import { useMutation } from "@tanstack/react-query";
+import { jwtDecode } from "../../../../apis/alur/decodeJWT";
+import { AccessToken } from "../../../../types/global";
 
 const BerandaSiswaPPDB = () => {
   const { md } = useBreakPoints();
   const [active, setActive] = useState(1);
   const [showAlert, setShowAler] = useState(true);
+
+  const [nama, setNama] = useState(null)
+
+  const jwtDecodeMutation = useMutation({
+    mutationFn: jwtDecode
+  })
+
+  const accessToken = localStorage.getItem("_TuVbwpW")
+
+  useEffect(() => {
+
+
+    jwtDecodeMutation.mutate(accessToken, {
+      onSuccess: (response) => {
+        const { data } = response
+
+        // @ts-ignore
+        setNama(data.student.name)
+
+        console.log(response)
+      },
+      onError: (err) => {
+        console.log("FAILED")
+        console.log(err)
+      },
+    });
+
+  }, [])
 
   return (
     <Page title={"Beranda"}>
@@ -36,7 +67,7 @@ const BerandaSiswaPPDB = () => {
               fontSize: `${md ? "30px" : "16px"}`,
             }}
           >
-            Selamat datang, Ahmad. <br />
+            Selamat datang, {nama}. <br />
             Calon Siswa SMK Yayasan Tinta Emas Indonesia
           </Text>
           <img

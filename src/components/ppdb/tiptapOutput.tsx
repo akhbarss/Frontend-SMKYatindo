@@ -32,9 +32,9 @@ const TiptapOutput = ({
     return (
         <RichTextEditor
             editor={editorInput}
-            style={{ border: "none" }}
+            style={{ border: "none", }}
         >
-            <RichTextEditor.Content />
+            <RichTextEditor.Content sx={{ backgroundColor: "inherit" }} style={style} />
         </RichTextEditor>
     )
 }

@@ -9,8 +9,6 @@ import { useBreakPoints } from "../../utils/UseBreakpoints";
 import { useMutation } from "@tanstack/react-query";
 import { registration, RegistrationPayload } from "../../apis/registration";
 
-
-
 const Register = () => {
   const [noWhatssap, setNoWhatsapp] = useState("")
   const [namaLengkap, setNamaLengkap] = useState("")

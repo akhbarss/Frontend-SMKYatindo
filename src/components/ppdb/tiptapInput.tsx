@@ -79,7 +79,7 @@ const TiptapInput = ({
         onUpdate: ({ editor, }) => {
             const html = editor.getHTML()
             setDesc(html)
-            console.log(html)
+            // console.log(html)
         },
         // editable: false
     });

@@ -13,6 +13,7 @@ import {
 import InformasiUmum from "./pages/ppdb/admin/jalurPendaftaranPPDB/InformasiUmum";
 import Interceptors from "./Interceptor";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import JalurPendaftaranDetailLayout from "./layouts/JalurPendaftaranDetailLayout";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -108,7 +109,11 @@ export const routeConfigs = createBrowserRouter(
                     },
                     {
                       path: ":idJalurPendaftaran",
-                      Component: () => <Outlet />,
+                      Component: () => (
+                        <JalurPendaftaranDetailLayout>
+                          <Outlet />
+                        </JalurPendaftaranDetailLayout>
+                      ),
                       children: [
                         {
                           path: "informasi-umum",

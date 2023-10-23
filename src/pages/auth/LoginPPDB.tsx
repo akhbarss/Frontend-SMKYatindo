@@ -12,17 +12,50 @@ import Page from "../../components/Page";
 import SideAuthLayout from "../../layouts/SideAuthLayout";
 import { useBreakPoints } from "../../utils/UseBreakpoints";
 import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { LoginPayload, login } from "../../apis/login";
+import toast, { Toaster } from "react-hot-toast";
 
 const Login = () => {
+
+  const [noWhatsapp, setNoWhatsapp] = useState("")
+  const [password, setPassword] = useState("")
+  const loginMutation = useMutation({
+    mutationFn: login
+  })
 
   const { md, } = useBreakPoints()
 
   const navigate = useNavigate()
 
+  const sampleSubmitData = (payload: LoginPayload) => {
+    loginMutation.mutate(payload, {
+      onSuccess: (response) => {
+        toast.success('Successfully toasted!')
+        const { data } = response
+        
+        const accessToken = data?.access_token as string
+
+        if (accessToken) {
+          localStorage.setItem("_TuVbwpW", accessToken)
+          navigate("/ppdb/main/home")
+        }
+      },
+      onError: (err) => {
+        console.log("FAILED")
+        console.log(err)
+      },
+    });
+  };
+
   const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    navigate("/ppdb/main/home")
+    sampleSubmitData({
+      username: noWhatsapp,
+      password
+    })
 
   }
 
@@ -45,12 +78,17 @@ const Login = () => {
                   withAsterisk
                   label="Nomor Whatsapp"
                   required
+                  // type="number"
+                  value={noWhatsapp}
+                  onChange={e => setNoWhatsapp(e.target.value)}
                 />
 
                 <PasswordInput
                   withAsterisk
                   label="Password"
                   required
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
                 />
 
                 <Group
@@ -77,7 +115,7 @@ const Login = () => {
 
                 </Group>
 
-                <Button type="submit">
+                <Button type="submit" loading={loginMutation.status === "pending"}>
                   Login
                 </Button>
 
@@ -89,6 +127,10 @@ const Login = () => {
         <SideAuthLayout />
 
       </Paper>
+      <Toaster
+        position="top-center"
+        reverseOrder={false}
+      />
     </Page>
   );
 };
