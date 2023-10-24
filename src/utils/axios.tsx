@@ -1,11 +1,8 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import axios, { AxiosRequestConfig, InternalAxiosRequestConfig } from "axios";
 
-// export const BASE_URL = import.meta.env.VITE_BACKEND_URL;
+export const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
-export const BASE_URL = "http://192.168.100.130:8080/api"
-
+// export const BASE_URL = "http://192.168.100.130:8080/api";
 const request = axios.create({
   baseURL: BASE_URL,
   timeout: 10000000,
