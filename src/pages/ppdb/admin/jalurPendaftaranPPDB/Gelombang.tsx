@@ -10,28 +10,28 @@ import {
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useMutation } from "@tanstack/react-query";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { Toaster } from "react-hot-toast";
 import { AiFillEdit } from "react-icons/ai";
 import { BsFillTrashFill } from "react-icons/bs";
 import { useParams } from "react-router-dom";
 import * as yup from "yup";
 import { CreateGelombangPayload, createGelombang } from "../../../../apis/gelombang/createGelombang";
+import { DeleteGelombangPayload, deleteGelombang } from "../../../../apis/gelombang/deleteGelombang";
+import { EditGelombangPayload, editGelombang } from "../../../../apis/gelombang/editGelombang";
+import { GetGelombangByIdJalur } from "../../../../apis/gelombang/getGelombangByIdJalur";
 import { TGelombang } from "../../../../apis/jalur/getJalur";
 import Page from "../../../../components/Page";
 import ModalGelombangCreate from "../../../../components/modal/modalGelombangCreate";
-import { DarkTheme } from "../../../../utils/darkTheme";
 import ModalGelombangEdit from "../../../../components/modal/modalGelombangEdit";
-import { useState } from "react";
-import { EditGelombangPayload, editGelombang } from "../../../../apis/gelombang/editGelombang";
-import { DeleteGelombangPayload, deleteGelombang } from "../../../../apis/gelombang/deleteGelombang";
-import toast, { Toaster } from "react-hot-toast";
-import { GetGelombangByIdJalur } from "../../../../apis/gelombang/getGelombangByIdJalur";
+import { DarkTheme } from "../../../../utils/darkTheme";
 
 export type FormValuesCreateGelombang = {
   nama: string;
   jumlahPenerimaan: string;
-  waktuDibuka: string;
-  waktuDiitutup: string;
+  waktuDibuka: Date;
+  waktuDiitutup: Date;
   namaBank: string;
   nomorRekening: string;
   namaPemilikRekening: string;
@@ -41,8 +41,18 @@ export type FormValuesCreateGelombang = {
 const schema = yup.object({
   nama: yup.string().required("Tolong masukkan nama gelombang"),
   jumlahPenerimaan: yup.string().required("Tolong masukkan jumlah penerimaan"),
-  waktuDibuka: yup.string().required("Tolong masukkan waktu dibuka"),
-  waktuDiitutup: yup.string().required("Tolong masukkan waktu ditutup"),
+  waktuDibuka: yup.date().required("Tolong masukkan waktu dibuka"),
+  waktuDiitutup: yup.date().required("Tolong masukkan waktu ditutup"),
+  namaBank: yup.string().required("Tolong masukkan nama bank"),
+  nomorRekening: yup.string().required("Tolong masukkan nomor rekening"),
+  namaPemilikRekening: yup.string().required("Tolong masukkan nama pemilik rekening"),
+  biayaPendaftaran: yup.string().required("Tolong masukkan biaya pendaftaran"),
+})
+const schemaEdit = yup.object({
+  nama: yup.string().required("Tolong masukkan nama gelombang"),
+  jumlahPenerimaan: yup.string().required("Tolong masukkan jumlah penerimaan"),
+  waktuDibuka: yup.date().required("Tolong masukkan waktu dibuka"),
+  waktuDiitutup: yup.date().required("Tolong masukkan waktu ditutup"),
   namaBank: yup.string().required("Tolong masukkan nama bank"),
   nomorRekening: yup.string().required("Tolong masukkan nomor rekening"),
   namaPemilikRekening: yup.string().required("Tolong masukkan nama pemilik rekening"),
@@ -57,19 +67,34 @@ const Gelombang = () => {
   const [openedEdit, { open: openEdit, close: closeEdit }] = useDisclosure(false);
   const [dataGelombang, setDataGelombang] = useState<TGelombang | null>(null)
 
-  const form = useForm({
+  const formCreate = useForm({
     resolver: yupResolver(schema)
   })
   const {
-    control,
-    register,
-    handleSubmit,
-    setError,
-    setValue,
-    reset,
-    resetField,
-    formState: { errors },
-  } = form
+    control: controlCreate,
+    register: registerCreate,
+    handleSubmit: handleSubmitCreate,
+    // setError: setErrorCreate,
+    setValue: setValueCreate,
+    reset: resetCreate,
+    // resetField: resetFieldCreate,
+    formState: { errors: errorCreate },
+  } = formCreate
+
+  const formEdit = useForm({
+    resolver: yupResolver(schemaEdit)
+  })
+  const {
+    control: controlEdit,
+    register: registerEdit,
+    handleSubmit: handleSubmitEdit,
+    // setError: setErrorEdit,
+    setValue: setValueEdit,
+    // reset: resetEdit,
+    // resetField: resetFieldEdit,
+    // unregister,
+    formState: { errors: errorEdit },
+  } = formEdit
 
   // const jalur = dataJalurPendaftaran.find(jalur => jalur.id + "" === idJalurPendaftaran)
   // const {
@@ -109,16 +134,12 @@ const Gelombang = () => {
         console.log("SUCCESS")
         console.log(response)
         closeCreate()
-        refetch()
-        reset()
+        resetCreate()
       },
       onError: (error) => {
         console.log("FAILED")
         console.log(error)
       },
-      onSettled: () => {
-        console.log("SUBMITTED!!!")
-      }
     })
   }
 
@@ -129,7 +150,7 @@ const Gelombang = () => {
         console.log(response)
         closeEdit()
         refetch()
-        reset()
+        // reset()
 
       },
       onError: (error) => {
@@ -179,7 +200,7 @@ const Gelombang = () => {
         index: 1,
         max_quota: +jumlahPenerimaan,
         name: nama,
-        price: biayaPendaftaran,
+        price: biayaPendaftaran.substring(4).replace(/\./g, ""),
         start_date: waktuDibuka
       }
     }
@@ -203,15 +224,15 @@ const Gelombang = () => {
       bank_account: nomorRekening,
       bank_name: namaBank,
       bank_user: namaPemilikRekening,
+      start_date: waktuDibuka,
       end_date: waktuDiitutup,
       index: 1,
       max_quota: +jumlahPenerimaan,
       name: nama,
-      price: biayaPendaftaran,
-      start_date: waktuDibuka
+      price: biayaPendaftaran.substring(4).replace(/\./g, ""),
     }
 
-    // console.log(data)
+    console.log(data)
     submitEditGelombang(data)
   }
 
@@ -264,7 +285,7 @@ const Gelombang = () => {
 
   // const jalur = dataJalur?.find(jalur => jalur.id + "" === idJalurPendaftaran)
 
-  const contentGelombang =  data?.map(gelombang => (
+  const contentGelombang = data?.map(gelombang => (
     <Accordion.Item
       key={gelombang.id}
       value={gelombang.id.toString()}
@@ -285,7 +306,7 @@ const Gelombang = () => {
           children: (
             <>
               <h2>{gelombang.name}</h2>
-              <p>{gelombang.name}</p>
+              <p>{gelombang.countStudent} Pendaftar</p>
             </>
           )
         }}
@@ -300,7 +321,7 @@ const Gelombang = () => {
       </Accordion.Panel>
     </Accordion.Item>
 
-  )) 
+  ))
 
   return (
     <Page title="Gelombang">
@@ -328,39 +349,39 @@ const Gelombang = () => {
       </Accordion>
 
       <ModalGelombangCreate
+        control={controlCreate}
         close={() => {
           closeCreate()
-          reset()
+          // reset()
           // resetField("waktuDibuka")
           // resetField("waktuDiitutup")
           // resetField("biayaPendaftaran")
         }}
         opened={openedCreate}
-        errors={errors}
-        handleSubmit={handleSubmit}
-        register={register}
-        setValue={setValue}
+        errors={errorCreate}
+        handleSubmit={handleSubmitCreate}
+        register={registerCreate}
+        setValue={setValueCreate}
         tambahGelombangHandler={tambahGelombangHandler}
-        />
+      />
 
       <ModalGelombangEdit
+        control={controlEdit}
         close={() => {
           closeEdit()
-          reset()
+          // reset()
           // resetField("waktuDibuka")
           // resetField("waktuDiitutup")
           // resetField("biayaPendaftaran")
         }}
         opened={openedEdit}
-        errors={errors}
-        handleSubmit={handleSubmit}
-        register={register}
-        setValue={setValue}
+        errors={errorEdit}
+        handleSubmit={handleSubmitEdit}
+        register={registerEdit}
+        setValue={setValueEdit}
         editGelombangHandler={editGelombangHandler}
         gelombang={dataGelombang}
       />
-
-
 
       <Toaster
         position="top-center"

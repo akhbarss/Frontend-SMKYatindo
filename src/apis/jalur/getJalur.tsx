@@ -14,7 +14,7 @@ export type TGelombang = {
     price: number;
     bank_account: string;
     isOpen: string;
-    countStudent: null;
+    countStudent: number;
     students: []
 }
 

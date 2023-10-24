@@ -23,7 +23,7 @@ export const GetGelombangByIdJalur = (idJalur: string) => {
         error
     } = useQuery({
         queryKey: ["GetGelombangByIdJalur"],
-        queryFn: () => axios.get("/v1/admin/registration-batch/get-batch-by-pathsId?pathsId=" + idJalur, {
+        queryFn: () => axios.get("/v1/admin/registration-batch/index?pathId=" + idJalur, {
             headers: {
                 "Authorization": "Bearer " + accessToken
             }

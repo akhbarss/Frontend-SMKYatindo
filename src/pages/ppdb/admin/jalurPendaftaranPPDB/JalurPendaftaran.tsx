@@ -179,7 +179,7 @@ const AlurPPPDB = () => {
     //   0
     // );
 
-    const starDate = item.start_date && new Date(Date.parse(item.start_date))
+    const starDate = item.start_date && new Date(item.start_date)
     const endDate = item.end_date && new Date(item.end_date)
 
     return (

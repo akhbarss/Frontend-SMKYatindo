@@ -3,6 +3,7 @@ import { DateTimePicker } from '@mantine/dates'
 import ModalAdmin from '../modalAdmin'
 import {
     Group,
+    NumberInput,
     Grid,
     Button,
     TextInput,
@@ -14,6 +15,8 @@ import {
     FieldErrors,
     UseFormRegister,
     UseFormSetValue,
+    Controller,
+    Control
 } from "react-hook-form"
 import { FormValuesCreateGelombang } from '../../pages/ppdb/admin/jalurPendaftaranPPDB/Gelombang'
 import { TGelombang } from '../../apis/jalur/getJalur'
@@ -24,8 +27,8 @@ type TModalGelombangEdit = {
     register: UseFormRegister<{
         nama?: string;
         jumlahPenerimaan?: string;
-        waktuDibuka?: string;
-        waktuDiitutup?: string;
+        waktuDibuka?: Date;
+        waktuDiitutup?: Date;
         namaBank?: string;
         nomorRekening?: string;
         namaPemilikRekening?: string;
@@ -34,8 +37,8 @@ type TModalGelombangEdit = {
     setValue: UseFormSetValue<{
         nama?: string;
         jumlahPenerimaan?: string;
-        waktuDibuka?: string;
-        waktuDiitutup?: string;
+        waktuDibuka?: Date;
+        waktuDiitutup?: Date;
         namaBank?: string;
         nomorRekening?: string;
         namaPemilikRekening?: string;
@@ -44,8 +47,8 @@ type TModalGelombangEdit = {
     errors: FieldErrors<{
         nama?: string;
         jumlahPenerimaan?: string;
-        waktuDibuka?: string;
-        waktuDiitutup?: string;
+        waktuDibuka?: Date;
+        waktuDiitutup?: Date;
         namaBank?: string;
         nomorRekening?: string;
         namaPemilikRekening?: string;
@@ -54,13 +57,23 @@ type TModalGelombangEdit = {
     handleSubmit: UseFormHandleSubmit<{
         nama?: string;
         jumlahPenerimaan?: string;
-        waktuDibuka?: string;
-        waktuDiitutup?: string;
+        waktuDibuka?: Date;
+        waktuDiitutup?: Date;
         namaBank?: string;
         nomorRekening?: string;
         namaPemilikRekening?: string;
         biayaPendaftaran?: string;
     }, undefined>
+    control: Control<{
+        nama?: string;
+        jumlahPenerimaan?: string;
+        waktuDibuka?: Date;
+        waktuDiitutup?: Date;
+        namaBank?: string;
+        nomorRekening?: string;
+        namaPemilikRekening?: string;
+        biayaPendaftaran?: string;
+    }, any>
     editGelombangHandler(datas: FormValuesCreateGelombang): void
     gelombang: TGelombang
 }
@@ -73,11 +86,14 @@ const ModalGelombangEdit: React.FC<TModalGelombangEdit> = ({
     setValue,
     handleSubmit,
     gelombang,
-    editGelombangHandler
+    editGelombangHandler,
+    control
 }) => {
 
     const dateStart = new Date(gelombang?.start_date)
     const dateEnd = new Date(gelombang?.end_date)
+
+    console.log(gelombang?.price)
 
     return (
         <ModalAdmin
@@ -106,35 +122,55 @@ const ModalGelombangEdit: React.FC<TModalGelombangEdit> = ({
 
                     <Grid>
                         <Grid.Col md={6}>
-                            <DateTimePicker
-                                // error={errors.waktuDibuka?.message}
-                                label="Waktu Pendaftaran Dibuka"
-                                dropdownType="modal"
-                                error={errors?.waktuDibuka?.message}
-                                onChange={(e) => {
-                                    setValue("waktuDibuka", e.toISOString())
-                                }}
-                                // required
-                                // {...register("waktuDibuka")}
-
-                                // aria-label="dmasnd"
-                                clearable
+                            <Controller
+                                name='waktuDibuka'
+                                control={control}
                                 defaultValue={dateStart}
+                                render={({ field }) => (
+                                    <DateTimePicker
+                                        // error={errors.waktuDibuka?.message}
+                                        label="Waktu Pendaftaran Dibuka"
+                                        dropdownType="modal"
+                                        error={errors?.waktuDibuka?.message}
+                                        // onChange={(e) => {
+                                        //     setValue("waktuDibuka", e.toISOString())
+                                        // }}
+                                        // required
+                                        // {...register("waktuDibuka")}
+
+                                        // aria-label="dmasnd"
+                                        clearable
+                                        // defaultValue={dateStart}
+                                        {...field}
+                                    />
+                                )}
+
                             />
+
                         </Grid.Col>
                         <Grid.Col md={6}>
-                            <DateTimePicker
-                                // error={errors.waktuDiitutup?.message}
-                                label="Waktu Pendaftaran Ditutup"
-                                error={errors?.waktuDiitutup?.message}
-                                dropdownType="modal"
-                                onChange={(e) => {
-                                    setValue("waktuDiitutup", e.toISOString())
-                                }}
+                            <Controller
+                                name='waktuDiitutup'
+                                control={control}
                                 defaultValue={dateEnd}
+                                render={({ field }) => (
+                                    <DateTimePicker
+                                        // error={errors.waktuDiitutup?.message}
+                                        label="Waktu Pendaftaran Ditutup"
+                                        error={errors?.waktuDiitutup?.message}
+                                        dropdownType="modal"
+                                        // onChange={(e) => {
+                                        //     setValue("waktuDiitutup", e.toISOString())
+                                        // }}
+                                        clearable
+                                        // defaultValue={dateEnd}
+                                        {...field}
+                                    // aria-required
+                                    />
+                                )}
 
-                            // aria-required
                             />
+
                         </Grid.Col>
 
                     </Grid>
@@ -162,22 +198,30 @@ const ModalGelombangEdit: React.FC<TModalGelombangEdit> = ({
                         defaultValue={gelombang?.bank_user}
                     />
 
-                    <NumericFormat
-                        thousandSeparator="."
-                        decimalSeparator=","
-                        prefix="Rp. "
-                        customInput={TextInput}
-                        placeholder='Rp. 0'
-                        label="Biaya Pendaftaran"
-                        description="Input Nominal"
-                        onValueChange={(e) => setValue("biayaPendaftaran", e.value)}
-                        error={errors?.biayaPendaftaran?.message}
-                        withAsterisk
-                        defaultValue={gelombang?.price}
-                    // {...register("biayaPendaftaran")}
+                    <Controller
+                        name='biayaPendaftaran'
+                        control={control}
+                        defaultValue={`${gelombang?.price}`}
+                        render={({ field }) => (
+                            <NumericFormat
+                                thousandSeparator="."
+                                decimalSeparator=","
+                                prefix="Rp. "
+                                customInput={TextInput}
+                                placeholder='Rp. 0'
+                                label="Biaya Pendaftaran"
+                                description="Input Nominal"
+                                // onValueChange={(e) => setValue("biayaPendaftaran", e.value)}
+
+                                error={errors?.biayaPendaftaran?.message}
+                                withAsterisk
+                                // defaultValue={gelombang?.price.toString()}
+                                {...field}
+                            // {...register("biayaPendaftaran")}
+                            />
+                        )}
 
                     />
-
                 </Stack>
 
                 <Group

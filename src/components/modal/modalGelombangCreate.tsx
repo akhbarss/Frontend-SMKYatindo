@@ -23,8 +23,8 @@ type TModalGelombangCreate = {
     register: UseFormRegister<{
         nama?: string;
         jumlahPenerimaan?: string;
-        waktuDibuka?: string;
-        waktuDiitutup?: string;
+        waktuDibuka?: Date;
+        waktuDiitutup?: Date;
         namaBank?: string;
         nomorRekening?: string;
         namaPemilikRekening?: string;
@@ -33,8 +33,8 @@ type TModalGelombangCreate = {
     setValue: UseFormSetValue<{
         nama?: string;
         jumlahPenerimaan?: string;
-        waktuDibuka?: string;
-        waktuDiitutup?: string;
+        waktuDibuka?: Date;
+        waktuDiitutup?: Date;
         namaBank?: string;
         nomorRekening?: string;
         namaPemilikRekening?: string;
@@ -43,8 +43,8 @@ type TModalGelombangCreate = {
     errors: FieldErrors<{
         nama?: string;
         jumlahPenerimaan?: string;
-        waktuDibuka?: string;
-        waktuDiitutup?: string;
+        waktuDibuka?: Date;
+        waktuDiitutup?: Date;
         namaBank?: string;
         nomorRekening?: string;
         namaPemilikRekening?: string;
@@ -53,13 +53,23 @@ type TModalGelombangCreate = {
     handleSubmit: UseFormHandleSubmit<{
         nama?: string;
         jumlahPenerimaan?: string;
-        waktuDibuka?: string;
-        waktuDiitutup?: string;
+        waktuDibuka?: Date;
+        waktuDiitutup?: Date;
         namaBank?: string;
         nomorRekening?: string;
         namaPemilikRekening?: string;
         biayaPendaftaran?: string;
     }, undefined>
+    control: Control<{
+        nama?: string;
+        jumlahPenerimaan?: string;
+        waktuDibuka?: Date;
+        waktuDiitutup?: Date;
+        namaBank?: string;
+        nomorRekening?: string;
+        namaPemilikRekening?: string;
+        biayaPendaftaran?: string;
+    }, any>
     tambahGelombangHandler(datas: FormValuesCreateGelombang): void
 }
 
