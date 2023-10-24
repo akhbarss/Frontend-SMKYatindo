@@ -35,7 +35,6 @@ type TModalJalurCreate = {
         waktuDibuka?: string;
         waktuDiitutup?: string;
     }>
-    tambahJalurHandler: (datas: FormValuesCreateJalur) => void
     handleSubmit: UseFormHandleSubmit<{
         tipeJalur?: string;
         namaJalur?: string;
@@ -50,6 +49,7 @@ type TModalJalurCreate = {
         waktuDibuka?: string;
         waktuDiitutup?: string;
     }>
+    tambahJalurHandler: (datas: FormValuesCreateJalur) => void
 }
 
 const ModallJalurCreate: React.FC<TModalJalurCreate> = ({
@@ -120,7 +120,7 @@ const ModallJalurCreate: React.FC<TModalJalurCreate> = ({
                         {...register("namaJalur")}
                     />
 
-                    <Grid >
+                    <Grid>
                         <Grid.Col md={6}>
                             <DateTimePicker
                                 error={errors.waktuDibuka?.message}
@@ -167,6 +167,7 @@ const ModallJalurCreate: React.FC<TModalJalurCreate> = ({
                     // {...register("biayaPendaftaran")}
 
                     />
+
                 </Stack>
 
                 <Group

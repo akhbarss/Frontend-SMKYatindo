@@ -4,12 +4,12 @@ import { Oval } from "react-loader-spinner"
 const Loading = () => {
     return (
         <Box
+            id="loading-container"
             sx={{
-                height: "100vh",
-                width: "100vw",
                 display: "flex",
                 justifyContent: "center",
-                alignItems: "center"
+                alignItems: "center",
+                minHeight: "80vh"
             }}
         >
             {/* 4A8EF4 */}
@@ -17,7 +17,6 @@ const Loading = () => {
                 height={80}
                 width={80}
                 color="#4A8EF4"
-                wrapperStyle={{}}
                 wrapperClass=""
                 visible={true}
                 ariaLabel='oval-loading'

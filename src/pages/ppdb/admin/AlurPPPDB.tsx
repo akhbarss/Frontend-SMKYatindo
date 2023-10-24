@@ -23,6 +23,7 @@ import ModalAlurEdit from "../../../components/modal/modalAlurEdit";
 import TiptapOutput from "../../../components/ppdb/tiptapOutput";
 import { DarkTheme } from "../../../utils/darkTheme";
 import toast, { Toaster } from "react-hot-toast";
+import PageLoading from "../../../components/PageLoading";
 
 const AlurPPPDB = () => {
   const dark = DarkTheme();
@@ -108,7 +109,7 @@ const AlurPPPDB = () => {
     });
   }
 
-  if (load) return <h1>Loading</h1>
+  if (load) return <PageLoading />
   if (isErr) return <h1>Terjadi Kesalahan</h1>
 
   const tambahALurHandler = () => {
@@ -230,7 +231,7 @@ const AlurPPPDB = () => {
                   <TiptapOutput desc={item.content} />
                 </Accordion.Panel>
               </Accordion.Item>
-            )) : <h1>Data Kosong</h1>
+            )) : <h2>Data Kosong</h2>
           }
 
         </Accordion>
