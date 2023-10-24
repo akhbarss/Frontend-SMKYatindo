@@ -1,65 +1,74 @@
 import { AxiosResponse } from "axios";
 import axios from "../../utils/axios";
-import { QueryObserverResult, RefetchOptions, useQuery } from "@tanstack/react-query";
+import {
+  QueryObserverResult,
+  RefetchOptions,
+  useQuery,
+} from "@tanstack/react-query";
+import { ResponseType } from "../../types/global";
 
 export type TGelombang = {
-    id: number;
-    name: string;
-    index: number;
-    max_quota: number;
-    start_date: string;
-    end_date: string;
-    bank_name: string
-    bank_user: string
-    price: number;
-    bank_account: string;
-    isOpen: string;
-    countStudent: number;
-    students: []
-}
+  id: number;
+  name: string;
+  index: number;
+  max_quota: number;
+  start_date: string;
+  end_date: string;
+  bank_name: string;
+  bank_user: string;
+  price: number;
+  bank_account: string;
+  isOpen: string;
+  countStudent: number;
+  students: [];
+};
 
 export type JalurPendaftaran = {
-    id: number;
-    name: string;
-    type: string;
-    start_date: string;
-    end_date: string;
-    price: string;
-}
+  id: number;
+  name: string;
+  type: string;
+  start_date: string;
+  end_date: string;
+  price: string;
+};
 
 export type TGetAllJalurPendaftaran = {
-    data: JalurPendaftaran[],
-    load: boolean,
-    isErr: boolean
-    refetch: (options?: RefetchOptions) => Promise<QueryObserverResult<AxiosResponse<any, any>, Error>>;
-}
+  data: JalurPendaftaran[];
+  load: boolean;
+  isErr: boolean;
+  refetch: (
+    options?: RefetchOptions
+  ) => Promise<QueryObserverResult<AxiosResponse<any, any>, Error>>;
+};
 
 export const GetAllJalurPendaftaran = () => {
+  const accessToken = localStorage.getItem("_TuVbwpW");
 
-    const accessToken = localStorage.getItem("_TuVbwpW")
+  const { data, isLoading, isError, refetch, error } = useQuery({
+    queryKey: ["getAllJalurPendaftaran"],
+    queryFn: () =>
+      axios.get("/v1/admin/registration-paths/index", {
+        headers: {
+          Authorization: "Bearer " + accessToken,
+        },
+      }),
+  });
 
-    const {
-        data,
-        isLoading,
-        isError,
-        refetch,
-        error,
-    } = useQuery({
-        queryKey: ["getAllJalurPendaftaran"],
-        queryFn: () => axios.get("/v1/admin/registration-paths/index", {
-            headers: {
-                "Authorization": "Bearer " + accessToken
-            }
-        })
-    })
+  // console.log(error?.message)
 
-    // console.log(error?.message)
+  return {
+    data: data?.data?.data,
+    load: isLoading,
+    isErr: isError,
+    refetch,
+  } as TGetAllJalurPendaftaran;
+};
 
-    return {
-        data: data?.data?.data,
-        load: isLoading,
-        isErr: isError,
-        refetch
-    } as TGetAllJalurPendaftaran
-
+export const GetJalurPendaftaranByType = async (
+  type: string
+): Promise<ResponseType<JalurPendaftaran[]>> => {
+  const response = await axios.get(
+    "/v1/admin/registration-batch/getByType?type=" + type
+  );
+  return response.data;
 };
