@@ -19,8 +19,8 @@ export type CreateGelombangPayload = {
         name: string,
         index: number;
         max_quota: number;
-        start_date: string;
-        end_date: string
+        start_date: Date;
+        end_date: Date;
         bank_account: string;
         bank_name: string;
         bank_user: string;
@@ -28,16 +28,52 @@ export type CreateGelombangPayload = {
     },
 };
 
+type CreateGelombangRequest = {
+    name: string,
+    index: number;
+    max_quota: number;
+    start_date: string;
+    end_date: string
+    bank_account: string;
+    bank_name: string;
+    bank_user: string;
+    price: string;
+}
+
 export const createGelombang = async (payload: CreateGelombangPayload): Promise<ResponseType<Response>> => {
     const {
         idJalur,
-        payloadCreate
+        payloadCreate: {
+            bank_account,
+            bank_name,
+            bank_user,
+            end_date,
+            index,
+            max_quota,
+            name,
+            price,
+            start_date
+        }
 
     } = payload
 
-    console.log(payloadCreate)
+    // console.log(payloadCreate)
 
-    const response = await axios.post("/v1/admin/registration-batch/post?regisId=" + idJalur, payloadCreate);
+
+    const data: CreateGelombangRequest = {
+        bank_account,
+        bank_name,
+        bank_user,
+        end_date: end_date.toISOString(),
+        index,
+        max_quota,
+        name,
+        price,
+        start_date: start_date.toISOString()
+    }
+
+
+    const response = await axios.post("/v1/admin/registration-batch/post?regisId=" + idJalur, data);
 
     return response.data;
 };

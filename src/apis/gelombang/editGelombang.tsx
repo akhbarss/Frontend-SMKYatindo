@@ -6,8 +6,8 @@ export type EditGelombangPayload = {
     name: string,
     index: number;
     max_quota: number;
-    start_date: string;
-    end_date: string
+    start_date: Date;
+    end_date: Date
     bank_account: string;
     bank_name: string;
     bank_user: string;
@@ -45,15 +45,15 @@ export const editGelombang = async (payload: EditGelombangPayload): Promise<Resp
         bank_account,
         bank_name,
         bank_user,
-        end_date,
+        start_date: start_date.toISOString(),
+        end_date: end_date.toISOString(),
         index,
         max_quota,
         name,
         price,
-        start_date
     }
 
-    console.log(payload)
+    console.log(data)
 
     const response = await axios.patch("/v1/admin/registration-batch/update?id=" + id, data);
 
