@@ -8,14 +8,17 @@ import SideAuthLayout from "../../layouts/SideAuthLayout";
 import { useBreakPoints } from "../../utils/UseBreakpoints";
 import { useMutation } from "@tanstack/react-query";
 import { registration, RegistrationPayload } from "../../apis/registration";
+import ResponseError from "../../utils/ResponseError";
+import { modals } from "@mantine/modals";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
-  const [noWhatssap, setNoWhatsapp] = useState("")
-  const [namaLengkap, setNamaLengkap] = useState("")
-  const [alamat, setAlamat] = useState("")
-  const [password, setPassword] = useState("")
-  const [asalSekolah, setAsalSekolah] = useState("")
-  // const [] = useState("")
+  const [noWhatssap, setNoWhatsapp] = useState("");
+  const [namaLengkap, setNamaLengkap] = useState("");
+  const [alamat, setAlamat] = useState("");
+  const [password, setPassword] = useState("");
+  const [asalSekolah, setAsalSekolah] = useState("");
+  const navigate = useNavigate();
 
   const [active, setActive] = useState(0);
   const [highestStepVisited, setHighestStepVisited] = useState(active);
@@ -38,16 +41,27 @@ const Register = () => {
   const sampleSubmitData = (payload: RegistrationPayload) => {
     registrationMutation.mutate(payload, {
       onSuccess: (response) => {
-        console.log("SUCESS")
-        console.log(response)
+        if (import.meta.env.VITE_SESSION === "localstorage") {
+          localStorage.setItem("_TuVbwpW", response.data.access_token); // access_token
+          localStorage.setItem("_RuvTpQv", response.data.refresh_token); // refresh_token
+        }
+
+        modals.openContextModal({
+          modal: "modalSuccess",
+          innerProps: {
+            onAccept: () => {
+              navigate("/ppdb/main/home");
+            },
+            modalBody: `Selamat, anda telah berhasil memulai awal PPDB. silahkan klik lanjutkan`,
+          },
+          closeOnClickOutside: false,
+          closeOnEscape: false,
+          withCloseButton: false,
+        });
       },
-      onError: (err) => {
-        console.log("FAILED")
-        console.log(err)
-      },
+      onError: (err) => ResponseError(err),
     });
   };
-
 
   const submitHandler = () => {
     const data = {
@@ -57,15 +71,12 @@ const Register = () => {
       studentData: {
         address: alamat,
         name: namaLengkap,
-        school_origin: asalSekolah
-      }
-    }
+        school_origin: asalSekolah,
+      },
+    };
 
-    sampleSubmitData(data)
-    console.log(data)
-
-  }
-
+    sampleSubmitData(data);
+  };
 
   const shouldAllowSelectStep = (step: number) =>
     highestStepVisited >= step && active !== step;
@@ -131,7 +142,6 @@ const Register = () => {
               </Stepper.Completed>
             </Stepper>
           </Stack>
-          {registrationMutation.status === "pending" ? "Loading" : "kagak"}
         </Box>
 
         <SideAuthLayout />

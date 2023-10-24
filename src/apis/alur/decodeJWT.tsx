@@ -1,10 +1,18 @@
 import axios from "../../utils/axios";
-import { AccessToken, ResponseType } from "../../types/global";
+import { ResponseType } from "../../types/global";
+import { Response } from "../registration";
+import { Student } from "../../types/student";
 
-export const jwtDecode = async (
-    payload: string
-): Promise<ResponseType<Response>> => {
-    const response = await axios.get("/v1/auth/session?token=" + payload);
+export type UserSession = {
+  id: number;
+  username: string;
+  role: string;
+  joinAt: null;
+  student: Student;
+};
 
-    return response.data;
+export const jwtDecode = async (): Promise<ResponseType<UserSession>> => {
+  const response = await axios.get("/v1/admin/session");
+
+  return response.data;
 };

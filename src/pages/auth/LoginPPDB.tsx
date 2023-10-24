@@ -6,7 +6,7 @@ import {
   Paper,
   Stack,
   TextInput,
-  Title
+  Title,
 } from "@mantine/core";
 import Page from "../../components/Page";
 import SideAuthLayout from "../../layouts/SideAuthLayout";
@@ -16,71 +16,64 @@ import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { LoginPayload, login } from "../../apis/login";
 import toast, { Toaster } from "react-hot-toast";
+import ResponseError from "../../utils/ResponseError";
 
 const Login = () => {
-
-  const [noWhatsapp, setNoWhatsapp] = useState("")
-  const [password, setPassword] = useState("")
+  const [noWhatsapp, setNoWhatsapp] = useState("");
+  const [password, setPassword] = useState("");
   const loginMutation = useMutation({
-    mutationFn: login
-  })
+    mutationFn: login,
+  });
 
-  const { md, } = useBreakPoints()
+  const { md } = useBreakPoints();
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const sampleSubmitData = (payload: LoginPayload) => {
     loginMutation.mutate(payload, {
       onSuccess: (response) => {
-        toast.success('Successfully toasted!')
-        const { data } = response
-        
-        const accessToken = data?.access_token as string
+        toast.success("Successfully toasted!");
+        const { data } = response;
+
+        const accessToken = data?.access_token as string;
 
         if (accessToken) {
-          localStorage.setItem("_TuVbwpW", accessToken)
-          navigate("/ppdb/main/home")
+          localStorage.setItem("_TuVbwpW", accessToken);
+          navigate("/ppdb/main/home");
         }
       },
-      onError: (err) => {
-        console.log("FAILED")
-        console.log(err)
-      },
+      onError: (err) => ResponseError(err),
     });
   };
 
   const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+    e.preventDefault();
 
     sampleSubmitData({
       username: noWhatsapp,
-      password
-    })
-
-  }
+      password,
+    });
+  };
 
   return (
     <Page title={"Login"}>
-      <Paper
-        pt={`${!md ? "70px" : 0}`}
-        className={`flex  min-h-[100vh]`}
-      >
-        <Box
-          className="flex-[2] p-[0_1rem_] flex flex-col overflow-y-auto min-h-[87vh]  items-center"
-        >
-          <Box w={`${md ? "30rem" : "20rem"}`} className="py-[2rem] mx-auto mt-20 ">
+      <Paper pt={`${!md ? "70px" : 0}`} className={`flex  min-h-[100vh]`}>
+        <Box className="flex-[2] p-[0_1rem_] flex flex-col overflow-y-auto min-h-[87vh]  items-center">
+          <Box
+            w={`${md ? "30rem" : "20rem"}`}
+            className="py-[2rem] mx-auto mt-20 "
+          >
             <Title align="center">Login</Title>
 
             <form onSubmit={submitHandler} className="mt-10">
-              <Stack >
-
+              <Stack>
                 <TextInput
                   withAsterisk
                   label="Nomor Whatsapp"
                   required
                   // type="number"
                   value={noWhatsapp}
-                  onChange={e => setNoWhatsapp(e.target.value)}
+                  onChange={(e) => setNoWhatsapp(e.target.value)}
                 />
 
                 <PasswordInput
@@ -88,17 +81,16 @@ const Login = () => {
                   label="Password"
                   required
                   value={password}
-                  onChange={e => setPassword(e.target.value)}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
 
                 <Group
                   sx={{
                     display: "flex",
                     justifyContent: "space-between",
-                    flexDirection: `${md ? "row" : "column"}`
+                    flexDirection: `${md ? "row" : "column"}`,
                   }}
                 >
-
                   <Link
                     to={"/ppdb/auth/register"}
                     className="text-[#103C6F] text-center"
@@ -112,28 +104,24 @@ const Login = () => {
                   >
                     Lupa Password?
                   </Link>
-
                 </Group>
 
-                <Button type="submit" loading={loginMutation.status === "pending"}>
+                <Button
+                  type="submit"
+                  loading={loginMutation.status === "pending"}
+                >
                   Login
                 </Button>
-
               </Stack>
             </form>
           </Box>
         </Box>
 
         <SideAuthLayout />
-
       </Paper>
-      <Toaster
-        position="top-center"
-        reverseOrder={false}
-      />
+      <Toaster position="top-center" reverseOrder={false} />
     </Page>
   );
 };
 
 export default Login;
-

@@ -1,24 +1,24 @@
 import {
-  ActionIcon,
-  Menu,
   Avatar,
   Burger,
   Group,
   Header as MantineHeader,
   MediaQuery,
-  useMantineTheme,
+  Menu,
   Text,
+  useMantineTheme,
 } from "@mantine/core";
-import { FaBell } from "react-icons/fa";
 import { MdKeyboardArrowDown } from "react-icons/md";
-import { ScrollRestoration, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const AppBar = ({
   opened,
   setOpened,
+  fullname,
 }: {
   opened: boolean;
   setOpened: () => void;
+  fullname?: string;
 }) => {
   const theme = useMantineTheme();
   const navigate = useNavigate();
@@ -39,8 +39,6 @@ const AppBar = ({
         backgroundColor: "#2A166F",
       }}
     >
-      <ScrollRestoration />
-
       <Group>
         <MediaQuery largerThan="md" styles={{ display: "none" }}>
           <Burger
@@ -63,7 +61,6 @@ const AppBar = ({
       </Group>
 
       <Group spacing={"lg"}>
-
         <Menu trigger="hover" openDelay={100} closeDelay={400}>
           <Menu.Target>
             <Group spacing={5}>
@@ -79,7 +76,7 @@ const AppBar = ({
           </Menu.Target>
 
           <Menu.Dropdown>
-            <Menu.Label>Muhammad Akhbar Firdaus</Menu.Label>
+            <Menu.Label>{fullname ?? "-"}</Menu.Label>
             <Menu.Item>Profile</Menu.Item>
             <Menu.Item
               onClick={() => {

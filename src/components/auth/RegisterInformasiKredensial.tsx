@@ -25,29 +25,10 @@ const RegisterInformasiKredensial: React.FC<TRegisterInformasiKredensial> = ({
   onSubmit,
   registrationMutation,
 }) => {
-  const navigate = useNavigate();
-
   const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     onSubmit();
-    // const onAccept = () => {
-    //     console.log("go to homepage")
-
-    //     navigate("/ppdb/main/home")
-    // }
-
-    // modals.openContextModal({
-    //     modal: 'modalSuccess',
-    //     innerProps: {
-    //         onAccept,
-    //         modalBody:
-    //             `Selamat, anda telah berhasil memulai awal PPDB. silahkan klik lanjutkan`,
-    //     },
-    //     closeOnClickOutside: false,
-    //     closeOnEscape: false,
-    //     withCloseButton: false
-    // })
   };
 
   return (
@@ -62,13 +43,6 @@ const RegisterInformasiKredensial: React.FC<TRegisterInformasiKredensial> = ({
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-
-        {/* <TextInput
-                    label="Konfirmasi Password"
-                    withAsterisk
-                    required
-                    type="password"
-                /> */}
 
         <Group position="center" mt="xl">
           <Button

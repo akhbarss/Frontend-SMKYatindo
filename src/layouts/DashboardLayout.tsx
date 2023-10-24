@@ -4,8 +4,11 @@ import AppBar from "./Dashboard/AppBar";
 import Navigation from "./Dashboard/Navigation";
 import { useBreakPoints } from "../utils/UseBreakpoints";
 import { Footer } from "./index";
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import PageLoading from "../components/PageLoading";
+import { jwtDecode } from "../apis/alur/decodeJWT";
+import { useQuery } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 
 type TDashboard = {
   children: any;
@@ -15,11 +18,33 @@ const DashboardLayout: React.FC<TDashboard> = ({ children }) => {
   const [opened, { toggle }] = useDisclosure(false);
   const { sm } = useBreakPoints();
 
+  const {
+    error,
+    isError,
+    isSuccess,
+    data: user,
+  } = useQuery({
+    queryFn: jwtDecode,
+    queryKey: ["session"],
+  });
+
+  useEffect(() => {
+    if (isError) {
+      toast.error("Error saat mengambil data sesi");
+    }
+  }, [isError, error]);
+
   return (
     <Suspense fallback={<PageLoading />}>
       <AppShell
         padding={0}
-        header={<AppBar opened={opened} setOpened={toggle} />}
+        header={
+          <AppBar
+            opened={opened}
+            setOpened={toggle}
+            fullname={isSuccess ? user.data.student.name : "-"}
+          />
+        }
         navbar={<Navigation opened={opened} />}
         navbarOffsetBreakpoint="md"
       >
