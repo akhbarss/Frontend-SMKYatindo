@@ -8,7 +8,7 @@ import {
   Center,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { AiFillEdit } from "react-icons/ai";
 import { BsFillTrashFill } from "react-icons/bs";
@@ -35,6 +35,7 @@ const AlurPPPDB = () => {
     useDisclosure(false);
   const [openedEdit, { open: openEdit, close: closeEdit }] =
     useDisclosure(false);
+  const queryClient = useQueryClient();
 
   const [idAlur, setIdAlur] = useState(null);
   const [title, setTitle] = useState("");
@@ -70,7 +71,7 @@ const AlurPPPDB = () => {
         setTitle("");
         setDescAlurPPDB("");
         closeCreate();
-        refetch();
+        queryClient.invalidateQueries(["get_all_alur"]);
       },
       onError: (err) => {
         // @ts-ignore
@@ -129,7 +130,6 @@ const AlurPPPDB = () => {
     const data = {
       content: descAlurPPDB,
       title,
-      user_id: 2,
     };
     submitCreateAlur(data);
   };
@@ -206,8 +206,8 @@ const AlurPPPDB = () => {
         }}
       >
         <Accordion multiple variant="separated" chevronPosition="left">
-          {alurPendaftaran && alurPendaftaran.length > 0 ? (
-            alurPendaftaran.map((item) => (
+          {alurPendaftaran && alurPendaftaran.data.length > 0 ? (
+            alurPendaftaran.data.map((item) => (
               <Accordion.Item
                 key={item.id}
                 value={item.id.toString()}
