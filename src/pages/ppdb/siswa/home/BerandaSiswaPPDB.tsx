@@ -1,5 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Alert, Box, Card, Stack, Text, Timeline } from "@mantine/core";
+import {
+  Alert,
+  Box,
+  Card,
+  LoadingOverlay,
+  Stack,
+  Text,
+  Timeline,
+} from "@mantine/core";
 import { useState } from "react";
 import { FaCheck } from "react-icons/fa";
 import { TbAlertCircleFilled } from "react-icons/tb";
@@ -8,6 +16,7 @@ import Page from "../../../../components/Page";
 import { jwtDecode } from "../../../../apis/alur/decodeJWT";
 import { useQuery } from "@tanstack/react-query";
 import { GetAllAlurPendaftaran } from "../../../../apis/alur/getAlur";
+import TiptapOutput from "../../../../components/ppdb/tiptapOutput";
 
 const BerandaSiswaPPDB = () => {
   const { md } = useBreakPoints();
@@ -21,7 +30,7 @@ const BerandaSiswaPPDB = () => {
 
   const {
     data: alurPendaftaran,
-    isError,
+    isSuccess: isSuccessGetAlur,
     isLoading,
   } = useQuery({
     queryKey: ["get_all_alur"],
@@ -87,27 +96,23 @@ const BerandaSiswaPPDB = () => {
         <Box>
           <Card shadow="xl">
             <Text weight={"bold"}>Alur Pendaftaran</Text>
-            <Timeline active={active} bulletSize={24} lineWidth={2}>
-              <Timeline.Item
-                mt={30}
-                bullet={<FaCheck size={12} />}
-                title="Pembelian Formulir"
-                lineVariant="solid"
-              >
-                <Text color="dimmed" size="sm">
-                  Wa admin 0838382323
-                </Text>
-                {/* <Text size="xs" mt={4}>2 hours ago</Text> */}
-              </Timeline.Item>
-
-              <Timeline.Item
-                bullet={<FaCheck size={12} />}
-                title="Pengembalian Formulir"
-              >
-                {/* <Text color="dimmed" size="sm">You&apos;ve pushed 23 commits to<Text variant="text" component="span" inherit>fix-notifications branch</Text></Text> */}
-                {/* <Text size="xs" mt={4}>52 minutes ago</Text> */}
-              </Timeline.Item>
-            </Timeline>
+            {isLoading && <LoadingOverlay visible={true} />}
+            {isSuccessGetAlur && (
+              <Timeline active={active} bulletSize={24} lineWidth={2}>
+                {alurPendaftaran &&
+                  alurPendaftaran.data.length > 0 &&
+                  alurPendaftaran.data.map((alur) => (
+                    <Timeline.Item
+                      mt={30}
+                      bullet={<FaCheck size={12} />}
+                      title={alur.title}
+                      lineVariant="solid"
+                    >
+                      <TiptapOutput desc={alur.content} />
+                    </Timeline.Item>
+                  ))}
+              </Timeline>
+            )}
           </Card>
         </Box>
       </Stack>
