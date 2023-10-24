@@ -17,68 +17,42 @@ import { useMutation } from "@tanstack/react-query";
 import { LoginPayload, login } from "../../apis/login";
 import toast, { Toaster } from "react-hot-toast";
 import ResponseError from "../../utils/ResponseError";
+import FormRegisterAdmin, {
+  TFormFieldRegisterAdmin,
+} from "../../components/FormRegisterAdmin";
+import FormWrapper from "../../components/FormWrapper";
+import { registrationAdmin } from "../../apis/registration";
+import { SubmitHandler } from "react-hook-form";
 
-const Login = () => {
-  const [noWhatsapp, setNoWhatsapp] = useState("");
-  const [password, setPassword] = useState("");
-  const loginMutation = useMutation({
-    mutationFn: login,
-  });
-
+const RegisterAdmin = () => {
   const { md } = useBreakPoints();
-
+  const registrationMutation = useMutation({
+    mutationFn: registrationAdmin,
+  });
   const navigate = useNavigate();
 
-  const sampleSubmitData = (payload: LoginPayload) => {
-    loginMutation.mutate(payload, {
+  const submitData: SubmitHandler<TFormFieldRegisterAdmin> = (payload) => {
+    registrationMutation.mutate(payload, {
       onSuccess: (response) => {
-        toast.success("Sukses Login!");
-
-        localStorage.setItem("_TuVbwpW", response.data.access_token);
-        localStorage.setItem("_RuvTpQv", response.data.refresh_token);
-        navigate("/ppdb/main/home");
+        toast.success("Sukses mendaftarkan, sekarang anda bisa login! ");
+        navigate("/ppdb/auth/login");
       },
       onError: (err) => ResponseError(err),
     });
   };
 
-  const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    sampleSubmitData({
-      username: noWhatsapp,
-      password,
-    });
-  };
-
   return (
-    <Page title={"Login"}>
+    <Page title={"Daftar User Admin"}>
       <Paper pt={`${!md ? "70px" : 0}`} className={`flex  min-h-[100vh]`}>
         <Box className="flex-[2] p-[0_1rem_] flex flex-col overflow-y-auto min-h-[87vh]  items-center">
           <Box
             w={`${md ? "30rem" : "20rem"}`}
             className="py-[2rem] mx-auto mt-20 "
           >
-            <Title align="center">Login</Title>
-
-            <form onSubmit={submitHandler} className="mt-10">
-              <Stack>
-                <TextInput
-                  withAsterisk
-                  label="Nomor Whatsapp"
-                  required
-                  // type="number"
-                  value={noWhatsapp}
-                  onChange={(e) => setNoWhatsapp(e.target.value)}
-                />
-
-                <PasswordInput
-                  withAsterisk
-                  label="Password"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
+            <Title align="center">Daftar User Admin</Title>
+            <FormWrapper id={"form-registeradmin"} onSubmit={submitData}>
+              <Stack className={"mt-10"}>
+                <FormRegisterAdmin />
 
                 <Group
                   sx={{
@@ -88,28 +62,25 @@ const Login = () => {
                   }}
                 >
                   <Link
-                    to={"/ppdb/auth/register"}
+                    to={"/ppdb/auth/login"}
                     className="text-[#103C6F] text-center"
                   >
-                    Belum punya akun? daftar
+                    Sudah punya akun ?
                   </Link>
 
                   <Link
                     to={"https://wa.me/6281380908008"}
                     className="text-[#103C6F] text-center"
                   >
-                    Lupa Password?
+                    Butuh bantuan ?
                   </Link>
                 </Group>
 
-                <Button
-                  type="submit"
-                  loading={loginMutation.status === "pending"}
-                >
-                  Login
+                <Button type="submit" loading={registrationMutation.isLoading}>
+                  Daftar
                 </Button>
               </Stack>
-            </form>
+            </FormWrapper>
           </Box>
         </Box>
 
@@ -120,4 +91,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default RegisterAdmin;

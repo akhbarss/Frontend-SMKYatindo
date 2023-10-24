@@ -1,15 +1,21 @@
 import { Navbar, NavLink, ScrollArea, ThemeIcon } from "@mantine/core";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { FiGitPullRequest, FiHome } from "react-icons/fi";
 import { RiFileList3Line } from "react-icons/ri";
 import { useLocation, useNavigate } from "react-router-dom";
 import { MdAppRegistration, MdDashboard } from "react-icons/md";
 import { FaLine } from "react-icons/fa";
-import { LineWave } from "react-loader-spinner";
-import { BsFiletypeWav } from "react-icons/bs";
 import { GiWaves } from "react-icons/gi";
 
-const Navigation = ({ opened }: { opened: boolean }) => {
+const Navigation = ({
+  opened,
+  access = [],
+}: {
+  opened: boolean;
+  access: string[];
+}) => {
+  const [menus, setMenus] = useState([]);
+
   const menusSiswa = useMemo(
     () => [
       {
@@ -82,6 +88,14 @@ const Navigation = ({ opened }: { opened: boolean }) => {
   const { pathname: pathUrl } = useLocation();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (access.length > 0) {
+      const menus = menusSiswa.filter((d) => access.includes(d.path));
+
+      setMenus(menus);
+    }
+  }, [access, menusSiswa]);
+
   return (
     <Navbar
       // bg={"#fff"}
@@ -92,22 +106,24 @@ const Navigation = ({ opened }: { opened: boolean }) => {
       hidden={!opened}
     >
       <Navbar.Section grow component={ScrollArea} mx="-xs" px="xs">
-        {menusSiswa.map((menu, i) => {
-          return (
-            <NavLink
-              active={pathUrl === menu.path}
-              icon={menu.icon}
-              key={i}
-              variant="light"
-              color="gray"
-              label={menu.label}
-              onClick={() => {
-                navigate(menu.path as never);
-                // setOpened();
-              }}
-            />
-          );
-        })}
+        {menus &&
+          menus.length > 0 &&
+          menus.map((menu, i) => {
+            return (
+              <NavLink
+                active={pathUrl === menu.path}
+                icon={menu.icon}
+                key={i}
+                variant="light"
+                color="gray"
+                label={menu.label}
+                onClick={() => {
+                  navigate(menu.path as never);
+                  // setOpened();
+                }}
+              />
+            );
+          })}
       </Navbar.Section>
     </Navbar>
   );

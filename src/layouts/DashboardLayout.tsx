@@ -42,10 +42,21 @@ const DashboardLayout: React.FC<TDashboard> = ({ children }) => {
           <AppBar
             opened={opened}
             setOpened={toggle}
-            fullname={isSuccess ? user.data.student.name : "-"}
+            fullname={
+              isSuccess
+                ? user?.data?.student?.name || user?.data?.fullname
+                : "-"
+            }
           />
         }
-        navbar={<Navigation opened={opened} />}
+        navbar={
+          <Navigation
+            opened={opened}
+            access={
+              isSuccess ? user.data.role_id.rolesMenus.map((d) => d.path) : []
+            }
+          />
+        }
         navbarOffsetBreakpoint="md"
       >
         <Paper

@@ -68,6 +68,10 @@ export const routes: RoutesProps[] = [
                 path: "register",
                 Component: lazy(() => import("./pages/auth/Register")),
               },
+              {
+                path: "admin/register",
+                Component: lazy(() => import("./pages/auth/RegisterAdmin")),
+              },
             ],
           },
           {

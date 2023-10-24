@@ -7,6 +7,7 @@ import { useBreakPoints } from "../../../../utils/UseBreakpoints";
 import Page from "../../../../components/Page";
 import { jwtDecode } from "../../../../apis/alur/decodeJWT";
 import { useQuery } from "@tanstack/react-query";
+import { GetAllAlurPendaftaran } from "../../../../apis/alur/getAlur";
 
 const BerandaSiswaPPDB = () => {
   const { md } = useBreakPoints();
@@ -16,6 +17,15 @@ const BerandaSiswaPPDB = () => {
   const { isSuccess, data: user } = useQuery({
     queryFn: jwtDecode,
     queryKey: ["session"],
+  });
+
+  const {
+    data: alurPendaftaran,
+    isError,
+    isLoading,
+  } = useQuery({
+    queryKey: ["get_all_alur"],
+    queryFn: GetAllAlurPendaftaran,
   });
 
   return (
@@ -43,7 +53,11 @@ const BerandaSiswaPPDB = () => {
               fontSize: `${md ? "30px" : "16px"}`,
             }}
           >
-            Selamat datang, {isSuccess ? user.data.student.name : "-"}. <br />
+            Selamat datang,{" "}
+            {isSuccess
+              ? user?.data?.student?.name || user?.data?.fullname
+              : "-"}
+            . <br />
             Calon Siswa SMK Yayasan Tinta Emas Indonesia
           </Text>
           <img

@@ -5,17 +5,20 @@ import {
   ActionIcon,
   Box,
   Button,
-  Center
+  Center,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { AiFillEdit } from "react-icons/ai";
 import { BsFillTrashFill } from "react-icons/bs";
-import { CreateAlurPayload, createAlur } from "../../../apis/alur/createAlur";
-import { DeleteAlurPayload, deleteAlur } from "../../../apis/alur/deleteAlur";
-import { EditAlurPayload, editAlur } from "../../../apis/alur/editAlur";
-import { AlurPendaftaran, GetAllAlurPendaftaran } from "../../../apis/alur/getAlur";
+import { createAlur, CreateAlurPayload } from "../../../apis/alur/createAlur";
+import { deleteAlur, DeleteAlurPayload } from "../../../apis/alur/deleteAlur";
+import { editAlur, EditAlurPayload } from "../../../apis/alur/editAlur";
+import {
+  AlurPendaftaran,
+  GetAllAlurPendaftaran,
+} from "../../../apis/alur/getAlur";
 import Page from "../../../components/Page";
 import PageLabel from "../../../components/PageLabel";
 import ModalAlurCreate from "../../../components/modal/modalAlurCreate";
@@ -28,44 +31,54 @@ import PageLoading from "../../../components/PageLoading";
 const AlurPPPDB = () => {
   const dark = DarkTheme();
 
-  const [openedCreate, { open: openCreate, close: closeCreate }] = useDisclosure(false);
-  const [openedEdit, { open: openEdit, close: closeEdit }] = useDisclosure(false);
+  const [openedCreate, { open: openCreate, close: closeCreate }] =
+    useDisclosure(false);
+  const [openedEdit, { open: openEdit, close: closeEdit }] =
+    useDisclosure(false);
 
-  const [idAlur, setIdAlur] = useState(null)
-  const [title, setTitle] = useState("")
+  const [idAlur, setIdAlur] = useState(null);
+  const [title, setTitle] = useState("");
   const [descAlurPPDB, setDescAlurPPDB] = useState("");
 
-  const { data: alurPendaftaran, isErr, load, refetch } = GetAllAlurPendaftaran()
+  const {
+    data: alurPendaftaran,
+    isError: isErr,
+    isLoading: load,
+    refetch,
+  } = useQuery({
+    queryKey: ["get_all_alur"],
+    queryFn: GetAllAlurPendaftaran,
+  });
 
   const createAlurMutation = useMutation({
     mutationFn: createAlur,
-  })
+  });
 
   const deleteAlurMutation = useMutation({
-    mutationFn: deleteAlur
-  })
+    mutationFn: deleteAlur,
+  });
 
   const editAlurMutation = useMutation({
-    mutationFn: editAlur
-  })
+    mutationFn: editAlur,
+  });
 
   const submitCreateAlur = (payload: CreateAlurPayload) => {
     createAlurMutation.mutate(payload, {
       onSuccess: (response) => {
-        console.log("Success")
-        console.log(response)
-        setTitle("")
-        setDescAlurPPDB("")
-        closeCreate()
-        refetch()
+        console.log("Success");
+        console.log(response);
+        setTitle("");
+        setDescAlurPPDB("");
+        closeCreate();
+        refetch();
       },
       onError: (err) => {
         // @ts-ignore
-        const status = err?.response?.status
+        const status = err?.response?.status;
 
         if (status === 400) {
-          console.log("DATA TIDAK BOLEH KOSONG")
-          toast.error("Data tidak boleh kosong")
+          console.log("DATA TIDAK BOLEH KOSONG");
+          toast.error("Data tidak boleh kosong");
         }
       },
     });
@@ -74,21 +87,21 @@ const AlurPPPDB = () => {
   const submitEditAlur = (payload: EditAlurPayload) => {
     editAlurMutation.mutate(payload, {
       onSuccess: (response) => {
-        console.log(response)
-        console.log("Success")
-        setIdAlur("")
-        setTitle("")
-        setDescAlurPPDB("")
-        closeEdit()
-        refetch()
+        console.log(response);
+        console.log("Success");
+        setIdAlur("");
+        setTitle("");
+        setDescAlurPPDB("");
+        closeEdit();
+        refetch();
       },
       onError: (err) => {
         // @ts-ignore
-        const status = err?.response?.status
+        const status = err?.response?.status;
 
         if (status === 400) {
-          console.log("DATA TIDAK BOLEH KOSONG")
-          toast.error("Data tidak boleh kosong")
+          console.log("DATA TIDAK BOLEH KOSONG");
+          toast.error("Data tidak boleh kosong");
         }
       },
     });
@@ -97,44 +110,49 @@ const AlurPPPDB = () => {
   const submitDeleteAlur = (payload: DeleteAlurPayload) => {
     deleteAlurMutation.mutate(payload, {
       onSuccess: (response) => {
-        console.log(response)
-        console.log("Success")
-        close()
-        refetch()
+        console.log(response);
+        console.log("Success");
+        close();
+        refetch();
       },
       onError: (err) => {
-        console.log("FAILED")
-        console.log(err)
+        console.log("FAILED");
+        console.log(err);
       },
     });
-  }
+  };
 
-  if (load) return <PageLoading />
-  if (isErr) return <h1>Terjadi Kesalahan</h1>
+  if (load) return <PageLoading />;
+  if (isErr) return <h1>Terjadi Kesalahan</h1>;
 
   const tambahALurHandler = () => {
     const data = {
       content: descAlurPPDB,
       title,
-      user_id: 2
-    }
-    submitCreateAlur(data)
-  }
+      user_id: 2,
+    };
+    submitCreateAlur(data);
+  };
 
   function deleteAlurHandler(id: number) {
-    submitDeleteAlur({ id })
+    submitDeleteAlur({ id });
   }
 
   function editAlurHandler() {
     submitEditAlur({
       content: descAlurPPDB,
       id: idAlur,
-      title: title
-    })
+      title: title,
+    });
   }
 
-  function AccordionControl({ propss, data }: { propss: AccordionControlProps, data: AlurPendaftaran }): JSX.Element {
-
+  function AccordionControl({
+    propss,
+    data,
+  }: {
+    propss: AccordionControlProps;
+    data: AlurPendaftaran;
+  }): JSX.Element {
     return (
       <Center>
         <Accordion.Control {...propss} className="font-bold" />
@@ -145,19 +163,16 @@ const AlurPPPDB = () => {
             gap: "8px",
           }}
         >
-
           <ActionIcon
             variant="filled"
             color="blue"
             size={40}
             radius={100}
             onClick={() => {
-
-              setIdAlur(data.id)
-              setTitle(data.title)
-              setDescAlurPPDB(data.content)
-              openEdit()
-
+              setIdAlur(data.id);
+              setTitle(data.title);
+              setDescAlurPPDB(data.content);
+              openEdit();
             }}
           >
             <AiFillEdit size={20} />
@@ -172,7 +187,6 @@ const AlurPPPDB = () => {
           >
             <BsFillTrashFill size={20} />
           </ActionIcon>
-
         </div>
       </Center>
     );
@@ -191,14 +205,9 @@ const AlurPPPDB = () => {
           paddingBottom: "40px",
         }}
       >
-        <Accordion
-          multiple
-          variant="separated"
-          chevronPosition="left"
-        >
-
-          {
-            alurPendaftaran && alurPendaftaran.length > 0 ? alurPendaftaran.map((item) => (
+        <Accordion multiple variant="separated" chevronPosition="left">
+          {alurPendaftaran && alurPendaftaran.length > 0 ? (
+            alurPendaftaran.map((item) => (
               <Accordion.Item
                 key={item.id}
                 value={item.id.toString()}
@@ -216,10 +225,7 @@ const AlurPPPDB = () => {
                 <AccordionControl
                   propss={{
                     id: item.id.toString(),
-                    children: (
-                      <h2>{item.title}</h2>
-
-                    )
+                    children: <h2>{item.title}</h2>,
                   }}
                   data={item}
                 />
@@ -231,15 +237,13 @@ const AlurPPPDB = () => {
                   <TiptapOutput desc={item.content} />
                 </Accordion.Panel>
               </Accordion.Item>
-            )) : <h2>Data Kosong</h2>
-          }
-
+            ))
+          ) : (
+            <h2>Data Kosong</h2>
+          )}
         </Accordion>
 
-        <Button
-          mt={40}
-          onClick={openCreate}
-        >
+        <Button mt={40} onClick={openCreate}>
           Tambah
         </Button>
       </Box>
@@ -267,10 +271,7 @@ const AlurPPPDB = () => {
         editAlurMutation={editAlurMutation}
       />
 
-      <Toaster
-        position="top-center"
-        reverseOrder={false}
-      />
+      <Toaster position="top-center" reverseOrder={false} />
     </Page>
   );
 };

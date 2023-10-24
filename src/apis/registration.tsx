@@ -12,6 +12,12 @@ export type RegistrationPayload = {
   };
 };
 
+export type RegistrationAdminPayload = {
+  username: string;
+  fullname: string;
+  password: string;
+};
+
 export type Response = {
   username: string;
   password: string;
@@ -34,5 +40,12 @@ export const registration = async (
 ): Promise<ResponseType<ResponseType<RegistrationResponse>>> => {
   const response = await axios.post("/v1/auth/register-student", payload);
 
+  return response.data;
+};
+
+export const registrationAdmin = async (
+  payload: RegistrationAdminPayload
+): Promise<ResponseType<any>> => {
+  const response = await axios.post("/v1/auth/register", payload);
   return response.data;
 };
