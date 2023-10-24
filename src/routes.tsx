@@ -5,11 +5,7 @@ import Unauthorized from "./components/ppdb/unauthorized";
 import AuthLayout from "./layouts/AuthLayout";
 import DashboardLayout from "./layouts/DashboardLayout";
 import GuestLayout from "./layouts/GuestLayout";
-import {
-  AlurPPPDB,
-  JalurPendaftaran,
-  PendaftarPPDB
-} from "./pages";
+import { AlurPPPDB, PendaftarPPDB } from "./pages";
 import InformasiUmum from "./pages/ppdb/admin/jalurPendaftaranPPDB/InformasiUmum";
 import Interceptors from "./Interceptor";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -27,7 +23,7 @@ export const routeConfigs = createBrowserRouter(
   [
     {
       Component: () => (
-        <Interceptors >
+        <Interceptors>
           <QueryClientProvider client={queryClient}>
             <Outlet />
           </QueryClientProvider>
@@ -39,7 +35,7 @@ export const routeConfigs = createBrowserRouter(
           children: [
             {
               Component: () => (
-                <GuestLayout >
+                <GuestLayout>
                   <Outlet />
                 </GuestLayout>
               ),
@@ -47,8 +43,8 @@ export const routeConfigs = createBrowserRouter(
                 {
                   index: true,
                   Component: lazy(() => import("./pages/ppdb/guest/GuestPPDB")),
-                }
-              ]
+                },
+              ],
             },
             {
               path: "auth",
@@ -64,8 +60,8 @@ export const routeConfigs = createBrowserRouter(
                 },
                 {
                   path: "register",
-                  Component: lazy(() => import("./pages/auth/Register"))
-                }
+                  Component: lazy(() => import("./pages/auth/Register")),
+                },
               ],
             },
             {
@@ -85,11 +81,19 @@ export const routeConfigs = createBrowserRouter(
                 },
                 {
                   path: "pembelian",
-                  Component: lazy(() => import("./pages/ppdb/siswa/pembelian/PembelianSiswaPPDB")),
+                  Component: lazy(
+                    () =>
+                      import("./pages/ppdb/siswa/pembelian/PembelianSiswaPPDB")
+                  ),
                 },
                 {
                   path: "pengembalian",
-                  Component: lazy(() => import("./pages/ppdb/siswa/pengembalian/PengembalianSiswaPPDB")),
+                  Component: lazy(
+                    () =>
+                      import(
+                        "./pages/ppdb/siswa/pengembalian/PengembalianSiswaPPDB"
+                      )
+                  ),
                 },
 
                 {
@@ -105,7 +109,12 @@ export const routeConfigs = createBrowserRouter(
                   children: [
                     {
                       index: true,
-                      Component: () => <JalurPendaftaran />,
+                      Component: lazy(
+                        () =>
+                          import(
+                            "./pages/ppdb/admin/jalurPendaftaranPPDB/JalurPendaftaran"
+                          )
+                      ),
                     },
                     {
                       path: ":idJalurPendaftaran",
@@ -147,8 +156,8 @@ export const routeConfigs = createBrowserRouter(
           path: "*",
           Component: () => Navigate({ to: "/ppdb" }),
         },
-      ]
-    }
+      ],
+    },
   ],
   { window }
 );
