@@ -186,8 +186,13 @@ export const dataJalurPendaftaran: JalurPendaftaranPPDB[] = [
       keterangan: [
         {
           id: 1,
-          nama_keterangan: "",
-          deskripsi_keterangan: ``,
+          nama_keterangan: "Test",
+          deskripsi_keterangan: `Test`,
+        },
+        {
+          id: 2,
+          nama_keterangan: "Test",
+          deskripsi_keterangan: `Test`,
         },
       ],
       biaya_tambahan: [
@@ -269,8 +274,8 @@ export const dataJalurPendaftaran: JalurPendaftaranPPDB[] = [
       keterangan: [
         {
           id: 1,
-          nama_keterangan: "",
-          deskripsi_keterangan: "",
+          nama_keterangan: "pengembalian",
+          deskripsi_keterangan: "pengembalian",
         },
       ],
       biaya_tambahan: [
@@ -396,11 +401,11 @@ export const dataJalurPendaftaran: JalurPendaftaranPPDB[] = [
     biaya_pendaftaran: 1,
     informasi_umum: {
       keterangan: [
-        {
-          id: 1,
-          nama_keterangan: "",
-          deskripsi_keterangan: "",
-        },
+        // {
+        //   id: 1,
+        //   nama_keterangan: "",
+        //   deskripsi_keterangan: "",
+        // },
       ],
       biaya_tambahan: [
         // {
@@ -479,11 +484,11 @@ export const dataJalurPendaftaran: JalurPendaftaranPPDB[] = [
     biaya_pendaftaran: 1,
     informasi_umum: {
       keterangan: [
-        {
-          id: 1,
-          nama_keterangan: "",
-          deskripsi_keterangan: "",
-        },
+        // {
+        //   id: 1,
+        //   nama_keterangan: "",
+        //   deskripsi_keterangan: "",
+        // },
       ],
       biaya_tambahan: [
         // {

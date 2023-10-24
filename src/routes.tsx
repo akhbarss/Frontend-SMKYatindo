@@ -10,6 +10,8 @@ import InformasiUmum from "./pages/ppdb/admin/jalurPendaftaranPPDB/InformasiUmum
 import Interceptors from "./Interceptor";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import JalurPendaftaranDetailLayout from "./layouts/JalurPendaftaranDetailLayout";
+import Gelombang from "./pages/ppdb/admin/jalurPendaftaranPPDB/Gelombang";
+import PendaftarPPDBDetail from "./pages/ppdb/admin/PendaftarPPDBDetail";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -130,7 +132,7 @@ export const routeConfigs = createBrowserRouter(
                         },
                         {
                           path: "gelombang",
-                          Component: () => <h1>sds</h1>,
+                          Component: Gelombang,
                         },
                       ],
                     },
@@ -140,6 +142,10 @@ export const routeConfigs = createBrowserRouter(
                   path: "pendaftar-ppdb",
                   Component: () => <PendaftarPPDB />,
                 },
+                {
+                  path: "pendaftar-ppdb/:id",
+                  Component: () => <PendaftarPPDBDetail />
+                }
               ],
             },
             {

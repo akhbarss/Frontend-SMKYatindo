@@ -11,7 +11,8 @@ import {
     UseFormHandleSubmit,
     FieldErrors,
     UseFormSetValue,
-    UseFormRegister
+    UseFormRegister,
+    Controller
 } from "react-hook-form"
 import ModalAdmin from '../modalAdmin'
 import { NumericFormat } from 'react-number-format'
@@ -89,10 +90,6 @@ const ModallJalurEdit: React.FC<TModalJalurCreate> = ({
                         }}
                         error={errors.tipeJalur?.message}
                         defaultValue={jalur?.type}
-                    // onChange={(value: TipeJalur) => {
-                    //   setMetodePembayaran(value)
-                    // }}
-                    // required
                     >
                         <Group
                             mt={"xs"}
@@ -107,22 +104,18 @@ const ModallJalurEdit: React.FC<TModalJalurCreate> = ({
                             <Radio
                                 label="PEMBELIAN"
                                 value={"PEMBELIAN"}
-                                // required
                                 {...register("tipeJalur")}
                             />
 
                             <Radio
                                 label="PENGEMBALIAN"
                                 value={"PENGEMBALIAN"}
-                                // required
                                 {...register("tipeJalur")}
                             />
                         </Group>
                     </Radio.Group>
 
                     <TextInput
-                        // onChange={(val) => setNama(val.target.value)}
-                        // required
                         label="Nama"
                         defaultValue={jalur?.name}
                         error={errors.namaJalur?.message}
@@ -170,12 +163,10 @@ const ModallJalurEdit: React.FC<TModalJalurCreate> = ({
                         placeholder='Rp. 0'
                         label="Biaya Pendaftaran"
                         description="Input Nominal"
-                        // value={activeTabIndex > 2 ? "150000" : ""}
-                        // required
                         onValueChange={(e) => setValue("biayaPendaftaran", e.value)}
                         withAsterisk
                         error={errors.biayaPendaftaran?.message}
-                    // {...register("biayaPendaftaran")}
+                        defaultValue={jalur?.price}
 
                     />
                 </Stack>

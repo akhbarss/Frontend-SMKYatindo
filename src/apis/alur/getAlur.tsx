@@ -27,7 +27,7 @@ export const GetAllAlurPendaftaran = () => {
         error
      } = useQuery({
             queryKey: ["getAllAlurPendaftaran"],
-            queryFn: () => axios.get("/v1/admin/alur-ppdb/index?userId=2", {
+            queryFn: () => axios.get("/v1/admin/alur-ppdb/index", {
                 headers: {
                     "Authorization": "Bearer " + accessToken
                 }
