@@ -38,7 +38,7 @@ export type FormValuesCreateGelombang = {
   biayaPendaftaran: string;
 }
 
-const schema = yup.object({
+const schemaCreate = yup.object({
   nama: yup.string().required("Tolong masukkan nama gelombang"),
   jumlahPenerimaan: yup.string().required("Tolong masukkan jumlah penerimaan"),
   waktuDibuka: yup.date().required("Tolong masukkan waktu dibuka"),
@@ -68,7 +68,7 @@ const Gelombang = () => {
   const [dataGelombang, setDataGelombang] = useState<TGelombang | null>(null)
 
   const formCreate = useForm({
-    resolver: yupResolver(schema)
+    resolver: yupResolver(schemaCreate)
   })
   const {
     control: controlCreate,
@@ -91,7 +91,7 @@ const Gelombang = () => {
     // setError: setErrorEdit,
     setValue: setValueEdit,
     // reset: resetEdit,
-    // resetField: resetFieldEdit,
+    resetField: resetFieldEdit,
     // unregister,
     formState: { errors: errorEdit },
   } = formEdit
@@ -133,6 +133,7 @@ const Gelombang = () => {
       onSuccess: (response) => {
         console.log("SUCCESS")
         console.log(response)
+        refetch()
         closeCreate()
         resetCreate()
       },
@@ -200,10 +201,11 @@ const Gelombang = () => {
         index: 1,
         max_quota: +jumlahPenerimaan,
         name: nama,
-        price: biayaPendaftaran.substring(4).replace(/\./g, ""),
+        price: biayaPendaftaran,
         start_date: waktuDibuka
       }
     }
+    console.log(datas)
     submitCreateGelombang(data)
   }
 
@@ -368,8 +370,18 @@ const Gelombang = () => {
       <ModalGelombangEdit
         control={controlEdit}
         close={() => {
+          resetFieldEdit("biayaPendaftaran")
+          resetFieldEdit("jumlahPenerimaan")
+          resetFieldEdit("nama")
+          resetFieldEdit("namaBank")
+          resetFieldEdit("namaPemilikRekening")
+          resetFieldEdit("nomorRekening")
+          resetFieldEdit("waktuDibuka")
+          resetFieldEdit("waktuDiitutup")
           closeEdit()
-          // reset()
+          console.log("close")
+          setDataGelombang(null)
+          // resetEdit()
           // resetField("waktuDibuka")
           // resetField("waktuDiitutup")
           // resetField("biayaPendaftaran")

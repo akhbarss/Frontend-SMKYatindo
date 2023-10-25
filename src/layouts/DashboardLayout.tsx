@@ -32,7 +32,7 @@ const DashboardLayout: React.FC<TDashboard> = ({ children }) => {
     if (isError) {
       toast.error("Error saat mengambil data sesi");
     }
-  }, [isError, error]);
+  }, [isError, error, user]);
 
   return (
     <Suspense fallback={<PageLoading />}>
@@ -53,7 +53,7 @@ const DashboardLayout: React.FC<TDashboard> = ({ children }) => {
           <Navigation
             opened={opened}
             access={
-              isSuccess ? user.data.role_id.rolesMenus.map((d) => d.path) : []
+              isSuccess ? user.data.role_id?.rolesMenus.map((d) => d.path) : []
             }
           />
         }

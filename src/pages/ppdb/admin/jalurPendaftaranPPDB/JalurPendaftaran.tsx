@@ -34,7 +34,15 @@ export type FormValuesCreateJalur = {
   biayaPendaftaran: string
 }
 
-const schema = yup.object({
+const schemaCreate = yup.object({
+  tipeJalur: yup.string().required("Tolong pilih tipe jalur"),
+  namaJalur: yup.string().required("Tolong masukkan nama jalur"),
+  waktuDibuka: yup.string().required("Tolong masukkan waktu dibuka"),
+  waktuDiitutup: yup.string().required("Tolong masukkan waktu ditutup"),
+  biayaPendaftaran: yup.string().required("Tolong masukkan biaya pendaftaran"),
+})
+
+const schemaEdit = yup.object({
   tipeJalur: yup.string().required("Tolong pilih tipe jalur"),
   namaJalur: yup.string().required("Tolong masukkan nama jalur"),
   waktuDibuka: yup.string().required("Tolong masukkan waktu dibuka"),
@@ -52,19 +60,35 @@ const AlurPPPDB = () => {
   const [openedEdit, { open: openEdit, close: closeEdit }] = useDisclosure(false);
   const [jalur, setJalur] = useState<JalurPendaftaran | null>(null)
 
-  const form = useForm({
-    resolver: yupResolver(schema)
+  const formCreate = useForm({
+    resolver: yupResolver(schemaCreate)
   })
+
+  const formEdit = useForm({
+    resolver: yupResolver(schemaEdit)
+  })
+
   const {
-    control,
-    register,
-    handleSubmit,
-    setError,
-    setValue,
-    reset,
-    resetField,
-    formState: { errors },
-  } = form
+    control: controlCreate,
+    register: registerCreate,
+    handleSubmit: handleSubmitCreate,
+    setError: setErrorCreate,
+    setValue: setValueCreate,
+    reset: resetCreate,
+    resetField: resetFieldCreate,
+    formState: { errors: errorsCreate },
+  } = formCreate
+
+  const {
+    control: controlEdiit,
+    register: registerEdit,
+    handleSubmit: handleSubmitEdit,
+    setError: setErrorEdit,
+    setValue: setValueEdit,
+    reset: resetEdit,
+    resetField: resetFieldEdit,
+    formState: { errors: errorsEdit },
+  } = formEdit
 
   const {
     data: dataJalur,
@@ -96,7 +120,7 @@ const AlurPPPDB = () => {
         console.log("SUCCESS")
         console.log(response)
         closeCreate()
-        reset()
+        // reset()
         refetch()
 
       },
@@ -114,7 +138,7 @@ const AlurPPPDB = () => {
         console.log(response)
         closeEdit()
         refetch()
-        reset()
+        // reset()
       },
       onError: (error) => {
         console.log("FAILED")
@@ -258,14 +282,14 @@ const AlurPPPDB = () => {
   }) : <h2>Data Kosong</h2>
 
   const contentJalur = data.map(item => {
-    const pendaftarPerJalur = item.gelombang.map(
-      (item) => item.jumlah_penerimaan
-    );
+    // const pendaftarPerJalur = item.gelombang.map(
+    //   (item) => item.jumlah_penerimaan
+    // );
 
-    const jumlahPendaftarPerJalur = pendaftarPerJalur.reduce(
-      (total, current) => total + current,
-      0
-    );
+    // const jumlahPendaftarPerJalur = pendaftarPerJalur.reduce(
+    //   (total, current) => total + current,
+    //   0
+    // );
 
     const starDate = item.waktu_dibuka && new Date(Date.parse(item.waktu_dibuka))
     const endDate = item.waktu_ditutup && new Date(item.waktu_ditutup)
@@ -380,13 +404,13 @@ const AlurPPPDB = () => {
       <ModallJalurCreate
         close={() => {
           closeCreate()
-          reset()
+          // reset()
         }}
-        errors={errors}
-        handleSubmit={handleSubmit}
         opened={openedCreate}
-        register={register}
-        setValue={setValue}
+        errors={errorsCreate}
+        handleSubmit={handleSubmitCreate}
+        register={registerCreate}
+        setValue={setValueCreate}
         tambahJalurHandler={tambahJalurHandler}
 
       />
@@ -396,13 +420,13 @@ const AlurPPPDB = () => {
       <ModallJalurEdit
         close={() => {
           closeEdit()
-          reset()
+          // reset()
         }}
-        errors={errors}
-        handleSubmit={handleSubmit}
+        errors={errorsEdit}
+        handleSubmit={handleSubmitEdit}
         opened={openedEdit}
-        register={register}
-        setValue={setValue}
+        register={registerEdit}
+        setValue={setValueEdit}
         editJalurHandler={editJalurHandler}
         jalur={jalur}
       />
