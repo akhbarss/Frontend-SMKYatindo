@@ -27,8 +27,8 @@ export type JalurPendaftaran = {
   id: number;
   name: string;
   type: string;
-  start_date: string;
-  end_date: string;
+  start_date: number;
+  end_date: number;
   price: string;
 };
 

@@ -17,7 +17,7 @@ import { chooseBatch } from "../../../apis/pembelian";
 import ResponseError from "../../../utils/ResponseError";
 import toast from "react-hot-toast";
 
-const GelombangPPDB = ({
+const Gelombang = ({
   setActiveTabIndex,
   setPilihanGelombang,
   pilihanGelombang,
@@ -212,6 +212,7 @@ const GelombangPPDB = ({
   const contentGelombangPilihan = pilihanGelombang && (
     <>
       <LoadingOverlay visible={chooseBatchMutation.isLoading} />
+
       <Box
         sx={(theme) => ({
           display: "flex",
@@ -273,4 +274,4 @@ const GelombangPPDB = ({
   return <>{pilihanGelombang ? contentGelombangPilihan : contentGelombang}</>;
 };
 
-export default GelombangPPDB;
+export default Gelombang;

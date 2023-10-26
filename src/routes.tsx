@@ -1,10 +1,5 @@
 import { lazy } from "react";
-import {
-  createBrowserRouter,
-  Navigate,
-  Outlet,
-  RoutesProps,
-} from "react-router-dom";
+import { Navigate, Outlet, RouteObject } from "react-router-dom";
 import MissingPPDB from "./components/ppdb/missingPPDB";
 import Unauthorized from "./components/ppdb/unauthorized";
 import AuthLayout from "./layouts/AuthLayout";
@@ -26,7 +21,7 @@ const queryClient = new QueryClient({
   },
 });
 
-export const routes: RoutesProps[] = [
+export const routes: RouteObject[] = [
   {
     Component: () => (
       <Interceptors>

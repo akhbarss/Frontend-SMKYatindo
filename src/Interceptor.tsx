@@ -1,8 +1,7 @@
 import axiosInstance, { AxiosResponse } from "axios";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { BASE_URL } from "./utils/axios";
+import axios, { BASE_URL } from "./utils/axios";
 import { RefreshToken, ResponseType } from "./types/global";
 
 let isRefreshing = false;
@@ -70,17 +69,20 @@ const Interceptors = ({ children }: { children: any }) => {
                 if (isLocalStorage) {
                   localStorage.removeItem("_TuVbwpW");
                   localStorage.removeItem("_RuvTpQv");
-                  localStorage.setItem("_TuVbwpW", response.data.data.token);
+                  localStorage.setItem(
+                    "_TuVbwpW",
+                    response.data.data.access_token
+                  );
                   localStorage.setItem(
                     "_RuvTpQv",
                     response.data.data.refresh_token
                   );
                 }
                 axiosInstance.defaults.headers.common["Authorization"] =
-                  "Bearer " + response.data.data.token;
+                  "Bearer " + response.data.data.access_token;
                 originalConfig.headers["Authorization"] =
-                  "Bearer " + response.data.data.token;
-                processQueue(null, response.data.data.token);
+                  "Bearer " + response.data.data.access_token;
+                processQueue(null, response.data.data.access_token);
                 resolve(axiosInstance(originalConfig));
               })
               .catch((err) => {

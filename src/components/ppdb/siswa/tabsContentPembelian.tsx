@@ -53,40 +53,6 @@ const TabsContentPembelian = ({
 
   return (
     <>
-      <Tabs.Panel value="Pilih Gelombang PPDB" mt={20}>
-        <Paper
-          withBorder
-          radius="md"
-          sx={(theme) => ({
-            backgroundColor:
-              theme.colorScheme === "dark" ? theme.colors.dark[9] : theme.white,
-            padding: "2rem",
-          })}
-        >
-          <Stack>
-            <Text>
-              {pilihanGelombang
-                ? "Pilihan Anda"
-                : "Pilih Salah Satu Gelombang PPDB"}
-            </Text>
-
-            {jalurLoading && <LoadingOverlay visible={true} />}
-            {jalurSuccess && (
-              <GelombangPPDB
-                setActiveTabIndex={setActiveTabIndex}
-                focus={focus}
-                pilihanGelombang={pilihanGelombang}
-                setFocus={setFocus}
-                dataJalurPendaftar={jalur.data}
-                setPilihanGelombang={setPilihanGelombang}
-                setKonfirmasiPembelian={setKonfirmasiPembelian}
-                setKonfirmasiPembayaran={setKonfirmasiPembayaran}
-              />
-            )}
-          </Stack>
-        </Paper>
-      </Tabs.Panel>
-
       <Tabs.Panel value="Transaksi Pembelian" mt={20}>
         <Transaksi
           activeTabIndex={activeTabIndex}

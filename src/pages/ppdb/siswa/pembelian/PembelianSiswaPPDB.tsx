@@ -1,129 +1,180 @@
-import { Divider, Stack, Tabs, TabsProps } from "@mantine/core";
-import { useState } from "react";
-import { FaAddressCard, FaRegFlag, FaWpforms } from "react-icons/fa";
+import { Divider, Skeleton, Stack, Tabs, TabsProps } from "@mantine/core";
+import React, { useEffect, useState } from "react";
+import { FaAddressCard, FaRegFlag } from "react-icons/fa";
 import { RiGitMergeFill } from "react-icons/ri";
 import TabList from "../../../../components/ppdb/siswa/tabList";
-import TabsContentPembelian from "../../../../components/ppdb/siswa/tabsContentPembelian";
-import { JalurPendaftaranPPDB } from "../../../../types/global";
 import Page from "../../../../components/Page";
 import { FaMoneyCheckDollar } from "react-icons/fa6";
 import PageLabel from "../../../../components/PageLabel";
+import StepGelombang from "../../../../components/ppdb/siswa/StepGelombang";
+import { Toaster } from "react-hot-toast";
+import { getLastoffset } from "../../../../apis/pembelian";
+import { useQuery } from "@tanstack/react-query";
+import StepPembayaran from "../../../../components/ppdb/siswa/StepPembayaran";
+import useFilter from "../../../../utils/useFilter";
+import { useLocation, useNavigate } from "react-router-dom";
+import generateQueryparam from "../../../../utils/generateQueryParam";
+
+const StyledTabs = (props: TabsProps) => {
+  return (
+    <Tabs
+      unstyled
+      styles={(theme) => ({
+        tab: {
+          ...theme.fn.focusStyles(),
+          backgroundColor:
+            theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.white,
+          color: theme.colorScheme === "dark" ? "white" : theme.colors.gray[9],
+          border: "none",
+          boxShadow: "0 10px 20px -10px rgba(0,0,0,0.2)",
+          cursor: "pointer",
+          fontSize: theme.fontSizes.sm,
+          borderRadius: "5px",
+
+          "&:disabled": {
+            cursor: "not-allowed",
+            color:
+              theme.colorScheme === "dark"
+                ? theme.colors.gray[4]
+                : theme.colors.gray[8],
+            backgroundColor:
+              theme.colorScheme === "dark"
+                ? theme.colors.dark[6]
+                : theme.colors.gray[4],
+          },
+
+          "&[data-active]": {
+            background: "linear-gradient(45deg, #4c6ef5 0%, #15aabf 100%)",
+            borderColor: theme.colors.blue[7],
+            color: theme.white,
+            boxShadow: "0 10px 20px -10px rgba(0,0,0,0.5)",
+          },
+        },
+
+        tabsList: {
+          overflowX: "auto",
+        },
+      })}
+      {...props}
+    />
+  );
+};
+
+const card = [
+  {
+    index: 1,
+    label: "Pilih Gelombang PPDB",
+    icon: RiGitMergeFill,
+    content: <StepGelombang />,
+  },
+  {
+    index: 2,
+    label: "Transaksi Pembelian",
+    icon: FaMoneyCheckDollar,
+    content: <StepPembayaran />,
+  },
+  {
+    index: 3,
+    label: "Pilih Jurusan",
+    icon: FaRegFlag,
+    content: <div>Div</div>,
+  },
+  {
+    index: 4,
+    label: "Cetak Kartu Peserta",
+    icon: FaAddressCard,
+    content: <div>div</div>,
+  },
+];
 
 const PembelianSiswaPPDB = () => {
-  function StyledTabs(props: TabsProps) {
-    return (
-      <Tabs
-        unstyled
-        styles={(theme) => ({
-          tab: {
-            ...theme.fn.focusStyles(),
-            backgroundColor:
-              theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.white,
-            color:
-              theme.colorScheme === "dark" ? "white" : theme.colors.gray[9],
-            border: "none",
-            boxShadow: "0 10px 20px -10px rgba(0,0,0,0.2)",
-            // padding: `${theme.spacing.xs} ${theme.spacing.md}`,
-            cursor: "pointer",
-            fontSize: theme.fontSizes.sm,
-            borderRadius: "5px",
-            // gap: "1rem",
+  const [filter, setFilter] = useState<{ step: number; stagingId?: number }>({
+    step: 1,
+    stagingId: null,
+  });
 
-            "&:disabled": {
-              // opacity: 0.5,
-              cursor: "not-allowed",
-              color:
-                theme.colorScheme === "dark"
-                  ? theme.colors.gray[4]
-                  : theme.colors.gray[8],
-              backgroundColor:
-                theme.colorScheme === "dark"
-                  ? theme.colors.dark[6]
-                  : theme.colors.gray[4],
-            },
+  const {
+    data: stagings,
+    isLoading,
+    isSuccess,
+  } = useQuery({
+    queryKey: ["get_last_offset_batch"],
+    queryFn: () => getLastoffset("PEMBELIAN"),
+  });
 
-            "&[data-active]": {
-              background: "linear-gradient(45deg, #4c6ef5 0%, #15aabf 100%)",
-              borderColor: theme.colors.blue[7],
-              color: theme.white,
-              boxShadow: "0 10px 20px -10px rgba(0,0,0,0.5)",
-            },
-          },
+  const queryFilter = useFilter(filter);
+  const location = useLocation();
+  const navigate = useNavigate();
 
-          tabsList: {
-            overflowX: "auto",
-            // display: 'flex',
-            // justifyContent: "space-between",
-            // gap: "2rem",
-            // overflowX: "auto",
-            // zIndex: 100
-          },
-          panel: {
-            // width: "100px"
-          },
-        })}
-        {...props}
-      />
+  useEffect(() => {
+    setFilter(
+      queryFilter?.initialValues as { step: number; stagingId?: number }
     );
-  }
+  }, [queryFilter]);
 
-  const card = [
-    {
-      label: "Pilih Gelombang PPDB",
-      icon: RiGitMergeFill,
-    },
-    {
-      label: "Transaksi Pembelian",
-      icon: FaMoneyCheckDollar,
-    },
-    {
-      label: "Pilih Jurusan",
-      icon: FaRegFlag,
-    },
-    {
-      label: "Cetak Kartu Peserta",
-      icon: FaAddressCard,
-    },
-  ];
+  useEffect(() => {
+    if (isSuccess) {
+      const doneBatches = stagings.data.filter((batch) => batch.is_done === 1);
+      if (doneBatches.length > 0) {
+        // is last
+        if (
+          stagings.data[stagings.data.length - 1].index !==
+          doneBatches[doneBatches.length - 1].index
+        ) {
+          const index = doneBatches[doneBatches.length - 1].index + 1;
+          const toFilter = {
+            step: index,
+            stagingId: stagings.data.find((batch) => batch.index === index).id,
+          };
 
-  const [activeTabIndex, setActiveTabIndex] = useState(1);
+          setFilter(toFilter);
+          navigate(`${location.pathname}?${generateQueryparam(toFilter)}`);
+        }
+      } else {
+        const toFilter = {
+          step: 1,
+          stagingId: stagings.data.find((batch) => batch.index === 1).id,
+        };
+        setFilter(toFilter);
+        navigate(`${location.pathname}?${generateQueryparam(toFilter)}`);
+      }
+    }
+  }, [stagings, isSuccess]);
 
-  // gelombang
-  const [focus, setFocus] = useState("");
-  const [pilihanGelombang, setPilihanGelombang] =
-    useState<JalurPendaftaranPPDB | null>(null);
+  const toStep = (index: string) => {
+    const toFilter = {
+      step: +index,
+      stagingId: stagings.data.find((batch) => batch.index === +index).id,
+    };
 
-  // pemvbelian formulir
-  const [konfirmasiPembelian, setKonfirmasiPembelian] = useState(false);
-  const [konfirmasiPembayaran, setKonfirmasiPembayaran] = useState(false);
-
-  const [load, setLoad] = useState(false);
+    navigate(`${location.pathname}?${generateQueryparam(toFilter)}`);
+  };
 
   return (
     <Page title={"Pembelian"}>
       <PageLabel label={"Pembelian"} />
       <Stack className={"style-box"}>
-        <StyledTabs defaultValue={card[activeTabIndex - 1].label}>
-          <TabList activeTabIndex={activeTabIndex} card={card} />
+        <StyledTabs value={`${filter.step}`} onTabChange={toStep}>
+          {isLoading && <Skeleton width={"100%"} />}
+          {isSuccess && (
+            <TabList
+              activeTabIndex={+filter.step}
+              card={stagings.data.map((staging, index) => {
+                return {
+                  label: staging.name,
+                  index: staging.index,
+                  icon: card[index]?.icon,
+                  is_done: staging.is_done === 1,
+                };
+              })}
+            />
+          )}
+          <Divider my={20} />
 
-          <Divider mt={20} />
-
-          <TabsContentPembelian
-            activeTabIndex={activeTabIndex}
-            focus={focus}
-            setFocus={setFocus}
-            pilihanGelombang={pilihanGelombang}
-            setPilihanGelombang={setPilihanGelombang}
-            setActiveTabIndex={setActiveTabIndex}
-            konfirmasiPembelian={konfirmasiPembelian}
-            setKonfirmasiPembelian={setKonfirmasiPembelian}
-            konfirmasiPembayaran={konfirmasiPembayaran}
-            setKonfirmasiPembayaran={setKonfirmasiPembayaran}
-            setLoad={setLoad}
-            load={load}
-          />
+          {card.find((c) => c.index === filter.step)?.content}
         </StyledTabs>
       </Stack>
+      <Toaster position="top-center" reverseOrder={false} />
     </Page>
   );
 };
