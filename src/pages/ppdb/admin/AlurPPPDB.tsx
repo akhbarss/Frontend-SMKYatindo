@@ -5,6 +5,7 @@ import {
   ActionIcon,
   Box,
   Button,
+  Stack,
   Center,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
@@ -71,7 +72,7 @@ const AlurPPPDB = () => {
         setTitle("");
         setDescAlurPPDB("");
         closeCreate();
-        queryClient.invalidateQueries(["get_all_alur"]);
+        queryClient.invalidateQueries({ queryKey: ["get_all_alur"] });
       },
       onError: (err) => {
         // @ts-ignore
@@ -164,8 +165,8 @@ const AlurPPPDB = () => {
           }}
         >
           <ActionIcon
+            className="bg-[#2A166F] hover:bg-[#2A166F]"
             variant="filled"
-            color="blue"
             size={40}
             radius={100}
             onClick={() => {
@@ -179,6 +180,7 @@ const AlurPPPDB = () => {
           </ActionIcon>
 
           <ActionIcon
+            className="bg-[#2A166F] hover:bg-[#2A166F]"
             variant="filled"
             color="blue"
             size={40}
@@ -196,82 +198,85 @@ const AlurPPPDB = () => {
     <Page title={"Alur Pendaftaran"}>
       <PageLabel label={"Alur Pendaftaran"} />
 
-      <Box
-        mt={50}
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "16px",
-          paddingBottom: "40px",
-        }}
-      >
-        <Accordion multiple variant="separated" chevronPosition="left">
-          {alurPendaftaran && alurPendaftaran.data.length > 0 ? (
-            alurPendaftaran.data.map((item) => (
-              <Accordion.Item
-                key={item.id}
-                value={item.id.toString()}
-                sx={{
-                  boxShadow: "0 4px 10px -6px black",
-                  backgroundColor: `${dark ? "#25262B" : "white"}`,
-                  padding: "0.5rem 0.5rem",
-                }}
-                styles={{
-                  item: {
-                    backgroundColor: "blue",
-                  },
-                }}
-              >
-                <AccordionControl
-                  propss={{
-                    id: item.id.toString(),
-                    children: <h2>{item.title}</h2>,
-                  }}
-                  data={item}
-                />
-                <Accordion.Panel
+      <Stack className={"style-box max-w-[70rem] mx-auto"} >
+
+        <Box
+          mt={50}
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "16px",
+            paddingBottom: "40px",
+          }}
+        >
+          <Accordion multiple variant="separated" chevronPosition="left">
+            {alurPendaftaran && alurPendaftaran?.data?.length > 0 ? (
+              alurPendaftaran.data.map((item) => (
+                <Accordion.Item
+                  key={item.id}
+                  value={item.id.toString()}
                   sx={{
-                    borderTop: `1px solid ${dark ? "gray" : "#d9d9d9"}`,
+                    boxShadow: "0 4px 10px -6px black",
+                    backgroundColor: `${dark ? "#25262B" : "white"}`,
+                    padding: "0.5rem 0.5rem",
+                  }}
+                  styles={{
+                    item: {
+                      backgroundColor: "blue",
+                    },
                   }}
                 >
-                  <TiptapOutput desc={item.content} />
-                </Accordion.Panel>
-              </Accordion.Item>
-            ))
-          ) : (
-            <h2>Data Kosong</h2>
-          )}
-        </Accordion>
+                  <AccordionControl
+                    propss={{
+                      id: item.id.toString(),
+                      children: <h2>{item.title}</h2>,
+                    }}
+                    data={item}
+                  />
+                  <Accordion.Panel
+                    sx={{
+                      borderTop: `1px solid ${dark ? "gray" : "#d9d9d9"}`,
+                    }}
+                  >
+                    <TiptapOutput desc={item.content} />
+                  </Accordion.Panel>
+                </Accordion.Item>
+              ))
+            ) : (
+              <h2>Data Kosong</h2>
+            )}
+          </Accordion>
 
-        <Button mt={40} onClick={openCreate}>
-          Tambah
-        </Button>
-      </Box>
+          <Button mt={40} onClick={openCreate}>
+            Tambah
+          </Button>
+        </Box>
 
-      <ModalAlurCreate
-        close={closeCreate}
-        createAlurMutation={createAlurMutation}
-        descAlurPPDB={descAlurPPDB}
-        opened={openedCreate}
-        setDescAlurPPDB={setDescAlurPPDB}
-        setTitle={setTitle}
-        tambahALurHandler={tambahALurHandler}
-        title={title}
-      />
+        <ModalAlurCreate
+          close={closeCreate}
+          createAlurMutation={createAlurMutation}
+          descAlurPPDB={descAlurPPDB}
+          opened={openedCreate}
+          setDescAlurPPDB={setDescAlurPPDB}
+          setTitle={setTitle}
+          tambahALurHandler={tambahALurHandler}
+          title={title}
+        />
 
-      <ModalAlurEdit
-        opened={openedEdit}
-        close={closeEdit}
-        title={title}
-        setTitle={setTitle}
-        descAlurPPDB={descAlurPPDB}
-        setDescAlurPPDB={setDescAlurPPDB}
-        setIdAlur={setIdAlur}
-        editAlurHandler={editAlurHandler}
-        editAlurMutation={editAlurMutation}
-      />
+        <ModalAlurEdit
+          opened={openedEdit}
+          close={closeEdit}
+          title={title}
+          setTitle={setTitle}
+          descAlurPPDB={descAlurPPDB}
+          setDescAlurPPDB={setDescAlurPPDB}
+          setIdAlur={setIdAlur}
+          editAlurHandler={editAlurHandler}
+          editAlurMutation={editAlurMutation}
+        />
 
-      <Toaster position="top-center" reverseOrder={false} />
+        <Toaster position="top-center" reverseOrder={false} />
+      </Stack>
     </Page>
   );
 };

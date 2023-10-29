@@ -5,7 +5,8 @@ import Transaksi from "./Transaksi";
 import PilihJurusan from "./pilihJurusan";
 import CetakKartu from "./cetakKartu";
 import { useQuery } from "@tanstack/react-query";
-import { GetJalurPendaftaranByType } from "../../../apis/jalur/getJalur";
+// import { GetJalurPendaftaranByType } from "../../../apis/jalur/getJalur";
+import { getJalurPendaftaranByType } from "../../../apis/jalur/getJalurPendaftaranByType";
 
 const TabsContentPembelian = ({
   pilihanGelombang,
@@ -48,7 +49,7 @@ const TabsContentPembelian = ({
     isSuccess: jalurSuccess,
   } = useQuery({
     queryKey: ["jalur_pendaftaran_pembelian"],
-    queryFn: () => GetJalurPendaftaranByType("PEMBELIAN"),
+    queryFn: () => getJalurPendaftaranByType("PEMBELIAN"),
   });
 
   return (

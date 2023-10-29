@@ -118,7 +118,7 @@ const AlurPendaftaran = () => {
               }}
             >
               {alurPendaftaran &&
-                alurPendaftaran.data.map((alur) => (
+                alurPendaftaran?.data?.map((alur) => (
                   <Stepper.Step
                     mb={10}
                     description={

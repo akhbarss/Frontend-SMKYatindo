@@ -5,7 +5,6 @@ import {
   RefetchOptions,
   useQuery,
 } from "@tanstack/react-query";
-import { ResponseType } from "../../types/global";
 
 export type TGelombang = {
   id: number;
@@ -42,19 +41,12 @@ export type TGetAllJalurPendaftaran = {
 };
 
 export const GetAllJalurPendaftaran = () => {
-  const accessToken = localStorage.getItem("_TuVbwpW");
 
-  const { data, isLoading, isError, refetch, error } = useQuery({
+  const { data, isLoading, isError, refetch } = useQuery({
     queryKey: ["getAllJalurPendaftaran"],
     queryFn: () =>
-      axios.get("/v1/admin/registration-paths/index", {
-        headers: {
-          Authorization: "Bearer " + accessToken,
-        },
-      }),
+      axios.get("/v1/admin/registration-paths/index"),
   });
-
-  // console.log(error?.message)
 
   return {
     data: data?.data?.data,
@@ -64,11 +56,4 @@ export const GetAllJalurPendaftaran = () => {
   } as TGetAllJalurPendaftaran;
 };
 
-export const GetJalurPendaftaranByType = async (
-  type: string
-): Promise<ResponseType<JalurPendaftaran[]>> => {
-  const response = await axios.get(
-    "/v1/admin/registration-batch/getByType?type=" + type
-  );
-  return response.data;
-};
+

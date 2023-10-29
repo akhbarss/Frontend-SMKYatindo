@@ -93,7 +93,7 @@ const BaseTable = <T extends unknown>({
         ) : table?.getRowModel() && table?.getRowModel().rows.length > 0 ? (
           table?.getRowModel().rows.map((row) => (
             <Fragment key={row.id}>
-              <tr key={row.id}>
+              <tr key={row.id} >
                 {row.getVisibleCells().map((cell, index) => (
                   <td
                     key={cell.id}
@@ -102,6 +102,7 @@ const BaseTable = <T extends unknown>({
                         isResize && index < row.getVisibleCells().length - 1
                           ? 2
                           : 0,
+                      paddingBlock: "1rem"
                     }}
                   >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -139,9 +140,9 @@ const BaseTable = <T extends unknown>({
                   {header.isPlaceholder
                     ? null
                     : flexRender(
-                        header.column.columnDef.footer,
-                        header.getContext()
-                      )}
+                      header.column.columnDef.footer,
+                      header.getContext()
+                    )}
                 </th>
               ))}
             </tr>

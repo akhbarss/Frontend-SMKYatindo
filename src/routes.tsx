@@ -16,7 +16,8 @@ import Interceptors from "./Interceptor";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import JalurPendaftaranDetailLayout from "./layouts/JalurPendaftaranDetailLayout";
 import Gelombang from "./pages/ppdb/admin/jalurPendaftaranPPDB/Gelombang";
-import PendaftarPPDBDetail from "./pages/ppdb/admin/PendaftarPPDBDetail";
+import PendaftarPerGelombang from "./pages/ppdb/admin/PendaftarPerGelombang";
+import DetailSiswa from "./pages/ppdb/admin/DetailSiswa";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -151,8 +152,12 @@ export const routes: RoutesProps[] = [
                 Component: () => <PendaftarPPDB />,
               },
               {
-                path: "pendaftar-ppdb/:id",
-                Component: () => <PendaftarPPDBDetail />,
+                path: "pendaftar-ppdb/:gelombangId",
+                Component: () => <PendaftarPerGelombang />,
+              },
+              {
+                path: "pendaftar-ppdb/:id/:userId",
+                Component: () => <DetailSiswa />,
               },
             ],
           },

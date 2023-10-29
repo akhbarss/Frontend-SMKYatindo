@@ -1,49 +1,50 @@
 import {
-  Tabs,
   Box,
-  Divider,
   Grid,
   Group,
   Paper,
+  Tabs,
   Text,
   useMantineTheme
 } from "@mantine/core";
+import { useQuery } from "@tanstack/react-query";
 import { HiMiniUserCircle } from "react-icons/hi2";
 import { Link, useNavigate } from "react-router-dom";
-import { GetAllJalurPendaftaran } from "../../../apis/jalur/getJalur";
+// import { getJalurPendaftaranByType } from "../../../apis/jalur/getJalurPendaftaranByType";
 import Page from "../../../components/Page";
 import PageLabel from "../../../components/PageLabel";
-import PageLoading from "../../../components/PageLoading";
-import { dataJalurPendaftaran } from "../../../components/ppdb/dataJalurPendaftaran";
 import { useBreakPoints } from "../../../utils/UseBreakpoints";
 import { DarkTheme } from "../../../utils/darkTheme";
-import { BsFillCaretRightFill } from "react-icons/bs";
+import { getAllGelombangByTypeJalur } from "../../../apis/gelombang/getAllGelombangByTypeJalur";
 
 const PendaftarPPDB = () => {
-  const { xs } = useBreakPoints();
-  const pendaftar = dataJalurPendaftaran;
-
-
-  const {
-    data: dataJalur,
-    isErr,
-    load,
-    refetch
-  } = GetAllJalurPendaftaran()
-  console.log(dataJalur)
-
   const navigate = useNavigate()
 
   const dark = DarkTheme()
   const theme = useMantineTheme()
+  const { xs } = useBreakPoints();
 
-  if (load) return <PageLoading />
+  const {
+    data: gelombangByJalurPembelian,
+  } = useQuery({
+    queryKey: ["get_all_gelombang_by_type_pembelian"],
+    queryFn: () => getAllGelombangByTypeJalur("PEMBELIAN"),
+  });
+
+  const {
+    data: gelombangByJalurPengembalian,
+  } = useQuery({
+    queryKey: ["get_all_gelombang_by_type_pengembalian"],
+    queryFn: () => getAllGelombangByTypeJalur("PENGEMBALIAN"),
+  });
+
+  console.log(gelombangByJalurPembelian)
 
   return (
     <Page title="Pendaftar PPDB">
       <PageLabel label="Pendaftar PPDB" />
 
-      <Box className={`style-box relative flex-1  ${xs ? "" : "flex-1  "}`}>
+      <Box className={`style-box relative flex-1 max-w-[70rem] mx-auto  ${xs ? "" : "flex-1  "}`}>
 
         <Tabs
           defaultValue="pembelian"
@@ -71,136 +72,80 @@ const PendaftarPPDB = () => {
             </Tabs.List>
           </Paper>
 
+          {/* PEMBELIAN */}
           <Tabs.Panel value="pembelian" mt={40}>
             <Grid >
-              <Grid.Col
-                md={6}
-              // key={gelombang.id}
-              >
-                <Link
-                  to={"67"}
-                  className="shadow-md rounded-md no-underline text-black "
-                >
-                  <Paper
-                    sx={{
-                      backgroundColor: dark ? theme.colors.dark[6] : theme.white,
-                      padding: "1rem 1.5rem",
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "start",
-                    }}
-                    withBorder
+              {gelombangByJalurPembelian?.data?.map(item => (
+                <Grid.Col key={item.id} md={6}>
+                  <Link
+                    to={`${item.id}`}
+                    className="shadow-md rounded-md no-underline text-black "
                   >
-                    <h1 className="text-xl  font-bold">
-                      PEMBELIAN FORMULIR
-                      {/* {gelombang.name} */}
-                    </h1>
-                    <Group mt={10} >
-                      <HiMiniUserCircle size={30} />
-                      <Text >
-                        {/* {gelombang.countStudent} Pendaftar {JSON.stringify(gelombang.countStudent)} */}
-                        100 Pendaftar
-                      </Text>
-                    </Group>
-                  </Paper>
-                </Link>
-              </Grid.Col>
+                    <Paper
+                      sx={{
+                        backgroundColor: dark ? theme.colors.dark[6] : theme.white,
+                        padding: "1rem 1.5rem",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "start",
+                      }}
+                      withBorder
+                    >
+                      <h1 className="text-xl  font-bold">
+                        {item.name}
+                      </h1>
+                      <Group mt={10} >
+                        <HiMiniUserCircle size={30} />
+                        <Text >
+                          {/* 100 Pendaftar */}
+                        </Text>
+                      </Group>
+                    </Paper>
+                  </Link>
+                </Grid.Col>
+              ))}
             </Grid>
           </Tabs.Panel>
+
+          {/* PENGEMBALIAN */}
           <Tabs.Panel value="pengembalian" mt={40}>
             <Grid >
-              <Grid.Col
-                md={6}
-              // key={gelombang.id}
-              >
-                <Link
-                  to={"67"}
-                  className="shadow-md rounded-md no-underline text-black "
+              {gelombangByJalurPengembalian?.data?.map(item => (
+                <Grid.Col
+                  md={6}
+                  key={item.id}
                 >
-                  <Paper
-                    sx={{
-                      backgroundColor: dark ? theme.colors.dark[6] : theme.white,
-                      padding: "1rem 1.5rem",
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "start",
-                    }}
-                    withBorder
+                  <Link
+                    to={`${item.id}`}
+                    className="shadow-md rounded-md no-underline text-black "
                   >
-                    <h1 className="text-xl  font-bold">
-                      PENGEMBALIAN FORMULIR REGULER GEL. 1
-                      {/* {gelombang.name} */}
-                    </h1>
-                    <Group mt={10} >
-                      <HiMiniUserCircle size={30} />
-                      <Text >
-                        {/* {gelombang.countStudent} Pendaftar {JSON.stringify(gelombang.countStudent)} */}
-                        100 Pendaftar
-                      </Text>
-                    </Group>
-                  </Paper>
-                </Link>
-              </Grid.Col>
+                    <Paper
+                      sx={{
+                        backgroundColor: dark ? theme.colors.dark[6] : theme.white,
+                        padding: "1rem 1.5rem",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "start",
+                      }}
+                      withBorder
+                    >
+                      <h1 className="text-xl  font-bold">
+                        {item.name}
+                      </h1>
+                      <Group mt={10} >
+                        <HiMiniUserCircle size={30} />
+                        <Text >
+                          100 Pendaftar
+                        </Text>
+                      </Group>
+                    </Paper>
+                  </Link>
+                </Grid.Col>
+              ))}
             </Grid>
           </Tabs.Panel>
 
         </Tabs>
-
-        {/* <Box
-          mt={50}
-          className="flex flex-col gap-4 px-4 pb-10  mx-auto flex-wrap"
-        >
-          {dataJalur?.map((item) => {
-            const tipeFormulir =
-              (item.type === "PEMBELIAN" && (
-                <h1 className="text-xl font-bold">Pembelian Formulir</h1>
-              )) ||
-              (item.type === "PENGEMBALIAN" && (
-                <h1 className="text-xl font-bold">Pengembalian Formulir</h1>
-              ));
-
-            return (
-              <Box key={item.id} className="">
-                <Divider size={"xs"} label={tipeFormulir} />
-                <Grid className="mt-4" gutter={20} >
-                  {item.registrationBatches.map((gelombang) => (
-                    <Grid.Col
-                      md={6}
-                      key={gelombang.id}
-                    >
-                      <Link
-                        to={"67"}
-                        className="shadow-md rounded-md  bg-white no-underline text-black "
-                      >
-                        <Paper
-                          sx={{
-                            backgroundColor: "white",
-                            padding: "1rem 1.5rem",
-                            display: "flex",
-                            flexDirection: "column",
-                            alignItems: "start"
-                          }}
-                          withBorder
-                        >
-                          <h1 className="text-xl  font-bold">
-                            {gelombang.name}
-                          </h1>
-                          <Group mt={10} >
-                            <HiMiniUserCircle size={20} />
-                            <Text >
-                              {gelombang.countStudent} Pendaftar {JSON.stringify(gelombang.countStudent)}
-                            </Text>
-                          </Group>
-                        </Paper>
-                      </Link>
-                    </Grid.Col>
-                  ))}
-                </Grid>
-              </Box>
-            );
-          })}
-        </Box> */}
-
       </Box>
     </Page>
 

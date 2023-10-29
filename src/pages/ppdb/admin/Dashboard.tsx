@@ -191,6 +191,7 @@ const Dashboard = () => {
             </Anchor>
           </Flex>
           <DataTable
+          
             data={[]}
             columns={columns}
             useSearchInput={true}

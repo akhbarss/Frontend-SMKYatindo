@@ -46,6 +46,11 @@ const ModalAlurEdit: React.FC<TModalAlurEdit> = ({
             }}
             opened={opened}
             title="Edit Alur Pendaftaran PPDB"
+            withFooter
+            onAccept={{
+                acceptFn: editAlurHandler,
+                titleAccept: "Ubah"
+            }}
 
         >
             <Stack p={20} pb={"6rem"}>
@@ -64,34 +69,6 @@ const ModalAlurEdit: React.FC<TModalAlurEdit> = ({
                     setDesc={setDescAlurPPDB}
                 />
             </Stack>
-
-            <Group
-                position="right"
-                sx={{
-                    position: "absolute",
-                    bottom: 0,
-                    right: 0,
-                    left: 0,
-                    padding: "1rem 4rem",
-                    backgroundColor: "whitesmoke"
-                }}
-            >
-                <Button
-                    variant="outline"
-                    onClick={() => {
-                        close()
-                        setDescAlurPPDB("")
-                        setTitle("")
-                        setIdAlur("")
-                    }}
-                >
-                    Batal
-                </Button>
-
-                <Button loading={editAlurMutation.status == "pending"} onClick={() => editAlurHandler()}>
-                    Simpan
-                </Button>
-            </Group>
         </ModalAlur>
     )
 }

@@ -13,8 +13,6 @@ export type TGetGelombangByIdJalur = {
 
 export const GetGelombangByIdJalur = (idJalur: string) => {
 
-    const accessToken = localStorage.getItem("_TuVbwpW")
-
     const {
         data,
         isLoading,
@@ -22,15 +20,9 @@ export const GetGelombangByIdJalur = (idJalur: string) => {
         refetch,
         error
     } = useQuery({
-        queryKey: ["GetGelombangByIdJalur"],
-        queryFn: () => axios.get("/v1/admin/registration-batch/index?pathId=" + idJalur, {
-            headers: {
-                "Authorization": "Bearer " + accessToken
-            }
-        })
+        queryKey: ["get_gelombang_by_id_jalur"],
+        queryFn: () => axios.get("/v1/admin/registration-batch/index?pathId=" + idJalur)
     })
-
-    // console.log(error?.message)
 
     return {
         data: data?.data?.data,

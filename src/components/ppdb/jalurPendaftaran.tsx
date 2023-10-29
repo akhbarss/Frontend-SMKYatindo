@@ -21,10 +21,6 @@ const JalurPendaftaran = () => {
     <Element
       id="jalur-pendaftaran"
       name="jalur-pendaftaran"
-      // className={`  min-h-[87vh] flex flex-col
-      //     ${xs && "items-center py-[2rem] "}
-      //     ${dark ? "backdrop-brightness-75" : "backdrop-brightness-50"}
-      //     `}
       style={{
         position: "relative",
         display: "flex",
@@ -37,7 +33,6 @@ const JalurPendaftaran = () => {
       }}
     >
       <Box
-        // className={` flex flex-col  ${xs ? "w-[85%] p-[2rem] min-h-[450px] rounded-[20px] " : "flex-1  pt-10"}`}
         sx={(theme) => ({
           backgroundColor:
             theme.colorScheme === "dark" ? "black" : theme.colors.gray[0],
@@ -54,7 +49,6 @@ const JalurPendaftaran = () => {
         })}
       >
         <div
-          // className={`title-card ${dark ? "bg-[#291872] shadow-[0_0_20px_-3px_#291872]" : "bg-[#020731] "} h-[20vw] max-h-[4rem] flex items-center justify-center px-[4rem] rounded-full mx-auto`}
           style={{
             backgroundColor: `${dark ? "#291872" : "#020731"}`,
             boxShadow: `${dark ? "0 0 20px -3px #291872" : ""}`,
@@ -70,7 +64,6 @@ const JalurPendaftaran = () => {
           }}
         >
           <span
-            // className={`${"text-white"}  font-bold ${xs ? "text-[2.5vw]" : "text-[5vw]"}`}
             style={{
               fontWeight: "bold",
               fontSize: `${xs ? "2.5vw" : "5vw"}`,
@@ -81,7 +74,6 @@ const JalurPendaftaran = () => {
         </div>
 
         <Box
-          // className={`flex gap-5 ${xs ? "flex-row" : "flex-col"}`}
           style={{
             display: "flex",
             gap: "20px",
@@ -95,7 +87,6 @@ const JalurPendaftaran = () => {
           />
 
           <Box
-            //  className='flex flex-col w-full  text-[22px] font-black'
             sx={{
               display: "flex",
               flexDirection: "column",
