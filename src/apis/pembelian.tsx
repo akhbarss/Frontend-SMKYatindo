@@ -29,3 +29,10 @@ export const getOffsetStatus = async (
   );
   return response.data;
 };
+
+export const uploadbuktibayar = async (
+  payload: FormData
+): Promise<ResponseType<any>> => {
+  const response = await axios.post("/v1/student/upload-payment", payload);
+  return response.data;
+};

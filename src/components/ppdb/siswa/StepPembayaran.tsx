@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import {
   Box,
   Button,
@@ -20,12 +20,13 @@ import { FaUpload } from "react-icons/fa";
 import { ImCross } from "react-icons/im";
 import { HiPhoto } from "react-icons/hi2";
 import { NumericFormat } from "react-number-format";
-import { getOffsetStatus } from "../../../apis/pembelian";
+import { getOffsetStatus, uploadbuktibayar } from "../../../apis/pembelian";
 import useQueryFilter from "../../../hooks/useQueryFilter";
-import { useQuery } from "@tanstack/react-query";
-import { Controller, useFormContext } from "react-hook-form";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Controller, SubmitHandler, useFormContext } from "react-hook-form";
 import FormWrapper from "../../FormWrapper";
 import { RadioGroupCustom } from "../../fields/RadioGroup";
+import ResponseError from "../../../utils/ResponseError";
 
 const FormFieldPembayaran = () => {
   const theme = useMantineTheme();
@@ -37,7 +38,7 @@ const FormFieldPembayaran = () => {
     watch,
   } = useFormContext();
 
-  const watchPaymentType = watch("payment_type");
+  const watchPaymentType = watch("payment_method");
 
   return (
     <Stack spacing={10}>
@@ -114,21 +115,21 @@ const FormFieldPembayaran = () => {
         decimalSeparator=","
         prefix="Rp. "
         customInput={TextInput}
-        error={errors.price && <div>{errors.price?.message}</div>}
+        error={errors.amount && <div>{errors.amount?.message}</div>}
         placeholder="Rp. 0"
         label="Input Nominal"
         description="Input Nominal"
         required
-        {...register("price", {
+        {...register("amount", {
           required: false,
           valueAsNumber: true,
         })}
         onValueChange={(values) => {
-          setValue("price", values.floatValue);
+          setValue("amount", values.floatValue);
         }}
       />
       <RadioGroupCustom
-        name="payment_type"
+        name="payment_method"
         control={control}
         label="Metode Pembayaran"
         description="Pilih salah satu"
@@ -184,9 +185,41 @@ const FormFieldPembayaran = () => {
 
 const StepPembayaran = () => {
   const filter = useQueryFilter({ step: 2, stagingId: null });
+  const queryClient = useQueryClient();
+  const uploadMutation = useMutation({
+    mutationFn: uploadbuktibayar,
+  });
 
-  const openRef = useRef<() => void>(null);
-  const theme = useMantineTheme();
+  const {
+    data: offset,
+    isLoading: statusLoading,
+    isSuccess: statusSuccess,
+  } = useQuery({
+    queryKey: ["student_staging_offset", filter.stagingId],
+    queryFn: () => getOffsetStatus(filter.stagingId),
+    enabled: !!filter.stagingId,
+  });
+
+  const onSubmitPayment: SubmitHandler<any> = (data) => {
+    const formData = new FormData();
+    for (const [key, value] of Object.entries(data)) {
+      if (key === "payment_prove") {
+        formData.append("file", value?.[0]);
+      } else {
+        formData.append(key, value);
+      }
+    }
+
+    uploadMutation.mutate(formData, {
+      onSuccess: () => {
+        toast.success("Sukses upload bukti bayar");
+        queryClient.invalidateQueries({
+          queryKey: ["get_last_offset_batch"],
+        });
+      },
+      onError: (err) => ResponseError(err),
+    });
+  };
 
   const { data } = useQuery({
     queryKey: ["student_staging_offset", filter.stagingId],
@@ -261,7 +294,7 @@ const StepPembayaran = () => {
           </tbody>
         </table>
       </Stack>
-      <FormWrapper id={"form-uploadbukti"} onSubmit={console.log}>
+      <FormWrapper id={"form-uploadbukti"} onSubmit={onSubmitPayment}>
         <Title order={3} my={50}>
           Bukti Transfer
         </Title>
