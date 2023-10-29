@@ -1,189 +1,33 @@
-import React from "react";
+import React, { useMemo } from "react";
 import {
   Box,
   Button,
   Divider,
-  Group,
-  Image,
-  Radio,
-  rem,
-  SimpleGrid,
+  Skeleton,
   Stack,
   Text,
-  TextInput,
   Title,
-  useMantineTheme,
 } from "@mantine/core";
-import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
 import toast, { Toaster } from "react-hot-toast";
-import { FaUpload } from "react-icons/fa";
-import { ImCross } from "react-icons/im";
-import { HiPhoto } from "react-icons/hi2";
-import { NumericFormat } from "react-number-format";
 import { getOffsetStatus, uploadbuktibayar } from "../../../apis/pembelian";
 import useQueryFilter from "../../../hooks/useQueryFilter";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Controller, SubmitHandler, useFormContext } from "react-hook-form";
+import { SubmitHandler } from "react-hook-form";
 import FormWrapper from "../../FormWrapper";
-import { RadioGroupCustom } from "../../fields/RadioGroup";
 import ResponseError from "../../../utils/ResponseError";
+import SelectStatus from "../../SelectStatus";
+import DataTable from "../../DataTable";
+import FormFieldPembayaran from "../../FormFieldPembayaran";
+import WaitingPaymentConfirmation from "../../WaitingPaymentConfirmation";
+import { formatAngka } from "../../../utils/formatRupiah";
+import { Step } from "../../../types/global";
 
-const FormFieldPembayaran = () => {
-  const theme = useMantineTheme();
-  const {
-    register,
-    control,
-    setValue,
-    formState: { errors },
-    watch,
-  } = useFormContext();
-
-  const watchPaymentType = watch("payment_method");
-
-  return (
-    <Stack spacing={10}>
-      <Controller
-        render={({ field: { onChange, value } }) => (
-          <Dropzone
-            multiple={false}
-            onChange={(e) => onChange(e.target.files?.[0] ?? null)}
-            onReject={(files) => {
-              const fileToLarge = files[0].errors[0].code == "file-too-large";
-              if (fileToLarge) {
-                toast.error("Size gambar terlalu besar dari 5MB");
-              }
-            }}
-            maxSize={3 * 1024 ** 2}
-            accept={IMAGE_MIME_TYPE}
-            onDrop={(droppedFiles) => {
-              onChange(droppedFiles);
-            }}
-          >
-            <Group
-              position="center"
-              spacing="xl"
-              style={{ minHeight: rem(220), pointerEvents: "none" }}
-            >
-              <Dropzone.Accept>
-                <FaUpload
-                  size="3.2rem"
-                  color={
-                    theme.colors[theme.primaryColor][
-                      theme.colorScheme === "dark" ? 4 : 6
-                    ]
-                  }
-                />
-              </Dropzone.Accept>
-              <Dropzone.Reject>
-                <ImCross
-                  size="3.2rem"
-                  color={theme.colors.red[theme.colorScheme === "dark" ? 4 : 6]}
-                />
-              </Dropzone.Reject>
-              <Dropzone.Idle>
-                <HiPhoto size="3.2rem" />
-              </Dropzone.Idle>
-              <Text size="">Upload Bukti Bayar, Max : 5MB</Text>
-            </Group>
-            <SimpleGrid
-              cols={4}
-              mt={5}
-              breakpoints={[{ maxWidth: "sm", cols: 1 }]}
-            >
-              {value &&
-                value.map((file, index) => {
-                  const imageUrl = URL.createObjectURL(file);
-                  return (
-                    <Image
-                      key={index}
-                      src={imageUrl}
-                      w={20}
-                      imageProps={{
-                        onLoad: () => URL.revokeObjectURL(imageUrl),
-                      }}
-                    />
-                  );
-                })}
-            </SimpleGrid>
-          </Dropzone>
-        )}
-        name={"payment_prove"}
-        control={control}
-      />
-      <NumericFormat
-        thousandSeparator="."
-        decimalSeparator=","
-        prefix="Rp. "
-        customInput={TextInput}
-        error={errors.amount && <div>{errors.amount?.message}</div>}
-        placeholder="Rp. 0"
-        label="Input Nominal"
-        description="Input Nominal"
-        required
-        {...register("amount", {
-          required: false,
-          valueAsNumber: true,
-        })}
-        onValueChange={(values) => {
-          setValue("amount", values.floatValue);
-        }}
-      />
-      <RadioGroupCustom
-        name="payment_method"
-        control={control}
-        label="Metode Pembayaran"
-        description="Pilih salah satu"
-      >
-        <Group mt="xs">
-          <Radio value="CASH" label="Tunai" />
-          <Radio value="TRANSFER" label="Transfer" />
-        </Group>
-      </RadioGroupCustom>
-      {watchPaymentType && watchPaymentType === "TRANSFER" && (
-        <>
-          <TextInput
-            description="Masukkan nama bank"
-            label="Nama Bank"
-            placeholder="Bank BCA,BNI"
-            withAsterisk
-            error={errors.bank_name && <div>{errors.bank_name?.message}</div>}
-            required
-            {...register("bank_name", {
-              required: true,
-            })}
-          />
-
-          <TextInput
-            label="Nomor Rekening"
-            description="Masukkan nomor rekening"
-            withAsterisk
-            type="number"
-            error={
-              errors.bank_account && <div>{errors.bank_account?.message}</div>
-            }
-            required
-            {...register("bank_account", {
-              required: true,
-            })}
-          />
-
-          <TextInput
-            label="Nama Pemilik Rekening"
-            description="Masukkan nama pemilik rekening"
-            withAsterisk
-            error={errors.bank_user && <div>{errors.bank_user?.message}</div>}
-            required
-            {...register("bank_user", {
-              required: true,
-            })}
-          />
-        </>
-      )}
-    </Stack>
-  );
+const paymentMethod = {
+  CASH: "Tunai",
+  TRANSFER: "Transfer",
 };
 
-const StepPembayaran = () => {
+const StepPembayaran: React.FC<Step> = ({ type = "PEMBELIAN" }) => {
   const filter = useQueryFilter({ step: 2, stagingId: null });
   const queryClient = useQueryClient();
   const uploadMutation = useMutation({
@@ -195,10 +39,46 @@ const StepPembayaran = () => {
     isLoading: statusLoading,
     isSuccess: statusSuccess,
   } = useQuery({
-    queryKey: ["student_staging_offset", filter.stagingId],
-    queryFn: () => getOffsetStatus(filter.stagingId),
+    queryKey: ["student_staging_offset", filter.stagingId, type],
+    queryFn: () => getOffsetStatus(filter.stagingId, type),
     enabled: !!filter.stagingId,
   });
+
+  const columns = useMemo(() => {
+    return [
+      {
+        id: "Metode Pembayaran",
+        header: "Metode Pembayaran",
+        accessorFn: (data) => paymentMethod[data.method],
+      },
+      {
+        id: "Bank",
+        header: "Bank",
+        accessorFn: (data) => data.bank_name,
+      },
+      {
+        id: "Nomor Rekening",
+        header: "Nomor Rekening",
+        accessorFn: (data) => data.bank_account,
+      },
+      {
+        id: "Atas Nama",
+        header: "Atas Nama",
+        accessorFn: (data) => data.bank_user,
+      },
+      // {
+      //   id: "Aksi",
+      //   header: "Aksi",
+      //   cell: () => {
+      //     return (
+      //       <Button variant="filled" color={"red"}>
+      //         Batalkan
+      //       </Button>
+      //     );
+      //   },
+      // },
+    ];
+  }, []);
 
   const onSubmitPayment: SubmitHandler<any> = (data) => {
     const formData = new FormData();
@@ -209,6 +89,7 @@ const StepPembayaran = () => {
         formData.append(key, value);
       }
     }
+    formData.append("type", type);
 
     uploadMutation.mutate(formData, {
       onSuccess: () => {
@@ -220,12 +101,6 @@ const StepPembayaran = () => {
       onError: (err) => ResponseError(err),
     });
   };
-
-  const { data } = useQuery({
-    queryKey: ["student_staging_offset", filter.stagingId],
-    queryFn: () => getOffsetStatus(filter.stagingId),
-    enabled: !!filter.stagingId,
-  });
 
   return (
     <Box
@@ -242,7 +117,8 @@ const StepPembayaran = () => {
         <Title>Bayar Pendaftaran</Title>
 
         <Text className="font-semibold">
-          Silahkan melakukan transfer ke rekening dibawah ini :
+          Silahkan melakukan transfer ke rekening dibawah ini jika anda memilih
+          metode pembayaran transfer :
         </Text>
 
         <table className="w-[35rem]">
@@ -250,60 +126,103 @@ const StepPembayaran = () => {
             <tr>
               <td>Bank</td>
               <td>
-                <Text>
-                  :{" "}
-                  <Text component="span" weight={"bold"}>
-                    Bank Danamon
+                {statusLoading && <Skeleton content={"Lorem Ipsum"} />}
+                {statusSuccess && (
+                  <Text>
+                    :{" "}
+                    <Text component="span" weight={"bold"}>
+                      {offset.data.registration_batch?.bank_name}
+                    </Text>
                   </Text>
-                </Text>
+                )}
+              </td>
+            </tr>
+            <tr>
+              <td>Nominal yang harus dibayarkan</td>
+              <td>
+                {statusLoading && <Skeleton content={"Lorem Ipsum"} />}
+                {statusSuccess && (
+                  <Text>
+                    :{" "}
+                    <Text component="span" weight={"bold"}>
+                      {formatAngka(
+                        offset.data.registration_batch?.price ?? "0",
+                        "Rp "
+                      )}
+                    </Text>
+                  </Text>
+                )}
               </td>
             </tr>
             <tr>
               <td>Nomor Rekening</td>
               <td>
-                <Text>
-                  :{" "}
-                  <Text component="span" weight={"bold"}>
-                    320940492
+                {statusLoading && <Skeleton content={"Lorem Ipsum"} />}
+                {statusSuccess && (
+                  <Text>
+                    :{" "}
+                    <Text component="span" weight={"bold"}>
+                      {offset.data.registration_batch?.bank_account}
+                    </Text>
                   </Text>
-                </Text>
+                )}
               </td>
             </tr>
             <tr>
               <td>Atas Nama</td>
               <td>
-                <Text>
-                  :{" "}
-                  <Text component="span" weight={"bold"}>
-                    SMK Tinta Emas Indonesia
+                {statusLoading && <Skeleton content={"Lorem Ipsum"} />}
+                {statusSuccess && (
+                  <Text>
+                    :{" "}
+                    <Text component="span" weight={"bold"}>
+                      {offset.data.registration_batch?.bank_user}
+                    </Text>
                   </Text>
-                </Text>
+                )}
               </td>
             </tr>
             <tr>
               <td>Status Pembayaran</td>
               <td>
-                <Text>
-                  :{" "}
-                  <Text component="span" weight={"bold"}>
-                    Menunggu Biaya Pendaftaran
-                  </Text>
-                </Text>
+                {statusLoading && <Skeleton content={"Lorem Ipsum"} />}
+                {statusSuccess && (
+                  <SelectStatus
+                    type={"STATUS"}
+                    readonly={true}
+                    value={offset.data.payment_status?.status}
+                  />
+                )}
               </td>
             </tr>
           </tbody>
         </table>
       </Stack>
-      <FormWrapper id={"form-uploadbukti"} onSubmit={onSubmitPayment}>
-        <Title order={3} my={50}>
-          Bukti Transfer
-        </Title>
-        <Divider />
-        <FormFieldPembayaran />
-        <Button type={"submit"} mt={10}>
-          Submit
-        </Button>
-      </FormWrapper>
+      {statusSuccess && offset.data.payment_status ? (
+        <>
+          <WaitingPaymentConfirmation />
+          <Box mt={10} w={"100%"}>
+            <DataTable
+              useHeader={true}
+              data={[{ ...offset.data.payment_status }]}
+              columns={columns}
+              noCard={true}
+              usePagination={false}
+            />
+          </Box>
+        </>
+      ) : (
+        <FormWrapper id={"form-uploadbukti"} onSubmit={onSubmitPayment}>
+          <Title order={3} my={50}>
+            Bukti Transfer
+          </Title>
+          <Divider />
+          <FormFieldPembayaran />
+          <Button type={"submit"} mt={10}>
+            Submit
+          </Button>
+        </FormWrapper>
+      )}
       <Toaster position={"top-center"} reverseOrder={true} />
     </Box>
   );

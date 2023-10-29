@@ -13,6 +13,10 @@ import useFilter from "../../../../utils/useFilter";
 import { useLocation, useNavigate } from "react-router-dom";
 import generateQueryparam from "../../../../utils/generateQueryParam";
 import { useQuery } from "@tanstack/react-query";
+import StepGelombang from "../../../../components/ppdb/siswa/StepGelombang";
+import StepPembayaran from "../../../../components/ppdb/siswa/StepPembayaran";
+import StepCetakKartu from "../../../../components/ppdb/siswa/StepCetakKartu";
+import { Toaster } from "react-hot-toast";
 
 function StyledTabs(props: TabsProps) {
   return (
@@ -70,31 +74,31 @@ const card = [
     index: 1,
     label: "Pilih Jalur PPDB",
     icon: RiGitMergeFill,
+    content: <StepGelombang type={"PENGEMBALIAN"} />,
   },
   {
     index: 2,
     label: "Transaksi Pengembalian",
     icon: FaMoneyCheckDollar,
+    content: <StepPembayaran type={"PENGEMBALIAN"} />,
   },
   {
     index: 3,
     label: "Isi Biodata",
     icon: IoPerson,
+    content: <div>Isi biodata</div>,
   },
   {
     index: 4,
-    label: "Pilih Jurusan",
+    label: "Isi Data Prestasi",
     icon: FaRegFlag,
+    content: <div>Isi biodata</div>,
   },
   {
     index: 5,
-    label: "Isi Data Prestasi",
-    icon: FaRegFlag,
-  },
-  {
-    index: 6,
     label: "Cetak Kartu Peserta",
     icon: FaAddressCard,
+    content: <StepCetakKartu type={"PENGEMBALIAN"} />,
   },
 ];
 
@@ -111,7 +115,7 @@ const PengembalianSiswaPPDB = () => {
   } = useQuery({
     queryKey: ["get_last_offset_batch"],
     queryFn: () => getLastoffset("PENGEMBALIAN"),
-    throwOnError: (err) => ResponseError(err),
+    staleTime: 0,
   });
 
   const queryFilter = useFilter(filter);
@@ -171,35 +175,21 @@ const PengembalianSiswaPPDB = () => {
           {isSuccess && (
             <TabList
               activeTabIndex={+filter.step}
-              card={stagings.data.map((staging) => {
+              card={stagings.data.map((staging, index) => {
                 return {
                   label: staging.name,
                   index: staging.index,
-                  icon: card.find((c) => c.index === staging.index).icon,
+                  icon: card[index]?.icon,
                   is_done: staging.is_done === 1,
                 };
               })}
             />
           )}
-
-          <Divider mt={20} />
-
-          {/*<TabsContentPengembalian*/}
-          {/*  activeTabIndex={activeTabIndex}*/}
-          {/*  focus={focus}*/}
-          {/*  setFocus={setFocus}*/}
-          {/*  pilihanGelombang={pilihanGelombang}*/}
-          {/*  setPilihanGelombang={setPilihanGelombang}*/}
-          {/*  setActiveTabIndex={setActiveTabIndex}*/}
-          {/*  konfirmasiPembelian={konfirmasiPembelian}*/}
-          {/*  setKonfirmasiPembelian={setKonfirmasiPembelian}*/}
-          {/*  konfirmasiPembayaran={konfirmasiPembayaran}*/}
-          {/*  setKonfirmasiPembayaran={setKonfirmasiPembayaran}*/}
-          {/*  setLoad={setLoad}*/}
-          {/*  load={load}*/}
-          {/*/>*/}
+          <Divider my={20} />
+          {card.find((c) => c.index === filter.step)?.content}
         </StyledTabs>
       </Stack>
+      <Toaster position="top-center" reverseOrder={false} />
     </Page>
   );
 };

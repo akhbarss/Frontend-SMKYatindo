@@ -15,8 +15,9 @@ import toast from "react-hot-toast";
 import ResponseError from "../../../utils/ResponseError";
 import { modals } from "@mantine/modals";
 import useQueryFilter from "../../../hooks/useQueryFilter";
+import { Step } from "../../../types/global";
 
-const StepGelombang = () => {
+const StepGelombang: React.FC<Step> = ({ type = "PEMBELIAN" }) => {
   const filter = useQueryFilter({ step: 1, stagingId: null });
 
   const queryClient = useQueryClient();
@@ -26,7 +27,7 @@ const StepGelombang = () => {
     isSuccess: jalurSuccess,
   } = useQuery({
     queryKey: ["jalur_pendaftaran_pembelian"],
-    queryFn: () => GetJalurPendaftaranByType("PEMBELIAN"),
+    queryFn: () => GetJalurPendaftaranByType(type),
   });
 
   const {
@@ -34,8 +35,8 @@ const StepGelombang = () => {
     isLoading: statusLoading,
     isSuccess: statusSuccess,
   } = useQuery({
-    queryKey: ["student_staging_offset", filter.stagingId],
-    queryFn: () => getOffsetStatus(filter.stagingId),
+    queryKey: ["student_staging_offset", filter.stagingId, type],
+    queryFn: () => getOffsetStatus(filter.stagingId, type),
     enabled: !!filter.stagingId,
   });
 
@@ -45,15 +46,18 @@ const StepGelombang = () => {
 
   const onChooseBatch = (id: number, name: string) => {
     const onAccept = () => {
-      chooseBatchMutation.mutate(id, {
-        onSuccess: () => {
-          toast.success("Sukses memilih gelommbang pendaftaran");
-          queryClient.invalidateQueries({
-            queryKey: ["get_last_offset_batch"],
-          });
-        },
-        onError: (err) => ResponseError(err),
-      });
+      chooseBatchMutation.mutate(
+        { batchId: id, type: type },
+        {
+          onSuccess: () => {
+            toast.success("Sukses memilih gelommbang pendaftaran");
+            queryClient.invalidateQueries({
+              queryKey: ["get_last_offset_batch"],
+            });
+          },
+          onError: (err) => ResponseError(err),
+        }
+      );
     };
 
     const onCancel = () => {
@@ -83,11 +87,11 @@ const StepGelombang = () => {
       <LoadingOverlay
         visible={chooseBatchMutation.isPending || statusLoading}
       />
-      {statusSuccess && offset.data ? (
+      {statusSuccess && offset.data.offset_data ? (
         <>
           <Text weight={500}>Pilihan Anda</Text>
           <Stack mt={20}>
-            <CardChooseBatch {...offset.data.registrationBatch} />
+            <CardChooseBatch {...offset.data.offset_data.registrationBatch} />
           </Stack>
         </>
       ) : (

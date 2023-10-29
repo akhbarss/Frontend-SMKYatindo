@@ -46,7 +46,7 @@ const TabList = ({
           >
             {!item.is_done &&
               card[i > 0 ? i - 1 : i].is_done == 0 &&
-              activeTabIndex !== i && (
+              activeTabIndex !== item.index && (
                 <div
                   style={{
                     position: "absolute",

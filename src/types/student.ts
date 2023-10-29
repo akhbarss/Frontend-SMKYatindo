@@ -1,4 +1,5 @@
 import { BaseBatch } from "./batch";
+import { Lookup } from "./lookup";
 
 export type Student = {
   id: number;
@@ -39,13 +40,33 @@ export type Student = {
   registrationPaths: null;
 };
 
-export type StudentStagingOffset = {
+export type Staging = {
   id: number;
   created_at: string;
   updated_at: string;
   path_id: number;
   remark: string;
+  type: string;
   status: string;
   staging_id: number;
   registrationBatch: BaseBatch;
+};
+
+type PaymentStatus = {
+  batch_id: number;
+  id: number;
+  image: string;
+  method: string;
+  path_id: number;
+  status: string;
+  total: number;
+  type: string;
+};
+
+export type StudentStagingOffset = {
+  offset_data?: Staging;
+  major?: Lookup;
+  payment_status?: PaymentStatus;
+  current_state?: Staging;
+  registration_batch: BaseBatch;
 };

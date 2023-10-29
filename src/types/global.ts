@@ -73,6 +73,10 @@ export interface JalurPendaftaranPPDB {
 }
 [];
 
+export type Step = {
+  type?: "PEMBELIAN" | "PENGEMBALIAN";
+};
+
 export interface ResponseType<T> {
   data: T;
   timestamps: string;

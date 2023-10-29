@@ -14,6 +14,8 @@ import StepPembayaran from "../../../../components/ppdb/siswa/StepPembayaran";
 import useFilter from "../../../../utils/useFilter";
 import { useLocation, useNavigate } from "react-router-dom";
 import generateQueryparam from "../../../../utils/generateQueryParam";
+import StepPilihJurusan from "../../../../components/ppdb/siswa/StepPilihJurusan";
+import StepCetakKartu from "../../../../components/ppdb/siswa/StepCetakKartu";
 
 const StyledTabs = (props: TabsProps) => {
   return (
@@ -69,7 +71,7 @@ const card = [
   },
   {
     index: 2,
-    label: "Transaksi Pembelian",
+    label: "Pembelian Formulir Pendaftaran",
     icon: FaMoneyCheckDollar,
     content: <StepPembayaran />,
   },
@@ -77,13 +79,13 @@ const card = [
     index: 3,
     label: "Pilih Jurusan",
     icon: FaRegFlag,
-    content: <div>Div</div>,
+    content: <StepPilihJurusan />,
   },
   {
     index: 4,
     label: "Cetak Kartu Peserta",
     icon: FaAddressCard,
-    content: <div>div</div>,
+    content: <StepCetakKartu />,
   },
 ];
 
@@ -98,8 +100,9 @@ const PembelianSiswaPPDB = () => {
     isLoading,
     isSuccess,
   } = useQuery({
-    queryKey: ["get_last_offset_batch"],
+    queryKey: ["get_last_offset_batch", filter],
     queryFn: () => getLastoffset("PEMBELIAN"),
+    staleTime: 0,
   });
 
   const queryFilter = useFilter(filter);
