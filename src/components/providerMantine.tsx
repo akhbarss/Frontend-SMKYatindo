@@ -3,17 +3,22 @@ import {
   ColorScheme,
   ColorSchemeProvider,
   MantineProvider,
-  useEmotionCache
+  useEmotionCache,
 } from "@mantine/core";
 import { useHotkeys, useLocalStorage } from "@mantine/hooks";
 import { ModalsProvider } from "@mantine/modals";
-import { createDataModel, createInformasi, createModalSuccess, modalAlurAdmin } from "./modals";
+import {
+  createDataModel,
+  createInformasi,
+  createModalSuccess,
+  modalAlurAdmin,
+} from "./modals";
 
 const modals = {
   createData: createDataModel,
   createInformasi,
   modalSuccess: createModalSuccess,
-  modalAlurAdmin
+  modalAlurAdmin,
 };
 declare module "@mantine/modals" {
   export interface MantineModalsOverride {
@@ -120,7 +125,6 @@ export default function ProviderMantine({
                   }),
                 },
               },
-              
             },
           }}
         >

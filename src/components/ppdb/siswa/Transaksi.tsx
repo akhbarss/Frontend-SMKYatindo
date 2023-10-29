@@ -97,43 +97,6 @@ const PembelianFormulir = ({
     const formData = new FormData();
     formData.append("image", files[0]);
 
-    try {
-      // ############## NODEJS ########################
-      // const xhr = new XMLHttpRequest();
-      // xhr.upload.addEventListener('progress', (event) => {
-      //     if (event.lengthComputable) {
-      //         const percentComplete = (event.loaded / event.total) * 100;
-      //         setLoad(true)
-      //         console.log(`Upload progress: ${percentComplete}%`);
-      //     }
-      // });
-      // xhr.open('POST', 'http://localhost:3000/upload', true);
-      // xhr.onreadystatechange = () => {
-      //     if (xhr.readyState === 4 && xhr.status === 200) {
-      //         setLoad(false)
-      //         console.log('Gambar berhasil diunggah');
-      //         // Tambahkan logika atau respons lainnya di sini
-      //     } else if (xhr.readyState === 4) {
-      //         setLoad(false)
-      //         console.error('Gagal mengunggah gambar');
-      //     }
-      // };
-      // xhr.send(formData);
-      // #######################################
-      // const response = await fetch('http://localhost:3000/upload', {
-      //     method: 'POST',
-      //     body: formData,
-      // });
-      // if (response.ok) {
-      //     console.log('Gambar berhasil diunggah');
-      //     // Tambahkan logika atau respons lainnya di sini
-      // } else {
-      //     console.error('Gagal mengunggah gambar');
-      // }
-    } catch (error) {
-      console.error("Kesalahan:", error);
-    }
-
     setKonfirmasiPembayaran(true);
   };
 

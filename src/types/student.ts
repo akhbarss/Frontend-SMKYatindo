@@ -1,3 +1,5 @@
+import { BaseBatch } from "./batch";
+
 export type Student = {
   id: number;
   nisn?: string;
@@ -35,4 +37,15 @@ export type Student = {
     student: 1;
   };
   registrationPaths: null;
+};
+
+export type StudentStagingOffset = {
+  id: number;
+  created_at: string;
+  updated_at: string;
+  path_id: number;
+  remark: string;
+  status: string;
+  staging_id: number;
+  registrationBatch: BaseBatch;
 };

@@ -81,7 +81,7 @@ export interface ResponseType<T> {
 
 export interface RefreshToken {
   refresh_token: string;
-  token: string;
+  access_token: string;
 }
 
 export interface AccessToken {
