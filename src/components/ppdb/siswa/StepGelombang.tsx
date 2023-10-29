@@ -8,13 +8,13 @@ import {
   Text,
 } from "@mantine/core";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { GetJalurPendaftaranByType } from "../../../apis/jalur/getJalur";
 import CardChooseBatch from "./CardChooseBatch";
 import { chooseBatch, getOffsetStatus } from "../../../apis/pembelian";
 import toast from "react-hot-toast";
 import ResponseError from "../../../utils/ResponseError";
 import { modals } from "@mantine/modals";
 import useQueryFilter from "../../../hooks/useQueryFilter";
+import { getJalurPendaftaranByType } from "../../../apis/jalur/getJalurPendaftaranByType";
 
 const StepGelombang = () => {
   const filter = useQueryFilter({ step: 1, stagingId: null });
@@ -26,7 +26,7 @@ const StepGelombang = () => {
     isSuccess: jalurSuccess,
   } = useQuery({
     queryKey: ["jalur_pendaftaran_pembelian"],
-    queryFn: () => GetJalurPendaftaranByType("PEMBELIAN"),
+    queryFn: () => getJalurPendaftaranByType("PEMBELIAN"),
   });
 
   const {
