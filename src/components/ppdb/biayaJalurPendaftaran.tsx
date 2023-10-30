@@ -26,7 +26,6 @@ const BiayaJalurPendaftaran = ({
             }}
         >
             <h1
-                // className='text-[22px]'
                 style={{ fontSize: "22px" }}
             >
                 Biaya {jalur?.nama_jalur_pendaftaran}:
@@ -36,7 +35,6 @@ const BiayaJalurPendaftaran = ({
                     jalur?.informasi_umum.biaya_tambahan.map(biayaJalur => (
                         <Box
                             key={biayaJalur.id}
-                            // className={`flex flex-col mt-5    `}
                             style={{
                                 backgroundColor: `${dark ? "black" : "white"}`,
                                 color: `${dark ? "white" : "#0F172A"}`,
@@ -67,7 +65,6 @@ const BiayaJalurPendaftaran = ({
                                     return (
                                         <div
                                             key={item.id}
-                                            // className='flex text-[16px] py-2 px-8'
                                             style={{
                                                 display: "flex",
                                                 fontSize: "16px",

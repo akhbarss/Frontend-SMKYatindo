@@ -14,6 +14,8 @@ import {
     FieldErrors,
     UseFormRegister,
     UseFormSetValue,
+    Controller,
+    Control
 } from "react-hook-form"
 import { FormValuesCreateGelombang } from '../../pages/ppdb/admin/jalurPendaftaranPPDB/Gelombang'
 
@@ -80,7 +82,8 @@ const ModalGelombangCreate: React.FC<TModalGelombangCreate> = ({
     errors,
     setValue,
     handleSubmit,
-    tambahGelombangHandler
+    tambahGelombangHandler,
+    control
 }) => {
 
     return (
@@ -89,6 +92,7 @@ const ModalGelombangCreate: React.FC<TModalGelombangCreate> = ({
             opened={opened}
             size="40rem"
             title="Tambah Gelombang PPDB"
+            withFooter={false}
         >
             <form onSubmit={handleSubmit(tambahGelombangHandler)}>
                 <Stack p={20} pb={"6rem"}>
@@ -108,32 +112,35 @@ const ModalGelombangCreate: React.FC<TModalGelombangCreate> = ({
 
                     <Grid>
                         <Grid.Col md={6}>
-                            <DateTimePicker
-                                // error={errors.waktuDibuka?.message}
-                                label="Waktu Pendaftaran Dibuka"
-                                dropdownType="modal"
-                                error={errors?.waktuDibuka?.message}
-                                onChange={(e) => {
-                                    setValue("waktuDibuka", e.toISOString())
-                                }}
-                                // required
-                                // {...register("waktuDibuka")}
+                            <Controller
+                                name='waktuDibuka'
+                                control={control}
+                                render={({ field }) => (
+                                    <DateTimePicker
+                                        label="Waktu Pendaftaran Dibuka"
+                                        dropdownType="modal"
+                                        error={errors?.waktuDibuka?.message}
+                                        clearable
+                                        {...field}
+                                    />
+                                )}
 
-                                // aria-label="dmasnd"
-                                clearable
                             />
                         </Grid.Col>
                         <Grid.Col md={6}>
-                            <DateTimePicker
-                                // error={errors.waktuDiitutup?.message}
-                                label="Waktu Pendaftaran Ditutup"
-                                error={errors?.waktuDiitutup?.message}
-                                dropdownType="modal"
-                                onChange={(e) => {
-                                    setValue("waktuDiitutup", e.toISOString())
-                                }}
+                            <Controller
+                                name='waktuDiitutup'
+                                control={control}
+                                render={({ field }) => (
+                                    <DateTimePicker
+                                        label="Waktu Pendaftaran Ditutup"
+                                        error={errors?.waktuDiitutup?.message}
+                                        dropdownType="modal"
+                                        clearable
+                                        {...field}
+                                    />
+                                )}
 
-                            // aria-required
                             />
                         </Grid.Col>
 
@@ -170,8 +177,6 @@ const ModalGelombangCreate: React.FC<TModalGelombangCreate> = ({
                         onValueChange={(e) => setValue("biayaPendaftaran", e.value)}
                         error={errors?.biayaPendaftaran?.message}
                         withAsterisk
-                    // {...register("biayaPendaftaran")}
-
                     />
 
                 </Stack>
@@ -184,7 +189,8 @@ const ModalGelombangCreate: React.FC<TModalGelombangCreate> = ({
                         right: 0,
                         left: 0,
                         padding: "1rem 4rem",
-                        backgroundColor: "whitesmoke"
+                        backgroundColor: "whitesmoke",
+                        zIndex: 1
                     }}
                 >
                     <Button variant="outline" onClick={() => close()}>
@@ -192,10 +198,9 @@ const ModalGelombangCreate: React.FC<TModalGelombangCreate> = ({
                     </Button>
 
                     <Button
-                        //  onClick={() => submitCreateHandler()}
                         type="submit"
                     >
-                        Simpan
+                        Tambah
                     </Button>
                 </Group>
 

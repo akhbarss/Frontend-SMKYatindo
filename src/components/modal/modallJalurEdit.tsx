@@ -12,7 +12,8 @@ import {
     FieldErrors,
     UseFormSetValue,
     UseFormRegister,
-    Controller
+    Controller,
+    Control
 } from "react-hook-form"
 import ModalAdmin from '../modalAdmin'
 import { NumericFormat } from 'react-number-format'
@@ -27,31 +28,38 @@ type TModalJalurCreate = {
         tipeJalur?: string;
         namaJalur?: string;
         biayaPendaftaran?: string;
-        waktuDibuka?: string;
-        waktuDiitutup?: string;
+        waktuDibuka?: Date;
+        waktuDiitutup?: Date;
     }>
     register: UseFormRegister<{
         tipeJalur?: string;
         namaJalur?: string;
         biayaPendaftaran?: string;
-        waktuDibuka?: string;
-        waktuDiitutup?: string;
+        waktuDibuka?: Date;
+        waktuDiitutup?: Date;
     }>
     editJalurHandler(datas: FormValuesCreateJalur): void
     handleSubmit: UseFormHandleSubmit<{
         tipeJalur?: string;
         namaJalur?: string;
-        waktuDibuka?: string;
-        waktuDiitutup?: string;
+        waktuDibuka?: Date;
+        waktuDiitutup?: Date;
         biayaPendaftaran?: string;
     }, undefined>
     setValue: UseFormSetValue<{
         tipeJalur?: string;
         namaJalur?: string;
         biayaPendaftaran?: string;
-        waktuDibuka?: string;
-        waktuDiitutup?: string;
+        waktuDibuka?: Date;
+        waktuDiitutup?: Date;
     }>
+    control: Control<{
+        waktuDibuka?: Date;
+        waktuDiitutup?: Date;
+        biayaPendaftaran?: string;
+        tipeJalur?: string;
+        namaJalur?: string;
+    }, any>
     jalur: JalurPendaftaran
 }
 
@@ -63,7 +71,8 @@ const ModallJalurEdit: React.FC<TModalJalurCreate> = ({
     errors,
     register,
     setValue,
-    editJalurHandler
+    editJalurHandler,
+    control
 
 }) => {
 
@@ -76,6 +85,7 @@ const ModallJalurEdit: React.FC<TModalJalurCreate> = ({
             opened={opened}
             title="Ubah Jalur PPDB"
             size="50rem"
+            withFooter={false}
         >
             <form onSubmit={handleSubmit(editJalurHandler)}>
 
@@ -124,50 +134,60 @@ const ModallJalurEdit: React.FC<TModalJalurCreate> = ({
 
                     <Grid >
                         <Grid.Col md={6}>
-                            <DateTimePicker
-                                error={errors.waktuDibuka?.message}
-                                label="Waktu Dibuka"
-                                dropdownType="modal"
-                                onChange={(e) => {
-                                    setValue("waktuDibuka", e.toISOString())
-                                }}
+                            <Controller
+                                name='waktuDibuka'
+                                control={control}
                                 defaultValue={dateStart}
-                                // defaultValue={}
-                                // required
-                                // {...register("waktuDibuka")}
+                                render={({ field }) => (
+                                    <DateTimePicker
+                                        error={errors.waktuDibuka?.message}
+                                        label="Waktu Dibuka"
+                                        dropdownType="modal"
+                                        clearable
+                                        {...field}
+                                    />
 
-                                // aria-label="dmasnd"
-                                clearable
+                                )}
                             />
                         </Grid.Col>
                         <Grid.Col md={6}>
-                            <DateTimePicker
-                                error={errors.waktuDiitutup?.message}
-                                label="Waktu Ditutup"
-                                dropdownType="modal"
-                                onChange={(e) => {
-                                    setValue("waktuDiitutup", e.toISOString())
-                                }}
+                            <Controller
+                                name='waktuDiitutup'
+                                control={control}
                                 defaultValue={dateEnd}
-                            // aria-required
+                                render={({ field }) => (
+                                    <DateTimePicker
+                                        error={errors.waktuDiitutup?.message}
+                                        label="Waktu Ditutup"
+                                        dropdownType="modal"
+                                        clearable
+                                        {...field}
+                                    />
+
+                                )}
                             />
                         </Grid.Col>
 
                     </Grid>
 
-                    <NumericFormat
-                        thousandSeparator="."
-                        decimalSeparator=","
-                        prefix="Rp. "
-                        customInput={TextInput}
-                        placeholder='Rp. 0'
-                        label="Biaya Pendaftaran"
-                        description="Input Nominal"
-                        onValueChange={(e) => setValue("biayaPendaftaran", e.value)}
-                        withAsterisk
-                        error={errors.biayaPendaftaran?.message}
-                        defaultValue={jalur?.price}
-
+                    <Controller
+                        name='biayaPendaftaran'
+                        control={control}
+                        defaultValue={`${jalur?.price}`}
+                        render={({ field }) => (
+                            <NumericFormat
+                                thousandSeparator="."
+                                decimalSeparator=","
+                                prefix="Rp. "
+                                customInput={TextInput}
+                                placeholder='Rp. 0'
+                                label="Biaya Pendaftaran"
+                                description="Input Nominal"
+                                error={errors?.biayaPendaftaran?.message}
+                                withAsterisk
+                                {...field}
+                            />
+                        )}
                     />
                 </Stack>
 
@@ -179,7 +199,8 @@ const ModallJalurEdit: React.FC<TModalJalurCreate> = ({
                         right: 0,
                         left: 0,
                         padding: "1rem 4rem",
-                        backgroundColor: "whitesmoke"
+                        backgroundColor: "whitesmoke",
+                        zIndex: 1
                     }}
                 >
                     <Button variant="outline" onClick={() => close()}>
@@ -187,10 +208,9 @@ const ModallJalurEdit: React.FC<TModalJalurCreate> = ({
                     </Button>
 
                     <Button
-                        //  onClick={() => submitCreateHandler()}
                         type="submit"
                     >
-                        Simpan
+                        Ubah
                     </Button>
                 </Group>
 

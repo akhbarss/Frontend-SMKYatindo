@@ -93,14 +93,13 @@ const ModalGelombangEdit: React.FC<TModalGelombangEdit> = ({
     const dateStart = new Date(gelombang?.start_date)
     const dateEnd = new Date(gelombang?.end_date)
 
-    console.log(gelombang?.price)
-
     return (
         <ModalAdmin
             onClose={close}
             opened={opened}
             size="40rem"
             title="Tambah Gelombang PPDB"
+            withFooter={false}
         >
             <form onSubmit={handleSubmit(editGelombangHandler)}>
                 <Stack p={20} pb={"6rem"}>
@@ -128,19 +127,10 @@ const ModalGelombangEdit: React.FC<TModalGelombangEdit> = ({
                                 defaultValue={dateStart}
                                 render={({ field }) => (
                                     <DateTimePicker
-                                        // error={errors.waktuDibuka?.message}
                                         label="Waktu Pendaftaran Dibuka"
                                         dropdownType="modal"
                                         error={errors?.waktuDibuka?.message}
-                                        // onChange={(e) => {
-                                        //     setValue("waktuDibuka", e.toISOString())
-                                        // }}
-                                        // required
-                                        // {...register("waktuDibuka")}
-
-                                        // aria-label="dmasnd"
                                         clearable
-                                        // defaultValue={dateStart}
                                         {...field}
                                     />
                                 )}
@@ -155,17 +145,11 @@ const ModalGelombangEdit: React.FC<TModalGelombangEdit> = ({
                                 defaultValue={dateEnd}
                                 render={({ field }) => (
                                     <DateTimePicker
-                                        // error={errors.waktuDiitutup?.message}
                                         label="Waktu Pendaftaran Ditutup"
                                         error={errors?.waktuDiitutup?.message}
                                         dropdownType="modal"
-                                        // onChange={(e) => {
-                                        //     setValue("waktuDiitutup", e.toISOString())
-                                        // }}
                                         clearable
-                                        // defaultValue={dateEnd}
                                         {...field}
-                                    // aria-required
                                     />
                                 )}
 
@@ -211,16 +195,11 @@ const ModalGelombangEdit: React.FC<TModalGelombangEdit> = ({
                                 placeholder='Rp. 0'
                                 label="Biaya Pendaftaran"
                                 description="Input Nominal"
-                                // onValueChange={(e) => setValue("biayaPendaftaran", e.value)}
-
                                 error={errors?.biayaPendaftaran?.message}
                                 withAsterisk
-                                // defaultValue={gelombang?.price.toString()}
                                 {...field}
-                            // {...register("biayaPendaftaran")}
                             />
                         )}
-
                     />
                 </Stack>
 
@@ -232,18 +211,16 @@ const ModalGelombangEdit: React.FC<TModalGelombangEdit> = ({
                         right: 0,
                         left: 0,
                         padding: "1rem 4rem",
-                        backgroundColor: "whitesmoke"
+                        backgroundColor: "whitesmoke",
+                        zIndex: 1
                     }}
                 >
                     <Button variant="outline" onClick={() => close()}>
                         Batal
                     </Button>
 
-                    <Button
-                        //  onClick={() => submitCreateHandler()}
-                        type="submit"
-                    >
-                        Simpan
+                    <Button type="submit">
+                        Ubah
                     </Button>
                 </Group>
 

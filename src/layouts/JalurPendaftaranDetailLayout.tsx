@@ -1,16 +1,14 @@
+import { Paper, Stack, Tabs } from "@mantine/core";
+import { BsFillCaretRightFill } from "react-icons/bs";
+import { MdArrowBackIosNew } from "react-icons/md";
 import {
   Link,
   useLocation,
   useNavigate,
-  useNavigation,
-  useParams,
+  useParams
 } from "react-router-dom";
-import { Tabs, Paper, Box, Stack, Group } from "@mantine/core";
-import { DarkTheme } from "../utils/darkTheme";
 import { GetAllJalurPendaftaran } from "../apis/jalur/getJalur";
-import { dataJalurPendaftaran } from "../components/ppdb/dataJalurPendaftaran";
-import { MdArrowBackIosNew } from "react-icons/md";
-import { BsFillCaretRightFill } from "react-icons/bs";
+import { DarkTheme } from "../utils/darkTheme";
 
 type TJalurPendaftaranDetailLayout = {
   children: React.ReactNode;
@@ -23,20 +21,18 @@ const JalurPendaftaranDetailLayout: React.FC<TJalurPendaftaranDetailLayout> = ({
   const { idJalurPendaftaran } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
-  console.log(location.pathname.split("/")[5]);
-  console.log("ID PATH JALUR : " + idJalurPendaftaran);
 
-  const { data: dataJalur, isErr, load, refetch } = GetAllJalurPendaftaran();
+  const { data: dataJalur,  } = GetAllJalurPendaftaran();
 
   const jalur = dataJalur?.find(
     (jalur) => jalur.id + "" === idJalurPendaftaran
   );
 
   return (
-    <Stack>
+    <Stack className={"style-box max-w-[70rem] mx-auto"} >
       <Link
         to={"/ppdb/main/jalur-pendaftaran"}
-        className="text-xl no-underline font-bold text-[#2A166F] flex  items-center gap-2"
+        className="text-xl no-underline font-bold text-[#2A166F] flex  items-center gap-2 w-fit"
       >
         <MdArrowBackIosNew /> Kembali
       </Link>

@@ -111,7 +111,7 @@ const Gelombang = ({
 
   const contentGelombang = (
     <>
-      {dataPembelian.map((jalur) => {
+      {dataPembelian?.map((jalur) => {
         const tanggalMulai = new Date(jalur.start_date);
         const tanggalSelesai = new Date(jalur.end_date);
         const waktuSekarang = new Date();

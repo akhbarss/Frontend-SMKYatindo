@@ -14,7 +14,7 @@ export interface BiayaJalurPendaftaran {
   biaya: Biaya[];
 }
 
-export type TipeJalurPendafaran = "pembelian" | "pengembalian";
+export type TipeJalurPendafaran = "PEMBELIAN" | "PENGEMBALIAN";
 
 export interface JalurPendaftaranPPDB {
   id: number;

@@ -9,7 +9,6 @@ import {
 } from '@mantine/core'
 import TiptapInput from '../ppdb/tiptapInput'
 import { UseMutationResult } from '@tanstack/react-query'
-// import { ResponseType } from 'axios'
 import { CreateAlurPayload } from '../../apis/alur/createAlur'
 import { ResponseType } from '../../types/global'
 
@@ -40,6 +39,11 @@ const ModalAlurCreate: React.FC<TModalAlurCreate> = ({
             onClose={close}
             opened={opened}
             title="Tambah Alur Pendaftaran PPDB"
+            withFooter
+            onAccept={{
+                acceptFn: tambahALurHandler,
+                titleAccept: "Tambah"
+            }}
 
         >
             <Stack p={20} pb={"6rem"} >
@@ -58,26 +62,6 @@ const ModalAlurCreate: React.FC<TModalAlurCreate> = ({
                     setDesc={setDescAlurPPDB}
                 />
             </Stack>
-
-            <Group
-                position="right"
-                sx={{
-                    position: "absolute",
-                    bottom: 0,
-                    right: 0,
-                    left: 0,
-                    padding: "1rem 4rem",
-                    backgroundColor: "whitesmoke"
-                }}
-            >
-                <Button variant="outline" onClick={() => close()}>
-                    Batal
-                </Button>
-
-                <Button loading={createAlurMutation.status == "pending"} onClick={() => tambahALurHandler()}>
-                    Simpan
-                </Button>
-            </Group>
         </ModalAdmin>
     )
 }

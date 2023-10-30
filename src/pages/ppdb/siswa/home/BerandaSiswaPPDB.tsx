@@ -39,7 +39,7 @@ const BerandaSiswaPPDB = () => {
 
   return (
     <Page title={"Beranda"}>
-      <Stack className={"style-box"}>
+      <Stack className={"style-box max-w-[70rem] mx-auto"} >
         <Box
           sx={{
             background:
@@ -100,10 +100,11 @@ const BerandaSiswaPPDB = () => {
             {isSuccessGetAlur && (
               <Timeline active={active} bulletSize={24} lineWidth={2}>
                 {alurPendaftaran &&
-                  alurPendaftaran.data.length > 0 &&
-                  alurPendaftaran.data.map((alur) => (
+                  alurPendaftaran.data?.length > 0 &&
+                  alurPendaftaran.data?.map((alur) => (
                     <Timeline.Item
                       mt={30}
+                      key={alur.id}
                       bullet={<FaCheck size={12} />}
                       title={alur.title}
                       lineVariant="solid"

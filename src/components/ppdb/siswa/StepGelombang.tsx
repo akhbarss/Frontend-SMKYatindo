@@ -27,7 +27,7 @@ const StepGelombang: React.FC<Step> = ({ type = "PEMBELIAN" }) => {
     isSuccess: jalurSuccess,
   } = useQuery({
     queryKey: ["jalur_pendaftaran_pembelian"],
-    queryFn: () => GetJalurPendaftaranByType(type),
+    queryFn: () => GetJalurPendaftaranByType("PEMBELIAN"),
   });
 
   const {

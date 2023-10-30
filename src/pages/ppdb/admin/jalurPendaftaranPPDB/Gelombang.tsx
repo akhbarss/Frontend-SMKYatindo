@@ -74,10 +74,9 @@ const Gelombang = () => {
     control: controlCreate,
     register: registerCreate,
     handleSubmit: handleSubmitCreate,
-    // setError: setErrorCreate,
     setValue: setValueCreate,
     reset: resetCreate,
-    // resetField: resetFieldCreate,
+    resetField: resetFieldCreate,
     formState: { errors: errorCreate },
   } = formCreate
 
@@ -88,21 +87,10 @@ const Gelombang = () => {
     control: controlEdit,
     register: registerEdit,
     handleSubmit: handleSubmitEdit,
-    // setError: setErrorEdit,
     setValue: setValueEdit,
-    // reset: resetEdit,
     resetField: resetFieldEdit,
-    // unregister,
     formState: { errors: errorEdit },
   } = formEdit
-
-  // const jalur = dataJalurPendaftaran.find(jalur => jalur.id + "" === idJalurPendaftaran)
-  // const {
-  //   data: dataJalur,
-  //   isErr,
-  //   load,
-  //   refetch
-  // } = GetAllJalurPendaftaran()
 
   const {
     data,
@@ -111,9 +99,6 @@ const Gelombang = () => {
     load,
     refetch
   } = GetGelombangByIdJalur(idJalurPendaftaran)
-
-  console.log("========GELOMBANG========")
-  console.log(err)
 
   const createGelombangMutation = useMutation({
     mutationFn: createGelombang
@@ -136,6 +121,14 @@ const Gelombang = () => {
         refetch()
         closeCreate()
         resetCreate()
+        resetFieldCreate("biayaPendaftaran")
+        resetFieldCreate("jumlahPenerimaan")
+        resetFieldCreate("nama")
+        resetFieldCreate("namaBank")
+        resetFieldCreate("namaPemilikRekening")
+        resetFieldCreate("nomorRekening")
+        resetFieldCreate("waktuDibuka")
+        resetFieldCreate("waktuDiitutup")
       },
       onError: (error) => {
         console.log("FAILED")
@@ -151,12 +144,28 @@ const Gelombang = () => {
         console.log(response)
         closeEdit()
         refetch()
+        resetFieldEdit("biayaPendaftaran")
+        resetFieldEdit("jumlahPenerimaan")
+        resetFieldEdit("nama")
+        resetFieldEdit("namaBank")
+        resetFieldEdit("namaPemilikRekening")
+        resetFieldEdit("nomorRekening")
+        resetFieldEdit("waktuDibuka")
+        resetFieldEdit("waktuDiitutup")
         // reset()
 
       },
       onError: (error) => {
         console.log("FAILED")
         console.log(error)
+        resetFieldEdit("biayaPendaftaran")
+        resetFieldEdit("jumlahPenerimaan")
+        resetFieldEdit("nama")
+        resetFieldEdit("namaBank")
+        resetFieldEdit("namaPemilikRekening")
+        resetFieldEdit("nomorRekening")
+        resetFieldEdit("waktuDibuka")
+        resetFieldEdit("waktuDiitutup")
       },
     })
   }
@@ -205,7 +214,6 @@ const Gelombang = () => {
         start_date: waktuDibuka
       }
     }
-    console.log(datas)
     submitCreateGelombang(data)
   }
 
@@ -239,7 +247,6 @@ const Gelombang = () => {
   }
 
   function deleteGelombangHandler(id: number) {
-    console.log(id)
     submitDeleteGelombang({ id })
   }
 
@@ -354,10 +361,14 @@ const Gelombang = () => {
         control={controlCreate}
         close={() => {
           closeCreate()
-          // reset()
-          // resetField("waktuDibuka")
-          // resetField("waktuDiitutup")
-          // resetField("biayaPendaftaran")
+          resetFieldCreate("biayaPendaftaran")
+          resetFieldCreate("jumlahPenerimaan")
+          resetFieldCreate("nama")
+          resetFieldCreate("namaBank")
+          resetFieldCreate("namaPemilikRekening")
+          resetFieldCreate("nomorRekening")
+          resetFieldCreate("waktuDibuka")
+          resetFieldCreate("waktuDiitutup")
         }}
         opened={openedCreate}
         errors={errorCreate}
@@ -381,10 +392,6 @@ const Gelombang = () => {
           closeEdit()
           console.log("close")
           setDataGelombang(null)
-          // resetEdit()
-          // resetField("waktuDibuka")
-          // resetField("waktuDiitutup")
-          // resetField("biayaPendaftaran")
         }}
         opened={openedEdit}
         errors={errorEdit}
