@@ -12,13 +12,12 @@ import { TGelombang } from "../jalur/getJalur";
 
 // }
 
-export const getAllGelombangByTypeJalur = async (type: TipeJalurPendafaran): Promise<
-    ResponseType<TGelombang[]>
-> => {
+export const getAllGelombangByTypeJalur = async (
+  type: TipeJalurPendafaran
+): Promise<ResponseType<TGelombang[]>> => {
+  const response = await axios.get(
+    "/v1/admin/registration-batch/getByType?type=" + type
+  );
 
-    const response = await axios.get(
-        "/v1/admin/registration-batch/getByType?type=" + type
-    );
-
-    return response.data;
+  return response.data;
 };

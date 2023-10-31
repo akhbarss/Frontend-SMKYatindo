@@ -1,6 +1,6 @@
 import React from "react";
 import {
-  Button,
+  Loader,
   LoadingOverlay,
   Paper,
   Skeleton,
@@ -8,7 +8,6 @@ import {
   Text,
 } from "@mantine/core";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { GetJalurPendaftaranByType } from "../../../apis/jalur/getJalur";
 import CardChooseBatch from "./CardChooseBatch";
 import { chooseBatch, getOffsetStatus } from "../../../apis/pembelian";
 import toast from "react-hot-toast";
@@ -16,6 +15,7 @@ import ResponseError from "../../../utils/ResponseError";
 import { modals } from "@mantine/modals";
 import useQueryFilter from "../../../hooks/useQueryFilter";
 import { Step } from "../../../types/global";
+import { getAllGelombangByTypeJalur } from "../../../apis/gelombang/getAllGelombangByTypeJalur";
 
 const StepGelombang: React.FC<Step> = ({ type = "PEMBELIAN" }) => {
   const filter = useQueryFilter({ step: 1, stagingId: null });
@@ -26,8 +26,8 @@ const StepGelombang: React.FC<Step> = ({ type = "PEMBELIAN" }) => {
     isLoading: jalurLoading,
     isSuccess: jalurSuccess,
   } = useQuery({
-    queryKey: ["jalur_pendaftaran_pembelian"],
-    queryFn: () => GetJalurPendaftaranByType("PEMBELIAN"),
+    queryKey: ["gelombang_pendaftaran"],
+    queryFn: () => getAllGelombangByTypeJalur(type),
   });
 
   const {
@@ -94,6 +94,8 @@ const StepGelombang: React.FC<Step> = ({ type = "PEMBELIAN" }) => {
             <CardChooseBatch {...offset.data.offset_data.registrationBatch} />
           </Stack>
         </>
+      ) : statusLoading ? (
+        <Loader />
       ) : (
         <>
           <Text weight={500}>Pilih Salah Satu Gelombang</Text>

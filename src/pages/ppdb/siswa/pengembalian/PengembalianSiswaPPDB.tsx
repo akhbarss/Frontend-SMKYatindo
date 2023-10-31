@@ -17,6 +17,7 @@ import StepGelombang from "../../../../components/ppdb/siswa/StepGelombang";
 import StepPembayaran from "../../../../components/ppdb/siswa/StepPembayaran";
 import StepCetakKartu from "../../../../components/ppdb/siswa/StepCetakKartu";
 import { Toaster } from "react-hot-toast";
+import StepBiodata from "../../../../components/ppdb/siswa/StepBiodata";
 
 function StyledTabs(props: TabsProps) {
   return (
@@ -86,7 +87,7 @@ const card = [
     index: 3,
     label: "Isi Biodata",
     icon: IoPerson,
-    content: <div>Isi biodata</div>,
+    content: <StepBiodata type={"PENGEMBALIAN"} />,
   },
   {
     index: 4,
