@@ -8,6 +8,7 @@ const SelectStatus = (props: {
   value?: string;
   readonly?: boolean;
   label?: string;
+  searchable?: boolean;
   onChange?: (value: string | null) => void;
 }) => {
   const {
@@ -28,6 +29,7 @@ const SelectStatus = (props: {
           readOnly={props.readonly}
           label={props.label}
           onChange={props.onChange}
+          searchable={props.searchable}
           data={
             isSuccess &&
             response.data.map((d) => {

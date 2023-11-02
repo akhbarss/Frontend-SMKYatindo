@@ -121,7 +121,7 @@ const StepPembayaran: React.FC<Step> = ({ type = "PEMBELIAN" }) => {
           metode pembayaran transfer :
         </Text>
 
-        <table className="w-[35rem]">
+        <table className="w-full overflow-x-auto">
           <tbody>
             <tr>
               <td>Bank</td>

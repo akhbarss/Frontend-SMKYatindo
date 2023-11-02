@@ -25,19 +25,19 @@ export type Student = {
   path_id: null;
   batch_id: null;
   registrationBatch: null;
-  userId: {
-    id: 1;
-    username: "088210891684";
-    role: "USER";
-    role_id: {
-      id: 1;
-      role_name: "User";
-      rolesMenus: [];
-    };
-    joinAt: "24 October 2023 23:22";
-    student: 1;
-  };
   registrationPaths: null;
+
+  dad_name: string;
+  dad_phone: string;
+  dad_job: string;
+  dad_address: string;
+
+  mother_name: string;
+  mother_phone: string;
+  mother_job: string;
+  mother_address: string;
+  family_card: string;
+  birth_card: string;
 };
 
 export type Staging = {
@@ -66,6 +66,7 @@ type PaymentStatus = {
 export type StudentStagingOffset = {
   offset_data?: Staging;
   major?: Lookup;
+  student?: Student;
   payment_status?: PaymentStatus;
   current_state?: Staging;
   registration_batch: BaseBatch;

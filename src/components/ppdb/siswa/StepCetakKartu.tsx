@@ -70,22 +70,25 @@ const StepCetakKartu: React.FC<Step> = ({ type = "PEMBELIAN" }) => {
       })}
     >
       <Text align={"center"} weight={500} size={"xl"}>
-        Selamat anda telah terdaftar disistem kami, silahkan lanjutkan ke
-        halaman Jalur Pendaftaran/Pengembalian
+        Selamat anda telah terdaftar disistem kami, silahkan klik selesai untuk
+        ke halaman Jalur Pendaftaran/Pengembalian
       </Text>
-      <Stack>
+      <Stack align={"center"}>
         <Card
           mt={30}
-          sx={{
+          sx={(theme) => ({
             background: "linear-gradient(to bottom, #2A166F, #420BFF)",
             width: "30rem",
             height: "15rem",
-            marginInline: "auto",
             position: "relative",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-          }}
+            scale: "1",
+            [theme.fn.smallerThan("md")]: {
+              scale: "0.7",
+            },
+          })}
         >
           <div
             style={{

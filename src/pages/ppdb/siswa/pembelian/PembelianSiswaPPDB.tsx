@@ -122,21 +122,10 @@ const PembelianSiswaPPDB = () => {
           doneBatches[doneBatches.length - 1].index
         ) {
           const index = doneBatches[doneBatches.length - 1].index + 1;
-          const toFilter = {
-            step: index,
-            stagingId: stagings.data.find((batch) => batch.index === index).id,
-          };
-
-          setFilter(toFilter);
-          navigate(`${location.pathname}?${generateQueryparam(toFilter)}`);
+          toStep(index.toString());
         }
       } else {
-        const toFilter = {
-          step: 1,
-          stagingId: stagings.data.find((batch) => batch.index === 1).id,
-        };
-        setFilter(toFilter);
-        navigate(`${location.pathname}?${generateQueryparam(toFilter)}`);
+        toStep("1");
       }
     }
   }, [stagings, isSuccess]);
@@ -146,7 +135,7 @@ const PembelianSiswaPPDB = () => {
       step: +index,
       stagingId: stagings.data.find((batch) => batch.index === +index).id,
     };
-
+    setFilter(toFilter);
     navigate(`${location.pathname}?${generateQueryparam(toFilter)}`);
   };
 

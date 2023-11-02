@@ -8,8 +8,7 @@ type TPageLabel = {
 const PageLabel: React.FC<TPageLabel> = ({ label }) => {
   return (
     <>
-      <Box className="max-w-[70rem] mx-auto">
-
+      <Box className="w-full">
         <Text
           weight={600}
           sx={(theme) => ({
