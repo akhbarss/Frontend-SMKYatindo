@@ -125,7 +125,7 @@ const ModalGelombangEdit: React.FC<TModalGelombangEdit> = ({
                                 name='waktuDibuka'
                                 control={control}
                                 defaultValue={dateStart}
-                                render={({ field }) => (
+                                render={({ field: { ref, ...field } }) => (
                                     <DateTimePicker
                                         label="Waktu Pendaftaran Dibuka"
                                         dropdownType="modal"
@@ -143,7 +143,7 @@ const ModalGelombangEdit: React.FC<TModalGelombangEdit> = ({
                                 name='waktuDiitutup'
                                 control={control}
                                 defaultValue={dateEnd}
-                                render={({ field }) => (
+                                render={({ field: { ref, ...field } }) => (
                                     <DateTimePicker
                                         label="Waktu Pendaftaran Ditutup"
                                         error={errors?.waktuDiitutup?.message}
@@ -186,7 +186,7 @@ const ModalGelombangEdit: React.FC<TModalGelombangEdit> = ({
                         name='biayaPendaftaran'
                         control={control}
                         defaultValue={`${gelombang?.price}`}
-                        render={({ field }) => (
+                        render={({ field: { ref, ...field } }) => (
                             <NumericFormat
                                 thousandSeparator="."
                                 decimalSeparator=","

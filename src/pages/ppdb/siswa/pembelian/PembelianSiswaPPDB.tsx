@@ -14,8 +14,6 @@ import StepPembayaran from "../../../../components/ppdb/siswa/StepPembayaran";
 import useFilter from "../../../../utils/useFilter";
 import { useLocation, useNavigate } from "react-router-dom";
 import generateQueryparam from "../../../../utils/generateQueryParam";
-import StepPilihJurusan from "../../../../components/ppdb/siswa/StepPilihJurusan";
-import StepCetakKartu from "../../../../components/ppdb/siswa/StepCetakKartu";
 
 const StyledTabs = (props: TabsProps) => {
   return (
@@ -67,11 +65,11 @@ const card = [
     index: 1,
     label: "Pilih Gelombang PPDB",
     icon: RiGitMergeFill,
-    content: <StepGelombang />,
+    content: <StepGelombang type="PEMBELIAN"/>,
   },
   {
     index: 2,
-    label: "Pembelian Formulir Pendaftaran",
+    label: "Transaksi Pembelian",
     icon: FaMoneyCheckDollar,
     content: <StepPembayaran />,
   },
@@ -79,13 +77,13 @@ const card = [
     index: 3,
     label: "Pilih Jurusan",
     icon: FaRegFlag,
-    content: <StepPilihJurusan />,
+    content: <div>Div</div>,
   },
   {
     index: 4,
     label: "Cetak Kartu Peserta",
     icon: FaAddressCard,
-    content: <StepCetakKartu />,
+    content: <div>div</div>,
   },
 ];
 
@@ -100,9 +98,8 @@ const PembelianSiswaPPDB = () => {
     isLoading,
     isSuccess,
   } = useQuery({
-    queryKey: ["get_last_offset_batch", filter],
+    queryKey: ["get_last_offset_batch"],
     queryFn: () => getLastoffset("PEMBELIAN"),
-    staleTime: 0,
   });
 
   const queryFilter = useFilter(filter);
@@ -156,7 +153,7 @@ const PembelianSiswaPPDB = () => {
   return (
     <Page title={"Pembelian"}>
       <PageLabel label={"Pembelian"} />
-      <Stack className={"style-box"}>
+      <Stack className={"style-box max-w-[70rem] mx-auto"} >
         <StyledTabs value={`${filter.step}`} onTabChange={toStep}>
           {isLoading && <Skeleton width={"100%"} />}
           {isSuccess && (

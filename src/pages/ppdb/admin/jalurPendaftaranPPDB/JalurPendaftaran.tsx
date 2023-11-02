@@ -243,10 +243,6 @@ const AlurPPPDB = () => {
                 minute: 'numeric'
               })}
             </p>
-            {/* <Group spacing={10}>
-              <HiMiniUserCircle size={20} />
-              <p>   {jumlahPendaftarPerJalur} Pendaftar </p>
-            </Group> */}
           </span>
         </Link>
 

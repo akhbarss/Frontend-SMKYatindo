@@ -8,7 +8,7 @@ import {
   Text,
 } from "@mantine/core";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { GetJalurPendaftaranByType } from "../../../apis/jalur/getJalur";
+// import { GetJalurPendaftaranByType } from "../../../apis/jalur/getJalur";
 import CardChooseBatch from "./CardChooseBatch";
 import { chooseBatch, getOffsetStatus } from "../../../apis/pembelian";
 import toast from "react-hot-toast";
@@ -16,6 +16,7 @@ import ResponseError from "../../../utils/ResponseError";
 import { modals } from "@mantine/modals";
 import useQueryFilter from "../../../hooks/useQueryFilter";
 import { Step } from "../../../types/global";
+import { getAllGelombangByTypeJalur } from "../../../apis/gelombang/getAllGelombangByTypeJalur";
 
 const StepGelombang: React.FC<Step> = ({ type = "PEMBELIAN" }) => {
   const filter = useQueryFilter({ step: 1, stagingId: null });
@@ -26,8 +27,8 @@ const StepGelombang: React.FC<Step> = ({ type = "PEMBELIAN" }) => {
     isLoading: jalurLoading,
     isSuccess: jalurSuccess,
   } = useQuery({
-    queryKey: ["jalur_pendaftaran_pembelian"],
-    queryFn: () => GetJalurPendaftaranByType("PEMBELIAN"),
+    queryKey: [`jalur_pendaftaran_${type}`],
+    queryFn: () => getAllGelombangByTypeJalur(type),
   });
 
   const {
@@ -103,10 +104,12 @@ const StepGelombang: React.FC<Step> = ({ type = "PEMBELIAN" }) => {
               jalur &&
               jalur.data.length > 0 &&
               jalur.data.map((batch) => (
-                <CardChooseBatch
-                  {...batch}
-                  onClick={() => onChooseBatch(batch.id, batch.name)}
-                />
+                <>
+                  <CardChooseBatch
+                    {...batch}
+                    onClick={() => onChooseBatch(batch.id, batch.name)}
+                  />
+                </>
               ))}
           </Stack>
         </>

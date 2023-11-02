@@ -166,7 +166,7 @@ const DataTable = <T extends unknown>({
                 {/* Kanan */}
                 <Box
                   sx={() => ({
-                    overflowY: "auto",
+                    // overflowY: "auto",
                   })}
                 >
                   <Flex gap={3} w={"fit-content"}>

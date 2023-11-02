@@ -70,10 +70,30 @@ const Ppdb = () => {
                         fontSize: "24px",
                         boxShadow: "0 10px 20px -10px #291872",
                         color: "white",
-                        textDecoration: "none"
+                        textDecoration: "none",
+                        borderRadius: "10px"
                     }}
                 >
                     Daftar
+                </Link>
+                <Link
+                    to={"https://drive.google.com/file/d/1qpalVG9hrHBNTNVF8Mu5TdLID8KLrgcG/view?usp=sharing"}
+                    style={{
+                        height: "3.5rem",
+                        marginTop: "2.5rem",
+                        backgroundColor: `${dark ? "#291872" : "#020731"}`,
+                        display: "flex",
+                        alignItems: 'center',
+                        paddingInline: "2.5rem",
+                        fontWeight: "bold",
+                        fontSize: "24px",
+                        boxShadow: "0 10px 20px -10px #291872",
+                        color: "white",
+                        textDecoration: "none",
+                        borderRadius: "10px"
+                    }}
+                >
+                    Download Brosur
                 </Link>
             </Box>
         </Box>

@@ -138,7 +138,7 @@ const ModallJalurEdit: React.FC<TModalJalurCreate> = ({
                                 name='waktuDibuka'
                                 control={control}
                                 defaultValue={dateStart}
-                                render={({ field }) => (
+                                render={({ field: { ref, ...field } }) => (
                                     <DateTimePicker
                                         error={errors.waktuDibuka?.message}
                                         label="Waktu Dibuka"
@@ -155,7 +155,7 @@ const ModallJalurEdit: React.FC<TModalJalurCreate> = ({
                                 name='waktuDiitutup'
                                 control={control}
                                 defaultValue={dateEnd}
-                                render={({ field }) => (
+                                render={({ field: { ref, ...field } }) => (
                                     <DateTimePicker
                                         error={errors.waktuDiitutup?.message}
                                         label="Waktu Ditutup"
@@ -174,7 +174,7 @@ const ModallJalurEdit: React.FC<TModalJalurCreate> = ({
                         name='biayaPendaftaran'
                         control={control}
                         defaultValue={`${jalur?.price}`}
-                        render={({ field }) => (
+                        render={({ field: { ref, ...field } }) => (
                             <NumericFormat
                                 thousandSeparator="."
                                 decimalSeparator=","

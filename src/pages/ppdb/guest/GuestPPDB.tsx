@@ -60,7 +60,7 @@ const GuestPPDB = () => {
                     duration={500}
                     offset={-90}
                     style={{ cursor: "pointer", fontWeight: "bold" }}
-                    // className='cursor-pointer'
+                  // className='cursor-pointer'
                   >
                     {menu.label}
                   </Anchor>
@@ -68,7 +68,7 @@ const GuestPPDB = () => {
               </Group>
 
               <Group sx={{ color: "blue" }} style={{}}>
-                <ToggleTheme color={`${dark ? "#6449da" : "#020731"}`} />
+                {/* <ToggleTheme color={`${dark ? "#6449da" : "#020731"}`} /> */}
 
                 <Link
                   to={'/ppdb/auth/login'}
@@ -102,11 +102,10 @@ const GuestPPDB = () => {
                     color: "white",
                     textDecoration: "none",
                     backgroundColor: `${dark ? "#876cff" : "#020731"}`,
-                    boxShadow: `${
-                      dark
-                        ? "0 10px 30px -10px #876cff"
-                        : "0 10px 30px -10px #020731"
-                    }`,
+                    boxShadow: `${dark
+                      ? "0 10px 30px -10px #876cff"
+                      : "0 10px 30px -10px #020731"
+                      }`,
                   }}
                 >
                   Daftar
@@ -118,7 +117,7 @@ const GuestPPDB = () => {
               // className='flex items-center gap-5'
               style={{ display: "flex", alignItems: "center", gap: "1.25rem" }}
             >
-              <ToggleTheme color={`${dark ? "#6449da" : "#020731"}`} />
+              {/* <ToggleTheme color={`${dark ? "#6449da" : "#020731"}`} /> */}
 
               <FaBars size={30} onClick={toggle} />
             </div>

@@ -1,4 +1,5 @@
 import {
+  Title,
   Box,
   Grid,
   Group,
@@ -16,6 +17,7 @@ import PageLabel from "../../../components/PageLabel";
 import { useBreakPoints } from "../../../utils/UseBreakpoints";
 import { DarkTheme } from "../../../utils/darkTheme";
 import { getAllGelombangByTypeJalur } from "../../../apis/gelombang/getAllGelombangByTypeJalur";
+import { getTotalPendaftarByBatch } from "../../../apis/total-pendaftar/getTotalPendaftarByBatch";
 
 const PendaftarPPDB = () => {
   const navigate = useNavigate()
@@ -44,7 +46,7 @@ const PendaftarPPDB = () => {
     <Page title="Pendaftar PPDB">
       <PageLabel label="Pendaftar PPDB" />
 
-      <Box className={`style-box relative flex-1 max-w-[70rem] mx-auto  ${xs ? "" : "flex-1  "}`}>
+      <Box mt={40} className={`style-box relative flex-1 max-w-[70rem] mx-auto  ${xs ? "" : "flex-1  "}`}>
 
         <Tabs
           defaultValue="pembelian"
@@ -66,7 +68,8 @@ const PendaftarPPDB = () => {
               marginTop: "1rem"
             })}
           >
-            <Tabs.List >
+            <Title order={2} >Gelombang Dengan Tipe Jalur :</Title>
+            <Tabs.List  mt={20}>
               <Tabs.Tab color="blue" value="pembelian">Pembelian</Tabs.Tab>
               <Tabs.Tab value="pengembalian">Pengembalian</Tabs.Tab>
             </Tabs.List>

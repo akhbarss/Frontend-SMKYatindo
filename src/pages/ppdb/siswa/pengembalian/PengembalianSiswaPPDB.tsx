@@ -169,7 +169,7 @@ const PengembalianSiswaPPDB = () => {
   return (
     <Page title={"Pengembalian"}>
       <PageLabel label={"Pengembalian"} />
-      <Stack className={"style-box"}>
+      <Stack className={"style-box max-w-[70rem] mx-auto"} >
         <StyledTabs value={`${filter.step}`} onTabChange={toStep}>
           {isLoading && <Skeleton width={"100%"} />}
           {isSuccess && (
