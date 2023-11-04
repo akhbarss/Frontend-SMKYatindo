@@ -15,7 +15,7 @@ const JadwalJalurPendaftaran = ({
     return (
         <Box
             id='jadwal'
-            className={`flex flex-col   ${xs ?"rounded-md p-8 mt-10" : "py-8 px-2"}`}
+            className={`flex flex-col mt-5   rounded-md  ${xs ?"p-8 mt-10" : "py-8 px-2"}`}
             style={{
                 backgroundColor: `${dark ? theme.colors.dark[9] : "#dbe1fe"}`,
                 color: `${dark ? "white" : "#0F172A"}`,

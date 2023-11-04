@@ -18,7 +18,7 @@ import {
 import ModalAdmin from '../modalAdmin'
 import { NumericFormat } from 'react-number-format'
 import { DateTimePicker } from '@mantine/dates'
-import { FormValuesCreateJalur } from '../../pages/ppdb/admin/jalurPendaftaranPPDB/JalurPendaftaran'
+import { FormValuesCreateJalur } from '../../pages/ppdb/admin/jalurPendaftaranPPDB/JalurPendaftaranAdmin'
 
 type TModalJalurCreate = {
     opened: boolean

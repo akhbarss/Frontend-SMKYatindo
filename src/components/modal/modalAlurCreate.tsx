@@ -1,16 +1,14 @@
-import React from 'react'
-import ModalAdmin from '../modalAdmin'
 import {
-    Button,
     Stack,
     Text,
-    TextInput,
-    Group
+    TextInput
 } from '@mantine/core'
-import TiptapInput from '../ppdb/tiptapInput'
 import { UseMutationResult } from '@tanstack/react-query'
+import React from 'react'
 import { CreateAlurPayload } from '../../apis/alur/createAlur'
 import { ResponseType } from '../../types/global'
+import ModalAdmin from '../modalAdmin'
+import TiptapInput from '../ppdb/tiptapInput'
 
 type TModalAlurCreate = {
     opened: boolean

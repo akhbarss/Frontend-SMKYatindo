@@ -1,18 +1,20 @@
-import { Box, Paper, Stack, Stepper, Title, rem } from "@mantine/core";
-import { useState } from "react";
+import { Text, Box, Paper, Stack, Stepper, Title, rem } from "@mantine/core";
+import { modals } from "@mantine/modals";
+import { useMutation } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 import { BsCheck } from "react-icons/bs";
+import { useLocation, useNavigate } from "react-router-dom";
+import { RegistrationPayload, registration } from "../../apis/registration";
 import Page from "../../components/Page";
 import RegisterIdentitasDiri from "../../components/auth/RegisterIdentitasDiri";
 import RegisterInformasiKredensial from "../../components/auth/RegisterInformasiKredensial";
 import SideAuthLayout from "../../layouts/SideAuthLayout";
-import { useBreakPoints } from "../../utils/UseBreakpoints";
-import { useMutation } from "@tanstack/react-query";
-import { registration, RegistrationPayload } from "../../apis/registration";
 import ResponseError from "../../utils/ResponseError";
-import { modals } from "@mantine/modals";
-import { useNavigate } from "react-router-dom";
+import { useBreakPoints } from "../../utils/UseBreakpoints";
 
 const Register = () => {
+  const [pageRegister, setPage] = useState<"SMK" | "SMP">(null)
+
   const [noWhatssap, setNoWhatsapp] = useState("");
   const [namaLengkap, setNamaLengkap] = useState("");
   const [alamat, setAlamat] = useState("");
@@ -26,6 +28,13 @@ const Register = () => {
     mutationFn: registration,
   });
   const { md } = useBreakPoints();
+
+  const { pathname } = useLocation()
+
+  useEffect(() => {
+    const path = pathname.substring(1).split("/")
+    setPage(path[3].toUpperCase())
+  }, [pathname])
 
   const handleStepChange = (nextStep: number) => {
     const isOutOfBounds = nextStep > 3 || nextStep < 0;
@@ -82,14 +91,29 @@ const Register = () => {
     highestStepVisited >= step && active !== step;
 
   return (
-    <Page title={"Daftar"}>
+    <Page
+      title={`
+        Daftar
+        ${pageRegister === "SMK" ? "SMK" : ""}
+        ${pageRegister === "SMP" ? "SMP" : ""}`
+      }
+    >
       <Paper pt={`${!md ? "70px" : 0}`} className={`flex  min-h-[100vh]`}>
         <Box
-          // h={"100vh"}
-          className="flex-[2] p-[0_1rem_] flex flex-col overflow-y-auto min-h-[100vh]"
+          className={`flex-[2] p-[0_1rem_] flex flex-col justify-center items-center overflow-y-auto min-h-[100vh] 
+          ${!md && "bg-[url(/bg-layout-auth.png)]"} bg-contain bg-no-repeat bg-right`
+          }
         >
-          <Stack w={`${md ? "30rem" : "20rem"}`} className="py-[2rem] mx-auto ">
-            <Title align="center">Daftar</Title>
+          <Stack w={`${md ? "30rem" : "20rem"}`} py={100}>
+            <Title align="center">
+              <Text component="span">
+                Daftar
+              </Text>
+              <Text component="span">
+                {pageRegister === "SMK" && " SMK"}
+                {pageRegister === "SMP" && " SMP"}
+              </Text>
+            </Title>
 
             <Stepper
               active={active}
@@ -144,7 +168,7 @@ const Register = () => {
           </Stack>
         </Box>
 
-        <SideAuthLayout />
+        <SideAuthLayout page={pageRegister} />
       </Paper>
     </Page>
   );

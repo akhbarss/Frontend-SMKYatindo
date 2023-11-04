@@ -50,7 +50,7 @@ const schemaEdit = yup.object({
   biayaPendaftaran: yup.string().required("Tolong masukkan biaya pendaftaran"),
 })
 
-const AlurPPPDB = () => {
+const JalurPendaftarahAdmin = () => {
   const theme = useMantineTheme();
   const dark = theme.colorScheme === "dark";
 
@@ -108,7 +108,7 @@ const AlurPPPDB = () => {
   })
 
   if (load) return <PageLoading />
-  if (isErr) return <h1>Terjadi Kesalahan</h1>
+  if (isErr) return <h1>Terjadi Kesalahan,</h1>
 
   function submitCreateJalur(payload: CreateJalurPayload) {
     createJalurMutation.mutate(payload, {
@@ -347,4 +347,4 @@ const AlurPPPDB = () => {
   );
 };
 
-export default AlurPPPDB;
+export default JalurPendaftarahAdmin;

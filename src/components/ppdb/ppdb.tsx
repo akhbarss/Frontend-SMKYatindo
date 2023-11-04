@@ -1,102 +1,78 @@
-import { Box, useMantineTheme } from '@mantine/core'
-import { useBreakPoints } from '../../utils/UseBreakpoints'
+import {
+    Box,
+    Button,
+    Card,
+    Image,
+    Text
+} from '@mantine/core'
 import { Link } from 'react-router-dom'
+import { useBreakPoints } from '../../utils/UseBreakpoints'
 
 const Ppdb = () => {
     const { xs } = useBreakPoints()
-    const theme = useMantineTheme()
-    const dark = theme.colorScheme === 'dark'
 
     return (
-        <Box
-            id="beranda"
-            sx={{
-                position: "relative",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: `${xs ? "center" : ""}`,
-                minHeight: `${xs ? "87vh" : "80vh"}`,
-                backdropFilter: `${dark ? "brightness(.75)" : "brightness(.5)"}`
-            }}
-        >
-            <Box
-                sx={(theme => ({
-                    backgroundColor: theme.colorScheme === 'dark' ? "black" : theme.colors.gray[0],
-                    color: theme.colorScheme === 'dark' ? theme.colors.gray[1] : "#020731",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    width: `${xs ? "65%" : ""}`,
-                    height: `${xs ? "450px" : ""}`,
-                    borderRadius: `${xs ? "20px" : ""}`,
-                    boxShadow: `${xs ? "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)" : ""}`,
-                    flex: `${xs ? "" : "1"}`
-                }))}
-            >
-                <div style={{ fontWeight: "bold", textAlign: "center" }}>
-                    <h1
-                        style={{
-                            WebkitBackgroundClip: "text",
-                            color: `${dark ? "transparent" : ""}`,
-                            backgroundImage: "linear-gradient(to top left, white, #281a67)",
-                            fontSize: `${xs ? "40px" : "24px"}`
-                        }}
-                    >
-                        PPDB Online
-                    </h1>
-                    <h1
-                        style={{
-                            WebkitBackgroundClip: "text",
-                            color: `${dark ? "transparent" : ""}`,
-                            backgroundImage: "linear-gradient(to top left, #281a67, white)",
-                            fontSize: `${xs ? "40px" : "24px"}`
-                        }}
-                    >
-                        SMK Tinta Emas Indonesia
-                    </h1>
-                </div>
-                <Link
-                    to={'/ppdb/auth/register'}
-                    style={{
-                        height: "3.5rem",
-                        marginTop: "2.5rem",
-                        backgroundColor: `${dark ? "#291872" : "#020731"}`,
-                        display: "flex",
-                        alignItems: 'center',
-                        paddingInline: "2.5rem",
-                        fontWeight: "bold",
-                        fontSize: "24px",
-                        boxShadow: "0 10px 20px -10px #291872",
-                        color: "white",
-                        textDecoration: "none",
-                        borderRadius: "10px"
-                    }}
+        <>
+            <Box id="ppdb" pt={60} className='flex gap-10 lg:flex-row flex-col mx-auto' >
+                <Card
+                    shadow="sm"
+                    padding={"xl"}
+                    className="group/card "
                 >
-                    Daftar
-                </Link>
-                <Link
-                    to={"https://drive.google.com/file/d/1qpalVG9hrHBNTNVF8Mu5TdLID8KLrgcG/view?usp=sharing"}
-                    style={{
-                        height: "3.5rem",
-                        marginTop: "2.5rem",
-                        backgroundColor: `${dark ? "#291872" : "#020731"}`,
-                        display: "flex",
-                        alignItems: 'center',
-                        paddingInline: "2.5rem",
-                        fontWeight: "bold",
-                        fontSize: "24px",
-                        boxShadow: "0 10px 20px -10px #291872",
-                        color: "white",
-                        textDecoration: "none",
-                        borderRadius: "10px"
-                    }}
+                    <Card.Section inheritPadding withBorder py={"xs"}>
+                        <Text size={20} align="center" weight={"bold"}>Daftar PPDB SMK</Text>
+                    </Card.Section>
+                    <Card.Section sx={{ overflow: "hidden" }}>
+                        <Image
+                            className=" transition  duration-300 ease-in-out group-hover/card:scale-105 "
+                            src="smk.jpg"
+                            height={xs ? 260 : 200}
+                            width={xs ? 400 : 300}
+                            alt="smk"
+                        />
+                    </Card.Section>
+                    <Card.Section p={20}>
+                        <Button
+                            fullWidth
+                            className="bg-[#2A166F]"
+                            component={Link}
+                            to="/ppdb/auth/register/smk"
+                        >
+                            Daftar
+                        </Button>
+                    </Card.Section>
+                </Card>
+
+                <Card
+                    shadow="sm"
+                    padding={"xl"}
+                    className="group/card "
                 >
-                    Download Brosur
-                </Link>
+                    <Card.Section inheritPadding withBorder py={"xs"}>
+                        <Text size={20} align="center" weight={"bold"}>Daftar PPDB SMP</Text>
+                    </Card.Section>
+                    <Card.Section sx={{ overflow: "hidden" }}>
+                        <Image
+                            className=" transition  duration-300 ease-in-out group-hover/card:scale-105 "
+                            src="smp.jpg"
+                            height={xs ? 260 : 200}
+                            width={xs ? 400 : 300}
+                            alt="smp"
+                        />
+                    </Card.Section>
+                    <Card.Section p={20}>
+                        <Button
+                            fullWidth
+                            color="orange"
+                            component={Link}
+                            to="/ppdb/auth/register/smp"
+                        >
+                            Daftar
+                        </Button>
+                    </Card.Section>
+                </Card>
             </Box>
-        </Box>
+        </>
     )
 }
 

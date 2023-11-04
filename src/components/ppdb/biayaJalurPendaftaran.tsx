@@ -15,14 +15,14 @@ const BiayaJalurPendaftaran = ({
     return (
         <Box
             id='biaya'
-            // className={`flex flex-col mt-10 ${xs ? "p-8 rounded-md" : "py-8 px-2 "}`}
             style={{
                 backgroundColor: `${dark ? theme.colors.dark[9] : "#dbe1fe"}`,
                 color: `${dark ? "white" : "#0F172A"}`,
                 display: "flex",
                 flexDirection: "column",
-                marginTop: "40px",
-                padding: `${xs ? "32px" : "32px 8px"}`
+                marginTop: "20px",
+                padding: `${xs ? "32px" : "32px 8px"}`,
+                borderRadius: "7px"
             }}
         >
             <h1

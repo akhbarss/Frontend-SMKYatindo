@@ -1,12 +1,8 @@
 import { Header as MantineHeader, useMantineTheme } from "@mantine/core";
-import { useLocation } from "react-router-dom";
 
 const PageHeader = ({ children }: { children: React.ReactNode }) => {
   const theme = useMantineTheme();
   const dark = theme.colorScheme === "dark";
-
-  const { pathname } = useLocation();
-  const pageLogin = pathname.includes("/login");
 
   return (
     <MantineHeader
@@ -17,21 +13,14 @@ const PageHeader = ({ children }: { children: React.ReactNode }) => {
         justifyContent: "space-between",
         alignItems: "center",
         paddingInline: "2rem",
-        position: `${pageLogin ? "fixed" : "fixed"}`,
-        backgroundColor: `${
-          pageLogin
-            ? "transparent"
-            : `${dark ? theme.colors.dark[9] : "#2A166F"}`
-        } `,
-        border: `${pageLogin ? "none" : ""}`,
-        backdropFilter: `${pageLogin ? "blur(4px)" : ""}`,
+        position: "fixed",
+        backgroundColor: `${dark ? theme.colors.dark[9] : "#2A166F"}`
       }}
     >
       <img
         src="/logo-yatindo-hd.png"
         alt="Yatindo"
         style={{ width: "60px" }}
-        //    className="w-[60px]"
       />
 
       {children}

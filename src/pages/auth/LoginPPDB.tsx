@@ -1,22 +1,24 @@
 import {
   Box,
   Button,
-  PasswordInput,
   Group,
   Paper,
+  PasswordInput,
   Stack,
+  Text,
   TextInput,
   Title,
 } from "@mantine/core";
+import { useMutation } from "@tanstack/react-query";
+import { useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
+import { Link, useNavigate } from "react-router-dom";
+import { scroller } from 'react-scroll';
+import { LoginPayload, login } from "../../apis/login";
 import Page from "../../components/Page";
 import SideAuthLayout from "../../layouts/SideAuthLayout";
-import { useBreakPoints } from "../../utils/UseBreakpoints";
-import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
-import { useMutation } from "@tanstack/react-query";
-import { LoginPayload, login } from "../../apis/login";
-import toast, { Toaster } from "react-hot-toast";
 import ResponseError from "../../utils/ResponseError";
+import { useBreakPoints } from "../../utils/UseBreakpoints";
 
 const Login = () => {
   const [noWhatsapp, setNoWhatsapp] = useState("");
@@ -54,10 +56,14 @@ const Login = () => {
   return (
     <Page title={"Login"}>
       <Paper pt={`${!md ? "70px" : 0}`} className={`flex  min-h-[100vh]`}>
-        <Box className="flex-[2] p-[0_1rem_] flex flex-col overflow-y-auto min-h-[87vh]  items-center">
+        <Box
+          className={`flex-[2] p-[0_1rem_] flex flex-col overflow-y-auto min-h-[87vh]  items-center justify-center
+            ${!md && "bg-[url(/bg-layout-auth.png)]"} bg-contain bg-no-repeat bg-right`
+          }
+        >
           <Box
             w={`${md ? "30rem" : "20rem"}`}
-            className="py-[2rem] mx-auto mt-20 "
+            // className="py-[2rem] mx-auto mt-20 "
           >
             <Title align="center">Login</Title>
 
@@ -87,12 +93,24 @@ const Login = () => {
                     flexDirection: `${md ? "row" : "column"}`,
                   }}
                 >
-                  <Link
-                    to={"/ppdb/auth/register"}
-                    className="text-[#103C6F] text-center"
+                  <Text
+                    // to={"/ppdb/auth/register"}
+                    className="text-[#103C6F] text-center underline cursor-pointer"
+                    onClick={() => {
+                      navigate("/ppdb")
+                      setTimeout(() => {
+                        scroller.scrollTo("ppdb", {
+                          duration: 500,
+                          delay: 100,
+                          smooth: true,
+                          offset: -100,
+                        });
+                      }, 300)
+
+                    }}
                   >
                     Belum punya akun? daftar
-                  </Link>
+                  </Text>
 
                   <Link
                     to={"https://wa.me/6281380908008"}
@@ -113,7 +131,7 @@ const Login = () => {
           </Box>
         </Box>
 
-        <SideAuthLayout />
+        <SideAuthLayout page={null} />
       </Paper>
       <Toaster position="top-center" reverseOrder={false} />
     </Page>

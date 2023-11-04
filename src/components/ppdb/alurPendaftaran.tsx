@@ -1,9 +1,17 @@
-import { Box, Divider, Stepper, useMantineTheme } from "@mantine/core";
-import { Element } from "react-scroll";
-import { useBreakPoints } from "../../utils/UseBreakpoints";
-import { GetAllAlurPendaftaran } from "../../apis/alur/getAlur";
-import TiptapOutput from "./tiptapOutput";
+import {
+  Box,
+  Divider,
+  Stepper,
+  Text,
+  Title,
+  useMantineTheme
+} from "@mantine/core";
+
 import { useQuery } from "@tanstack/react-query";
+import { Link } from "react-router-dom";
+import { GetAllAlurPendaftaran } from "../../apis/alur/getAlur";
+import { useBreakPoints } from "../../utils/UseBreakpoints";
+import TiptapOutput from "./tiptapOutput";
 
 const AlurPendaftaran = () => {
   const { xs } = useBreakPoints();
@@ -16,59 +24,13 @@ const AlurPendaftaran = () => {
   });
 
   return (
-    <Element
-      name="alur-pendaftaran"
-      id="alur-pendaftaran"
-      style={{
-        position: "relative",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: `${xs ? "center" : ""}`,
-        minHeight: "87vh",
-        paddingBlock: `${xs ? "2rem" : ""}`,
-        backdropFilter: `${dark ? "brightness(.75)" : "brightness(.5)"}`,
-      }}
-    >
-      <Box
-        sx={(theme) => ({
-          backgroundColor:
-            theme.colorScheme === "dark" ? "black" : theme.colors.gray[0],
-          color:
-            theme.colorScheme === "dark" ? theme.colors.gray[1] : "#020731",
-          width: `${xs ? "65%" : ""}`,
-          padding: `${xs ? "2rem" : "1rem"}`,
-          minHeight: `${xs ? "450px" : ""}`,
-          borderRadius: `${xs ? "20px" : ""}`,
-          flex: `${xs ? "" : "1"}`,
-        })}
-      >
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <div
-            style={{
-              backgroundColor: `${dark ? "#291872" : "#020731"}`,
-              boxShadow: `${dark ? "0 0 20px -3px #291872" : ""}`,
-              color: "white",
-              height: "20vw",
-              maxHeight: "4rem",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              paddingInline: "4rem",
-              borderRadius: "100px",
-              marginInline: "auto",
-            }}
-          >
-            <span
-              style={{
-                fontWeight: "bold",
-                fontSize: `${xs ? "2.5vw" : "5vw"}`,
-              }}
-            >
-              Alur Pendaftaran
-            </span>
-          </div>
-          <div className="mt-10 flex">
+    <>
+      <Box id="alur-pendaftaran" mt={100} className="flex flex-col">
+        <Box className="bg-white shadow-md max rounded-full px-[4rem] flex justify-center mx-auto py-2">
+          <Title size={xs ? "2.5vw" : "5vw"} color="dark" weight={"bold"}>Alur Pendaftaran</Title>
+        </Box>
+        {alurPendaftaran && alurPendaftaran.data.length > 0 ? (
+          <Box className="mt-10 flex">
             <Stepper
               active={0}
               orientation="vertical"
@@ -124,9 +86,8 @@ const AlurPendaftaran = () => {
                     description={
                       <Box
                         style={{
-                          backgroundColor: `${
-                            dark ? theme.colors.dark[9] : "#dbe1fe"
-                          }`,
+                          backgroundColor: `${dark ? theme.colors.dark[9] : "#dbe1fe"
+                            }`,
                           color: `${dark ? "white" : "black"}`,
                           borderRadius: "12px",
                           padding: `${xs ? "1rem" : "0.5rem"}`,
@@ -162,10 +123,16 @@ const AlurPendaftaran = () => {
                   />
                 ))}
             </Stepper>
-          </div>
-        </div>
+          </Box>
+        ) : (
+          <Box className="mt-5 bg-white rounded-xl p-10 max-w-[25rem] mx-auto">
+            <Text align="center" color="dark" weight={"bold"}>Alur Pendaftaran Kosong</Text>
+            <Text align="center" size={"sm"} color="dark">
+              Silakan hubungi <Text component={Link} underline color="blue" to={"https://wa.me/6281380908008"} target="_blank" >Admin</Text> untuk info alur pendaftaran</Text>
+          </Box>
+        )}
       </Box>
-    </Element>
+    </>
   );
 };
 

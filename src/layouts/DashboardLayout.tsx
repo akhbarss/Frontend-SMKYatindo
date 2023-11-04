@@ -64,13 +64,13 @@ const DashboardLayout: React.FC<TDashboard> = ({ children }) => {
         <Paper
           p={`${sm ? "3rem 2.5rem" : "3rem 1rem"}`}
           className="style-box"
-          sx={(theme) => ({
+          sx={() => ({
             minHeight: "80vh",
-            backgroundColor: `${
-              theme.colorScheme === "dark"
-                ? theme.colors.dark[9]
-                : theme.colors.gray[0]
-            }`,
+            // backgroundColor: `${
+            //   theme.colorScheme === "dark"
+            //     ? theme.colors.dark[9]
+            //     : theme.colors.gray[0]
+            // }`,
           })}
         >
           {children}

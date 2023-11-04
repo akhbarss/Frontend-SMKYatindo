@@ -61,7 +61,11 @@ export const routes: RouteObject[] = [
                 Component: lazy(() => import("./pages/auth/LoginPPDB")),
               },
               {
-                path: "register",
+                path: "register/smk",
+                Component: lazy(() => import("./pages/auth/Register")),
+              },
+              {
+                path: "register/smp",
                 Component: lazy(() => import("./pages/auth/Register")),
               },
               {
@@ -118,7 +122,7 @@ export const routes: RouteObject[] = [
                     Component: lazy(
                       () =>
                         import(
-                          "./pages/ppdb/admin/jalurPendaftaranPPDB/JalurPendaftaran"
+                          "./pages/ppdb/admin/jalurPendaftaranPPDB/JalurPendaftaranAdmin"
                         )
                     ),
                   },

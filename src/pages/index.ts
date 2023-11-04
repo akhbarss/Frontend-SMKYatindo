@@ -2,7 +2,7 @@ import GuestPPDB from "./ppdb/guest/GuestPPDB";
 import LayoutSiswa from "./ppdb/siswa/LayoutSiswa";
 import RootAdminPPDB from "./ppdb/admin/RootAdminPPDB";
 import AlurPPPDB from "./ppdb/admin/AlurPPPDB";
-import JalurPendaftaran from "./ppdb/admin/jalurPendaftaranPPDB/JalurPendaftaran";
+import JalurPendaftaranAdmin from "./ppdb/admin/jalurPendaftaranPPDB/JalurPendaftaranAdmin";
 import PendaftarPPDB from "./ppdb/admin/PendaftarPPDB";
 import UjianPPDB from "./ppdb/admin/UjianPPDB";
 import BerandaSiswaPPDB from "./ppdb/siswa/home/BerandaSiswaPPDB";
@@ -19,7 +19,7 @@ export {
   // ADMIN
   RootAdminPPDB,
   AlurPPPDB,
-  JalurPendaftaran,
+  JalurPendaftaranAdmin,
   PendaftarPPDB,
   UjianPPDB,
 

@@ -4,7 +4,7 @@ import { ResponseType } from "../../types/global";
 export type CreateAlurPayload = {
     title: string
     content: string
-    user_id: number
+    // user_id: number
 };
 
 export const createAlur = async (payload: CreateAlurPayload): Promise<ResponseType<Response>> => {

@@ -39,16 +39,17 @@ const CollapseNavbarPortal = ({
             in={opened}
             transitionDuration={200}
             transitionTimingFunction='ease'
-            className='menu-bar-collapse h-[100%] w-full  fixed top-[13vh] z-[10000] text-white '
+            className='menu-bar-collapse h-[100%] w-full  fixed top-[70px] z-[10000] text-white '
         >
-            <Paper className='flex flex-col min-h-[100vh] py-6 gap-4 text-xl px-8'
+            <Paper className='flex flex-col min-h-[100vh] py-6 gap-4 text-xl px-8 bg-[#2A166F] text-white'
                 sx={{
-                    backgroundColor: `${dark ? theme.colors.dark[9] : ""}`
+                    // backgroundColor: `${dark ? theme.colors.dark[9] : ""}`
                 }}
             >
 
                 {routeGuest && menus.map((menu, i) => (
                     <div
+                    className='cursor-pointer '
                         key={i}
                         onClick={() => {
 
@@ -68,56 +69,18 @@ const CollapseNavbarPortal = ({
                     </div>
                 ))}
 
-                {(routeAdmin || routeSiswa) && menus.map((menu, i) => (
-                    <Link
-                        key={i}
-                        onClick={toggle}
-                        to={menu.path}
-                    >
-                        {menu.label}
-                    </Link>
-                ))}
-
-                <Divider />
+                <Divider color='white'/>
 
                 {routeGuest && (
                     <>
-                        <Link to={"/ppdb/auth/login"}>
+                        <Link to={"/ppdb/auth/login"} className='text-white no-underline'>
                             Masuk
                         </Link>
-                        <Link to={"/ppdb/auth/register"}>
-                            Daftar
+                        <Link to={"/ppdb/auth/register/smk"} className='text-white no-underline'>
+                            Daftar SMK
                         </Link>
-                    </>
-                )}
-
-                {routeAdmin && (
-                    <>
-                        <Link to={'#'}>
-                            Profile
-                        </Link>
-
-                        <Link to={'#'}>
-                            Pengaturan
-                        </Link>
-
-                        <Button onClick={() => {
-                            localStorage.removeItem("accessToken")
-                            navigate("/ppdb/login")
-                        }}>
-                            Logout
-                        </Button>
-                    </>
-                )}
-
-                {routeSiswa && (
-                    <>
-                        <Link to={'#'}>
-                            Profile
-                        </Link>
-
-                        <Link to={'/ppdb/login'}>
-                            Logout
+                        <Link to={"/ppdb/auth/register/smp"} className='text-white no-underline'>
+                            Daftar SMP
                         </Link>
                     </>
                 )}

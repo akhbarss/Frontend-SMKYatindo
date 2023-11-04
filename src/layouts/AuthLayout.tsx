@@ -21,12 +21,8 @@ const AuthLayout: React.FC<TAuthLayout> = ({ children }) => {
           !md && (
             <PageHeader >
 
-              <h1 className="text-[#C1C2C5] text-2xl font-bold md:hidden">
-                PPDB Online
-              </h1>
-
-              <h1 className="text-[#C1C2C5] text-2xl font-bold max-md:hidden">
-                PPDB SMK TINTA EMAS INDONESIA
+              <h1 className="text-white text-2xl font-bold md:hidden">
+                PPDB Yatindo
               </h1>
 
               <Group>
@@ -34,7 +30,7 @@ const AuthLayout: React.FC<TAuthLayout> = ({ children }) => {
                   <FaHome
                     size={30}
                     style={{}}
-                    className={`cursor-pointer text-gray-300 hover:text-white`}
+                    className={`cursor-pointer text-white hover:text-white`}
                   />
                 </Link>
               </Group>
