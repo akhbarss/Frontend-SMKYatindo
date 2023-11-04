@@ -10,7 +10,7 @@ export type Student = {
   gender: string;
   religion: string;
   birth_place: string;
-  birth_date: string;
+  birth_date: string | Date;
   address: "";
   province: null;
   city: null;
@@ -18,7 +18,7 @@ export type Student = {
   sub_district: null;
   postal_code: null;
   school_origin: "Yatindo";
-  profile_picture: null;
+  profile_picture?: File[] | string;
   status: null;
   major: null;
   staging_id: null;
@@ -36,8 +36,8 @@ export type Student = {
   mother_phone: string;
   mother_job: string;
   mother_address: string;
-  family_card: string;
-  birth_card: string;
+  family_card: File[] | string;
+  birth_card: File[] | string;
 };
 
 export type Staging = {
@@ -49,6 +49,7 @@ export type Staging = {
   type: string;
   status: string;
   staging_id: number;
+  majors: string;
   registrationBatch: BaseBatch;
 };
 

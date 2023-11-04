@@ -17,6 +17,7 @@ import toast from "react-hot-toast";
 import { FaUpload } from "react-icons/fa";
 import { ImCross } from "react-icons/im";
 import { HiPhoto } from "react-icons/hi2";
+import UploadDropzone from "./UploadDropzone";
 
 export type TFormFieldInformasiOrangTua = {
   dad_name: string;
@@ -48,11 +49,13 @@ const FormFieldInformasiOrangTua = () => {
             description="Nama Ayah"
             label="Nama Ayah"
             placeholder="Nama Ayah"
-            withAsterisk={false}
             error={errors.dad_name && <div>{errors.dad_name?.message}</div>}
             required
             {...register("dad_name", {
-              required: false,
+              required: {
+                value: true,
+                message: "Dibutuhkan",
+              },
             })}
           />
         </Grid.Col>
@@ -61,13 +64,15 @@ const FormFieldInformasiOrangTua = () => {
             description="Nama Ibu"
             label="Nama Ibu"
             placeholder="Nama Ibu"
-            withAsterisk={false}
             error={
               errors.mother_name && <div>{errors.mother_name?.message}</div>
             }
             required
             {...register("mother_name", {
-              required: false,
+              required: {
+                value: true,
+                message: "Dibutuhkan",
+              },
             })}
           />
         </Grid.Col>
@@ -102,11 +107,13 @@ const FormFieldInformasiOrangTua = () => {
             description="Nomor Telepon Ayah"
             label="Nomor Telepon Ayah"
             placeholder="Nomor Telepon Ayah"
-            withAsterisk={false}
             error={errors.dad_phone && <div>{errors.dad_phone?.message}</div>}
             required
             {...register("dad_phone", {
-              required: false,
+              required: {
+                value: true,
+                message: "Dibutuhkan",
+              },
             })}
           />
         </Grid.Col>
@@ -115,13 +122,15 @@ const FormFieldInformasiOrangTua = () => {
             description="Nomor Telepon Ibu"
             label="Nomor Telepon Ibu"
             placeholder="Nomor Telepon Ibu"
-            withAsterisk={false}
             error={
               errors.mother_phone && <div>{errors.mother_phone?.message}</div>
             }
             required
             {...register("mother_phone", {
-              required: false,
+              required: {
+                value: true,
+                message: "Dibutuhkan",
+              },
             })}
           />
         </Grid.Col>
@@ -162,7 +171,13 @@ const FormFieldInformasiOrangTua = () => {
       </Grid>
       <Controller
         render={({ field: { onChange, value } }) => (
-          <Dropzone
+          <UploadDropzone
+            children={<div></div>}
+            label={"Upload kartu Keluarga 3x4, Max : 5MB ( WAJIB )"}
+            onDrop={(droppedFiles) => {
+              onChange(droppedFiles);
+            }}
+            value={value}
             multiple={false}
             onChange={(e) => onChange(e.target.files?.[0] ?? null)}
             onReject={(files) => {
@@ -171,61 +186,7 @@ const FormFieldInformasiOrangTua = () => {
                 toast.error("Size gambar terlalu besar dari 5MB");
               }
             }}
-            maxSize={3 * 1024 ** 2}
-            accept={IMAGE_MIME_TYPE}
-            onDrop={(droppedFiles) => {
-              onChange(droppedFiles);
-            }}
-          >
-            <Group
-              position="center"
-              spacing="xl"
-              style={{ minHeight: rem(220), pointerEvents: "none" }}
-            >
-              <Dropzone.Accept>
-                <FaUpload
-                  size="3.2rem"
-                  color={
-                    theme.colors[theme.primaryColor][
-                      theme.colorScheme === "dark" ? 4 : 6
-                    ]
-                  }
-                />
-              </Dropzone.Accept>
-              <Dropzone.Reject>
-                <ImCross
-                  size="3.2rem"
-                  color={theme.colors.red[theme.colorScheme === "dark" ? 4 : 6]}
-                />
-              </Dropzone.Reject>
-              <Dropzone.Idle>
-                <HiPhoto size="3.2rem" />
-              </Dropzone.Idle>
-              <Text size="">
-                Upload kartu Keluarga 3x4, Max : 5MB ( WAJIB )
-              </Text>
-            </Group>
-            <SimpleGrid
-              cols={4}
-              mt={5}
-              breakpoints={[{ maxWidth: "sm", cols: 1 }]}
-            >
-              {value &&
-                value.map((file, index) => {
-                  const imageUrl = URL.createObjectURL(file);
-                  return (
-                    <Image
-                      key={index}
-                      src={imageUrl}
-                      w={20}
-                      imageProps={{
-                        onLoad: () => URL.revokeObjectURL(imageUrl),
-                      }}
-                    />
-                  );
-                })}
-            </SimpleGrid>
-          </Dropzone>
+          />
         )}
         name={"family_card"}
         control={control}
@@ -238,7 +199,13 @@ const FormFieldInformasiOrangTua = () => {
       />
       <Controller
         render={({ field: { onChange, value } }) => (
-          <Dropzone
+          <UploadDropzone
+            children={<div></div>}
+            label={" Upload akta kelahiran 3x4, Max : 5MB ( WAJIB )"}
+            onDrop={(droppedFiles) => {
+              onChange(droppedFiles);
+            }}
+            value={value}
             multiple={false}
             onChange={(e) => onChange(e.target.files?.[0] ?? null)}
             onReject={(files) => {
@@ -247,61 +214,7 @@ const FormFieldInformasiOrangTua = () => {
                 toast.error("Size gambar terlalu besar dari 5MB");
               }
             }}
-            maxSize={3 * 1024 ** 2}
-            accept={IMAGE_MIME_TYPE}
-            onDrop={(droppedFiles) => {
-              onChange(droppedFiles);
-            }}
-          >
-            <Group
-              position="center"
-              spacing="xl"
-              style={{ minHeight: rem(220), pointerEvents: "none" }}
-            >
-              <Dropzone.Accept>
-                <FaUpload
-                  size="3.2rem"
-                  color={
-                    theme.colors[theme.primaryColor][
-                      theme.colorScheme === "dark" ? 4 : 6
-                    ]
-                  }
-                />
-              </Dropzone.Accept>
-              <Dropzone.Reject>
-                <ImCross
-                  size="3.2rem"
-                  color={theme.colors.red[theme.colorScheme === "dark" ? 4 : 6]}
-                />
-              </Dropzone.Reject>
-              <Dropzone.Idle>
-                <HiPhoto size="3.2rem" />
-              </Dropzone.Idle>
-              <Text size="">
-                Upload akta kelahiran 3x4, Max : 5MB ( WAJIB )
-              </Text>
-            </Group>
-            <SimpleGrid
-              cols={4}
-              mt={5}
-              breakpoints={[{ maxWidth: "sm", cols: 1 }]}
-            >
-              {value &&
-                value.map((file, index) => {
-                  const imageUrl = URL.createObjectURL(file);
-                  return (
-                    <Image
-                      key={index}
-                      src={imageUrl}
-                      w={20}
-                      imageProps={{
-                        onLoad: () => URL.revokeObjectURL(imageUrl),
-                      }}
-                    />
-                  );
-                })}
-            </SimpleGrid>
-          </Dropzone>
+          />
         )}
         rules={{
           required: {

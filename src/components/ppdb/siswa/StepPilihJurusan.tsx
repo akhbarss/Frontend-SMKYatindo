@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, Stack, Title } from "@mantine/core";
+import { Box, Button, Stack, Text, Title } from "@mantine/core";
 import SelectStatus from "../../SelectStatus";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { chooseMajor, getOffsetStatus } from "../../../apis/pembelian";
@@ -8,10 +8,11 @@ import { Step } from "../../../types/global";
 import toast, { Toaster } from "react-hot-toast";
 import { modals } from "@mantine/modals";
 import ResponseError from "../../../utils/ResponseError";
+import MultiSelectStatus from "../../MultiSelectStatus";
 
 const StepPilihJurusan: React.FC<Step> = ({ type = "PEMBELIAN" }) => {
   const filter = useQueryFilter({ step: 3, stagingId: null });
-  const [choosed, setChoosed] = useState<string>(null);
+  const [choosed, setChoosed] = useState<string | string[]>(null);
   const { data: offset, isSuccess: statusSuccess } = useQuery({
     queryKey: ["student_staging_offset", filter.stagingId, type],
     queryFn: () => getOffsetStatus(filter.stagingId, type),
@@ -28,12 +29,12 @@ const StepPilihJurusan: React.FC<Step> = ({ type = "PEMBELIAN" }) => {
       chooseMutation.mutate(
         {
           type: type,
-          major: choosed,
+          major: choosed.toString(),
           stagingId: filter.stagingId,
         },
         {
           onSuccess: () => {
-            toast.success("Sukses upload bukti bayar");
+            toast.success("Sukses memilih Jurusan");
             queryClient.invalidateQueries({
               queryKey: ["get_last_offset_batch"],
             });
@@ -57,8 +58,8 @@ const StepPilihJurusan: React.FC<Step> = ({ type = "PEMBELIAN" }) => {
     }
   };
   useEffect(() => {
-    if (statusSuccess && offset.data.major) {
-      setChoosed(offset.data.major.value);
+    if (statusSuccess && offset.data.offset_data) {
+      setChoosed(offset.data.offset_data?.majors?.split(","));
     }
   }, [statusSuccess, offset]);
 
@@ -75,7 +76,9 @@ const StepPilihJurusan: React.FC<Step> = ({ type = "PEMBELIAN" }) => {
     >
       <Stack>
         <Title>Pilih Jurusan</Title>
-
+        {type === "PEMBELIAN" && (
+          <Text>*Anda dapat memilih lebih dari satu untuk peminatan awal</Text>
+        )}
         {statusSuccess &&
         offset.data.current_state?.status === "WAITING_PAYMENT" &&
         offset.data.current_state?.type === type ? (
@@ -85,18 +88,33 @@ const StepPilihJurusan: React.FC<Step> = ({ type = "PEMBELIAN" }) => {
           </p>
         ) : (
           <>
-            <SelectStatus
-              type={"MAJOR"}
-              readOnly={Boolean(statusSuccess && offset.data.major)}
-              onChange={(value) => setChoosed(value)}
-              value={choosed}
-            />
+            {type === "PEMBELIAN" ? (
+              <MultiSelectStatus
+                type={"MAJOR"}
+                readOnly={Boolean(
+                  statusSuccess && offset.data.offset_data?.majors
+                )}
+                onChange={(value) => setChoosed(value)}
+                value={choosed && Array.from(choosed)}
+              />
+            ) : (
+              <SelectStatus
+                type={"MAJOR"}
+                readOnly={Boolean(
+                  statusSuccess && offset.data.offset_data?.majors
+                )}
+                onChange={(value) => setChoosed(value)}
+                value={choosed.toString()}
+              />
+            )}
 
             <Button
               variant={"filled"}
               onClick={onChooseMajor}
               loading={chooseMutation.isPending}
-              disabled={Boolean(statusSuccess && offset.data.major)}
+              disabled={Boolean(
+                statusSuccess && offset.data.offset_data?.majors
+              )}
             >
               Submit
             </Button>
