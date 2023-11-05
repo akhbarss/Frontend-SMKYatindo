@@ -1,8 +1,6 @@
-import { TextInput, Stack, Button, Group } from "@mantine/core";
-import { modals } from "@mantine/modals";
+import { Button, Group, Stack, TextInput } from "@mantine/core";
 import { UseMutationResult } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
-import { RegistrationPayload, Response } from "../../apis/registration";
+import { RegistrationPayload, RegistrationResponse } from "../../apis/registration";
 import { ResponseType } from "../../types/global";
 
 type TRegisterInformasiKredensial = {
@@ -10,12 +8,7 @@ type TRegisterInformasiKredensial = {
   password: string;
   setPassword: React.Dispatch<React.SetStateAction<string>>;
   onSubmit: () => void;
-  registrationMutation: UseMutationResult<
-    ResponseType<Response>,
-    Error,
-    RegistrationPayload,
-    unknown
-  >;
+  registrationMutation: UseMutationResult<ResponseType<ResponseType<RegistrationResponse>>, Error, RegistrationPayload, unknown>
 };
 
 const RegisterInformasiKredensial: React.FC<TRegisterInformasiKredensial> = ({
