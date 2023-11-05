@@ -28,6 +28,7 @@ export const routes: RouteObject[] = [
       <Interceptors>
         <QueryClientProvider client={queryClient}>
           <Outlet />
+          <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
       </Interceptors>
     ),

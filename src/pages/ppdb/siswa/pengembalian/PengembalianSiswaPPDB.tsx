@@ -18,6 +18,7 @@ import StepPembayaran from "../../../../components/ppdb/siswa/StepPembayaran";
 import StepCetakKartu from "../../../../components/ppdb/siswa/StepCetakKartu";
 import { Toaster } from "react-hot-toast";
 import StepBiodata from "../../../../components/ppdb/siswa/StepBiodata";
+import StepPilihJurusan from "../../../../components/ppdb/siswa/StepPilihJurusan";
 
 function StyledTabs(props: TabsProps) {
   return (
@@ -97,6 +98,12 @@ const card = [
   },
   {
     index: 5,
+    label: "Isi Data Prestasi",
+    icon: FaRegFlag,
+    content: <StepPilihJurusan type={"PENGEMBALIAN"} />,
+  },
+  {
+    index: 6,
     label: "Cetak Kartu Peserta",
     icon: FaAddressCard,
     content: <StepCetakKartu type={"PENGEMBALIAN"} />,
@@ -117,6 +124,7 @@ const PengembalianSiswaPPDB = () => {
     queryKey: ["get_last_offset_batch"],
     queryFn: () => getLastoffset("PENGEMBALIAN"),
     staleTime: 0,
+    notifyOnChangeProps: "all",
   });
 
   const queryFilter = useFilter(filter);
@@ -139,21 +147,12 @@ const PengembalianSiswaPPDB = () => {
           doneBatches[doneBatches.length - 1].index
         ) {
           const index = doneBatches[doneBatches.length - 1].index + 1;
-          const toFilter = {
-            step: index,
-            stagingId: stagings.data.find((batch) => batch.index === index).id,
-          };
-
-          setFilter(toFilter);
-          navigate(`${location.pathname}?${generateQueryparam(toFilter)}`);
+          toStep(index.toString());
+        } else {
+          toStep(doneBatches[doneBatches.length - 1].index.toString());
         }
       } else {
-        const toFilter = {
-          step: 1,
-          stagingId: stagings.data.find((batch) => batch.index === 1).id,
-        };
-        setFilter(toFilter);
-        navigate(`${location.pathname}?${generateQueryparam(toFilter)}`);
+        toStep("1");
       }
     }
   }, [stagings, isSuccess]);
@@ -170,7 +169,7 @@ const PengembalianSiswaPPDB = () => {
   return (
     <Page title={"Pengembalian"}>
       <PageLabel label={"Pengembalian"} />
-      <Stack className={"style-box max-w-[70rem] mx-auto"} >
+      <Stack className={"style-box max-w-[70rem] mx-auto"}>
         <StyledTabs value={`${filter.step}`} onTabChange={toStep}>
           {isLoading && <Skeleton width={"100%"} />}
           {isSuccess && (
