@@ -14,6 +14,8 @@ import StepPembayaran from "../../../../components/ppdb/siswa/StepPembayaran";
 import useFilter from "../../../../utils/useFilter";
 import { useLocation, useNavigate } from "react-router-dom";
 import generateQueryparam from "../../../../utils/generateQueryParam";
+import StepCetakKartu from "../../../../components/ppdb/siswa/StepCetakKartu";
+import StepPilihJurusan from "../../../../components/ppdb/siswa/StepPilihJurusan";
 
 const StyledTabs = (props: TabsProps) => {
   return (
@@ -65,7 +67,7 @@ const card = [
     index: 1,
     label: "Pilih Gelombang PPDB",
     icon: RiGitMergeFill,
-    content: <StepGelombang type="PEMBELIAN"/>,
+    content: <StepGelombang type="PEMBELIAN" />,
   },
   {
     index: 2,
@@ -77,13 +79,13 @@ const card = [
     index: 3,
     label: "Pilih Jurusan",
     icon: FaRegFlag,
-    content: <div>Div</div>,
+    content: <StepPilihJurusan />,
   },
   {
     index: 4,
     label: "Cetak Kartu Peserta",
     icon: FaAddressCard,
-    content: <div>div</div>,
+    content: <StepCetakKartu />,
   },
 ];
 
@@ -142,7 +144,7 @@ const PembelianSiswaPPDB = () => {
   return (
     <Page title={"Pembelian"}>
       <PageLabel label={"Pembelian"} />
-      <Stack className={"style-box max-w-[70rem] mx-auto"} >
+      <Stack className={"style-box max-w-[70rem] mx-auto"}>
         <StyledTabs value={`${filter.step}`} onTabChange={toStep}>
           {isLoading && <Skeleton width={"100%"} />}
           {isSuccess && (

@@ -21,12 +21,13 @@ import { HiPhoto } from "react-icons/hi2";
 import { RadioGroupCustom } from "./fields/RadioGroup";
 import SelectStatus from "./SelectStatus";
 import { DateInput } from "@mantine/dates";
+import UploadDropzone from "./UploadDropzone";
 
 export type TFormFieldBiodata = {
   profile_picture: File[];
   nisn: string;
   phone: string;
-  fullname: string;
+  name: string;
   surname: string;
   gender: string;
   religion: string;
@@ -53,7 +54,13 @@ const FormFieldBiodata = () => {
     <Stack spacing={10}>
       <Controller
         render={({ field: { onChange, value } }) => (
-          <Dropzone
+          <UploadDropzone
+            children={<div></div>}
+            label={"Upload pas Photo 3x4, Max : 5MB (DIBUTUHKAN)"}
+            onDrop={(droppedFiles) => {
+              onChange(droppedFiles);
+            }}
+            value={value}
             multiple={false}
             onChange={(e) => onChange(e.target.files?.[0] ?? null)}
             onReject={(files) => {
@@ -62,62 +69,16 @@ const FormFieldBiodata = () => {
                 toast.error("Size gambar terlalu besar dari 5MB");
               }
             }}
-            maxSize={3 * 1024 ** 2}
-            accept={IMAGE_MIME_TYPE}
-            onDrop={(droppedFiles) => {
-              onChange(droppedFiles);
-            }}
-          >
-            <Group
-              position="center"
-              spacing="xl"
-              style={{ minHeight: rem(220), pointerEvents: "none" }}
-            >
-              <Dropzone.Accept>
-                <FaUpload
-                  size="3.2rem"
-                  color={
-                    theme.colors[theme.primaryColor][
-                      theme.colorScheme === "dark" ? 4 : 6
-                    ]
-                  }
-                />
-              </Dropzone.Accept>
-              <Dropzone.Reject>
-                <ImCross
-                  size="3.2rem"
-                  color={theme.colors.red[theme.colorScheme === "dark" ? 4 : 6]}
-                />
-              </Dropzone.Reject>
-              <Dropzone.Idle>
-                <HiPhoto size="3.2rem" />
-              </Dropzone.Idle>
-              <Text size="">Upload pas Photo 3x4, Max : 5MB</Text>
-            </Group>
-            <SimpleGrid
-              cols={4}
-              mt={5}
-              breakpoints={[{ maxWidth: "sm", cols: 1 }]}
-            >
-              {value &&
-                value.map((file, index) => {
-                  const imageUrl = URL.createObjectURL(file);
-                  return (
-                    <Image
-                      key={index}
-                      src={imageUrl}
-                      w={20}
-                      imageProps={{
-                        onLoad: () => URL.revokeObjectURL(imageUrl),
-                      }}
-                    />
-                  );
-                })}
-            </SimpleGrid>
-          </Dropzone>
+          />
         )}
         name={"profile_picture"}
         control={control}
+        rules={{
+          required: {
+            value: true,
+            message: "Dibutuhkan",
+          },
+        }}
       />
       <Grid>
         <Grid.Col lg={6} sm={12}>
@@ -137,12 +98,14 @@ const FormFieldBiodata = () => {
           <TextInput
             description="Nomor Whatsapp"
             label="Nomor WhatsApp"
-            withAsterisk={false}
             placeholder="Nomor Whatsapp"
             error={errors.phone && <div>{errors.phone?.message}</div>}
             required
             {...register("phone", {
-              required: false,
+              required: {
+                value: true,
+                message: "Dibutuhkan",
+              },
             })}
           />
         </Grid.Col>
@@ -150,12 +113,14 @@ const FormFieldBiodata = () => {
           <TextInput
             description="Nama Lengkap"
             label="Nama Lengkap"
-            withAsterisk={false}
             placeholder="Nama Lengkap"
-            error={errors.fullname && <div>{errors.fullname?.message}</div>}
+            error={errors.name && <div>{errors.name?.message}</div>}
             required
-            {...register("fullname", {
-              required: false,
+            {...register("name", {
+              required: {
+                value: true,
+                message: "Dibutuhkan",
+              },
             })}
           />
         </Grid.Col>
@@ -176,8 +141,13 @@ const FormFieldBiodata = () => {
           <RadioGroupCustom
             name="gender"
             control={control}
-            withAsterisk={true}
             label="Gender"
+            rules={{
+              required: {
+                value: true,
+                message: "Dibutuhkan",
+              },
+            }}
             description="Pilih salah satu"
           >
             <Group mt="xs">
@@ -200,19 +170,27 @@ const FormFieldBiodata = () => {
             )}
             name={"religion"}
             control={control}
+            rules={{
+              required: {
+                value: true,
+                message: "Dibutuhkan",
+              },
+            }}
           />
         </Grid.Col>
         <Grid.Col lg={6} sm={12}>
           <TextInput
             label="Tempat Lahir"
             placeholder="Tempat Lahir"
-            withAsterisk={false}
             error={
               errors.birth_place && <div>{errors.birth_place?.message}</div>
             }
             required
             {...register("birth_place", {
-              required: false,
+              required: {
+                value: true,
+                message: "Dibutuhkan",
+              },
             })}
           />
         </Grid.Col>
@@ -221,7 +199,6 @@ const FormFieldBiodata = () => {
             render={({ field: { onChange, value } }) => (
               <DateInput
                 value={value}
-                withAsterisk={false}
                 onChange={onChange}
                 label="Tanggal Lahir"
                 placeholder="Tanggal Lahir"
@@ -229,6 +206,12 @@ const FormFieldBiodata = () => {
             )}
             name={"birth_date"}
             control={control}
+            rules={{
+              required: {
+                value: true,
+                message: "Dibutuhkan",
+              },
+            }}
           />
         </Grid.Col>
         <Grid.Col lg={6} sm={12}>
@@ -236,12 +219,14 @@ const FormFieldBiodata = () => {
             label="Alamat"
             autosize
             minRows={3}
-            withAsterisk={false}
             placeholder="Alamat"
             error={errors.address && <div>{errors.address?.message}</div>}
             required
             {...register("address", {
-              required: false,
+              required: {
+                value: true,
+                message: "Dibutuhkan",
+              },
             })}
           />
         </Grid.Col>
@@ -249,11 +234,13 @@ const FormFieldBiodata = () => {
           <TextInput
             label="Provinsi"
             placeholder="Provinsi"
-            withAsterisk={false}
             error={errors.province && <div>{errors.province?.message}</div>}
             required
             {...register("province", {
-              required: false,
+              required: {
+                value: true,
+                message: "Dibutuhkan",
+              },
             })}
           />
         </Grid.Col>
@@ -261,11 +248,13 @@ const FormFieldBiodata = () => {
           <TextInput
             label="Kota/Kabupaten"
             placeholder="Kota/Kabupaten"
-            withAsterisk={false}
             error={errors.city && <div>{errors.city?.message}</div>}
             required
             {...register("city", {
-              required: false,
+              required: {
+                value: true,
+                message: "Dibutuhkan",
+              },
             })}
           />
         </Grid.Col>
@@ -273,11 +262,13 @@ const FormFieldBiodata = () => {
           <TextInput
             label="Kecamatan"
             placeholder="Kecamatan"
-            withAsterisk={false}
             error={errors.district && <div>{errors.district?.message}</div>}
             required
             {...register("district", {
-              required: false,
+              required: {
+                value: true,
+                message: "Dibutuhkan",
+              },
             })}
           />
         </Grid.Col>
@@ -285,13 +276,15 @@ const FormFieldBiodata = () => {
           <TextInput
             label="Kelurahan"
             placeholder="Kelurahan"
-            withAsterisk={false}
             error={
               errors.sub_district && <div>{errors.sub_district?.message}</div>
             }
             required
             {...register("sub_district", {
-              required: false,
+              required: {
+                value: true,
+                message: "Dibutuhkan",
+              },
             })}
           />
         </Grid.Col>
@@ -313,13 +306,15 @@ const FormFieldBiodata = () => {
           <TextInput
             label="Asal Sekolah"
             placeholder="Asal Sekolah"
-            withAsterisk={false}
             error={
               errors.school_origin && <div>{errors.school_origin?.message}</div>
             }
             required
             {...register("school_origin", {
-              required: false,
+              required: {
+                value: true,
+                message: "Dibutuhkan",
+              },
             })}
           />
         </Grid.Col>
