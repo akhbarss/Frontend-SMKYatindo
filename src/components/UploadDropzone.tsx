@@ -71,7 +71,6 @@ const UploadDropzone: React.FC<TUploadDropzone> = ({
 
         {!multiple &&
           value &&
-          accept === IMAGE_MIME_TYPE &&
           value?.length > 0 &&
           value.map((file, index) => {
             const imageUrl = URL.createObjectURL(file);
