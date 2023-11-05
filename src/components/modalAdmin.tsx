@@ -18,6 +18,7 @@ type TModalAdmin = {
     title: string
     size: string
     withFooter: boolean
+    loading?: boolean
 }
 
 const ModalAdmin: React.FC<TModalAdmin> = ({
@@ -27,7 +28,8 @@ const ModalAdmin: React.FC<TModalAdmin> = ({
     title,
     size,
     onAccept,
-    withFooter
+    withFooter,
+    loading
 
 }) => {
     return (
@@ -72,6 +74,7 @@ const ModalAdmin: React.FC<TModalAdmin> = ({
 
                         <Button
                             onClick={() => onAccept?.acceptFn()}
+                            loading={loading}
                         >
                             {onAccept?.titleAccept}
                         </Button>

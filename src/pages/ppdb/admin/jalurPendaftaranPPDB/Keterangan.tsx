@@ -1,4 +1,5 @@
 import {
+    Text,
     Accordion,
     AccordionControlProps,
     ActionIcon,
@@ -150,7 +151,7 @@ const Keterangan = () => {
         propss: AccordionControlProps;
         data: InformmasiUmumKeterangan;
     }): JSX.Element {
-        
+
         return (
             <Center>
                 <Accordion.Control {...propss} className="font-bold" />
@@ -198,10 +199,14 @@ const Keterangan = () => {
                 flex: "1",
             }}
         >
-
-            <Paper sx={{ padding: "1rem" }} withBorder>
+            <Paper
+                withBorder
+                radius={"4rem"}
+                px={"2.5rem"}
+                sx={{ padding: "1rem" }}
+            >
                 <Flex justify={"space-between"} align={"center"}>
-                    <Title order={2}>Keterangan</Title>
+                    <Text weight={"bold"} size={"xl"}>Keterangan</Text>
                     <Button onClick={openCreate}>Tambah</Button>
                 </Flex>
             </Paper>

@@ -163,6 +163,13 @@ const Dashboard = () => {
   const columns = useMemo(() => {
     return [
       {
+        id: "No. Formulir",
+        header: "No. Formulir",
+        accessorFn: (data, deps) => {
+          return deps + 1;
+        },
+      },
+      {
         id: "Nama",
         header: "Nama",
         accessorFn: (data, deps) => {
@@ -179,25 +186,6 @@ const Dashboard = () => {
       </Box>
       <Box mb={"lg"}>
         <PathStatistics />
-      </Box>
-      <Box>
-        <Paper withBorder p="md" radius="md">
-          <Flex justify={"space-between"} align={"center"}>
-            <Text size={"lg"} weight={500} mb={10}>
-              Pendaftar 5 Terawal
-            </Text>
-            <Anchor href="https://mantine.dev/" target="_blank" size={"sm"}>
-              Lihat Semua
-            </Anchor>
-          </Flex>
-          <DataTable
-          
-            data={[]}
-            columns={columns}
-            useSearchInput={true}
-            noCard={true}
-          />
-        </Paper>
       </Box>
     </>
   );

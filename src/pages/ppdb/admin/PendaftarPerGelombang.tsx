@@ -47,6 +47,8 @@ const PendaftarPerGelombang = () => {
         queryFn: () => getGelombangById(gelombangId)
     })
 
+    console.log(student)
+    
     const students: {
         id: number,
         nama: string,

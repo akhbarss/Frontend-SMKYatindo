@@ -42,7 +42,7 @@ const ModalAlurCreate: React.FC<TModalAlurCreate> = ({
                 acceptFn: tambahALurHandler,
                 titleAccept: "Tambah"
             }}
-
+            loading={createAlurMutation.status === "pending"}
         >
             <Stack p={20} pb={"6rem"} >
                 <Text align="left" weight={"bold"} >Nama</Text>

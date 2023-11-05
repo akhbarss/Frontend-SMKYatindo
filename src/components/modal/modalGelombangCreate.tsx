@@ -179,6 +179,10 @@ const ModalGelombangCreate: React.FC<TModalGelombangCreate> = ({
                         withAsterisk
                     />
 
+                    <TextInput
+                        label="Kode Gelombang"
+                    />
+
                 </Stack>
 
                 <Group

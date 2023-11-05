@@ -1,6 +1,7 @@
 
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
+  Skeleton,
   ActionIcon,
   Box,
   Button,
@@ -107,7 +108,7 @@ const JalurPendaftarahAdmin = () => {
     mutationFn: editJalur
   })
 
-  if (load) return <PageLoading />
+  // if (load) return <PageLoading />
   if (isErr) return <h1>Terjadi Kesalahan,</h1>
 
   function submitCreateJalur(payload: CreateJalurPayload) {
@@ -215,6 +216,7 @@ const JalurPendaftarahAdmin = () => {
           display: "flex",
           alignItems: "center",
           backgroundColor: `${dark ? "#25262B" : "white"}`,
+          border: "0.0625rem solid #dee2e6"
         }}
       >
         <Link
@@ -291,7 +293,13 @@ const JalurPendaftarahAdmin = () => {
           }}
         >
 
-          {contentJalurBackend}
+          {
+            load ? (
+              <>
+                <Skeleton height={80} />
+              </>
+            ) :
+              contentJalurBackend}
 
           <Button
             mt={40}

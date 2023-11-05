@@ -60,23 +60,23 @@ const DashboardLayout: React.FC<TDashboard> = ({ children }) => {
           />
         }
         navbarOffsetBreakpoint="md"
+        styles={{ main: {display: "flex"}, }}
       >
-        <Paper
-          p={`${sm ? "3rem 2.5rem" : "3rem 1rem"}`}
-          className="style-box"
-          sx={() => ({
-            minHeight: "80vh",
-            // backgroundColor: `${
-            //   theme.colorScheme === "dark"
-            //     ? theme.colors.dark[9]
-            //     : theme.colors.gray[0]
-            // }`,
-          })}
-        >
-          {children}
+        <Paper className="relative flex flex-col flex-[1]">
+
+          <Paper
+            p={`${sm ? "3rem 2.5rem" : "3rem 1rem"}`}
+            pb={"100px"}
+            className="style-box flex-1"
+            sx={() => ({
+              minHeight: "80vh",
+            })}
+          >
+            {children}
+          </Paper>
+          <Footer />
         </Paper>
 
-        <Footer />
       </AppShell>
     </Suspense>
   );

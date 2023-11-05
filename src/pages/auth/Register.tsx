@@ -74,7 +74,7 @@ const Register = () => {
   };
 
   const submitHandler = () => {
-    const data = {
+    const data: RegistrationPayload = {
       username: noWhatssap,
       password: password,
       role: "USER",
@@ -82,6 +82,7 @@ const Register = () => {
         address: alamat,
         name: namaLengkap,
         school_origin: asalSekolah,
+        grade: "SMK"
       },
     };
 

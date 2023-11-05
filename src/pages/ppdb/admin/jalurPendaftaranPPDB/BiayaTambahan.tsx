@@ -1,4 +1,5 @@
 import {
+  Text,
   Accordion,
   AccordionControlProps,
   ActionIcon,
@@ -226,9 +227,14 @@ const BiayaTambahan = () => {
 
   return (
     <Box sx={{ flex: "1" }}>
-      <Paper sx={{ padding: "1rem" }} withBorder>
+      <Paper
+        withBorder
+        radius={"4rem"}
+        px={"2.5rem"}
+        sx={{ padding: "1rem" }}
+      >
         <Flex justify={"space-between"} align={"center"}>
-          <Title order={2}>Biaya Tambahan</Title>
+        <Text weight={"bold"} size={"xl"}>Biaya Tambahan</Text>
 
           <Button onClick={openCreate}>Tambah</Button>
         </Flex>

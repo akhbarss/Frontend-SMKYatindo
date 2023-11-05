@@ -9,6 +9,7 @@ export type RegistrationPayload = {
     name: string;
     address: string;
     school_origin: string;
+    grade: "SMK" | "SMP";
   };
 };
 
@@ -40,6 +41,8 @@ export const registration = async (
 ): Promise<ResponseType<ResponseType<RegistrationResponse>>> => {
   const response = await axios.post("/v1/auth/register-student", payload);
 
+  console.log(payload)
+  
   return response.data;
 };
 

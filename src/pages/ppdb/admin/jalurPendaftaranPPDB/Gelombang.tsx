@@ -337,6 +337,8 @@ const Gelombang = () => {
 
       <Paper
         withBorder
+        radius={"4rem"}
+        px={"2.5rem"}
         sx={{
           display: "flex",
           justifyContent: "space-between",

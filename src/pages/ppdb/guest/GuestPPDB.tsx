@@ -1,11 +1,11 @@
 import {
-  Button,
-  Card,
-  Image,
   ActionIcon,
   Box,
+  Button,
+  Card,
   Divider,
   Group,
+  Image,
   Header as MantineHeader,
   Paper,
   Stack,
@@ -16,7 +16,7 @@ import {
 import { useDisclosure } from "@mantine/hooks";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
-import { FaBars, FaWhatsapp, FaInstagram, FaYoutube } from "react-icons/fa";
+import { FaInstagram, FaWhatsapp, FaYoutube } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { Link as Anchor } from "react-scroll";
 import { GetAllAlurPendaftaran } from "../../../apis/alur/getAlur";
@@ -25,7 +25,6 @@ import CollapseCustomPPDB from "../../../components/ppdb/colllapseCustomPPDB";
 import { dataJalurPendaftaran } from "../../../components/ppdb/dataJalurPendaftaran";
 import JalurPendaftaran from "../../../components/ppdb/jalurPendaftaran";
 import Ppdb from "../../../components/ppdb/ppdb";
-import { Footer } from "../../../layouts";
 import { useBreakPoints } from "../../../utils/UseBreakpoints";
 
 const GuestPPDB = () => {
@@ -159,7 +158,19 @@ const GuestPPDB = () => {
         </Stack>
       </Paper>
 
-      <Footer />
+      <footer
+        style={{
+          paddingBlock: "20px",
+          justifyContent: "center",
+          display: "flex",
+          alignItems: "center",
+          fontSize: `${!xs ? "10px" : ""}`,
+          borderTop: `1px solid ${dark ? "rgba(60,60,60, 60)" : "rgba(240,240,240, 240)"}`,
+        }}
+      >
+        © 2023 D'Coders TKJ Yatindo. All Rights Reserved
+      </footer>
+      
     </main >
   );
 };

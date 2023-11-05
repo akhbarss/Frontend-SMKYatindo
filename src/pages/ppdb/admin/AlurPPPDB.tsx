@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import {
+  LoadingOverlay,
+  Skeleton,
   Accordion,
   AccordionControlProps,
   ActionIcon,
@@ -124,7 +126,7 @@ const AlurPPPDB = () => {
     });
   };
 
-  if (load) return <PageLoading />;
+  // if (load) return <PageLoading />;
   if (isErr) return <h1>Terjadi Kesalahan</h1>;
 
   const tambahALurHandler = () => {
@@ -210,7 +212,14 @@ const AlurPPPDB = () => {
           }}
         >
           <Accordion multiple variant="separated" chevronPosition="left">
-            {alurPendaftaran && alurPendaftaran?.data?.length > 0 ? (
+            {/* {load && (
+              <>
+              <Skeleton height={80} />
+              </>
+            )} */}
+            {load ? <>
+              <Skeleton height={80} />
+            </> : alurPendaftaran && alurPendaftaran?.data?.length > 0 ? (
               alurPendaftaran.data.map((item) => (
                 <Accordion.Item
                   key={item.id}
@@ -219,6 +228,7 @@ const AlurPPPDB = () => {
                     boxShadow: "0 4px 10px -6px black",
                     backgroundColor: `${dark ? "#25262B" : "white"}`,
                     padding: "0.5rem 0.5rem",
+                    border: "0.0625rem solid #dee2e6"
                   }}
                   styles={{
                     item: {
@@ -275,6 +285,7 @@ const AlurPPPDB = () => {
           editAlurMutation={editAlurMutation}
         />
 
+        <LoadingOverlay visible={deleteAlurMutation.status === "pending"} overlayBlur={1} />
         <Toaster position="top-center" reverseOrder={false} />
       </Stack>
     </Page>

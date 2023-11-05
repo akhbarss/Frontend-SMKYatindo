@@ -1,4 +1,5 @@
 import {
+    Skeleton,
     Grid,
     ActionIcon,
     Avatar,
@@ -27,9 +28,22 @@ import { Link, useParams } from 'react-router-dom';
 import Page from '../../../components/Page';
 import PageLabel from '../../../components/PageLabel';
 import { DarkTheme } from '../../../utils/darkTheme';
+import { useQuery } from "@tanstack/react-query";
+import { getAllPayment } from "../../../apis/student/getAllPayment";
 
 function Pembayaran() {
     const dark = DarkTheme()
+
+    const { gelombangId, userId } = useParams()
+
+    console.log(gelombangId, userId)
+
+    const { data: payments } = useQuery({
+        queryKey: ["get_all_payment"],
+        queryFn: () => getAllPayment({ batchId: gelombangId, userId })
+    })
+
+    console.log(payments)
 
     const openModalBuktiPembayaran = () => modals.open({
         children: (
@@ -68,6 +82,93 @@ function Pembayaran() {
                 <Text size={"xl"} color='white' weight={"bold"}>Kamis, 18 November 2023</Text>
             </Paper>
 
+            {
+                payments?.data?.map(payment => {
+                    const formatter = new Intl.NumberFormat('id-ID', {
+                        style: 'currency',
+                        currency: 'IDR'
+                    })
+
+                    return (
+                        <Paper
+                            shadow="lg"
+                            w={"100%"}
+                            withBorder
+                            p={"lg"}
+                            sx={theme => ({ backgroundColor: dark ? theme.colors.dark[8] : theme.white, flex: 1 })}
+                        >
+                            <Stack>
+
+                                <Group grow>
+                                    <Group>
+                                        {payment?.status == "PAYMENT_CONFIRMED" && (
+                                            <Badge
+                                                size="sm"
+                                                color="green"
+                                                styles={{
+                                                    root: {
+                                                        background: "#dcfce2"
+                                                    }
+                                                }}
+                                            >
+                                                Terkonfirmasi
+                                            </Badge>
+                                        )}
+                                        {payment?.status == "WAITING_PAYMENT" && (
+                                            <Badge
+                                                size="sm"
+                                                color="red"
+                                                styles={{
+                                                    root: {
+                                                        background: "#ffd1d1"
+
+                                                    }
+                                                }}
+                                            >
+                                                Belum Terkonfirmasi
+                                            </Badge>
+                                        )}
+
+
+                                        <Text weight={"bold"}>BCA - a/n</Text>
+                                    </Group>
+                                    <Box >
+                                        <Text weight={"bold"} align="right" className="text-[#2A166F]">+ {formatter.format(payment?.total).replace(",00", "")}</Text>
+                                    </Box>
+                                </Group>
+                                <Group
+                                    p={"lg"}
+                                    bg={"#E3E5FC"}
+                                    className="rounded-md cursor-pointer"
+                                    onClick={() => openModalBuktiPembayaran()}
+                                >
+                                    <ThemeIcon radius={"100%"} color="#2A166F" size={50}>
+                                        <BsFileEarmarkImage size={30} />
+                                    </ThemeIcon>
+                                    <Text size={20} weight={"bold"}>File Bukti Pembayaran</Text>
+                                </Group>
+                                <Divider />
+                                <Group grow>
+                                    <Text>Sabtu, 04 November 2023</Text>
+                                    <Group position="right">
+                                        {
+                                            payment.status === "PAYMENT_CONFIRMED" && (
+                                                <Button color="red">Batalkan Konfirmasi</Button>
+                                            )
+                                        }
+                                        {
+                                            payment.status === "WAITING_PAYMENT" && (
+                                                <Button  >Konfirmasi</Button>
+                                            )
+                                        }
+                                    </Group>
+                                </Group>
+                            </Stack>
+                        </Paper>
+                    )
+                })
+            }
+
             <Paper
                 shadow="lg"
                 w={"100%"}
@@ -80,7 +181,7 @@ function Pembayaran() {
                     <Group grow>
                         <Group>
                             <Badge
-                                size="lg"
+                                size="sm"
                                 color="red"
                                 styles={{
                                     root: {
@@ -92,7 +193,7 @@ function Pembayaran() {
                                 Belum Terkonfirmasi
                             </Badge>
                             <Badge
-                                size="lg"
+                                size="sm"
                                 color="green"
                                 styles={{
                                     root: {
@@ -184,7 +285,7 @@ const DetailSiswa = () => {
                 </Flex>
 
                 <Tabs
-                    defaultValue="biodata"
+                    defaultValue="pembayaran"
                     styles={{
                         tabLabel: {
                             fontSize: "20px"
@@ -212,7 +313,7 @@ const DetailSiswa = () => {
                             </Group>
                             <Stack mt={40}>
                                 <TextInput
-                                    size="lg"
+                                    size="sm"
                                     disabled
                                     className='select-all caret-pink-500 '
                                     label="Nomor Whatsapp"
@@ -220,7 +321,7 @@ const DetailSiswa = () => {
                                     styles={stylesInput}
                                 />
                                 <TextInput
-                                    size="lg"
+                                    size="sm"
                                     disabled
                                     className='select-all'
                                     label="Nama Lengkap"
@@ -228,7 +329,7 @@ const DetailSiswa = () => {
                                     styles={stylesInput}
                                 />
                                 <TextInput
-                                    size="lg"
+                                    size="sm"
                                     disabled
                                     className='select-all'
                                     label="Alamat"
@@ -236,7 +337,7 @@ const DetailSiswa = () => {
                                     styles={stylesInput}
                                 />
                                 <TextInput
-                                    size="lg"
+                                    size="sm"
                                     disabled
                                     className='select-all'
                                     label="Asal Sekolah"
@@ -257,7 +358,7 @@ const DetailSiswa = () => {
 
                                 <Grid.Col md={6}>
                                     <TextInput
-                                        size="lg"
+                                        size="sm"
                                         disabled
                                         className='select-all caret-pink-500 '
                                         label="NISN"
@@ -270,7 +371,7 @@ const DetailSiswa = () => {
 
                                 <Grid.Col md={6}>
                                     <TextInput
-                                        size="lg"
+                                        size="sm"
                                         disabled
                                         className='select-all caret-pink-500 '
                                         label="Nomor Whatsapp"
@@ -282,7 +383,7 @@ const DetailSiswa = () => {
 
                                 <Grid.Col md={6}>
                                     <TextInput
-                                        size="lg"
+                                        size="sm"
                                         disabled
                                         className='select-all caret-pink-500 '
                                         label="Nama Lengkap"
@@ -295,7 +396,7 @@ const DetailSiswa = () => {
 
                                 <Grid.Col md={6}>
                                     <TextInput
-                                        size="lg"
+                                        size="sm"
                                         disabled
                                         className='select-all caret-pink-500 '
                                         label="Nama Panggilan"
@@ -307,7 +408,7 @@ const DetailSiswa = () => {
 
                                 <Grid.Col md={6}>
                                     <TextInput
-                                        size="lg"
+                                        size="sm"
                                         disabled
                                         className='select-all caret-pink-500 '
                                         label="Gender"
@@ -319,7 +420,7 @@ const DetailSiswa = () => {
 
                                 <Grid.Col md={6}>
                                     <TextInput
-                                        size="lg"
+                                        size="sm"
                                         disabled
                                         className='select-all caret-pink-500 '
                                         label="Agama"
@@ -331,7 +432,7 @@ const DetailSiswa = () => {
 
                                 <Grid.Col md={6}>
                                     <TextInput
-                                        size="lg"
+                                        size="sm"
                                         disabled
                                         className='select-all caret-pink-500 '
                                         label="Tempat Lahir"
@@ -343,7 +444,7 @@ const DetailSiswa = () => {
 
                                 <Grid.Col md={6} >
                                     <TextInput
-                                        size="lg"
+                                        size="sm"
                                         disabled
                                         className='select-all caret-pink-500 '
                                         label="Tanggal Lahir"
@@ -356,7 +457,7 @@ const DetailSiswa = () => {
                                 <Grid.Col span={12} >
                                     <Textarea
                                         autosize
-                                        size="lg"
+                                        size="sm"
                                         disabled
                                         className='select-all caret-pink-500 '
                                         label="Alamat"
@@ -368,7 +469,7 @@ const DetailSiswa = () => {
 
                                 <Grid.Col span={6} >
                                     <TextInput
-                                        size="lg"
+                                        size="sm"
                                         disabled
                                         className='select-all caret-pink-500 '
                                         label="Provinsi"
@@ -380,7 +481,7 @@ const DetailSiswa = () => {
 
                                 <Grid.Col span={6} >
                                     <TextInput
-                                        size="lg"
+                                        size="sm"
                                         disabled
                                         className='select-all caret-pink-500 '
                                         label="Kabupaten/Kota"
@@ -392,7 +493,7 @@ const DetailSiswa = () => {
 
                                 <Grid.Col span={6} >
                                     <TextInput
-                                        size="lg"
+                                        size="sm"
                                         disabled
                                         className='select-all caret-pink-500 '
                                         label="Kecamatan"
@@ -404,7 +505,7 @@ const DetailSiswa = () => {
 
                                 <Grid.Col span={6} >
                                     <TextInput
-                                        size="lg"
+                                        size="sm"
                                         disabled
                                         className='select-all caret-pink-500 '
                                         label="Kelurahan"
@@ -416,7 +517,7 @@ const DetailSiswa = () => {
 
                                 <Grid.Col span={6} >
                                     <TextInput
-                                        size="lg"
+                                        size="sm"
                                         disabled
                                         className='select-all caret-pink-500 '
                                         label="Kodepos"
@@ -428,7 +529,7 @@ const DetailSiswa = () => {
 
                                 <Grid.Col span={6} >
                                     <TextInput
-                                        size="lg"
+                                        size="sm"
                                         disabled
                                         className='select-all caret-pink-500 '
                                         label="Asal Sekolah"
@@ -457,7 +558,7 @@ const DetailSiswa = () => {
 
                                 <Grid.Col sm={6}>
                                     <TextInput
-                                        size="lg"
+                                        size="sm"
                                         disabled
                                         className='select-all caret-pink-500 '
                                         label="Nama Ayah"
@@ -469,7 +570,7 @@ const DetailSiswa = () => {
 
                                 <Grid.Col sm={6}>
                                     <TextInput
-                                        size="lg"
+                                        size="sm"
                                         disabled
                                         className='select-all caret-pink-500 '
                                         label="Nama Ibu"
@@ -481,7 +582,7 @@ const DetailSiswa = () => {
 
                                 <Grid.Col sm={6}>
                                     <TextInput
-                                        size="lg"
+                                        size="sm"
                                         disabled
                                         className='select-all caret-pink-500 '
                                         label="Pekerjaan Ayah"
@@ -493,7 +594,7 @@ const DetailSiswa = () => {
 
                                 <Grid.Col sm={6}>
                                     <TextInput
-                                        size="lg"
+                                        size="sm"
                                         disabled
                                         className='select-all caret-pink-500 '
                                         label="Pekerjaan Ibu"
@@ -505,7 +606,7 @@ const DetailSiswa = () => {
 
                                 <Grid.Col sm={6}>
                                     <TextInput
-                                        size="lg"
+                                        size="sm"
                                         disabled
                                         className='select-all caret-pink-500 '
                                         label="No Telp Ayah"
@@ -517,7 +618,7 @@ const DetailSiswa = () => {
 
                                 <Grid.Col sm={6}>
                                     <TextInput
-                                        size="lg"
+                                        size="sm"
                                         disabled
                                         className='select-all caret-pink-500 '
                                         label="No Telp Ibu"
@@ -530,7 +631,7 @@ const DetailSiswa = () => {
                                 <Grid.Col sm={6}>
                                     <Textarea
                                         autosize
-                                        size="lg"
+                                        size="sm"
                                         disabled
                                         className='select-all caret-pink-500 '
                                         label="Alamat Ayah"
@@ -543,7 +644,7 @@ const DetailSiswa = () => {
                                 <Grid.Col sm={6}>
                                     <Textarea
                                         autosize
-                                        size="lg"
+                                        size="sm"
                                         disabled
                                         className='select-all caret-pink-500 '
                                         label="Alamat Ibu"
@@ -556,13 +657,15 @@ const DetailSiswa = () => {
                                 <Grid.Col span={12}>
                                     <Text weight={"bold"} size={18}>Lampiran Kartu Keluarga</Text>
                                     <Group
-                                        p={"md"}
+                                        // p={"xs"}
+                                        py={"xs"}
+                                        px={"lg"}
                                         bg={"#E3E5FC"}
                                         className="rounded-md cursor-pointer"
                                     // onClick={() => openModalBuktiPembayaran()}
                                     >
-                                        <ThemeIcon radius={"100%"} color="#2A166F" size={50}>
-                                            <BsFileEarmarkImage size={30} />
+                                        <ThemeIcon radius={"100%"} color="#2A166F" size={45}>
+                                            <BsFileEarmarkImage size={25} />
                                         </ThemeIcon>
                                         <Text size={20} weight={"bold"}>File Kartu Keluarga</Text>
                                     </Group>
@@ -571,13 +674,15 @@ const DetailSiswa = () => {
                                 <Grid.Col span={12}>
                                     <Text weight={"bold"} size={18}>Lampiran Akta</Text>
                                     <Group
-                                        p={"md"}
+                                        // p={"md"}
+                                        py={"xs"}
+                                        px={"lg"}
                                         bg={"#E3E5FC"}
                                         className="rounded-md cursor-pointer"
                                     // onClick={() => openModalBuktiPembayaran()}
                                     >
-                                        <ThemeIcon radius={"100%"} color="#2A166F" size={50}>
-                                            <BsFileEarmarkImage size={30} />
+                                        <ThemeIcon radius={"100%"} color="#2A166F" size={45}>
+                                            <BsFileEarmarkImage size={25} />
                                         </ThemeIcon>
                                         <Text size={20} weight={"bold"}>File Akta</Text>
                                     </Group>
