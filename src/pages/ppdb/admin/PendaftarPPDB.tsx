@@ -52,7 +52,7 @@ const PendaftarPPDB = () => {
           defaultValue="pembelian"
           styles={{
             tabsList: {
-              fontSize: "30px"
+              // fontSize: "30px"
             },
             tabLabel: {
               fontSize: "20px"

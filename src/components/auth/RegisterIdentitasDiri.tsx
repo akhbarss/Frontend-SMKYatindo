@@ -1,4 +1,5 @@
 import {
+  Select,
   TextInput,
   Stack,
   Textarea,
@@ -17,6 +18,8 @@ type TRegisterIdentitasDiri = {
   setNamaLengkap: React.Dispatch<React.SetStateAction<string>>
   alamat: string
   setAlamat: React.Dispatch<React.SetStateAction<string>>
+  jenkel: string
+  setJenkel: React.Dispatch<React.SetStateAction<string>>
   asalSekolah: string
   setAsalSekolah: React.Dispatch<React.SetStateAction<string>>
 
@@ -31,6 +34,8 @@ const RegisterIdentitasDiri: React.FC<TRegisterIdentitasDiri> = ({
   asalSekolah,
   namaLengkap,
   setAlamat,
+  jenkel,
+  setJenkel,
   setAsalSekolah,
   setNamaLengkap,
 }) => {
@@ -64,6 +69,16 @@ const RegisterIdentitasDiri: React.FC<TRegisterIdentitasDiri> = ({
           description="Harap masukan alamat rumah anda"
           withAsterisk
           required
+          value={alamat}
+          onChange={(e) => setAlamat(e.target.value)}
+        />
+
+        <Select
+          data={["Laki-laki", "Perempuan"]}
+          label="Jenis Kelamin"
+          description="Harap masukan jenis kelamin anda"
+          value={jenkel}
+          onChange={setJenkel}
         />
 
         <TextInput

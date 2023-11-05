@@ -18,6 +18,7 @@ const Register = () => {
   const [noWhatssap, setNoWhatsapp] = useState("");
   const [namaLengkap, setNamaLengkap] = useState("");
   const [alamat, setAlamat] = useState("");
+  const [jenkel, setJenkel] = useState("")
   const [password, setPassword] = useState("");
   const [asalSekolah, setAsalSekolah] = useState("");
   const navigate = useNavigate();
@@ -101,7 +102,7 @@ const Register = () => {
       <Paper pt={`${!md ? "70px" : 0}`} className={`flex  min-h-[100vh]`}>
         <Box
           className={`flex-[2] p-[0_1rem_] flex flex-col justify-center items-center overflow-y-auto min-h-[100vh] 
-          ${!md && "bg-[url(/bg-layout-auth.png)]"} bg-contain bg-no-repeat bg-right`
+          ${!md && "bg-[url(/big-bg-auth.png)]"} bg-cover bg-no-repeat bg-right`
           }
         >
           <Stack w={`${md ? "30rem" : "20rem"}`} py={100}>
@@ -142,6 +143,8 @@ const Register = () => {
                   asalSekolah={asalSekolah}
                   namaLengkap={namaLengkap}
                   setAlamat={setAlamat}
+                  jenkel={jenkel}
+                  setJenkel={setJenkel}
                   setAsalSekolah={setAsalSekolah}
                   setNamaLengkap={setNamaLengkap}
                 />

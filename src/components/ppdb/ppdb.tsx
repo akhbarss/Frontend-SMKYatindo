@@ -14,6 +14,8 @@ const Ppdb = () => {
     return (
         <>
             <Box id="ppdb" pt={60} className='flex gap-10 lg:flex-row flex-col mx-auto' >
+                
+
                 <Card
                     shadow="sm"
                     padding={"xl"}
@@ -25,16 +27,17 @@ const Ppdb = () => {
                     <Card.Section sx={{ overflow: "hidden" }}>
                         <Image
                             className=" transition  duration-300 ease-in-out group-hover/card:scale-105 "
-                            src="smk.jpg"
+                            src="/smk.jpg"
                             height={xs ? 260 : 200}
-                            width={xs ? 400 : 300}
-                            alt="smk"
+                            width={xs ? 500 : 300}
+                            alt="smp"
                         />
                     </Card.Section>
                     <Card.Section p={20}>
                         <Button
                             fullWidth
-                            className="bg-[#2A166F]"
+                            // className="bg-[#2A166F]"
+                            color="orange"
                             component={Link}
                             to="/ppdb/auth/register/smk"
                         >
@@ -42,7 +45,6 @@ const Ppdb = () => {
                         </Button>
                     </Card.Section>
                 </Card>
-
                 <Card
                     shadow="sm"
                     padding={"xl"}
@@ -54,16 +56,17 @@ const Ppdb = () => {
                     <Card.Section sx={{ overflow: "hidden" }}>
                         <Image
                             className=" transition  duration-300 ease-in-out group-hover/card:scale-105 "
-                            src="smp.jpg"
+                            src="/smp.jpg"
                             height={xs ? 260 : 200}
-                            width={xs ? 400 : 300}
+                            width={xs ? 500 : 300}
                             alt="smp"
                         />
                     </Card.Section>
                     <Card.Section p={20}>
                         <Button
                             fullWidth
-                            color="orange"
+                            className="bg-[#2A166F]"
+                            // color="orange"
                             component={Link}
                             to="/ppdb/auth/register/smp"
                         >

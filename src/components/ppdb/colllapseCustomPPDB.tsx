@@ -34,6 +34,8 @@ const CollapseNavbarPortal = ({
 
     const navigate = useNavigate()
 
+    console.log(menus)
+    
     return (
         <Collapse
             in={opened}
@@ -47,7 +49,7 @@ const CollapseNavbarPortal = ({
                 }}
             >
 
-                {routeGuest && menus.map((menu, i) => (
+                {menus.map((menu, i) => (
                     <div
                     className='cursor-pointer '
                         key={i}
@@ -71,16 +73,47 @@ const CollapseNavbarPortal = ({
 
                 <Divider color='white'/>
 
-                {routeGuest && (
+                {(
                     <>
                         <Link to={"/ppdb/auth/login"} className='text-white no-underline'>
                             Masuk
                         </Link>
-                        <Link to={"/ppdb/auth/register/smk"} className='text-white no-underline'>
+                        <Link to={"/ppdb/auth/register"} className='text-white no-underline'>
                             Daftar SMK
                         </Link>
-                        <Link to={"/ppdb/auth/register/smp"} className='text-white no-underline'>
+                        <Link to={"/ppdb/auth/register"} className='text-white no-underline'>
                             Daftar SMP
+                        </Link>
+                    </>
+                )}
+
+                {routeAdmin && (
+                    <>
+                        <Link to={'#'}>
+                            Profile
+                        </Link>
+
+                        <Link to={'#'}>
+                            Pengaturan
+                        </Link>
+
+                        <Button onClick={() => {
+                            localStorage.removeItem("accessToken")
+                            navigate("/ppdb/login")
+                        }}>
+                            Logout
+                        </Button>
+                    </>
+                )}
+
+                {routeSiswa && (
+                    <>
+                        <Link to={'#'}>
+                            Profile
+                        </Link>
+
+                        <Link to={'/ppdb/login'}>
+                            Logout
                         </Link>
                     </>
                 )}
@@ -109,6 +142,8 @@ const CollapseCustomPPDB = ({
     const theme = useMantineTheme()
     const dark = theme.colorScheme === 'dark'
 
+    // console.log(menus)
+    
     return (
         <React.Fragment>
             {

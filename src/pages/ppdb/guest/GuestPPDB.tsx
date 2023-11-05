@@ -1,39 +1,35 @@
 import {
-  Box,
   Button,
   Card,
+  Image,
+  ActionIcon,
+  Box,
   Divider,
   Group,
-  Image,
   Header as MantineHeader,
   Paper,
   Stack,
-  Stepper,
   Text,
   Title,
-  useMantineTheme,
+  useMantineTheme
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
-import { FaBars } from "react-icons/fa";
+import { FaBars, FaWhatsapp, FaInstagram, FaYoutube } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { Link as Anchor } from "react-scroll";
 import { GetAllAlurPendaftaran } from "../../../apis/alur/getAlur";
-import BiayaJalurPendaftaran from "../../../components/ppdb/biayaJalurPendaftaran";
-import CardJalurPendaftaran from "../../../components/ppdb/cardJalurPendaftaran";
+import AlurPendaftaran from "../../../components/ppdb/alurPendaftaran";
 import CollapseCustomPPDB from "../../../components/ppdb/colllapseCustomPPDB";
 import { dataJalurPendaftaran } from "../../../components/ppdb/dataJalurPendaftaran";
-import JadwalJalurPendaftaran from "../../../components/ppdb/jadwalJalurPendaftaran";
-import TiptapOutput from "../../../components/ppdb/tiptapOutput";
+import JalurPendaftaran from "../../../components/ppdb/jalurPendaftaran";
+import Ppdb from "../../../components/ppdb/ppdb";
 import { Footer } from "../../../layouts";
 import { useBreakPoints } from "../../../utils/UseBreakpoints";
-import Ppdb from "../../../components/ppdb/ppdb";
-import AlurPendaftaran from "../../../components/ppdb/alurPendaftaran";
-import JalurPendaftaran from "../../../components/ppdb/jalurPendaftaran";
 
 const GuestPPDB = () => {
-  const { md, xs } = useBreakPoints();
+  const { md, xs, xl, lg } = useBreakPoints();
   const theme = useMantineTheme();
   const dark = theme.colorScheme === "dark";
   const [opened, { toggle }] = useDisclosure(false);
@@ -71,65 +67,37 @@ const GuestPPDB = () => {
           paddingInline: `${md ? "1.5rem" : "1rem"}`,
           position: "fixed",
           backgroundColor: `${dark ? theme.colors.dark[9] : "#2A166F"}`,
+          border: "none"
         }}
       >
-        <Group spacing={`${md ? "md" : "xs"}`}>
+        <Group spacing={`${md ? "md" : "xs"}`} className="max-lg:mx-auto">
           <img src="/logo-yatindo-hd.png" alt="Yatindo" className="w-[47px]" />
-          <Divider orientation="vertical" size={"xs"} color="white" />
           <Box >
             <Text weight={"bold"} lineClamp={1} color="white">
               PPDB Yatindo
-            </Text>
-            <Text color="white">
-              Yayasan Tinta Emas Indonesia
             </Text>
           </Box>
         </Group>
         <>
           {md ? (
             <>
-              <Group >
-                <Group mr={20}>
-                  {menuGuest.map((menu, i) => (
-                    <Anchor
-                      key={i}
-                      to={menu.path}
-                      smooth={true}
-                      duration={500}
-                      offset={-90}
-                      style={{ cursor: "pointer", fontWeight: "bold", color: "white" }}
-                      className="hover:underline underline-offset-2"
-                    >
-                      {menu.label}
-                    </Anchor>
-                  ))}
-                </Group>
-
-                <Link
-                  to={'/ppdb/auth/login'}
-                  style={{
-                    borderRadius: "3px",
-                    height: "35px",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    paddingInline: "1.1123rem",
-                    fontWeight: "bold",
-                    textDecoration: "none",
-                  }}
-                  className="text-white border-white border border-solid hover:bg-white hover:text-[#020731]"
-                >
-                  Masuk
-                </Link>
+              <Group mr={20}>
+                {menuGuest.map((menu, i) => (
+                  <Anchor
+                    key={i}
+                    to={menu.path}
+                    smooth={true}
+                    duration={500}
+                    offset={-90}
+                    style={{ cursor: "pointer", fontWeight: "bold", color: "white" }}
+                    className="hover:underline underline-offset-2"
+                  >
+                    {menu.label}
+                  </Anchor>
+                ))}
               </Group>
             </>
-          ) : (
-            <div
-              style={{ display: "flex", alignItems: "center", gap: "1.25rem" }}
-            >
-              <FaBars size={30} onClick={toggle} color="white" />
-            </div>
-          )}
+          ) : ""}
         </>
       </MantineHeader>
 
@@ -144,8 +112,40 @@ const GuestPPDB = () => {
         >
 
           {/* UCAPAN SELAMAT DATANG */}
-          <Box className="text-center" py={200} id="beranda">
-            <Title className="tracking-widest" align="center" size={md ? 40 : 30}>Welcome to PPDB <br />SMK-SMP TINTA EMAS <br /> YATINDO</Title>
+          <Box className="text-center mx-auto" py={140} id="beranda">
+
+            <Group spacing={`${md ? "40px" : "xs"}`}>
+              <Box className="text-left">
+                <Group className="flex">
+                  <img src="/logo-yatindo-hd.png" alt="Yatindo" className="w-[57px]" />
+                  <Divider orientation="vertical" size={"xs"} color="white" />
+                  <Text weight={"bold"} lineClamp={1} color="white" size={20}>
+                    PPDB Yatindo
+                  </Text>
+                </Group>
+                <Title mt={10} size={40} >Yayasan Tinta Emas Indonesia</Title>
+                <Text className="max-w-xl" mt={10} size={16}>
+                  Yayasan Tinta Emas Indonesia, Jl. Asem Jaya No.1, RT.004/RW.005, Mustika Jaya, Kec. Mustika Jaya, Kota Bks, Jawa Barat 17158
+                </Text>
+                <Group mt={20}>
+                  <ActionIcon variant="filled" color={"indigo"} size={"lg"} component={Link} to={"https://wa.me/6281380908008"} target="_blank">
+                    <FaWhatsapp size={20} />
+                  </ActionIcon>
+                  <ActionIcon variant="filled" color="indigo" size={"lg"} component={Link} to={"https://www.instagram.com/smk_yatindo/"} target="_blank">
+                    <FaInstagram size={20} />
+                  </ActionIcon>
+                  <ActionIcon variant="filled" color="indigo" size={"lg"} component={Link} to={"https://youtube.com/@smp-smktintaemasyatindo9557?si=ZPPqAkG4TXplUr0g"} target="_blank">
+                    <FaYoutube size={20} />
+                  </ActionIcon>
+                  <Button w={100} ml={20} variant="gradient" gradient={{ from: "cyan", to: "indigo", }} color="grape" component={Link} to={"/ppdb/auth/login"}>Masuk</Button>
+                </Group>
+              </Box>
+              <Box sx={{ display: `${!lg && "none"}` }}>
+                <Card p={0} radius={"25px"}>
+                  <Image src="/smk-1.jpg" width={450} className="hover:brightness-75 transition  duration-300 ease-in-out" />
+                </Card>
+              </Box>
+            </Group>
           </Box>
 
           {/* PPDB */}
