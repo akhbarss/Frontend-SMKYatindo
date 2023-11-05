@@ -1,8 +1,8 @@
 // import 'aos/dist/aos.css'; // You can also use <link> for styles
-import { RouterProvider, useRoutes } from "react-router-dom";
+import { useRoutes } from "react-router-dom";
 import { ProviderMantine } from "./components";
 import { routes } from "./routes";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient } from "@tanstack/react-query";
 import { Toaster } from "react-hot-toast";
 import Interceptors from "./Interceptor";
 
@@ -21,12 +21,10 @@ const Router = () => {
 function App() {
   return (
     <Interceptors>
-      <QueryClientProvider client={queryClient}>
-        <ProviderMantine>
-          <Toaster position="top-center" reverseOrder={false} />
-          <Router />
-        </ProviderMantine>
-      </QueryClientProvider>
+      <ProviderMantine>
+        <Toaster position="top-center" reverseOrder={false} />
+        <Router />
+      </ProviderMantine>
     </Interceptors>
   );
 }

@@ -102,6 +102,8 @@ const PembelianSiswaPPDB = () => {
   } = useQuery({
     queryKey: ["get_last_offset_batch"],
     queryFn: () => getLastoffset("PEMBELIAN"),
+    staleTime: 0,
+    notifyOnChangeProps: "all",
   });
 
   const queryFilter = useFilter(filter);
@@ -125,6 +127,8 @@ const PembelianSiswaPPDB = () => {
         ) {
           const index = doneBatches[doneBatches.length - 1].index + 1;
           toStep(index.toString());
+        } else {
+          toStep(doneBatches[doneBatches.length - 1].index.toString());
         }
       } else {
         toStep("1");

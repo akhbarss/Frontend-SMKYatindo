@@ -13,6 +13,7 @@ import JalurPendaftaranDetailLayout from "./layouts/JalurPendaftaranDetailLayout
 import Gelombang from "./pages/ppdb/admin/jalurPendaftaranPPDB/Gelombang";
 import PendaftarPerGelombang from "./pages/ppdb/admin/PendaftarPerGelombang";
 import DetailSiswa from "./pages/ppdb/admin/DetailSiswa";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -28,6 +29,7 @@ export const routes: RouteObject[] = [
       <Interceptors>
         <QueryClientProvider client={queryClient}>
           <Outlet />
+          <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
       </Interceptors>
     ),
