@@ -70,8 +70,9 @@ const StepCetakKartu: React.FC<Step> = ({ type = "PEMBELIAN" }) => {
       })}
     >
       <Text align={"center"} weight={500} size={"xl"}>
-        Selamat anda telah terdaftar disistem kami, silahkan klik selesai untuk
-        ke halaman Jalur Pendaftaran/Pengembalian
+        {type === "PEMBELIAN"
+          ? "Selamat anda telah terdaftar disistem kami, silahkan klik selesai untuk ke halaman Jalur Pendaftaran/Pengembalian"
+          : "Selamat anda telah terdaftar menjadi calon siswa, harap menunggu informasi lebih lanjut"}
       </Text>
       <Stack align={"center"}>
         <Card

@@ -1,14 +1,13 @@
 import { Divider, Skeleton, Stack, Tabs, TabsProps } from "@mantine/core";
 import React, { useEffect, useState } from "react";
 import { FaAddressCard, FaRegFlag } from "react-icons/fa";
-import { FaIdBadge, FaMoneyCheckDollar } from "react-icons/fa6";
+import { FaMoneyCheckDollar } from "react-icons/fa6";
 import { IoPerson } from "react-icons/io5";
 import { RiGitMergeFill } from "react-icons/ri";
 import Page from "../../../../components/Page";
 import TabList from "../../../../components/ppdb/siswa/tabList";
 import PageLabel from "../../../../components/PageLabel";
 import { getLastoffset } from "../../../../apis/pembelian";
-import ResponseError from "../../../../utils/ResponseError";
 import useFilter from "../../../../utils/useFilter";
 import { useLocation, useNavigate } from "react-router-dom";
 import generateQueryparam from "../../../../utils/generateQueryParam";
@@ -19,7 +18,6 @@ import StepCetakKartu from "../../../../components/ppdb/siswa/StepCetakKartu";
 import { Toaster } from "react-hot-toast";
 import StepBiodata from "../../../../components/ppdb/siswa/StepBiodata";
 import StepPilihJurusan from "../../../../components/ppdb/siswa/StepPilihJurusan";
-import StepPrestasi from "../../../../components/ppdb/siswa/StepPrestasi";
 
 function StyledTabs(props: TabsProps) {
   return (
@@ -91,20 +89,20 @@ const card = [
     icon: IoPerson,
     content: <StepBiodata type={"PENGEMBALIAN"} />,
   },
+  // {
+  //   index: 4,
+  //   label: "Isi Data Prestasi",
+  //   icon: FaIdBadge,
+  //   content: <StepPrestasi type={"PENGEMBALIAN"} />,
+  // },
   {
     index: 4,
-    label: "Isi Data Prestasi",
-    icon: FaIdBadge,
-    content: <StepPrestasi type={"PENGEMBALIAN"} />,
-  },
-  {
-    index: 5,
     label: "Pilih Jurusan",
     icon: FaRegFlag,
     content: <StepPilihJurusan type={"PENGEMBALIAN"} />,
   },
   {
-    index: 6,
+    index: 5,
     label: "Cetak Kartu Peserta",
     icon: FaAddressCard,
     content: <StepCetakKartu type={"PENGEMBALIAN"} />,

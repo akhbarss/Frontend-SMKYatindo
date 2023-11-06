@@ -1,22 +1,7 @@
-import {
-  Group,
-  Image,
-  Radio,
-  rem,
-  SimpleGrid,
-  Stack,
-  Text,
-  TextInput,
-  useMantineTheme,
-} from "@mantine/core";
+import { Stack, TextInput, useMantineTheme } from "@mantine/core";
 import { Controller, useFormContext } from "react-hook-form";
-import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
+import { IMAGE_MIME_TYPE } from "@mantine/dropzone";
 import toast from "react-hot-toast";
-import { FaUpload } from "react-icons/fa";
-import { ImCross } from "react-icons/im";
-import { HiPhoto } from "react-icons/hi2";
-import { NumericFormat } from "react-number-format";
-import { RadioGroupCustom } from "./fields/RadioGroup";
 import React from "react";
 import UploadDropzone from "./UploadDropzone";
 import { DateInput } from "@mantine/dates";
