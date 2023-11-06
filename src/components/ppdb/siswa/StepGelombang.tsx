@@ -20,8 +20,6 @@ import { getAllGelombangByTypeJalur } from "../../../apis/gelombang/getAllGelomb
 const StepGelombang: React.FC<Step> = ({ type = "PEMBELIAN" }) => {
   const filter = useQueryFilter({ step: 1, stagingId: null });
 
-  console.log(filter);
-
   const queryClient = useQueryClient();
   const {
     data: jalur,

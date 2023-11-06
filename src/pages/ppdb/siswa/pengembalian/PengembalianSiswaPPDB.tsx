@@ -1,7 +1,7 @@
 import { Divider, Skeleton, Stack, Tabs, TabsProps } from "@mantine/core";
 import React, { useEffect, useState } from "react";
 import { FaAddressCard, FaRegFlag } from "react-icons/fa";
-import { FaMoneyCheckDollar } from "react-icons/fa6";
+import { FaIdBadge, FaMoneyCheckDollar } from "react-icons/fa6";
 import { IoPerson } from "react-icons/io5";
 import { RiGitMergeFill } from "react-icons/ri";
 import Page from "../../../../components/Page";
@@ -19,6 +19,7 @@ import StepCetakKartu from "../../../../components/ppdb/siswa/StepCetakKartu";
 import { Toaster } from "react-hot-toast";
 import StepBiodata from "../../../../components/ppdb/siswa/StepBiodata";
 import StepPilihJurusan from "../../../../components/ppdb/siswa/StepPilihJurusan";
+import StepPrestasi from "../../../../components/ppdb/siswa/StepPrestasi";
 
 function StyledTabs(props: TabsProps) {
   return (
@@ -93,12 +94,12 @@ const card = [
   {
     index: 4,
     label: "Isi Data Prestasi",
-    icon: FaRegFlag,
-    content: <div>Isi biodata</div>,
+    icon: FaIdBadge,
+    content: <StepPrestasi type={"PENGEMBALIAN"} />,
   },
   {
     index: 5,
-    label: "Isi Data Prestasi",
+    label: "Pilih Jurusan",
     icon: FaRegFlag,
     content: <StepPilihJurusan type={"PENGEMBALIAN"} />,
   },
