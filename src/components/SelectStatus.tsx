@@ -1,5 +1,5 @@
 import React from "react";
-import { Loader, Select } from "@mantine/core";
+import { Loader, Select, SelectItem } from "@mantine/core";
 import { getLookup } from "../apis/lookup";
 import { useQuery } from "@tanstack/react-query";
 
@@ -9,6 +9,7 @@ const SelectStatus = (props: {
   readonly?: boolean;
   label?: string;
   searchable?: boolean;
+  data?: string | SelectItem[];
   onChange?: (value: string | null) => void;
 }) => {
   const {
@@ -31,13 +32,15 @@ const SelectStatus = (props: {
           onChange={props.onChange}
           searchable={props.searchable}
           data={
-            isSuccess &&
-            response.data.map((d) => {
-              return {
-                value: d.value,
-                label: d.name,
-              };
-            })
+            props.data
+              ? props.data
+              : isSuccess &&
+                response.data.map((d) => {
+                  return {
+                    value: d.value,
+                    label: d.name,
+                  };
+                })
           }
           {...props}
         />

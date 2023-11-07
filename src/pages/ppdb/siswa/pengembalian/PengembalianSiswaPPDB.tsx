@@ -8,7 +8,6 @@ import Page from "../../../../components/Page";
 import TabList from "../../../../components/ppdb/siswa/tabList";
 import PageLabel from "../../../../components/PageLabel";
 import { getLastoffset } from "../../../../apis/pembelian";
-import ResponseError from "../../../../utils/ResponseError";
 import useFilter from "../../../../utils/useFilter";
 import { useLocation, useNavigate } from "react-router-dom";
 import generateQueryparam from "../../../../utils/generateQueryParam";
@@ -90,20 +89,20 @@ const card = [
     icon: IoPerson,
     content: <StepBiodata type={"PENGEMBALIAN"} />,
   },
+  // {
+  //   index: 4,
+  //   label: "Isi Data Prestasi",
+  //   icon: FaIdBadge,
+  //   content: <StepPrestasi type={"PENGEMBALIAN"} />,
+  // },
   {
     index: 4,
-    label: "Isi Data Prestasi",
-    icon: FaRegFlag,
-    content: <div>Isi biodata</div>,
-  },
-  {
-    index: 5,
-    label: "Isi Data Prestasi",
+    label: "Pilih Jurusan",
     icon: FaRegFlag,
     content: <StepPilihJurusan type={"PENGEMBALIAN"} />,
   },
   {
-    index: 6,
+    index: 5,
     label: "Cetak Kartu Peserta",
     icon: FaAddressCard,
     content: <StepCetakKartu type={"PENGEMBALIAN"} />,

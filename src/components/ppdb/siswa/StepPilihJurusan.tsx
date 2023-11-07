@@ -104,7 +104,7 @@ const StepPilihJurusan: React.FC<Step> = ({ type = "PEMBELIAN" }) => {
                   statusSuccess && offset.data.offset_data?.majors
                 )}
                 onChange={(value) => setChoosed(value)}
-                value={choosed.toString()}
+                value={choosed && choosed.toString()}
               />
             )}
 
