@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { Step } from "../../../types/global";
 import { Box, Button, Stack, Title } from "@mantine/core";

@@ -1,6 +1,9 @@
 import {
+    Skeleton,
     ActionIcon,
     Box,
+    Button,
+    Group,
     Paper,
     Stack,
     Text,
@@ -13,21 +16,23 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { MdArrowBackIosNew } from "react-icons/md";
 import { Link, useParams } from "react-router-dom";
-import { getAllStudentByBatchId } from "../../../apis/student/getAllStudentByBatchId";
-import DataTable from "../../../components/DataTable";
 import { getGelombangById } from "../../../apis/gelombang/getGelombangById";
+import { getAllStudentByBatchId } from "../../../apis/student/getAllStudentByBatchId";
+import { getTotalPendaftarByBatch } from "../../../apis/total-pendaftar/getTotalPendaftarByBatch";
+import DataTable from "../../../components/DataTable";
 import Page from "../../../components/Page";
 import PageLabel from "../../../components/PageLabel";
-import { getTotalPendaftarByBatch } from "../../../apis/total-pendaftar/getTotalPendaftarByBatch";
+import { DarkTheme } from "../../../utils/darkTheme";
 
 const PendaftarPerGelombang = () => {
 
+    const dark = DarkTheme()
     const { gelombangId } = useParams()
-
     const [searchName, setSearchName] = useState("")
 
     const {
-        data: totalPendaftar
+        data: totalPendaftar,
+        isLoading: loadTotalPendaftar,
     } = useQuery({
         queryKey: ["get_total_pendaftar_batch"],
         queryFn: () => getTotalPendaftarByBatch(gelombangId)
@@ -35,6 +40,7 @@ const PendaftarPerGelombang = () => {
 
     const {
         data: student,
+        isLoading: loadStudent,
         isError: isErrorGetStudent,
         error
     } = useQuery({
@@ -42,10 +48,15 @@ const PendaftarPerGelombang = () => {
         queryFn: () => getAllStudentByBatchId(gelombangId)
     })
 
-    const { data: gelombang } = useQuery({
+    const {
+        data: gelombang,
+        isLoading: loadGelombang
+    } = useQuery({
         queryKey: ["get_gelombang_by_id"],
         queryFn: () => getGelombangById(gelombangId)
     })
+
+    console.log(student)
 
     const students: {
         id: number,
@@ -157,35 +168,55 @@ const PendaftarPerGelombang = () => {
             <Stack mt={20}>
                 <Link
                     to={"/ppdb/main/pendaftar-ppdb"}
-                    className="text-xl no-underline font-bold text-[#2A166F] flex  items-center gap-2 w-fit"
+                    className="text-xl no-underline font-bold  flex  items-center gap-2 w-fit"
                 >
-                    <MdArrowBackIosNew /> Kembali
+                    <MdArrowBackIosNew color={`${dark ? "#5A45A4" : "#2A166F"}`} />
+                    <Text color={`${dark ? "#5A45A4" : "#2A166F"}`}>Kembali</Text>
                 </Link>
 
-                <Paper withBorder p="md" radius="md">
+                <Paper withBorder p="md" radius="md" bg={"linear-gradient(to left bottom, #6952ba, #160942)"}>
                     <Box>
-                        <Title order={2}>{gelombang?.data?.name}</Title>
+                        {loadGelombang ? (
+                            <Skeleton height={35} w={400} />
+                        ) : (
+                            <Title c={"white"} order={2}>{gelombang?.data?.name}</Title>
+                        )}
                     </Box>
-                    <Box sx={{ backgroundColor: "#F8F9FA", padding: "0.5rem", marginTop: "1rem", display: "flex", gap: "2rem" }} >
+                    <Box bg={`${dark ? "#1A1B1E" : "#FFFFFF"}`} sx={{ padding: "0.5rem 1.5rem", marginTop: "1rem", display: "flex", gap: "2rem", borderRadius: "10px" }}  >
                         <Box  >
-                            <Text weight={"bold"} align="center" color="gray">Jumlah Pendaftar</Text>
-                            <Text weight={"bold"} size={"xl"} align="center">{totalPendaftar?.data?.totalStudents} Orang</Text>
+                            <Text weight={"bold"} align="center" >Jumlah Pendaftar</Text>
+                            {loadTotalPendaftar ? (
+                                <Skeleton height={30} />
+                            ) : (
+                                <Text c={`${dark ? "white" : "black"}`} weight={"bold"} size={"xl"} align="center">{totalPendaftar?.data?.totalStudents} Orang</Text>
+                            )}
                         </Box>
                         <Box  >
-                            <Text weight={"bold"} align="center" color="gray">Jumlah Penerimaan</Text>
-                            <Text weight={"bold"} size={"xl"} align="center">{gelombang?.data?.max_quota} Orang</Text>
+                            <Text weight={"bold"} align="center" >Jumlah Penerimaan</Text>
+                            {loadTotalPendaftar ? (
+                                <Skeleton height={30} />
+                            ) : (
+                                <Text c={`${dark ? "white" : "black"}`} weight={"bold"} size={"xl"} align="center">{gelombang?.data?.max_quota} Orang</Text>
+                            )}
                         </Box>
                         <Box  >
-                            <Text weight={"bold"} align="center" color="gray">Peserta Diterima</Text>
-                            <Text weight={"bold"} size={"xl"} align="center">{totalPendaftar?.data?.studentAccepted} Orang</Text>
+                            <Text weight={"bold"} align="center" >Peserta Diterima</Text>
+                            {loadTotalPendaftar ? (
+                                <Skeleton height={30} />
+                            ) : (
+                                <Text c={`${dark ? "white" : "black"}`} weight={"bold"} size={"xl"} align="center">{totalPendaftar?.data?.studentAccepted} Orang</Text>
+                            )}
                         </Box>
                     </Box>
                 </Paper>
 
                 <Paper withBorder p="md" radius="md">
-                    <Text size={"lg"} weight={500} mb={10}>
-                        Data Pendaftar
-                    </Text>
+                    <Group mb={20} >
+                        <Text sx={{ flex: 1 }} size={"lg"} weight={500} mb={10}>
+                            Data Pendaftar
+                        </Text>
+                        <Button>Export Excel</Button>
+                    </Group>
                     {
                         isErrorGetStudent ? (
                             <Text>{error.message}</Text>

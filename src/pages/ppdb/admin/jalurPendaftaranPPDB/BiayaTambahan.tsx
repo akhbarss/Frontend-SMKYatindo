@@ -6,13 +6,15 @@ import {
   Button,
   Center,
   Flex,
+  LoadingOverlay,
   Paper,
+  Text,
   Title,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { randomId, useDisclosure } from "@mantine/hooks";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import { AiFillEdit } from "react-icons/ai";
 import { BsFillTrashFill } from "react-icons/bs";
 import { useParams } from "react-router-dom";
@@ -25,6 +27,10 @@ import {
   deleteBiayaTambahan,
 } from "../../../../apis/informasi-umum/biaya-tambahan/deleteBiayaTambahan";
 import {
+  EditBiayaTambahanPayload,
+  editBiayaTambahan,
+} from "../../../../apis/informasi-umum/biaya-tambahan/editBiayaTambahan";
+import {
   TBiayaTambahan,
   getAllBiayaTambahan,
 } from "../../../../apis/informasi-umum/biaya-tambahan/getAllBiayaTambahan";
@@ -35,10 +41,6 @@ import ModalBiayaTambahanEdit, {
   FormEditBiayaTambahan,
 } from "../../../../components/modal/modalBiayaTambahanEdit";
 import { DarkTheme } from "../../../../utils/darkTheme";
-import {
-  EditBiayaTambahanPayload,
-  editBiayaTambahan,
-} from "../../../../apis/informasi-umum/biaya-tambahan/editBiayaTambahan";
 
 const BiayaTambahan = () => {
   const dark = DarkTheme();
@@ -81,6 +83,8 @@ const BiayaTambahan = () => {
         console.log("Success");
         console.log(response);
         closeCreate();
+        toast.success("Data berhasil dtambahkan");
+        form.reset()
         queryClient.invalidateQueries({ queryKey: ["get_all_biaya_tambahan"] });
       },
       onError: (err: Error) => {
@@ -100,6 +104,7 @@ const BiayaTambahan = () => {
       onSuccess: (response) => {
         console.log(response);
         console.log("Success");
+        toast.success("Data berhasil dihapus");
         queryClient.invalidateQueries({ queryKey: ["get_all_biaya_tambahan"] });
       },
       onError: (err) => {
@@ -115,6 +120,8 @@ const BiayaTambahan = () => {
         console.log("Success");
         console.log(response);
         closeEdit();
+        toast.success("Data berhasil diubah");
+        form.reset()
         queryClient.invalidateQueries({ queryKey: ["get_all_biaya_tambahan"] });
       },
       onError: (err) => {
@@ -226,9 +233,15 @@ const BiayaTambahan = () => {
 
   return (
     <Box sx={{ flex: "1" }}>
-      <Paper sx={{ padding: "1rem" }} withBorder>
+      <Paper
+        withBorder
+        shadow="sm"
+        radius={"4rem"}
+        px={"2.5rem"}
+        sx={{ padding: "1rem" }}
+      >
         <Flex justify={"space-between"} align={"center"}>
-          <Title order={2}>Biaya Tambahan</Title>
+          <Text weight={"bold"} size={"xl"}>Biaya Tambahan</Text>
 
           <Button onClick={openCreate}>Tambah</Button>
         </Flex>
@@ -295,7 +308,10 @@ const BiayaTambahan = () => {
 
       <ModalBiayaTambahanCreate
         form={form}
-        close={closeCreate}
+        close={() => {
+          closeCreate()
+          form.reset()
+        }}
         opened={openedCreate}
         tambahBiayaTambahanHandler={tambahBiayaTambahanHandler}
         titleModal="Tambah Biaya Tambahan"
@@ -304,10 +320,16 @@ const BiayaTambahan = () => {
       <ModalBiayaTambahanEdit
         form={form}
         opened={openedEdit}
-        close={closeEdit}
+        close={() => {
+          closeEdit()
+          form.reset()
+        }}
         editBiayaTambahanHandler={editBiayaTambahanHandler}
         titleModal="Ubah Biaya Tambahan"
       />
+
+      <LoadingOverlay visible={deleteBiayaTambahanMutation.status === "pending"} overlayBlur={1} />
+      <Toaster position="top-center" reverseOrder={false} />
     </Box>
   );
 };

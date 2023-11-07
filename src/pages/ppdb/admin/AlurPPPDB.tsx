@@ -1,5 +1,8 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import {
+  Text,
+  LoadingOverlay,
+  Skeleton,
   Accordion,
   AccordionControlProps,
   ActionIcon,
@@ -7,6 +10,7 @@ import {
   Button,
   Stack,
   Center,
+  Paper,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -69,6 +73,7 @@ const AlurPPPDB = () => {
       onSuccess: (response) => {
         console.log("Success");
         console.log(response);
+        toast.success("Data berhasil ditambahkan");
         setTitle("");
         setDescAlurPPDB("");
         closeCreate();
@@ -91,11 +96,13 @@ const AlurPPPDB = () => {
       onSuccess: (response) => {
         console.log(response);
         console.log("Success");
+        toast.success("Data berhasil diubah");
         setIdAlur("");
         setTitle("");
         setDescAlurPPDB("");
         closeEdit();
         refetch();
+        queryClient.invalidateQueries({ queryKey: ["get_all_alur"] });
       },
       onError: (err) => {
         // @ts-ignore
@@ -114,6 +121,7 @@ const AlurPPPDB = () => {
       onSuccess: (response) => {
         console.log(response);
         console.log("Success");
+        toast.success("Data berhasil dihapus");
         close();
         refetch();
       },
@@ -124,7 +132,7 @@ const AlurPPPDB = () => {
     });
   };
 
-  if (load) return <PageLoading />;
+  // if (load) return <PageLoading />;
   if (isErr) return <h1>Terjadi Kesalahan</h1>;
 
   const tambahALurHandler = () => {
@@ -210,7 +218,9 @@ const AlurPPPDB = () => {
           }}
         >
           <Accordion multiple variant="separated" chevronPosition="left">
-            {alurPendaftaran && alurPendaftaran?.data?.length > 0 ? (
+            {load ? <>
+              <Skeleton height={80} />
+            </> : alurPendaftaran && alurPendaftaran?.data?.length > 0 ? (
               alurPendaftaran.data.map((item) => (
                 <Accordion.Item
                   key={item.id}
@@ -219,6 +229,7 @@ const AlurPPPDB = () => {
                     boxShadow: "0 4px 10px -6px black",
                     backgroundColor: `${dark ? "#25262B" : "white"}`,
                     padding: "0.5rem 0.5rem",
+                    border: "0.0625rem solid #dee2e6"
                   }}
                   styles={{
                     item: {
@@ -243,7 +254,9 @@ const AlurPPPDB = () => {
                 </Accordion.Item>
               ))
             ) : (
-              <h2>Data Kosong</h2>
+              <Paper withBorder p={"lg"} shadow="lg">
+                <Text size={"lg"} weight={"bold"}>Data kosong</Text>
+              </Paper>
             )}
           </Accordion>
 
@@ -275,6 +288,7 @@ const AlurPPPDB = () => {
           editAlurMutation={editAlurMutation}
         />
 
+        <LoadingOverlay visible={deleteAlurMutation.status === "pending"} overlayBlur={1} />
         <Toaster position="top-center" reverseOrder={false} />
       </Stack>
     </Page>

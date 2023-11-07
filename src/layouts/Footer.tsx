@@ -1,5 +1,5 @@
 import {
-    useMantineTheme
+    useMantineTheme,
 } from "@mantine/core"
 import { useBreakPoints } from "../utils/UseBreakpoints"
 
@@ -13,13 +13,16 @@ const Footer = () => {
     return (
         <footer
             style={{
-                width: "100%",
                 paddingBlock: "20px",
                 justifyContent: "center",
                 display: "flex",
                 alignItems: "center",
                 fontSize: `${!xs ? "10px" : ""}`,
-                borderTop: `1px solid ${dark ? "rgba(60,60,60, 60)" : "rgba(240,240,240, 240)"}`
+                borderTop: `1px solid ${dark ? "rgba(60,60,60, 60)" : "rgba(240,240,240, 240)"}`,
+                position: "absolute",
+                bottom: 0,
+                left: 0,
+                right: 0,
             }}
         >
             © 2023 D'Coders TKJ Yatindo. All Rights Reserved

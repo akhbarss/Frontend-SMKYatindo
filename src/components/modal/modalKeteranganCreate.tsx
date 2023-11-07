@@ -41,6 +41,7 @@ const ModalKeteranganCreate: React.FC<TModalKeteranganCreate> = ({
             withFooter
         >
             <Stack
+                mt={"3rem"}
                 mb={"6rem"}
                 sx={{
                     paddingInline: "2rem",

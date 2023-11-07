@@ -103,9 +103,10 @@ export default function ProviderMantine({
             },
             components: {
               Button: {
-                defaultProps: {
-                  color: "brand-blue",
-                },
+                defaultProps: (theme) => ({
+                  color: theme.colorScheme === 'dark' ? theme.colors.dark[9] : "brand-blue"
+                  // color: "brand-blue"
+                }),
                 variants: {
                   danger: (theme) => ({
                     root: {

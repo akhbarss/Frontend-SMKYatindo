@@ -1,4 +1,4 @@
-import { Stack } from "@mantine/core"
+import { Stack, Divider } from "@mantine/core"
 import Page from "../../../../components/Page"
 import Keterangan from "./Keterangan"
 import BiayaTambahan from "./BiayaTambahan"
@@ -10,6 +10,8 @@ const InformasiUmum = () => {
             <Stack >
 
                 <Keterangan />
+
+                <Divider />
 
                 <BiayaTambahan />
 

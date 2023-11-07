@@ -1,5 +1,6 @@
 import {
   Progress,
+  Stack,
   Box,
   Text,
   Group,
@@ -18,6 +19,8 @@ import {
 } from "@tabler/icons-react";
 import DataTable from "../../../components/DataTable";
 import { useMemo } from "react";
+import Page from "../../../components/Page";
+import PageLabel from "../../../components/PageLabel";
 
 const data = [
   { label: "Jalur Reguler", count: "204,001", part: 59, color: "#47d6ab" },
@@ -163,6 +166,13 @@ const Dashboard = () => {
   const columns = useMemo(() => {
     return [
       {
+        id: "No. Formulir",
+        header: "No. Formulir",
+        accessorFn: (data, deps) => {
+          return deps + 1;
+        },
+      },
+      {
         id: "Nama",
         header: "Nama",
         accessorFn: (data, deps) => {
@@ -174,31 +184,17 @@ const Dashboard = () => {
 
   return (
     <>
-      <Box mb={"lg"}>
-        <StudentStats />
-      </Box>
-      <Box mb={"lg"}>
-        <PathStatistics />
-      </Box>
-      <Box>
-        <Paper withBorder p="md" radius="md">
-          <Flex justify={"space-between"} align={"center"}>
-            <Text size={"lg"} weight={500} mb={10}>
-              Pendaftar 5 Terawal
-            </Text>
-            <Anchor href="https://mantine.dev/" target="_blank" size={"sm"}>
-              Lihat Semua
-            </Anchor>
-          </Flex>
-          <DataTable
-          
-            data={[]}
-            columns={columns}
-            useSearchInput={true}
-            noCard={true}
-          />
-        </Paper>
-      </Box>
+      <Page title="Dashboard">
+        <PageLabel label="Dashboard" />
+        <Stack className="max-w-[70rem] mx-auto">
+          <Box mb={"lg"} mt={40}>
+            <StudentStats />
+          </Box>
+          <Box mb={"lg"}>
+            <PathStatistics />
+          </Box>
+        </Stack>
+      </Page>
     </>
   );
 };

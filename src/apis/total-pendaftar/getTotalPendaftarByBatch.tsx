@@ -11,7 +11,7 @@ export const getTotalPendaftarByBatch = async (gelombangId: string): Promise<
 > => {
 
     const response = await axios.get(
-        "/v1/admin/registration-batch/count-student?id=" + gelombangId
+        "/v1/admin/registration-batch/count-data?batchId=" + gelombangId
     );
 
     return response.data;

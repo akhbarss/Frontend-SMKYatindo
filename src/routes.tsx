@@ -1,18 +1,18 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { lazy } from "react";
 import { Navigate, Outlet, RouteObject } from "react-router-dom";
+import Interceptors from "./Interceptor";
 import MissingPPDB from "./components/ppdb/missingPPDB";
 import Unauthorized from "./components/ppdb/unauthorized";
 import AuthLayout from "./layouts/AuthLayout";
 import DashboardLayout from "./layouts/DashboardLayout";
 import GuestLayout from "./layouts/GuestLayout";
-import { AlurPPPDB, PendaftarPPDB } from "./pages";
-import InformasiUmum from "./pages/ppdb/admin/jalurPendaftaranPPDB/InformasiUmum";
-import Interceptors from "./Interceptor";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import JalurPendaftaranDetailLayout from "./layouts/JalurPendaftaranDetailLayout";
-import Gelombang from "./pages/ppdb/admin/jalurPendaftaranPPDB/Gelombang";
-import PendaftarPerGelombang from "./pages/ppdb/admin/PendaftarPerGelombang";
+import { PendaftarPPDB } from "./pages";
 import DetailSiswa from "./pages/ppdb/admin/DetailSiswa";
+import PendaftarPerGelombang from "./pages/ppdb/admin/PendaftarPerGelombang";
+import Gelombang from "./pages/ppdb/admin/jalurPendaftaranPPDB/Gelombang";
+import InformasiUmum from "./pages/ppdb/admin/jalurPendaftaranPPDB/InformasiUmum";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const queryClient = new QueryClient({
@@ -114,7 +114,7 @@ export const routes: RouteObject[] = [
               },
               {
                 path: "alur",
-                Component: () => <AlurPPPDB />,
+                Component: lazy(() => import("./pages/ppdb/admin/AlurPPPDB")),
               },
               {
                 path: "jalur-pendaftaran",
@@ -157,7 +157,7 @@ export const routes: RouteObject[] = [
                 Component: () => <PendaftarPerGelombang />,
               },
               {
-                path: "pendaftar-ppdb/:id/:userId",
+                path: "pendaftar-ppdb/:gelombangId/:userId",
                 Component: () => <DetailSiswa />,
               },
             ],
