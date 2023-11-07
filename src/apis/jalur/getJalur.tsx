@@ -19,6 +19,7 @@ export type TGelombang = {
   bank_account: string;
   isOpen: string;
   countStudent: number;
+  batchCode: string;
   students: [];
 };
 

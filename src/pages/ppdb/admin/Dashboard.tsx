@@ -1,5 +1,6 @@
 import {
   Progress,
+  Stack,
   Box,
   Text,
   Group,
@@ -18,6 +19,8 @@ import {
 } from "@tabler/icons-react";
 import DataTable from "../../../components/DataTable";
 import { useMemo } from "react";
+import Page from "../../../components/Page";
+import PageLabel from "../../../components/PageLabel";
 
 const data = [
   { label: "Jalur Reguler", count: "204,001", part: 59, color: "#47d6ab" },
@@ -181,12 +184,17 @@ const Dashboard = () => {
 
   return (
     <>
-      <Box mb={"lg"}>
-        <StudentStats />
-      </Box>
-      <Box mb={"lg"}>
-        <PathStatistics />
-      </Box>
+      <Page title="Dashboard">
+        <PageLabel label="Dashboard" />
+        <Stack className="max-w-[70rem] mx-auto">
+          <Box mb={"lg"} mt={40}>
+            <StudentStats />
+          </Box>
+          <Box mb={"lg"}>
+            <PathStatistics />
+          </Box>
+        </Stack>
+      </Page>
     </>
   );
 };

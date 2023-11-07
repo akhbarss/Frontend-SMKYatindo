@@ -27,7 +27,7 @@ const ModalKeteranganEdit: React.FC<TModalKeteranganEdit> = ({
     name,
     setName,
     editKeteranganHandler,
-    
+
 }) => {
     return (
         <ModalAdmin
@@ -41,7 +41,7 @@ const ModalKeteranganEdit: React.FC<TModalKeteranganEdit> = ({
             }}
             withFooter
         >
-            <Stack p={20} pb={"6rem"} >
+            <Stack p={20} pb={"6rem"} mt={"3rem"}>
                 <Text align="left" weight={"bold"} >Nama</Text>
 
                 <TextInput

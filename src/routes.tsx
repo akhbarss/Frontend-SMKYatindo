@@ -13,6 +13,7 @@ import DetailSiswa from "./pages/ppdb/admin/DetailSiswa";
 import PendaftarPerGelombang from "./pages/ppdb/admin/PendaftarPerGelombang";
 import Gelombang from "./pages/ppdb/admin/jalurPendaftaranPPDB/Gelombang";
 import InformasiUmum from "./pages/ppdb/admin/jalurPendaftaranPPDB/InformasiUmum";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -113,7 +114,6 @@ export const routes: RouteObject[] = [
               },
               {
                 path: "alur",
-                // Component: () => <AlurPPPDB />,
                 Component: lazy(() => import("./pages/ppdb/admin/AlurPPPDB")),
               },
               {

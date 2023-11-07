@@ -1,24 +1,22 @@
 import {
-  Skeleton,
-  Title,
   Box,
   Grid,
   Group,
   Paper,
+  Skeleton,
   Tabs,
   Text,
+  Title,
   useMantineTheme
 } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import { HiMiniUserCircle } from "react-icons/hi2";
 import { Link, useNavigate } from "react-router-dom";
-// import { getJalurPendaftaranByType } from "../../../apis/jalur/getJalurPendaftaranByType";
+import { getAllGelombangByTypeJalur } from "../../../apis/gelombang/getAllGelombangByTypeJalur";
 import Page from "../../../components/Page";
 import PageLabel from "../../../components/PageLabel";
 import { useBreakPoints } from "../../../utils/UseBreakpoints";
 import { DarkTheme } from "../../../utils/darkTheme";
-import { getAllGelombangByTypeJalur } from "../../../apis/gelombang/getAllGelombangByTypeJalur";
-import { getTotalPendaftarByBatch } from "../../../apis/total-pendaftar/getTotalPendaftarByBatch";
 
 const PendaftarPPDB = () => {
   const navigate = useNavigate()
@@ -92,84 +90,109 @@ const PendaftarPPDB = () => {
 
           {/* PEMBELIAN */}
           <Tabs.Panel value="pembelian" mt={40}>
-            <Grid >
-              {loadGelPembelian ? (<>
+            {
+              loadGelPembelian ? (
                 <Skeleton height={80} />
-              </>) : gelombangByJalurPembelian?.data?.map(item => (
-                <Grid.Col key={item.id} md={6}>
-                  <Link
-                    to={`${item.id}`}
-                    className="shadow-md rounded-md no-underline text-black"
-                  >
-                    <Paper
-                      sx={{
-                        backgroundColor: dark ? theme.colors.dark[6] : theme.white,
-                        padding: "1rem 1.5rem",
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "start",
-                      }}
-                      shadow="md"
-                      withBorder
-                    >
-                      <h1 className="text-xl  font-bold">
-                        {item.name}
-                      </h1>
-                      <Group mt={10} >
-                        <HiMiniUserCircle size={30} />
-                        <Text >
-                          {/* 100 Pendaftar */}
-                        </Text>
-                      </Group>
-                    </Paper>
-                  </Link>
-                </Grid.Col>
-              ))}
-            </Grid>
+              ) : (
+                <>
+                  {
+                    gelombangByJalurPembelian?.data?.length < 1 ? (
+                      <Paper withBorder p={"lg"} shadow="lg">
+                        <Text size={"lg"} weight={"bold"}>Data kosong</Text>
+                      </Paper>
+                    ) : (
+                      <Grid >
+                        {gelombangByJalurPembelian?.data?.map(item => (
+                          <Grid.Col key={item.id} md={6}>
+                            <Link
+                              to={`${item.id}`}
+                              className="shadow-md rounded-md no-underline text-black"
+                            >
+                              <Paper
+                                sx={{
+                                  backgroundColor: dark ? theme.colors.dark[6] : theme.white,
+                                  padding: "1rem 1.5rem",
+                                  display: "flex",
+                                  flexDirection: "column",
+                                  alignItems: "start",
+                                }}
+                                shadow="md"
+                                withBorder
+                              >
+                                <h1 className="text-xl  font-bold">
+                                  {item.name}
+                                </h1>
+                                <Group mt={10} >
+                                  <HiMiniUserCircle size={30} />
+                                  <Text >
+                                    {JSON.stringify(item.countStudent)}
+                                    {/* 100 Pendaftar */}
+                                  </Text>
+                                </Group>
+                              </Paper>
+                            </Link>
+                          </Grid.Col>
+                        ))}
+                      </Grid>
+                    )
+                  }
+                </>
+              )
+            }
           </Tabs.Panel>
 
           {/* PENGEMBALIAN */}
           <Tabs.Panel value="pengembalian" mt={40}>
-            <Grid >
-              {loadGelPengembalian ? (
-                <>
-                  <Skeleton height={80} />
-                </>
-              ) : gelombangByJalurPengembalian?.data?.map(item => (
-                <Grid.Col
-                  md={6}
-                  key={item.id}
-                >
-                  <Link
-                    to={`${item.id}`}
-                    className="shadow-md rounded-md no-underline text-black "
-                  >
-                    <Paper
-                      sx={{
-                        backgroundColor: dark ? theme.colors.dark[6] : theme.white,
-                        padding: "1rem 1.5rem",
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "start",
-                      }}
-                      withBorder
-                    >
-                      <h1 className="text-xl  font-bold">
-                        {item.name}
-                      </h1>
-                      <Group mt={10} >
-                        <HiMiniUserCircle size={30} />
-                        <Text >
-                          100 Pendaftar
-                        </Text>
-                      </Group>
+            {loadGelPengembalian ? (
+              <Skeleton height={80} />
+            ) : (
+              <>
+                {
+                  gelombangByJalurPengembalian?.data?.length < 1 ? (
+                    <Paper withBorder p={"lg"} shadow="lg">
+                      <Text size={"lg"} weight={"bold"}>Data kosong</Text>
                     </Paper>
-                  </Link>
-                </Grid.Col>
-              ))}
-            </Grid>
+                  ) : (
+                    <Grid >
+                      {
+                        gelombangByJalurPengembalian?.data?.map(item => (
+                          <Grid.Col
+                            md={6}
+                            key={item.id}
+                          >
+                            <Link
+                              to={`${item.id}`}
+                              className="shadow-md rounded-md no-underline text-black "
+                            >
+                              <Paper
+                                sx={{
+                                  backgroundColor: dark ? theme.colors.dark[6] : theme.white,
+                                  padding: "1rem 1.5rem",
+                                  display: "flex",
+                                  flexDirection: "column",
+                                  alignItems: "start",
+                                }}
+                                withBorder
+                              >
+                                <h1 className="text-xl  font-bold">
+                                  {item.name}
+                                </h1>
+                                <Group mt={10} >
+                                  <HiMiniUserCircle size={30} />
+                                  <Text >
+                                     Pendaftar
+                                  </Text>
+                                </Group>
+                              </Paper>
+                            </Link>
+                          </Grid.Col>
+                        ))}
+                    </Grid>
+                  )
+                }
+              </>
+            )}
           </Tabs.Panel>
-
         </Tabs>
       </Box>
     </Page>

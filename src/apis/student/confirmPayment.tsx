@@ -1,7 +1,7 @@
 import axios from "../../utils/axios";
 import { ResponseType } from "../../types/global";
 
-export type Payment = {
+export type ResConfirmPayment = {
     id: number;
     total: number;
     method: "CASH" | "TRANSFER";
@@ -15,13 +15,13 @@ export type Payment = {
     bank_user: null
 };
 
-export type GetPaymentPayload = {
-    batchId: string;
-    userId: string;
+export type ConfirmPaymentPayload = {
+    payment_id: number;
+    student_id: number;
 }
 
-export const getAllPayment = async (payload: GetPaymentPayload): Promise<
-    ResponseType<Payment[]>
+export const confirmPayment = async (payload: ConfirmPaymentPayload): Promise<
+    ResponseType<ResConfirmPayment[]>
 > => {
     const { batchId, userId } = payload
 

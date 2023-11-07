@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import {
+  Text,
   LoadingOverlay,
   Skeleton,
   Accordion,
@@ -9,6 +10,7 @@ import {
   Button,
   Stack,
   Center,
+  Paper,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -71,6 +73,7 @@ const AlurPPPDB = () => {
       onSuccess: (response) => {
         console.log("Success");
         console.log(response);
+        toast.success("Data berhasil ditambahkan");
         setTitle("");
         setDescAlurPPDB("");
         closeCreate();
@@ -93,11 +96,13 @@ const AlurPPPDB = () => {
       onSuccess: (response) => {
         console.log(response);
         console.log("Success");
+        toast.success("Data berhasil diubah");
         setIdAlur("");
         setTitle("");
         setDescAlurPPDB("");
         closeEdit();
         refetch();
+        queryClient.invalidateQueries({ queryKey: ["get_all_alur"] });
       },
       onError: (err) => {
         // @ts-ignore
@@ -116,6 +121,7 @@ const AlurPPPDB = () => {
       onSuccess: (response) => {
         console.log(response);
         console.log("Success");
+        toast.success("Data berhasil dihapus");
         close();
         refetch();
       },
@@ -212,11 +218,6 @@ const AlurPPPDB = () => {
           }}
         >
           <Accordion multiple variant="separated" chevronPosition="left">
-            {/* {load && (
-              <>
-              <Skeleton height={80} />
-              </>
-            )} */}
             {load ? <>
               <Skeleton height={80} />
             </> : alurPendaftaran && alurPendaftaran?.data?.length > 0 ? (
@@ -253,7 +254,9 @@ const AlurPPPDB = () => {
                 </Accordion.Item>
               ))
             ) : (
-              <h2>Data Kosong</h2>
+              <Paper withBorder p={"lg"} shadow="lg">
+                <Text size={"lg"} weight={"bold"}>Data kosong</Text>
+              </Paper>
             )}
           </Accordion>
 

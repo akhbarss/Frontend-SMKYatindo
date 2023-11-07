@@ -36,9 +36,10 @@ function Pembayaran() {
 
     const { gelombangId, userId } = useParams()
 
-    console.log(gelombangId, userId)
-
-    const { data: payments } = useQuery({
+    const {
+        data: payments,
+        isLoading: loadPayments
+    } = useQuery({
         queryKey: ["get_all_payment"],
         queryFn: () => getAllPayment({ batchId: gelombangId, userId })
     })
@@ -68,108 +69,18 @@ function Pembayaran() {
         centered: true
     });
 
-    return (
-        <Stack>
+    const contentPembayaran = payments?.data.length > 0 ? payments?.data?.map(payment => {
+        const formatter = new Intl.NumberFormat('id-ID', {
+            style: 'currency',
+            currency: 'IDR'
+        })
+
+        const transfer = payment.method === "TRANSFER"
+        const cash = payment.method === "CASH"
+
+        return (
             <Paper
-                withBorder
-                p={"lg"}
-                shadow="lg"
-                bg={"linear-gradient(to left bottom, #6952ba, #160942)"}
-            >
-                <Text sx={theme => ({ color: theme.colors.gray[3] })} weight={"bold"}>Status</Text>
-                <Text color='white' weight={"bold"} size={"xl"}>Menunggu Konfirmasi Pembayaran</Text>
-                <Text sx={theme => ({ color: theme.colors.gray[3] })} mt={25} weight={"bold"}>Tanggal Mendaftar</Text>
-                <Text size={"xl"} color='white' weight={"bold"}>Kamis, 18 November 2023</Text>
-            </Paper>
-
-            {
-                payments?.data?.map(payment => {
-                    const formatter = new Intl.NumberFormat('id-ID', {
-                        style: 'currency',
-                        currency: 'IDR'
-                    })
-
-                    return (
-                        <Paper
-                            shadow="lg"
-                            w={"100%"}
-                            withBorder
-                            p={"lg"}
-                            sx={theme => ({ backgroundColor: dark ? theme.colors.dark[8] : theme.white, flex: 1 })}
-                        >
-                            <Stack>
-
-                                <Group grow>
-                                    <Group>
-                                        {payment?.status == "PAYMENT_CONFIRMED" && (
-                                            <Badge
-                                                size="sm"
-                                                color="green"
-                                                styles={{
-                                                    root: {
-                                                        background: "#dcfce2"
-                                                    }
-                                                }}
-                                            >
-                                                Terkonfirmasi
-                                            </Badge>
-                                        )}
-                                        {payment?.status == "WAITING_PAYMENT" && (
-                                            <Badge
-                                                size="sm"
-                                                color="red"
-                                                styles={{
-                                                    root: {
-                                                        background: "#ffd1d1"
-
-                                                    }
-                                                }}
-                                            >
-                                                Belum Terkonfirmasi
-                                            </Badge>
-                                        )}
-
-
-                                        <Text weight={"bold"}>BCA - a/n</Text>
-                                    </Group>
-                                    <Box >
-                                        <Text weight={"bold"} align="right" className="text-[#2A166F]">+ {formatter.format(payment?.total).replace(",00", "")}</Text>
-                                    </Box>
-                                </Group>
-                                <Group
-                                    p={"lg"}
-                                    bg={"#E3E5FC"}
-                                    className="rounded-md cursor-pointer"
-                                    onClick={() => openModalBuktiPembayaran()}
-                                >
-                                    <ThemeIcon radius={"100%"} color="#2A166F" size={50}>
-                                        <BsFileEarmarkImage size={30} />
-                                    </ThemeIcon>
-                                    <Text size={20} weight={"bold"}>File Bukti Pembayaran</Text>
-                                </Group>
-                                <Divider />
-                                <Group grow>
-                                    <Text>Sabtu, 04 November 2023</Text>
-                                    <Group position="right">
-                                        {
-                                            payment.status === "PAYMENT_CONFIRMED" && (
-                                                <Button color="red">Batalkan Konfirmasi</Button>
-                                            )
-                                        }
-                                        {
-                                            payment.status === "WAITING_PAYMENT" && (
-                                                <Button  >Konfirmasi</Button>
-                                            )
-                                        }
-                                    </Group>
-                                </Group>
-                            </Stack>
-                        </Paper>
-                    )
-                })
-            }
-
-            <Paper
+                key={payment.id}
                 shadow="lg"
                 w={"100%"}
                 withBorder
@@ -180,33 +91,42 @@ function Pembayaran() {
 
                     <Group grow>
                         <Group>
-                            <Badge
-                                size="sm"
-                                color="red"
-                                styles={{
-                                    root: {
-                                        background: "#ffd1d1"
+                            {payment?.status == "PAYMENT_CONFIRMED" && (
+                                <Badge
+                                    size="sm"
+                                    color="green"
+                                    styles={{
+                                        root: {
+                                            background: "#dcfce2"
+                                        }
+                                    }}
+                                >
+                                    Terkonfirmasi
+                                </Badge>
+                            )}
+                            {payment?.status == "WAITING_PAYMENT" && (
+                                <Badge
+                                    size="sm"
+                                    color="red"
+                                    styles={{
+                                        root: {
+                                            background: "#ffd1d1"
 
-                                    }
-                                }}
-                            >
-                                Belum Terkonfirmasi
-                            </Badge>
-                            <Badge
-                                size="sm"
-                                color="green"
-                                styles={{
-                                    root: {
-                                        background: "#dcfce2"
-                                    }
-                                }}
-                            >
-                                Terkonfirmasi
-                            </Badge>
-                            <Text weight={"bold"}>BCA - a/n</Text>
+                                        }
+                                    }}
+                                >
+                                    Belum Terkonfirmasi
+                                </Badge>
+                            )}
+                            {
+                                transfer && (
+                                    <Text weight={"bold"}>{payment.bank_name} - {payment.bank_account} a/n {payment.bank_user}</Text>
+                                )
+                            }
+
                         </Group>
                         <Box >
-                            <Text weight={"bold"} align="right" className="text-[#2A166F]">+ Rp50.000</Text>
+                            <Text weight={"bold"} align="right" className="text-[#2A166F]">+ {formatter.format(payment?.total).replace(",00", "")}</Text>
                         </Box>
                     </Group>
                     <Group
@@ -224,12 +144,60 @@ function Pembayaran() {
                     <Group grow>
                         <Text>Sabtu, 04 November 2023</Text>
                         <Group position="right">
-                            <Button  >Konfirmasi</Button>
-                            <Button color="red">Batalkan Konfirmasi</Button>
+                            {
+                                payment.status === "PAYMENT_CONFIRMED" && (
+                                    <Button color="red">Batalkan Konfirmasi</Button>
+                                )
+                            }
+                            {
+                                payment.status === "WAITING_PAYMENT" && (
+                                    <Button  >Konfirmasi</Button>
+                                )
+                            }
                         </Group>
                     </Group>
                 </Stack>
             </Paper>
+        )
+    }) : (
+        <>
+            <Paper shadow="lg" p="lg" withBorder>
+                <Text size={24} weight={"bold"}>Belum ada Pembayaran</Text>
+            </Paper>
+        </>
+    )
+
+    return (
+        <Stack>
+
+            {
+                loadPayments ? (
+                    <>
+                        <Skeleton visible height={130} />
+                        <Skeleton visible height={130} />
+                    </>
+                )
+                    : (
+                        <>
+                            <Paper
+                                withBorder
+                                p={"lg"}
+                                shadow="lg"
+                                bg={"linear-gradient(to left bottom, #6952ba, #160942)"}
+                            >
+                                <Text sx={theme => ({ color: theme.colors.gray[3] })} weight={"bold"}>Status</Text>
+                                <Text color='white' weight={"bold"} size={"xl"}>Menunggu Konfirmasi Pembayaran</Text>
+                                <Text sx={theme => ({ color: theme.colors.gray[3] })} mt={25} weight={"bold"}>Tanggal Mendaftar</Text>
+                                <Text size={"xl"} color='white' weight={"bold"}>Kamis, 18 November 2023</Text>
+                            </Paper>
+
+                            {
+                                contentPembayaran
+                            }
+                        </>
+                    )
+            }
+
         </Stack>
     )
 }

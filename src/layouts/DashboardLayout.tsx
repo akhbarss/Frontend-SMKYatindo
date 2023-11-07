@@ -29,7 +29,6 @@ const DashboardLayout: React.FC<TDashboard> = ({ children }) => {
   });
 
   useEffect(() => {
-    console.log(user);
     if (isError) {
       toast.error("Error saat mengambil data sesi");
     }
@@ -39,7 +38,6 @@ const DashboardLayout: React.FC<TDashboard> = ({ children }) => {
     <Suspense fallback={<PageLoading />}>
       <AppShell
         padding={0}
-        overflowX={"hidden"}
         header={
           <AppBar
             opened={opened}

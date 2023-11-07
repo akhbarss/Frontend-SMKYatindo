@@ -1,4 +1,4 @@
-import { Paper, Stack, Tabs,Title } from "@mantine/core";
+import { Paper, Stack, Tabs, Text } from "@mantine/core";
 import { BsFillCaretRightFill } from "react-icons/bs";
 import { MdArrowBackIosNew } from "react-icons/md";
 import {
@@ -36,9 +36,12 @@ const JalurPendaftaranDetailLayout: React.FC<TJalurPendaftaranDetailLayout> = ({
         <PageLabel label="Detail Jalur Pendaftaran" />
         <Link
           to={"/ppdb/main/jalur-pendaftaran"}
-          className="text-xl no-underline font-bold text-[#2A166F] flex  items-center gap-2 w-fit"
+          className="text-xl no-underline font-bold  flex  items-center gap-2 w-fit"
         >
-          <MdArrowBackIosNew /> Kembali
+          <MdArrowBackIosNew color={`${dark ? "#5A45A4"  : "#2A166F"}`}/>
+          <Text color={`${dark ? "#5A45A4"  : "#2A166F"}`}>
+            Kembali
+          </Text>
         </Link>
 
         <Tabs
@@ -47,9 +50,6 @@ const JalurPendaftaranDetailLayout: React.FC<TJalurPendaftaranDetailLayout> = ({
           onTabChange={(value) => navigate(`${value}`)}
           color="blue"
           styles={{
-            tabsList: {
-              // fontSize: "30px"
-            },
             tabLabel: {
               fontSize: "20px",
               color: "white"
@@ -64,44 +64,6 @@ const JalurPendaftaranDetailLayout: React.FC<TJalurPendaftaranDetailLayout> = ({
           }}
 
         >
-        {/* <Tabs
-          value={location.pathname.split("/")[5]}
-          onTabChange={(value) => navigate(`${value}`)}
-          mt={40}
-          color="blue"
-          styles={{
-            tabLabel: {
-              fontSize: "20px",
-              color: "white"
-            },
-            tab: {
-              backgroundColor: "tranparent",
-              ":hover": {
-                backgroundColor: "transparent",
-                opacity: 0.9
-              }
-            }
-          }}
-
-        > */}
-         {/* <Paper
-            withBorder
-            shadow="md"
-            radius={"xl"}
-            bg={"linear-gradient(to left bottom, #6952ba, #160942)"}
-            sx={theme => ({
-              backgroundColor: dark ? theme.colors.dark[6] : theme.white,
-              padding: "2rem",
-              marginTop: "1rem"
-            })}
-          >
-            <Title color="white" order={2} >Gelombang Dengan Tipe Jalur :</Title>
-            <Tabs.List mt={20}>
-              <Tabs.Tab color="blue" value="pembelian">Pembelian</Tabs.Tab>
-              <Tabs.Tab value="pengembalian">Pengembalian</Tabs.Tab>
-            </Tabs.List>
-          </Paper> */}
-          
           <Paper
             withBorder
             radius={"xl"}
@@ -120,7 +82,7 @@ const JalurPendaftaranDetailLayout: React.FC<TJalurPendaftaranDetailLayout> = ({
               <Tabs.Tab color="blue" value="informasi-umum">
                 Informasi Umum
               </Tabs.Tab>
-              <Tabs.Tab color="blue"  value="gelombang">Gelombang</Tabs.Tab>
+              <Tabs.Tab color="blue" value="gelombang">Gelombang</Tabs.Tab>
             </Tabs.List>
           </Paper>
         </Tabs>

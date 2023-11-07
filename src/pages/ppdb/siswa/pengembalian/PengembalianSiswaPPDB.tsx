@@ -157,6 +157,8 @@ const PengembalianSiswaPPDB = () => {
     }
   }, [stagings, isSuccess]);
 
+  console.log(stagings?.data)
+  
   const toStep = (index: string) => {
     const toFilter = {
       step: +index,

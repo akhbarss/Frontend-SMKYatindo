@@ -91,7 +91,7 @@ const StepPilihJurusan: React.FC<Step> = ({ type = "PEMBELIAN" }) => {
             {type === "PEMBELIAN" ? (
               <MultiSelectStatus
                 type={"MAJOR"}
-                readOnly={Boolean(
+                readonly={Boolean(
                   statusSuccess && offset.data.offset_data?.majors
                 )}
                 onChange={(value) => setChoosed(value)}
@@ -100,7 +100,7 @@ const StepPilihJurusan: React.FC<Step> = ({ type = "PEMBELIAN" }) => {
             ) : (
               <SelectStatus
                 type={"MAJOR"}
-                readOnly={Boolean(
+                readonly={Boolean(
                   statusSuccess && offset.data.offset_data?.majors
                 )}
                 onChange={(value) => setChoosed(value)}

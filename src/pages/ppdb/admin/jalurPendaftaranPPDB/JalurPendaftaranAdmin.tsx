@@ -1,10 +1,11 @@
-
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
-  Skeleton,
   ActionIcon,
   Box,
   Button,
+  LoadingOverlay,
+  Paper,
+  Skeleton,
   Stack,
   Text,
   useMantineTheme
@@ -13,6 +14,7 @@ import { useDisclosure } from "@mantine/hooks";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { useForm, } from "react-hook-form";
+import toast, { Toaster } from "react-hot-toast";
 import { AiFillEdit } from "react-icons/ai";
 import { BsFillTrashFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
@@ -23,7 +25,6 @@ import { EditJalurPayload, editJalur } from "../../../../apis/jalur/editJalur";
 import { GetAllJalurPendaftaran, JalurPendaftaran } from "../../../../apis/jalur/getJalur";
 import Page from "../../../../components/Page";
 import PageLabel from "../../../../components/PageLabel";
-import PageLoading from "../../../../components/PageLoading";
 import ModallJalurCreate from "../../../../components/modal/modallJalurCreate";
 import ModallJalurEdit from "../../../../components/modal/modallJalurEdit";
 
@@ -73,7 +74,6 @@ const JalurPendaftarahAdmin = () => {
     handleSubmit: handleSubmitCreate,
     setError: setErrorCreate,
     setValue: setValueCreate,
-    reset: resetCreate,
     resetField: resetFieldCreate,
     formState: { errors: errorsCreate },
   } = formCreate
@@ -84,7 +84,6 @@ const JalurPendaftarahAdmin = () => {
     handleSubmit: handleSubmitEdit,
     setError: setErrorEdit,
     setValue: setValueEdit,
-    reset: resetEdit,
     resetField: resetFieldEdit,
     formState: { errors: errorsEdit },
   } = formEdit
@@ -116,15 +115,15 @@ const JalurPendaftarahAdmin = () => {
       onSuccess: (response) => {
         console.log("SUCCESS")
         console.log(response)
+        closeCreate()
+        toast.success("Data berhasil ditambahkan")
+        refetch()
         resetFieldCreate("biayaPendaftaran")
         resetFieldCreate("namaJalur")
         resetFieldCreate("tipeJalur")
         resetFieldCreate("waktuDibuka")
         resetFieldCreate("waktuDiitutup")
-        refetch()
-        closeCreate()
-        resetCreate()
-
+        resetFieldCreate("waktuDiitutup")
       },
       onError: (error) => {
         console.log("FAILED")
@@ -140,12 +139,12 @@ const JalurPendaftarahAdmin = () => {
         console.log(response)
         closeEdit()
         refetch()
+        toast.success("Data berhasil diubah")
         resetFieldEdit("biayaPendaftaran")
         resetFieldEdit("namaJalur")
         resetFieldEdit("tipeJalur")
         resetFieldEdit("waktuDibuka")
         resetFieldEdit("waktuDiitutup")
-        // reset()
       },
       onError: (error) => {
         console.log("FAILED")
@@ -157,8 +156,8 @@ const JalurPendaftarahAdmin = () => {
   function submitDeleteJalur(payload: DeleteJalurPayload) {
     deleteJalurMutation.mutate(payload, {
       onSuccess: (response) => {
-        console.log("SUCCESS")
-        console.log(response)
+
+        toast.success("Data berhasil dihapus")
         closeCreate()
         refetch()
 
@@ -210,7 +209,6 @@ const JalurPendaftarahAdmin = () => {
       <Box
         key={item.id}
         style={{
-          padding: "16px",
           borderRadius: "6px",
           boxShadow: "0 5px 10px -5px black",
           display: "flex",
@@ -220,7 +218,7 @@ const JalurPendaftarahAdmin = () => {
         }}
       >
         <Link
-          className="flex-[1] no-underline text-[#2A166F]"
+          className="flex-[1] no-underline p-[16px] "
           to={`${item.id}/informasi-umum`}
         >
           <Text size={"xl"} weight={"bold"} sx={{
@@ -229,23 +227,21 @@ const JalurPendaftarahAdmin = () => {
             {item.name}
           </Text>
 
-          <span className="flex gap-3">
-            <p>
-              {starDate !== null && starDate.toLocaleDateString("id-ID", {
-                year: 'numeric',
-                month: 'short',
-                day: 'numeric',
-                hour: 'numeric',
-                minute: 'numeric'
-              })} &ndash; {endDate !== null && endDate.toLocaleDateString("id-ID", {
-                year: 'numeric',
-                month: 'short',
-                day: 'numeric',
-                hour: 'numeric',
-                minute: 'numeric'
-              })}
-            </p>
-          </span>
+          <Text c={dark ? "#9E9EFF" : "#2A166F"}>
+            {starDate !== null && starDate.toLocaleDateString("id-ID", {
+              year: 'numeric',
+              month: 'short',
+              day: 'numeric',
+              hour: 'numeric',
+              minute: 'numeric'
+            })} &ndash; {endDate !== null && endDate.toLocaleDateString("id-ID", {
+              year: 'numeric',
+              month: 'short',
+              day: 'numeric',
+              hour: 'numeric',
+              minute: 'numeric'
+            })}
+          </Text>
         </Link>
 
         <div className="px-4 flex gap-2 ">
@@ -276,7 +272,11 @@ const JalurPendaftarahAdmin = () => {
         </div>
       </Box>
     )
-  }) : <h2>Data Kosong</h2>
+  }) : (
+    <Paper withBorder p={"lg"} shadow="lg">
+      <Text size={"lg"} weight={"bold"}>Data kosong</Text>
+    </Paper>
+  )
 
   return (
     <Page title={"Jalur Pendaftaran"}>
@@ -350,6 +350,9 @@ const JalurPendaftarahAdmin = () => {
           editJalurHandler={editJalurHandler}
           jalur={jalur}
         />
+
+        <LoadingOverlay visible={deleteJalurMutation.status === "pending"} overlayBlur={1} />
+        <Toaster position="top-center" reverseOrder={false} />
       </Stack>
     </Page>
   );

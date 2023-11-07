@@ -1,5 +1,4 @@
 import {
-    Text,
     Accordion,
     AccordionControlProps,
     ActionIcon,
@@ -7,13 +6,15 @@ import {
     Button,
     Center,
     Flex,
+    LoadingOverlay,
     Paper,
+    Text,
     Title
 } from "@mantine/core"
 import { useDisclosure } from "@mantine/hooks"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { useState } from "react"
-import toast from "react-hot-toast"
+import toast, { Toaster } from "react-hot-toast"
 import { AiFillEdit } from "react-icons/ai"
 import { BsFillTrashFill } from "react-icons/bs"
 import { useParams } from "react-router-dom"
@@ -67,6 +68,7 @@ const Keterangan = () => {
                 setName("");
                 setDescription("");
                 closeCreate();
+                toast.success("Data berhasil ditambahkan");
                 queryClient.invalidateQueries({ queryKey: ["get_all_keterangan"] });
             },
             onError: (err) => {
@@ -86,6 +88,7 @@ const Keterangan = () => {
             onSuccess: (response) => {
                 console.log(response);
                 console.log("Success");
+                toast.success("Data berhasil dihapus");
                 queryClient.invalidateQueries({ queryKey: ["get_all_keterangan"] });
             },
             onError: (err) => {
@@ -103,8 +106,7 @@ const Keterangan = () => {
                 setName("");
                 setDescription("");
                 closeEdit();
-                queryClient.invalidateQueries({ queryKey: ["get_all_keterangan"] });
-                queryClient.invalidateQueries({ queryKey: ["get_all_keterangan"] });
+                toast.success("Data berhasil diubah");
                 queryClient.invalidateQueries({ queryKey: ["get_all_keterangan"] });
             },
             onError: (err) => {
@@ -201,6 +203,7 @@ const Keterangan = () => {
         >
             <Paper
                 withBorder
+                shadow="sm"
                 radius={"4rem"}
                 px={"2.5rem"}
                 sx={{ padding: "1rem" }}
@@ -275,7 +278,8 @@ const Keterangan = () => {
                 titleModal="Ubah Keterangan"
             />
 
-
+            <LoadingOverlay visible={deleteKeteranganMutation.status === "pending"} overlayBlur={1} />
+            <Toaster position="top-center" reverseOrder={false} />
         </Box>
     )
 }

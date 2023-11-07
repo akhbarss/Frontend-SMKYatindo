@@ -105,7 +105,7 @@ const StepGelombang: React.FC<Step> = ({ type = "PEMBELIAN" }) => {
             {jalurLoading && <Skeleton content={"Lorem ipsum"} />}
             {jalurSuccess &&
               jalur &&
-              jalur.data.length > 0 &&
+              jalur.data.length > 0 ?
               jalur.data.map((batch) => (
                 <>
                   <CardChooseBatch
@@ -113,7 +113,13 @@ const StepGelombang: React.FC<Step> = ({ type = "PEMBELIAN" }) => {
                     onClick={() => onChooseBatch(batch.id, batch.name)}
                   />
                 </>
-              ))}
+              ))
+              : (
+                <>
+                  <Text size={"xl"} weight={"bold"}>Belum ada gelombang yang tersedia</Text>
+                </>
+              )
+            }
           </Stack>
         </>
       )}

@@ -6,12 +6,13 @@ export type EditGelombangPayload = {
     name: string,
     index: number;
     max_quota: number;
-    start_date: Date;
-    end_date: Date
+    start_date: string;
+    end_date: string
     bank_account: string;
     bank_name: string;
     bank_user: string;
     price: string;
+    batchCode: string;
 };
 
 type EditGelombangRequest = {
@@ -24,6 +25,7 @@ type EditGelombangRequest = {
     bank_name: string;
     bank_user: string;
     price: string;
+    batchCode: string;
 }
 
 export const editGelombang = async (payload: EditGelombangPayload): Promise<ResponseType<Response>> => {
@@ -39,18 +41,20 @@ export const editGelombang = async (payload: EditGelombangPayload): Promise<Resp
         name,
         price,
         start_date,
+        batchCode
     } = payload
 
     const data: EditGelombangRequest = {
         bank_account,
         bank_name,
         bank_user,
-        start_date: start_date.toISOString(),
-        end_date: end_date.toISOString(),
+        start_date,
+        end_date,
         index,
         max_quota,
         name,
         price,
+        batchCode
     }
 
     console.log(data)
