@@ -93,7 +93,7 @@ const StepBiodata: React.FC<Step> = ({ type = "PENGEMBALIAN" }) => {
     if (statusSuccess) {
       setValues();
     }
-  }, [statusSuccess, setValues]);
+  }, [statusSuccess]);
 
   return (
     <FormWrapper
