@@ -13,30 +13,19 @@ import {
   Title,
   useMantineTheme
 } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
-import { useQuery } from "@tanstack/react-query";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { FaInstagram, FaWhatsapp, FaYoutube } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { Link as Anchor } from "react-scroll";
-import { GetAllAlurPendaftaran } from "../../../apis/alur/getAlur";
 import AlurPendaftaran from "../../../components/ppdb/alurPendaftaran";
-import CollapseCustomPPDB from "../../../components/ppdb/colllapseCustomPPDB";
-import { dataJalurPendaftaran } from "../../../components/ppdb/dataJalurPendaftaran";
 import JalurPendaftaran from "../../../components/ppdb/jalurPendaftaran";
 import Ppdb from "../../../components/ppdb/ppdb";
 import { useBreakPoints } from "../../../utils/UseBreakpoints";
 
 const GuestPPDB = () => {
-  const { md, xs, xl, lg } = useBreakPoints();
+  const { md, xs, lg } = useBreakPoints();
   const theme = useMantineTheme();
   const dark = theme.colorScheme === "dark";
-  const [opened, { toggle }] = useDisclosure(false);
-
-  const [jalur, setJalur] = useState(() => {
-    return dataJalurPendaftaran.find((jalur) => jalur.id === 1);
-  });
-  const [activeCard, setActiveCard] = useState(1);
 
   const menuGuest = useMemo(
     () => [
@@ -47,12 +36,6 @@ const GuestPPDB = () => {
     ],
     []
   );
-
-
-  const { data: alurPendaftaran } = useQuery({
-    queryKey: ["get_all_alur_pendaftaran"],
-    queryFn: GetAllAlurPendaftaran,
-  });
 
   return (
     <main id="dashboard-ppdb">
@@ -101,7 +84,6 @@ const GuestPPDB = () => {
       </MantineHeader>
 
       <Paper className="style-box bg-gray-100 parralax ">
-        <CollapseCustomPPDB menus={menuGuest} opened={opened} toggle={toggle} />
 
         <Stack
           pt={'70px'}
@@ -127,7 +109,7 @@ const GuestPPDB = () => {
                   Yayasan Tinta Emas Indonesia, Jl. Asem Jaya No.1, RT.004/RW.005, Mustika Jaya, Kec. Mustika Jaya, Kota Bks, Jawa Barat 17158
                 </Text>
                 <Group mt={20}>
-                  <ActionIcon variant="filled" color={"indigo"} size={"lg"} component={Link} to={"https://wa.me/6281380908008"} target="_blank">
+                  <ActionIcon variant="filled" color={"indigo"} size={"lg"} component={Link} to={"https://wa.me/6281380908008?text=Halo Admin Yatindo"} target="_blank">
                     <FaWhatsapp size={20} />
                   </ActionIcon>
                   <ActionIcon variant="filled" color="indigo" size={"lg"} component={Link} to={"https://www.instagram.com/smk_yatindo/"} target="_blank">
@@ -170,7 +152,7 @@ const GuestPPDB = () => {
       >
         © 2023 D'Coders TKJ Yatindo. All Rights Reserved
       </footer>
-      
+
     </main >
   );
 };

@@ -1,6 +1,7 @@
 import { Box, Title } from "@mantine/core";
-import { useState } from "react";
-import { dataJalurPendaftaran } from "../../components/ppdb/dataJalurPendaftaran";
+import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
+import { getJalurGlobal } from "../../apis/jalur/getJalurGlobal";
 import { useBreakPoints } from "../../utils/UseBreakpoints";
 import BiayaJalurPendaftaran from "./biayaJalurPendaftaran";
 import CardJalurPendaftaran from "./cardJalurPendaftaran";
@@ -9,10 +10,20 @@ import JadwalJalurPendaftaran from "./jadwalJalurPendaftaran";
 const JalurPendaftaran = () => {
   const { xs } = useBreakPoints();
 
-  const [jalur, setJalur] = useState(() => {
-    return dataJalurPendaftaran.find((jalur) => jalur.id === 1);
+  const { data } = useQuery({
+    queryKey: ["get_jalur_global"],
+    queryFn: getJalurGlobal
+  })
+
+  const [activeCard, setActiveCard] = useState(data?.data[0]?.id);
+  const [batch, setBatch] = useState(() => {
+    return data?.data[0];
   });
-  const [activeCard, setActiveCard] = useState(1);
+
+  useEffect(() => {
+    setBatch(data?.data[0])
+    setActiveCard(data?.data[0]?.id)
+  }, [data?.data])
 
   return (
     <>
@@ -32,7 +43,8 @@ const JalurPendaftaran = () => {
         <CardJalurPendaftaran
           activeCard={activeCard}
           setActiveCard={setActiveCard}
-          setJalur={setJalur}
+          setBatch={setBatch}
+          data={data}
         />
 
         <Box
@@ -46,9 +58,9 @@ const JalurPendaftaran = () => {
             marginInline: "auto"
           }}
         >
-          <BiayaJalurPendaftaran jalur={jalur} />
+          <BiayaJalurPendaftaran batch={batch} />
 
-          <JadwalJalurPendaftaran jalur={jalur} />
+          <JadwalJalurPendaftaran batch={batch} />
         </Box>
       </Box>
     </>

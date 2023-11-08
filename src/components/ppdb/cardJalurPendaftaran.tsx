@@ -1,15 +1,16 @@
 import { Box, useMantineTheme } from '@mantine/core'
-import { dataJalurPendaftaran } from './dataJalurPendaftaran'
-import { JalurPendaftaranPPDB } from '../../types/global'
+import { ResponseType, TGRegistrationPath, TGlobalRegistrationPath } from '../../types/global'
 
 const CardJalurPendaftaran = ({
     activeCard,
-    setJalur,
-    setActiveCard
+    setActiveCard,
+    data,
+    setBatch
 }: {
     activeCard: number
-    setJalur: React.Dispatch<React.SetStateAction<JalurPendaftaranPPDB | undefined>>
     setActiveCard: React.Dispatch<React.SetStateAction<number>>
+    data?: ResponseType<TGlobalRegistrationPath>
+    setBatch?: React.Dispatch<React.SetStateAction<TGRegistrationPath>>
 }
 ) => {
     const styleActive = "bg-[#F36B1D] text-white border border border-black shadow"
@@ -17,32 +18,37 @@ const CardJalurPendaftaran = ({
     const dark = theme.colorScheme === 'dark'
 
     return (
+        <Box className='overflow-hidden flex justify-center items-center'>
+
         <Box
             id='card-jalur-pendaftaran'
-            className={`  text-gray-800 font-bold  overflow-x-hidden  flex` }
+            className={`  text-gray-800 font-bold  overflow-x-hidden  flex max-w-[40rem] mx-auto`}
         >
             <Box className='p-4 flex overflow-auto   flex-[1] gap-4'>
 
                 {
-                    dataJalurPendaftaran.map((jalur) => (
+                    data?.data.map(jalur => (
                         <button
                             key={jalur.id}
                             onClick={() => {
-                                setJalur(jalur)
+                                setBatch(jalur)
                                 setActiveCard(jalur.id)
                             }}
-                            className={`w-[200px] min-w-[200px] flex-grow min-h-[125px] p-[22px] font-black  transition-all ease-out rounded-lg  border
+                            className={`w-[200px] min-w-[200px] max-w-[200px] flex-grow min-h-[125px] p-[22px] font-black  transition-all ease-out rounded-lg  border
                              ${activeCard === jalur.id
                                     ? styleActive
                                     : `${dark ? "bg-[#291872]" : "bg-white"} text-black`}`
                             }
                         >
-                            {jalur.nama_jalur_pendaftaran}
+                            {jalur.name}
                         </button>
                     ))
                 }
+
             </Box>
         </Box>
+        </Box>
+
     )
 }
 

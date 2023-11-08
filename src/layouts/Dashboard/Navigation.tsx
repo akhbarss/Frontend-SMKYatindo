@@ -37,7 +37,7 @@ const Navigation = ({
         ),
       },
       {
-        label: "Jalur Pendaftaran/Pengembalian",
+        label: "Pengembalian",
         path: "/ppdb/main/pengembalian",
         icon: (
           <ThemeIcon variant="light" color="violet">

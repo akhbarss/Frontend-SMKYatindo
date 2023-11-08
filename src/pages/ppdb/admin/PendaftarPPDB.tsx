@@ -15,8 +15,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { getAllGelombangByTypeJalur } from "../../../apis/gelombang/getAllGelombangByTypeJalur";
 import Page from "../../../components/Page";
 import PageLabel from "../../../components/PageLabel";
+import DataKosong from "../../../components/ppdb/dataKosong";
 import { useBreakPoints } from "../../../utils/UseBreakpoints";
 import { DarkTheme } from "../../../utils/darkTheme";
+
+
 
 const PendaftarPPDB = () => {
   const navigate = useNavigate()
@@ -41,7 +44,7 @@ const PendaftarPPDB = () => {
     queryFn: () => getAllGelombangByTypeJalur("PENGEMBALIAN"),
   });
 
-  console.log(gelombangByJalurPembelian)
+
 
   return (
     <Page title="Pendaftar PPDB">
@@ -97,9 +100,7 @@ const PendaftarPPDB = () => {
                 <>
                   {
                     gelombangByJalurPembelian?.data?.length < 1 ? (
-                      <Paper withBorder p={"lg"} shadow="lg">
-                        <Text size={"lg"} weight={"bold"}>Data kosong</Text>
-                      </Paper>
+                      <DataKosong />
                     ) : (
                       <Grid >
                         {gelombangByJalurPembelian?.data?.map(item => (
@@ -149,9 +150,7 @@ const PendaftarPPDB = () => {
               <>
                 {
                   gelombangByJalurPengembalian?.data?.length < 1 ? (
-                    <Paper withBorder p={"lg"} shadow="lg">
-                      <Text size={"lg"} weight={"bold"}>Data kosong</Text>
-                    </Paper>
+                    <DataKosong />
                   ) : (
                     <Grid >
                       {
@@ -180,7 +179,7 @@ const PendaftarPPDB = () => {
                                 <Group mt={10} >
                                   <HiMiniUserCircle size={30} />
                                   <Text >
-                                     Pendaftar
+                                    Pendaftar
                                   </Text>
                                 </Group>
                               </Paper>

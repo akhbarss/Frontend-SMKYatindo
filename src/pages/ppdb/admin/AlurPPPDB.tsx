@@ -1,25 +1,23 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import {
-  Text,
-  LoadingOverlay,
-  Skeleton,
   Accordion,
   AccordionControlProps,
   ActionIcon,
   Box,
   Button,
-  Stack,
   Center,
-  Paper,
+  LoadingOverlay,
+  Skeleton,
+  Stack
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { AiFillEdit } from "react-icons/ai";
 import { BsFillTrashFill } from "react-icons/bs";
-import { createAlur, CreateAlurPayload } from "../../../apis/alur/createAlur";
-import { deleteAlur, DeleteAlurPayload } from "../../../apis/alur/deleteAlur";
-import { editAlur, EditAlurPayload } from "../../../apis/alur/editAlur";
+import { CreateAlurPayload, createAlur } from "../../../apis/alur/createAlur";
+import { DeleteAlurPayload, deleteAlur } from "../../../apis/alur/deleteAlur";
+import { EditAlurPayload, editAlur } from "../../../apis/alur/editAlur";
 import {
   AlurPendaftaran,
   GetAllAlurPendaftaran,
@@ -28,10 +26,9 @@ import Page from "../../../components/Page";
 import PageLabel from "../../../components/PageLabel";
 import ModalAlurCreate from "../../../components/modal/modalAlurCreate";
 import ModalAlurEdit from "../../../components/modal/modalAlurEdit";
+import DataKosong from "../../../components/ppdb/dataKosong";
 import TiptapOutput from "../../../components/ppdb/tiptapOutput";
 import { DarkTheme } from "../../../utils/darkTheme";
-import toast, { Toaster } from "react-hot-toast";
-import PageLoading from "../../../components/PageLoading";
 
 const AlurPPPDB = () => {
   const dark = DarkTheme();
@@ -254,9 +251,7 @@ const AlurPPPDB = () => {
                 </Accordion.Item>
               ))
             ) : (
-              <Paper withBorder p={"lg"} shadow="lg">
-                <Text size={"lg"} weight={"bold"}>Data kosong</Text>
-              </Paper>
+              <DataKosong />
             )}
           </Accordion>
 
@@ -289,7 +284,6 @@ const AlurPPPDB = () => {
         />
 
         <LoadingOverlay visible={deleteAlurMutation.status === "pending"} overlayBlur={1} />
-        <Toaster position="top-center" reverseOrder={false} />
       </Stack>
     </Page>
   );

@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { Box, Button, Stack, Text, Title } from "@mantine/core";
-import SelectStatus from "../../SelectStatus";
+import { Box, Button, Stack, Text, Title, Paper } from "@mantine/core";
+import { modals } from "@mantine/modals";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import React, { useEffect, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 import { chooseMajor, getOffsetStatus } from "../../../apis/pembelian";
 import useQueryFilter from "../../../hooks/useQueryFilter";
 import { Step } from "../../../types/global";
-import toast, { Toaster } from "react-hot-toast";
-import { modals } from "@mantine/modals";
 import ResponseError from "../../../utils/ResponseError";
 import MultiSelectStatus from "../../MultiSelectStatus";
+import SelectStatus from "../../SelectStatus";
 
 const StepPilihJurusan: React.FC<Step> = ({ type = "PEMBELIAN" }) => {
   const filter = useQueryFilter({ step: 3, stagingId: null });
@@ -64,11 +64,11 @@ const StepPilihJurusan: React.FC<Step> = ({ type = "PEMBELIAN" }) => {
   }, [statusSuccess, offset]);
 
   return (
-    <Box
+    <Paper
+      withBorder
       sx={(theme) => ({
-        backgroundColor: `${
-          theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white
-        }`,
+        backgroundColor: `${theme.colorScheme === "dark" ? theme.colors.dark[9] : theme.white
+          }`,
         padding: "2rem",
         boxShadow: "0 5px 10px -8px black",
         borderRadius: "7px",
@@ -80,8 +80,8 @@ const StepPilihJurusan: React.FC<Step> = ({ type = "PEMBELIAN" }) => {
           <Text>*Anda dapat memilih lebih dari satu untuk peminatan awal</Text>
         )}
         {statusSuccess &&
-        offset.data.current_state?.status === "WAITING_PAYMENT" &&
-        offset.data.current_state?.type === type ? (
+          offset.data.current_state?.status === "WAITING_PAYMENT" &&
+          offset.data.current_state?.type === type ? (
           <p>
             Harap menunggu konfirmasi pembayaran terlebih dahulu sebelum memilih
             jurusan
@@ -121,8 +121,7 @@ const StepPilihJurusan: React.FC<Step> = ({ type = "PEMBELIAN" }) => {
           </>
         )}
       </Stack>
-      <Toaster position={"top-center"} />
-    </Box>
+    </Paper>
   );
 };
 

@@ -1,11 +1,11 @@
 import { Box, useMantineTheme } from '@mantine/core'
+import { TGRegistrationPath } from '../../types/global'
 import { useBreakPoints } from '../../utils/UseBreakpoints'
-import { JalurPendaftaranPPDB } from '../../types/global'
 
 const BiayaJalurPendaftaran = ({
-    jalur
+    batch
 }: {
-    jalur: JalurPendaftaranPPDB | undefined
+    batch?: TGRegistrationPath
 }) => {
 
     const { xs } = useBreakPoints()
@@ -28,11 +28,11 @@ const BiayaJalurPendaftaran = ({
             <h1
                 style={{ fontSize: "22px" }}
             >
-                Biaya {jalur?.nama_jalur_pendaftaran}:
+                Biaya {batch?.name}:
             </h1>
             {
-                jalur && jalur?.informasi_umum.biaya_tambahan.length > 0 ?
-                    jalur?.informasi_umum.biaya_tambahan.map(biayaJalur => (
+                batch && batch?.additionalPrices.length > 0 ?
+                batch?.additionalPrices.map(biayaJalur => (
                         <Box
                             key={biayaJalur.id}
                             style={{
@@ -45,7 +45,6 @@ const BiayaJalurPendaftaran = ({
                         >
                             <div
                                 id='judul-biaya'
-                                // className=' border-b px-6 py-2 text-center'
                                 style={{
                                     borderBottom: "1px solid",
                                     padding: "8px 24px",
@@ -53,11 +52,11 @@ const BiayaJalurPendaftaran = ({
                                 }}
 
                             >
-                                <p >{biayaJalur.judul_biaya}</p>
+                                <p >{biayaJalur.namePrice}</p>
                             </div>
                             <div>
-                                {biayaJalur.biaya.map(item => {
-                                    const formatedAngka = item.jumlah_biaya_tambahan.toLocaleString("id-ID", {
+                                {biayaJalur.priceDetails.map(item => {
+                                    const formatedAngka = item.price.toLocaleString("id-ID", {
                                         style: "currency",
                                         currency: "IDR",
                                     })
@@ -71,7 +70,7 @@ const BiayaJalurPendaftaran = ({
                                                 padding: "8px 32px",
                                             }}
                                         >
-                                            <span style={{ flex: 2 }}>{item.nama_biaya_tambahan}</span>
+                                            <span style={{ flex: 2 }}>{item.subTitle}</span>
                                             <span style={{ flex: 1 }}>{formatedAngka.endsWith(",00") ? formatedAngka.slice(0, -3) : formatedAngka}</span>
                                         </div>
                                     )

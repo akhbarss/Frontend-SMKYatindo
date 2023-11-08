@@ -9,7 +9,7 @@ import DashboardLayout from "./layouts/DashboardLayout";
 import GuestLayout from "./layouts/GuestLayout";
 import JalurPendaftaranDetailLayout from "./layouts/JalurPendaftaranDetailLayout";
 import { PendaftarPPDB } from "./pages";
-import DetailSiswa from "./pages/ppdb/admin/DetailSiswa";
+import DetailPendaftar from "./pages/ppdb/admin/DetailPendaftar";
 import PendaftarPerGelombang from "./pages/ppdb/admin/PendaftarPerGelombang";
 import Gelombang from "./pages/ppdb/admin/jalurPendaftaranPPDB/Gelombang";
 import InformasiUmum from "./pages/ppdb/admin/jalurPendaftaranPPDB/InformasiUmum";
@@ -158,7 +158,7 @@ export const routes: RouteObject[] = [
               },
               {
                 path: "pendaftar-ppdb/:gelombangId/:userId",
-                Component: () => <DetailSiswa />,
+                Component: () => <DetailPendaftar />,
               },
             ],
           },

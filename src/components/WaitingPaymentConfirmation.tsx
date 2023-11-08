@@ -5,9 +5,7 @@ const WaitingPaymentConfirmation = () => {
   return (
     <Box
       sx={(theme) => ({
-        backgroundColor: `${
-          theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white
-        }`,
+        backgroundColor: `transparent`,
         padding: "4rem 0",
         display: "flex",
         flexDirection: "column",

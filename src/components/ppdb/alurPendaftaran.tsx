@@ -30,7 +30,7 @@ const AlurPendaftaran = () => {
           <Title size={xs ? "2.5vw" : "5vw"} color="dark" weight={"bold"}>Alur Pendaftaran</Title>
         </Box>
         {alurPendaftaran && alurPendaftaran.data.length > 0 ? (
-          <Box className="mt-10 flex">
+          <Box className="mt-10 flex max-w-[60rem] w-full mx-auto">
             <Stepper
               active={0}
               orientation="vertical"
@@ -47,7 +47,8 @@ const AlurPendaftaran = () => {
                 },
                 stepIcon: {
                   border: "none",
-                  backgroundColor: `${dark ? "#291872" : "#020731"}`,
+                  // backgroundColor: `${dark ? "#291872" : "#020731"}`,
+                  background: "linear-gradient(to bottom, #2A166F, #420BFF)",
                   color: "white",
                   borderRadius: "100%",
                   display: "flex",
@@ -82,6 +83,7 @@ const AlurPendaftaran = () => {
               {alurPendaftaran &&
                 alurPendaftaran?.data?.map((alur) => (
                   <Stepper.Step
+                    key={alur.id}
                     mb={10}
                     description={
                       <Box

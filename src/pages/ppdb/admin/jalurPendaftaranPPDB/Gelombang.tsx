@@ -88,6 +88,8 @@ const Gelombang = () => {
     queryFn: () => getGelombangByIdJalur(idJalurPendaftaran)
   })
 
+  console.log(gelombang)
+  
   const createGelombangMutation = useMutation({
     mutationFn: createGelombang
   })
@@ -392,7 +394,6 @@ const Gelombang = () => {
       />
 
       <LoadingOverlay visible={deleteGelombangMutation.status === "pending"} overlayBlur={1} />
-      <Toaster position="top-center" reverseOrder={false} />
     </Page>
   )
 }

@@ -58,16 +58,16 @@ const DashboardLayout: React.FC<TDashboard> = ({ children }) => {
           />
         }
         navbarOffsetBreakpoint="md"
-        styles={{ main: {display: "flex"}, }}
+        // styles={{ main: {display: "flex"}, }}
       >
-        <Paper className="relative flex flex-col flex-[1]">
+        <Paper className="relative flex flex-col flex-[1] h-full">
 
           <Paper
             p={`${sm ? "3rem 2.5rem" : "3rem 1rem"}`}
             pb={"100px"}
-            className="style-box flex-1"
+            className="style-box "
             sx={() => ({
-              minHeight: "80vh",
+              // minHeight: "80vh",
             })}
           >
             {children}

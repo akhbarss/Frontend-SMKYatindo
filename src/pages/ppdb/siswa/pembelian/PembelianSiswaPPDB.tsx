@@ -99,6 +99,7 @@ const PembelianSiswaPPDB = () => {
     data: stagings,
     isLoading,
     isSuccess,
+    isFetching
   } = useQuery({
     queryKey: ["get_last_offset_batch"],
     queryFn: () => getLastoffset("PEMBELIAN"),
@@ -139,7 +140,7 @@ const PembelianSiswaPPDB = () => {
   const toStep = (index: string) => {
     const toFilter = {
       step: +index,
-      stagingId: stagings.data.find((batch) => batch.index === +index).id,
+      stagingId: stagings.data.find((batch) => batch.index === +index)?.id,
     };
     setFilter(toFilter);
     navigate(`${location.pathname}?${generateQueryparam(toFilter)}`);
@@ -148,28 +149,39 @@ const PembelianSiswaPPDB = () => {
   return (
     <Page title={"Pembelian"}>
       <PageLabel label={"Pembelian"} />
-      <Stack className={"style-box max-w-[70rem] mx-auto"}>
+      <Stack className={"style-box "}>
         <StyledTabs value={`${filter.step}`} onTabChange={toStep}>
-          {isLoading && <Skeleton width={"100%"} />}
-          {isSuccess && (
-            <TabList
-              activeTabIndex={+filter.step}
-              card={stagings.data.map((staging, index) => {
-                return {
-                  label: staging.name,
-                  index: staging.index,
-                  icon: card[index]?.icon,
-                  is_done: staging.is_done === 1,
-                };
-              })}
-            />
-          )}
+          <>
+            {isFetching ? <Skeleton mt={40} width={"100%"} height={200} visible /> : (
+              <>
+                {isSuccess && (
+                  <TabList
+                    activeTabIndex={+filter.step}
+                    card={stagings.data.map((staging, index) => {
+                      return {
+                        label: staging.name,
+                        index: staging.index,
+                        icon: card[index]?.icon,
+                        is_done: staging.is_done === 1,
+                      };
+                    })}
+                  />
+                )}
+              </>
+            )}
+          </>
+          
           <Divider my={20} />
 
-          {card.find((c) => c.index === filter.step)?.content}
+          {
+            isFetching ? <Skeleton mt={40} width={"100%"} height={200} visible /> : (
+              <>
+                {card.find((c) => c.index === filter.step)?.content}
+              </>
+            )
+          }
         </StyledTabs>
       </Stack>
-      <Toaster position="top-center" reverseOrder={false} />
     </Page>
   );
 };

@@ -1,4 +1,5 @@
-export const toDataUrl = (url) =>
+export const toDataUrl = (url) => {
+  console.log(url)
   fetch(url)
     .then((response) => response.blob())
     .then(
@@ -10,7 +11,7 @@ export const toDataUrl = (url) =>
           reader.readAsDataURL(blob);
         })
     );
-
+}
 export const convertToFileObject = async (
   fileName: string
 ): Promise<File[]> => {

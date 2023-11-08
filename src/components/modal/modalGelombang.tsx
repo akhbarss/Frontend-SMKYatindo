@@ -27,10 +27,11 @@ const ModalGelombang: React.FC<TModalGelombang> = ({
     close,
     opened,
     action: {
-        actionFn
+        actionFn,
+        label
     },
     loading,
-    formMantine
+    formMantine,
 }) => {
 
     function submitHandler(data: typeof formMantine.values) {
@@ -145,7 +146,7 @@ const ModalGelombang: React.FC<TModalGelombang> = ({
                         type="submit"
                         loading={loading}
                     >
-                        Tambah
+                        {label}
                     </Button>
                 </Group>
 

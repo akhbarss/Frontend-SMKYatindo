@@ -329,7 +329,6 @@ const BiayaTambahan = () => {
       />
 
       <LoadingOverlay visible={deleteBiayaTambahanMutation.status === "pending"} overlayBlur={1} />
-      <Toaster position="top-center" reverseOrder={false} />
     </Box>
   );
 };

@@ -133,7 +133,6 @@ const Login = () => {
 
         <SideAuthLayout page={null} />
       </Paper>
-      <Toaster position="top-center" reverseOrder={false} />
     </Page>
   );
 };

@@ -1,23 +1,22 @@
 import { Divider, Skeleton, Stack, Tabs, TabsProps } from "@mantine/core";
-import React, { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 import { FaAddressCard, FaRegFlag } from "react-icons/fa";
 import { FaMoneyCheckDollar } from "react-icons/fa6";
 import { IoPerson } from "react-icons/io5";
 import { RiGitMergeFill } from "react-icons/ri";
-import Page from "../../../../components/Page";
-import TabList from "../../../../components/ppdb/siswa/tabList";
-import PageLabel from "../../../../components/PageLabel";
-import { getLastoffset } from "../../../../apis/pembelian";
-import useFilter from "../../../../utils/useFilter";
 import { useLocation, useNavigate } from "react-router-dom";
-import generateQueryparam from "../../../../utils/generateQueryParam";
-import { useQuery } from "@tanstack/react-query";
+import { getLastoffset } from "../../../../apis/pembelian";
+import Page from "../../../../components/Page";
+import PageLabel from "../../../../components/PageLabel";
+import StepBiodata from "../../../../components/ppdb/siswa/StepBiodata";
+import StepCetakKartu from "../../../../components/ppdb/siswa/StepCetakKartu";
 import StepGelombang from "../../../../components/ppdb/siswa/StepGelombang";
 import StepPembayaran from "../../../../components/ppdb/siswa/StepPembayaran";
-import StepCetakKartu from "../../../../components/ppdb/siswa/StepCetakKartu";
-import { Toaster } from "react-hot-toast";
-import StepBiodata from "../../../../components/ppdb/siswa/StepBiodata";
 import StepPilihJurusan from "../../../../components/ppdb/siswa/StepPilihJurusan";
+import TabList from "../../../../components/ppdb/siswa/tabList";
+import generateQueryparam from "../../../../utils/generateQueryParam";
+import useFilter from "../../../../utils/useFilter";
 
 function StyledTabs(props: TabsProps) {
   return (
@@ -119,6 +118,7 @@ const PengembalianSiswaPPDB = () => {
     data: stagings,
     isLoading,
     isSuccess,
+    isFetching
   } = useQuery({
     queryKey: ["get_last_offset_batch"],
     queryFn: () => getLastoffset("PENGEMBALIAN"),
@@ -157,11 +157,11 @@ const PengembalianSiswaPPDB = () => {
   }, [stagings, isSuccess]);
 
   console.log(stagings?.data)
-  
+
   const toStep = (index: string) => {
     const toFilter = {
       step: +index,
-      stagingId: stagings.data.find((batch) => batch.index === +index).id,
+      stagingId: stagings.data.find((batch) => batch.index === +index)?.id,
     };
 
     navigate(`${location.pathname}?${generateQueryparam(toFilter)}`);
@@ -172,25 +172,38 @@ const PengembalianSiswaPPDB = () => {
       <PageLabel label={"Pengembalian"} />
       <Stack className={"style-box max-w-[70rem] mx-auto"}>
         <StyledTabs value={`${filter.step}`} onTabChange={toStep}>
-          {isLoading && <Skeleton width={"100%"} />}
-          {isSuccess && (
-            <TabList
-              activeTabIndex={+filter.step}
-              card={stagings.data.map((staging, index) => {
-                return {
-                  label: staging.name,
-                  index: staging.index,
-                  icon: card[index]?.icon,
-                  is_done: staging.is_done === 1,
-                };
-              })}
-            />
-          )}
+          {/* {isLoading && <Skeleton width={"100%"} />} */}
+          {
+            isFetching ? <Skeleton mt={40} width={"100%"} height={200} visible /> : (
+              <>
+                {isSuccess && (
+                  <TabList
+                    activeTabIndex={+filter.step}
+                    card={stagings.data.map((staging, index) => {
+                      return {
+                        label: staging.name,
+                        index: staging.index,
+                        icon: card[index]?.icon,
+                        is_done: staging.is_done === 1,
+                      };
+                    })}
+                  />
+                )}
+              </>
+            )
+          }
+
           <Divider my={20} />
-          {card.find((c) => c.index === filter.step)?.content}
+
+          {
+            isFetching ? <Skeleton mt={40} width={"100%"} height={200} visible /> : (
+              <>
+                {card.find((c) => c.index === filter.step)?.content}
+              </>
+            )
+          }
         </StyledTabs>
       </Stack>
-      <Toaster position="top-center" reverseOrder={false} />
     </Page>
   );
 };

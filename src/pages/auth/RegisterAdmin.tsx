@@ -76,7 +76,7 @@ const RegisterAdmin = () => {
                   </Link>
                 </Group>
 
-                <Button type="submit" loading={registrationMutation.isLoading}>
+                <Button type="submit" loading={registrationMutation.status === "pending"}>
                   Daftar
                 </Button>
               </Stack>
@@ -84,9 +84,8 @@ const RegisterAdmin = () => {
           </Box>
         </Box>
 
-        <SideAuthLayout />
+        <SideAuthLayout page={null} />
       </Paper>
-      <Toaster position="top-center" reverseOrder={false} />
     </Page>
   );
 };

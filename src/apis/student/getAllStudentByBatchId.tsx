@@ -1,4 +1,4 @@
-import { ResponseType } from "../../types/global";
+import { ResponseType, Status } from "../../types/global";
 import axios from "../../utils/axios";
 
 type TStudent = {
@@ -6,8 +6,8 @@ type TStudent = {
     name: string;
     phone: string
     address: string
-    status: string
-    registrationDate: string
+    status: Status
+    registrationDate: number | null
 }
 
 export const getAllStudentByBatchId = async (gelombangId: string): Promise<

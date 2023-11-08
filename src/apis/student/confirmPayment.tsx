@@ -23,8 +23,8 @@ export type ConfirmPaymentPayload = {
 export const confirmPayment = async (payload: ConfirmPaymentPayload): Promise<
     ResponseType<ResConfirmPayment[]>
 > => {
-    const { batchId, userId } = payload
+    
 
-    const request = await axios.get(`/v1/student/get-payments?batchId=${batchId}&studentId=${userId}`);
+    const request = await axios.put(`/v1/student/confirm-payment`, payload);
     return request.data;
 };

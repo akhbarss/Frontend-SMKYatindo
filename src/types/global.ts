@@ -91,3 +91,60 @@ export interface RefreshToken {
 export interface AccessToken {
   token: string;
 }
+
+export type Status =
+  | "REGISTERED"
+  | "FILE_SELECTION"
+  | "WAITING_PAYMENT"
+  | "WAITING_ANNOUNCEMENT"
+  | "CHOOSING_FIRST_MAJORS"
+  | "CHOOSING_FIX_MAJOR"
+  | "FILLING_BIO"
+  | "FILE_CONFIRMED"
+  | "PAYMENT_CONFIRMED"
+  | "PRINT_CARD_PURCHASED"
+  | "PRINT_CARD_RETURNING"
+  | "SELECTION_PASSED"
+  | "SELECTION_NOT_PASSED";
+
+export type TGRegistrationBatch = {
+  id: number;
+  name: string;
+  index: number;
+  max_quota: number;
+  batchCode: string;
+  start_date: number;
+  end_date: number;
+  bank_name: string;
+  bank_user: string;
+  price: number;
+  bank_account: string;
+};
+
+export type TGGeneralInformations = {
+  id: number;
+  name: string;
+  description: string;
+};
+
+export type TGPriceDetail = {
+  id: number;
+  subTitle: string;
+  price: number;
+};
+
+export type TGAdditionalPrices = {
+  id: number;
+  namePrice: string;
+  priceDetails: TGPriceDetail[];
+};
+
+export type TGRegistrationPath = {
+  id: number;
+  name: string;
+  registrationBatches: TGRegistrationBatch[];
+  generalInformations: TGGeneralInformations[];
+  additionalPrices: TGAdditionalPrices[];
+};
+
+export type TGlobalRegistrationPath = TGRegistrationPath[];

@@ -27,6 +27,7 @@ import Page from "../../../../components/Page";
 import PageLabel from "../../../../components/PageLabel";
 import ModallJalurCreate from "../../../../components/modal/modallJalurCreate";
 import ModallJalurEdit from "../../../../components/modal/modallJalurEdit";
+import DataKosong from "../../../../components/ppdb/dataKosong";
 
 export type FormValuesCreateJalur = {
   tipeJalur: TipeJalur
@@ -273,9 +274,7 @@ const JalurPendaftarahAdmin = () => {
       </Box>
     )
   }) : (
-    <Paper withBorder p={"lg"} shadow="lg">
-      <Text size={"lg"} weight={"bold"}>Data kosong</Text>
-    </Paper>
+    <DataKosong />
   )
 
   return (
@@ -352,7 +351,6 @@ const JalurPendaftarahAdmin = () => {
         />
 
         <LoadingOverlay visible={deleteJalurMutation.status === "pending"} overlayBlur={1} />
-        <Toaster position="top-center" reverseOrder={false} />
       </Stack>
     </Page>
   );

@@ -6,7 +6,6 @@ const SideAuthLayout = ({ page }: { page: "SMK" | "SMP" }) => {
 
     const { md } = useBreakPoints()
     const { pathname } = useLocation()
-    console.log(pathname)
 
     const pageSMK = page === "SMK"
     const pageSMP = page === "SMP"

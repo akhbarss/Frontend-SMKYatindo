@@ -6,6 +6,7 @@ import {
   Skeleton,
   Stack,
   Text,
+  Paper,
   Title,
 } from "@mantine/core";
 import toast, { Toaster } from "react-hot-toast";
@@ -103,10 +104,11 @@ const StepPembayaran: React.FC<Step> = ({ type = "PEMBELIAN" }) => {
   };
 
   return (
-    <Box
+    <Paper
+    withBorder
       sx={(theme) => ({
         backgroundColor: `${
-          theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white
+          theme.colorScheme === "dark" ? theme.colors.dark[9] : theme.white
         }`,
         padding: "2rem",
         boxShadow: "0 5px 10px -8px black",
@@ -223,8 +225,7 @@ const StepPembayaran: React.FC<Step> = ({ type = "PEMBELIAN" }) => {
           </Button>
         </FormWrapper>
       )}
-      <Toaster position={"top-center"} reverseOrder={true} />
-    </Box>
+    </Paper>
   );
 };
 

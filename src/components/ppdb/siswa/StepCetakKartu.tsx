@@ -15,7 +15,7 @@ import useQueryFilter from "../../../hooks/useQueryFilter";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getOffsetStatus, printCard } from "../../../apis/pembelian";
 import { jwtDecode } from "../../../apis/alur/decodeJWT";
-import toast from "react-hot-toast";
+import toast, {Toaster} from "react-hot-toast";
 import ResponseError from "../../../utils/ResponseError";
 import { useNavigate } from "react-router-dom";
 
@@ -50,9 +50,9 @@ const StepCetakKartu: React.FC<Step> = ({ type = "PEMBELIAN" }) => {
             "Selamat anda telah menyelesaikan satu rangkaian tahapan"
           );
           navigate("/ppdb/main/pengembalian");
-          queryClient.invalidateQueries({
-            queryKey: ["get_last_offset_batch"],
-          });
+          // queryClient.invalidateQueries({
+          //   queryKey: ["get_last_offset_batch"],
+          // });
         },
         onError: (err) => ResponseError(err),
       }

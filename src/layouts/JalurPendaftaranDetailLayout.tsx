@@ -38,8 +38,8 @@ const JalurPendaftaranDetailLayout: React.FC<TJalurPendaftaranDetailLayout> = ({
           to={"/ppdb/main/jalur-pendaftaran"}
           className="text-xl no-underline font-bold  flex  items-center gap-2 w-fit"
         >
-          <MdArrowBackIosNew color={`${dark ? "#5A45A4"  : "#2A166F"}`}/>
-          <Text color={`${dark ? "#5A45A4"  : "#2A166F"}`}>
+          <MdArrowBackIosNew color={`${dark ? "#9b87de"  : "#2A166F"}`}/>
+          <Text color={`${dark ? "#9b87de"  : "#2A166F"}`}>
             Kembali
           </Text>
         </Link>

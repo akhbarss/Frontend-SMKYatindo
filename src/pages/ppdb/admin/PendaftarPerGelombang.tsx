@@ -1,4 +1,5 @@
 import {
+    Badge,
     Skeleton,
     ActionIcon,
     Box,
@@ -12,8 +13,8 @@ import {
 import {
     IconTrash
 } from "@tabler/icons-react";
-import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 import { MdArrowBackIosNew } from "react-icons/md";
 import { Link, useParams } from "react-router-dom";
 import { getGelombangById } from "../../../apis/gelombang/getGelombangById";
@@ -23,6 +24,9 @@ import DataTable from "../../../components/DataTable";
 import Page from "../../../components/Page";
 import PageLabel from "../../../components/PageLabel";
 import { DarkTheme } from "../../../utils/darkTheme";
+import { statusValue } from "../../../utils/statusValue";
+import { Status } from "../../../types/global";
+import { exportExcel } from "../../../apis/student/exportExcel";
 
 const PendaftarPerGelombang = () => {
 
@@ -38,9 +42,27 @@ const PendaftarPerGelombang = () => {
         queryFn: () => getTotalPendaftarByBatch(gelombangId)
     })
 
+    console.log(totalPendaftar?.data)
+
+
+    const exportExcelMutation = useMutation({
+        mutationFn: exportExcel
+    })
+
+
+    const sampleSubmitData = (batchId: string) => {
+        exportExcelMutation.mutate(batchId, {
+            onSuccess: (response) => {
+                console.log(response)
+            },
+            onError: (err) => console.log(err),
+        });
+    };
+
     const {
         data: student,
         isLoading: loadStudent,
+        isFetching,
         isError: isErrorGetStudent,
         error
     } = useQuery({
@@ -56,23 +78,37 @@ const PendaftarPerGelombang = () => {
         queryFn: () => getGelombangById(gelombangId)
     })
 
-    console.log(student)
-
     const students: {
         id: number,
         nama: string,
         noWa: string,
-        tanggalMendaftar: string,
-        status: string
+        tanggalMendaftar: number | null,
+        status: Status
     }[] = student?.data?.map(item => ({
         id: item?.id ?? 1,
         nama: item?.name ?? "-",
         noWa: item?.phone ?? "-",
-        status: item?.status ?? "-",
-        tanggalMendaftar: item?.registrationDate ?? "-"
+        status: item?.status ?? null,
+        tanggalMendaftar: item?.registrationDate ?? null
     }))
 
-    const filteredStudent = students?.filter(student => {
+    // students?.push({
+    //     id: 2131,
+    //     nama: "Adi",
+    //     noWa: "082110977214",
+    //     status: "PAYMENT_CONFIRMED",
+    //     tanggalMendaftar: 1698912464000,
+    // })
+
+    const filteredStatusStudent = students?.filter(student => {
+
+        return student
+        // uncomment the code below to display the appropriate status
+        // return (student.status === "WAITING_PAYMENT" || student.status === "PAYMENT_CONFIRMED")
+    })
+
+    const filteredSearchStudent = filteredStatusStudent?.filter(student => {
+        // console.log(student.status)
         return student.nama.toLowerCase().includes(searchName.toLowerCase())
     })
 
@@ -101,15 +137,18 @@ const PendaftarPerGelombang = () => {
         {
             accessorKey: "tanggalMendaftar",
             header: "Tanggal Mendaftar",
-            cell: (data, i) => {
-                const tanggal = new Date(data?.row.original.tanggalMendaftar)
+            cell: (data,) => {
+                const date = data?.row?.original?.tanggalMendaftar
+                const formattedDate = new Date(date)
                 return (
                     <span>
-                        {tanggal.toLocaleDateString("id-ID", {
-                            year: 'numeric',
-                            month: 'short',
-                            day: 'numeric',
-                        })}
+                        {!date ? "-" :
+                            formattedDate.toLocaleDateString("id-ID", {
+                                year: 'numeric',
+                                month: 'short',
+                                day: 'numeric',
+                            })
+                        }
                     </span>
                 )
             }
@@ -118,20 +157,29 @@ const PendaftarPerGelombang = () => {
             accessorKey: "status",
             header: "Status",
             cell: (data) => {
-                const status = data.row.original.status
-                if (status === "success") {
-                    return <span className="text-green-500 font-bold py-1 px-4 bg-green-100 rounded-full">Dikonfirmasi</span>
-                }
-                if (status === "wait") {
-                    return <span className="text-red-500 font-bold py-1 px-4 bg-red-100 rounded-full">Belum Dikonfirmasi</span>
-                }
+                const status = data.row.original.status as Status
+                const valueStatus = statusValue[status]
+
+                if (valueStatus) return (
+                    <Badge size="lg" color={valueStatus.color} bg={!dark && "#dcfce2"}>{valueStatus.value}</Badge>
+                )
+                // console.log(status)
+                // if (status === "PAYMENT_CONFIRMED") {
+                //     return <Badge size="lg" color="green" bg={!dark && "#dcfce2"}>Terkonfirmasi</Badge>
+                // }
+                // if (status === "WAITING_PAYMENT") {
+                //     return <Badge size="lg" color={"red"} bg={dark ? "#3D1B1C" : "#ffd1d1"}>Belum Dikonfirmasi</Badge>
+                // }
+                // if (status === "REGISTERED") {
+                //     return <Badge size="lg" color={"blue"} >Terdaftar</Badge>
+                // }
                 return "-"
             },
         },
         {
             id: "detail",
             header: "Detail",
-            cell: (data, i) => {
+            cell: (data) => {
                 const userId = data.row.original.id
                 return (
                     <Link
@@ -146,7 +194,7 @@ const PendaftarPerGelombang = () => {
         {
             id: "aksi",
             header: "Aksi",
-            cell: (data, i) => {
+            cell: (data) => {
                 const userId = data.row.original.id
 
                 return (
@@ -166,13 +214,15 @@ const PendaftarPerGelombang = () => {
         <Page title="Seleksi Gelombang" >
             <PageLabel label="Seleksi Gelombang" />
             <Stack mt={20}>
-                <Link
-                    to={"/ppdb/main/pendaftar-ppdb"}
-                    className="text-xl no-underline font-bold  flex  items-center gap-2 w-fit"
-                >
-                    <MdArrowBackIosNew color={`${dark ? "#5A45A4" : "#2A166F"}`} />
-                    <Text color={`${dark ? "#5A45A4" : "#2A166F"}`}>Kembali</Text>
-                </Link>
+                {!isFetching && (
+                    <Link
+                        to={"/ppdb/main/pendaftar-ppdb"}
+                        className="text-xl no-underline font-bold  flex  items-center gap-2 w-fit"
+                    >
+                        <MdArrowBackIosNew color={`${dark ? "#9b87de" : "#2A166F"}`} />
+                        <Text color={`${dark ? "#9b87de" : "#2A166F"}`}>Kembali</Text>
+                    </Link>
+                )}
 
                 <Paper withBorder p="md" radius="md" bg={"linear-gradient(to left bottom, #6952ba, #160942)"}>
                     <Box>
@@ -182,7 +232,16 @@ const PendaftarPerGelombang = () => {
                             <Title c={"white"} order={2}>{gelombang?.data?.name}</Title>
                         )}
                     </Box>
-                    <Box bg={`${dark ? "#1A1B1E" : "#FFFFFF"}`} sx={{ padding: "0.5rem 1.5rem", marginTop: "1rem", display: "flex", gap: "2rem", borderRadius: "10px" }}  >
+                    <Box
+                        bg={`${dark ? "#1A1B1E" : "#FFFFFF"}`}
+                        sx={{
+                            padding: "0.5rem 1.5rem",
+                            marginTop: "1rem",
+                            display: "flex",
+                            gap: "2rem",
+                            borderRadius: "10px",
+                        }}
+                    >
                         <Box  >
                             <Text weight={"bold"} align="center" >Jumlah Pendaftar</Text>
                             {loadTotalPendaftar ? (
@@ -215,21 +274,21 @@ const PendaftarPerGelombang = () => {
                         <Text sx={{ flex: 1 }} size={"lg"} weight={500} mb={10}>
                             Data Pendaftar
                         </Text>
-                        <Button>Export Excel</Button>
+                        <Button onClick={() => sampleSubmitData(gelombangId)}>Export Excel</Button>
                     </Group>
                     {
                         isErrorGetStudent ? (
                             <Text>{error.message}</Text>
                         ) : (
-
                             <DataTable
                                 pagination={{
                                     pageIndex: 0,
                                     pageSize: 1000
                                 }}
-                                data={filteredStudent}
+                                data={filteredSearchStudent}
                                 canExpand={() => true}
                                 columns={columns}
+                                loading={isFetching}
                                 useSearchInput={true}
                                 noCard={true}
                                 totalRecords={students?.length}
