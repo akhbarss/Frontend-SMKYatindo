@@ -6,6 +6,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { MdAppRegistration, MdDashboard } from "react-icons/md";
 import { FaLine } from "react-icons/fa";
 import { GiWaves } from "react-icons/gi";
+import { useQueryClient, useIsFetching } from "@tanstack/react-query";
 
 const Navigation = ({
   opened,
@@ -85,6 +86,7 @@ const Navigation = ({
     []
   );
 
+  const countQueryFetching = useIsFetching({ queryKey: ["get_last_offset_batch"], fetchStatus: "fetching", })
   const { pathname: pathUrl } = useLocation();
   const navigate = useNavigate();
 
@@ -118,7 +120,11 @@ const Navigation = ({
                 color="gray"
                 label={menu.label}
                 onClick={() => {
-                  navigate(menu.path as never);
+                  if (countQueryFetching > 0) {
+                    return
+                  } else [
+                    navigate(menu.path as never)
+                  ]
                   // setOpened();
                 }}
               />

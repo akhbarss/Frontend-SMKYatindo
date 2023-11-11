@@ -1,21 +1,20 @@
-import { Divider, Skeleton, Stack, Tabs, TabsProps } from "@mantine/core";
-import React, { useEffect, useState } from "react";
-import { FaAddressCard, FaRegFlag } from "react-icons/fa";
-import { RiGitMergeFill } from "react-icons/ri";
-import TabList from "../../../../components/ppdb/siswa/tabList";
-import Page from "../../../../components/Page";
-import { FaMoneyCheckDollar } from "react-icons/fa6";
-import PageLabel from "../../../../components/PageLabel";
-import StepGelombang from "../../../../components/ppdb/siswa/StepGelombang";
-import { Toaster } from "react-hot-toast";
-import { getLastoffset } from "../../../../apis/pembelian";
+import { Divider, ScrollArea, Skeleton, Stack, Tabs, TabsProps } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
-import StepPembayaran from "../../../../components/ppdb/siswa/StepPembayaran";
-import useFilter from "../../../../utils/useFilter";
+import { useEffect, useState } from "react";
+import { FaAddressCard, FaRegFlag } from "react-icons/fa";
+import { FaMoneyCheckDollar } from "react-icons/fa6";
+import { RiGitMergeFill } from "react-icons/ri";
 import { useLocation, useNavigate } from "react-router-dom";
-import generateQueryparam from "../../../../utils/generateQueryParam";
+import { getLastoffset } from "../../../../apis/pembelian";
+import Page from "../../../../components/Page";
+import PageLabel from "../../../../components/PageLabel";
 import StepCetakKartu from "../../../../components/ppdb/siswa/StepCetakKartu";
+import StepGelombang from "../../../../components/ppdb/siswa/StepGelombang";
+import StepPembayaran from "../../../../components/ppdb/siswa/StepPembayaran";
 import StepPilihJurusan from "../../../../components/ppdb/siswa/StepPilihJurusan";
+import TabList from "../../../../components/ppdb/siswa/tabList";
+import generateQueryparam from "../../../../utils/generateQueryParam";
+import useFilter from "../../../../utils/useFilter";
 
 const StyledTabs = (props: TabsProps) => {
   return (
@@ -54,7 +53,8 @@ const StyledTabs = (props: TabsProps) => {
         },
 
         tabsList: {
-          overflowX: "auto",
+          // overflowX: "auto",
+          // marginBlock: "4rem"
         },
       })}
       {...props}
@@ -155,22 +155,24 @@ const PembelianSiswaPPDB = () => {
             {isFetching ? <Skeleton mt={40} width={"100%"} height={200} visible /> : (
               <>
                 {isSuccess && (
-                  <TabList
-                    activeTabIndex={+filter.step}
-                    card={stagings.data.map((staging, index) => {
-                      return {
-                        label: staging.name,
-                        index: staging.index,
-                        icon: card[index]?.icon,
-                        is_done: staging.is_done === 1,
-                      };
-                    })}
-                  />
+                  <ScrollArea w={"100%"} display={"flex"} type="always" sx={{ display: 'block' }} offsetScrollbars >
+                    <TabList
+                      activeTabIndex={+filter.step}
+                      card={stagings.data.map((staging, index) => {
+                        return {
+                          label: staging.name,
+                          index: staging.index,
+                          icon: card[index]?.icon,
+                          is_done: staging.is_done === 1,
+                        };
+                      })}
+                    />
+                  </ScrollArea>
                 )}
               </>
             )}
           </>
-          
+
           <Divider my={20} />
 
           {

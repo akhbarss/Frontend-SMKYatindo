@@ -126,8 +126,8 @@ const PendaftarPPDB = () => {
                                 <Group mt={10} >
                                   <HiMiniUserCircle size={30} />
                                   <Text >
-                                    {JSON.stringify(item.countStudent)}
-                                    {/* 100 Pendaftar */}
+                                    {/* {JSON.stringify(item.countStudent)} */}
+                                    0 Pendaftar
                                   </Text>
                                 </Group>
                               </Paper>
@@ -179,7 +179,7 @@ const PendaftarPPDB = () => {
                                 <Group mt={10} >
                                   <HiMiniUserCircle size={30} />
                                   <Text >
-                                    Pendaftar
+                                    0 Pendaftar
                                   </Text>
                                 </Group>
                               </Paper>

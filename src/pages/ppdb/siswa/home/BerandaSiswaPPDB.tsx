@@ -8,7 +8,7 @@ import {
   Text,
   Timeline,
 } from "@mantine/core";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaCheck } from "react-icons/fa";
 import { TbAlertCircleFilled } from "react-icons/tb";
 import { useBreakPoints } from "../../../../utils/UseBreakpoints";
@@ -17,11 +17,28 @@ import { jwtDecode } from "../../../../apis/alur/decodeJWT";
 import { useQuery } from "@tanstack/react-query";
 import { GetAllAlurPendaftaran } from "../../../../apis/alur/getAlur";
 import TiptapOutput from "../../../../components/ppdb/tiptapOutput";
+import { useNavigate } from "react-router-dom";
 
 const BerandaSiswaPPDB = () => {
   const { md } = useBreakPoints();
   const [active, setActive] = useState(1);
   const [showAlert, setShowAler] = useState(true);
+  const navigate = useNavigate()
+
+  const {
+    error,
+    isError,
+    data,
+  } = useQuery({
+    queryFn: jwtDecode,
+    queryKey: ["session_berandasiswa"],
+  });
+
+  useEffect(() => {
+    if (data?.data.role_id.role_name === "Admin") {
+      navigate("/ppdb/main/dashboard")
+    }
+  }, [data?.data.role_id.role_name, navigate])
 
   const { isSuccess, data: user } = useQuery({
     queryFn: jwtDecode,

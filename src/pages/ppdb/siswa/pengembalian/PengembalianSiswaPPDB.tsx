@@ -1,4 +1,4 @@
-import { Divider, Skeleton, Stack, Tabs, TabsProps } from "@mantine/core";
+import { ScrollArea, Divider, Skeleton, Stack, Tabs, TabsProps } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { FaAddressCard, FaRegFlag } from "react-icons/fa";
@@ -177,17 +177,19 @@ const PengembalianSiswaPPDB = () => {
             isFetching ? <Skeleton mt={40} width={"100%"} height={200} visible /> : (
               <>
                 {isSuccess && (
-                  <TabList
-                    activeTabIndex={+filter.step}
-                    card={stagings.data.map((staging, index) => {
-                      return {
-                        label: staging.name,
-                        index: staging.index,
-                        icon: card[index]?.icon,
-                        is_done: staging.is_done === 1,
-                      };
-                    })}
-                  />
+                  <ScrollArea w={"100%"} display={"flex"} type="always" sx={{ display: 'block' }} offsetScrollbars >
+                    <TabList
+                      activeTabIndex={+filter.step}
+                      card={stagings.data.map((staging, index) => {
+                        return {
+                          label: staging.name,
+                          index: staging.index,
+                          icon: card[index]?.icon,
+                          is_done: staging.is_done === 1,
+                        };
+                      })}
+                    />
+                  </ScrollArea>
                 )}
               </>
             )

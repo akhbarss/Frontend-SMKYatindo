@@ -20,12 +20,9 @@ const TabList = ({
   return (
     <Tabs.List
       sx={{
-        width: "100%",
         display: "flex",
         gap: "1rem",
         padding: "2rem 0 1rem",
-        alignItems: "center",
-        overflowX: "scroll",
       }}
     >
       {card &&
