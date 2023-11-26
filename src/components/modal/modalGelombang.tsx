@@ -9,21 +9,23 @@ import { DateTimePicker } from '@mantine/dates'
 import { UseFormReturnType } from '@mantine/form'
 import React from 'react'
 import { NumericFormat } from 'react-number-format'
-import { FormValuesCreateGelombang } from '../../pages/ppdb/admin/jalurPendaftaranPPDB/Gelombang'
+import { FormValuesGelombang } from '../../pages/ppdb/admin/jalur-pendaftaran/Gelombang'
 import ModalAdmin from '../modalAdmin'
 
 type TModalGelombang = {
+    title: string
     opened: boolean
     close: () => void
     action: {
-        actionFn(datas: FormValuesCreateGelombang): void
+        actionFn(datas: FormValuesGelombang): void
         label: string
     }
     loading: boolean
-    formMantine: UseFormReturnType<FormValuesCreateGelombang, (values: FormValuesCreateGelombang) => FormValuesCreateGelombang>
+    formMantine: UseFormReturnType<FormValuesGelombang, (values: FormValuesGelombang) => FormValuesGelombang>
 }
 
 const ModalGelombang: React.FC<TModalGelombang> = ({
+    title,
     close,
     opened,
     action: {
@@ -44,7 +46,7 @@ const ModalGelombang: React.FC<TModalGelombang> = ({
             onClose={close}
             opened={opened}
             size="40rem"
-            title="Tambah Gelombang PPDB"
+            title={title}
             withFooter={false}
         >
             <form onSubmit={formMantine.onSubmit(value => submitHandler(value))}>

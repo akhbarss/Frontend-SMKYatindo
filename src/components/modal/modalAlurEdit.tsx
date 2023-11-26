@@ -1,16 +1,14 @@
-import React from 'react'
-import ModalAlur from '../modalAdmin'
 import {
-    Button,
     Stack,
     Text,
-    TextInput,
-    Group
+    TextInput
 } from '@mantine/core'
-import TiptapInput from '../ppdb/tiptapInput'
 import { UseMutationResult } from '@tanstack/react-query'
-import { ResponseType } from '../../types/global'
+import React from 'react'
 import { EditAlurPayload } from '../../apis/alur/editAlur'
+import { ResponseType } from '../../types/global'
+import ModalAlur from '../modalAdmin'
+import TiptapInput from '../ppdb/tiptapInput'
 
 type TModalAlurEdit = {
     opened: boolean
@@ -45,12 +43,13 @@ const ModalAlurEdit: React.FC<TModalAlurEdit> = ({
                 setIdAlur("")
             }}
             opened={opened}
-            title="Edit Alur Pendaftaran PPDB"
+            title="Ubah Alur Pendaftaran PPDB"
             withFooter
             onAccept={{
                 acceptFn: editAlurHandler,
                 titleAccept: "Ubah"
             }}
+            loading={editAlurMutation.status === "pending"}
 
         >
             <Stack p={20} pb={"6rem"}>

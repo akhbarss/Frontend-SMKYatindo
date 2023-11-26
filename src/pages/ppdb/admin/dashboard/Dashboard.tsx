@@ -1,5 +1,9 @@
+import { FaUsers, FaUser } from "react-icons/fa6";
+import { PiTimerBold } from "react-icons/pi";
+import { MdOutlinePriceCheck } from "react-icons/md";
 import {
   Progress,
+  ThemeIcon,
   Stack,
   Box,
   Text,
@@ -11,21 +15,31 @@ import {
   Center,
   Flex,
   Anchor,
+  useMantineTheme,
 } from "@mantine/core";
 import {
   IconArrowUpRight,
   IconDeviceAnalytics,
   IconArrowDownRight,
 } from "@tabler/icons-react";
-import DataTable from "../../../components/DataTable";
+import DataTable from "../../../../components/DataTable";
 import { useMemo } from "react";
-import Page from "../../../components/Page";
-import PageLabel from "../../../components/PageLabel";
+import Page from "../../../../components/Page";
+import PageLabel from "../../../../components/PageLabel";
+import { DarkTheme } from "../../../../utils/darkTheme";
+
+type TPathStatistics = {
+  title: string
+}
 
 const data = [
-  { label: "Jalur Reguler", count: "204,001", part: 59, color: "#47d6ab" },
-  { label: "Jalur Prestasi", count: "121,017", part: 35, color: "#03141a" },
-  { label: "Jalur Diskon", count: "31,118", part: 6, color: "#4fcdf7" },
+  { id: 1, label: "Jalur Reguler", count: "204,001", part: 20, color: "#47d6ab" },
+  { id: 2, label: "Jalur Prestasi", count: "121,017", part: 20, color: "#f7e14f" },
+  { id: 3, label: "Jalur Diskon", count: "31,118", part: 10, color: "#4fcdf7" },
+  { id: 4, label: "Jalur Diskon", count: "41,118", part: 10, color: "#f74f7c" },
+  { id: 5, label: "Jalur Diskon", count: "61,118", part: 20, color: "#4ff76e" },
+  { id: 6, label: "Jalur Diskon", count: "61,118", part: 10, color: "#d54ff7" },
+  { id: 7, label: "Jalur Diskon", count: "61,118", part: 10, color: "#f7a94f" },
 ];
 
 const icons = {
@@ -35,57 +49,54 @@ const icons = {
 
 const statspage = [
   {
+    id: 1,
     label: "Siswa Terdaftar",
     stats: "490.203",
-    progress: 90,
-    color: "red",
-    icon: "down",
+    progress: 100,
+    color: "blue",
+    icon: FaUsers,
+    size: 30
   },
   {
+    id: 2,
     label: "Menunggu Pembayaran",
     stats: "456,578",
-    progress: 65,
-    color: "teal",
-    icon: "up",
+    progress: 100,
+    color: "red",
+    icon: PiTimerBold,
+    size: 35
   },
   {
+    id: 3,
     label: "Pembayaran Terkonfirmasi",
     stats: "2,550",
-    progress: 40,
-    color: "blue",
-    icon: "up",
+    progress: 100,
+    color: "teal",
+    icon: MdOutlinePriceCheck,
+    size: 40
   },
 ] as const;
 
 const StudentStats = () => {
+  const theme = useMantineTheme()
+  const dark = DarkTheme()
   const stats = statspage.map((stat) => {
-    const Icon = icons[stat.icon];
+    const Icon = stat.icon;
     return (
-      <Paper withBorder radius="md" p="xs" key={stat.label}>
+      <Paper withBorder radius="md" p="xs" key={stat.id} shadow="md" sx={theme => ({ backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[9] : "" })}>
         <Group>
-          <RingProgress
-            size={80}
-            roundCaps
-            thickness={8}
-            sections={[{ value: stat.progress, color: stat.color }]}
-            label={
-              <Center>
-                <Icon
-                  style={{ width: rem(20), height: rem(20) }}
-                  stroke={1.5}
-                />
-              </Center>
-            }
-          />
+          <ThemeIcon m={5} radius={"50%"} variant={`${dark ? "light" : "filled"}`} color={stat.color} size={70} >
+            <Icon size={stat.size} />
+          </ThemeIcon>
 
-          <div>
+          <Box w={190}>
             <Text c="dimmed" size="xs" tt="uppercase" fw={700}>
               {stat.label}
             </Text>
             <Text fw={700} size="xl">
               {stat.stats}
             </Text>
-          </div>
+          </Box>
         </Group>
       </Paper>
     );
@@ -103,22 +114,23 @@ const StudentStats = () => {
   );
 };
 
-const PathStatistics = () => {
+const PathStatistics: React.FC<TPathStatistics> = ({ title }) => {
   const descriptions = data.map((stat) => (
     <Box
-      key={stat.label}
+      key={stat.id}
       style={{
         borderColor: stat.color,
         borderBottomWidth: 0.5,
         borderBottomStyle: "solid",
         paddingBottom: 5,
+
       }}
     >
       <Text tt="uppercase" fz="xs" c="dimmed" fw={700}>
         {stat.label}
       </Text>
 
-      <Group justify="space-between" align="flex-end" gap={0}>
+      <Group align="flex-end" >
         <Text fw={700}>{stat.count}</Text>
         <Text c={stat.color} fw={700} size="sm">
           {stat.part}%
@@ -127,17 +139,15 @@ const PathStatistics = () => {
     </Box>
   ));
   return (
-    <Paper withBorder p="md" radius="md">
+    <Paper withBorder p="md" radius="md" shadow="md" sx={theme => ({ backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[9] : "" })}>
       <Text size={"lg"} weight={500} mb={10}>
-        Statistik Berdasarkan Jalur Pendaftaran
+        Statistik Berdasarkan Jalur Pendaftaran - {title}
       </Text>
-      <Group justify="space-between">
-        <Group align="flex-end" gap="xs">
-          <Text fz="xl" fw={700}>
-            345,765
-          </Text>
-        </Group>
-        <IconDeviceAnalytics size="1.4rem" stroke={1.5} />
+      <Group my={10} >
+        <Text fz="xl" fw={700}>
+          345,765
+        </Text>
+        <FaUser size={20} />
       </Group>
 
       <Progress
@@ -186,13 +196,11 @@ const Dashboard = () => {
     <>
       <Page title="Dashboard">
         <PageLabel label="Dashboard" />
-        <Stack className="max-w-[70rem] mx-auto">
-          <Box mb={"lg"} mt={40}>
-            <StudentStats />
-          </Box>
-          <Box mb={"lg"}>
-            <PathStatistics />
-          </Box>
+        <Stack mt={40} className="style-box max-w-[70rem] mx-auto" spacing={"2rem"}>
+          <StudentStats />
+          <PathStatistics title="Tipe Pembelian" />
+          <PathStatistics title="Tipe Pengembalian" />
+          <PathStatistics title="Gelombang" />
         </Stack>
       </Page>
     </>

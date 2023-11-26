@@ -4,9 +4,7 @@ import {
 import { useBreakPoints } from "../utils/UseBreakpoints"
 
 const Footer = () => {
-
     const { xs, } = useBreakPoints()
-
     const theme = useMantineTheme()
     const dark = theme.colorScheme === 'dark'
 

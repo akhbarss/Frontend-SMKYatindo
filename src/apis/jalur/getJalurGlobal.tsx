@@ -1,12 +1,13 @@
-import axios from "../../utils/axios";
 import { ResponseType, TGlobalRegistrationPath } from "../../types/global";
+import axios from "axios"
+import { BASE_URL } from "../../utils/axios";
 
 export const getJalurGlobal = async (): Promise<
     ResponseType<TGlobalRegistrationPath>
 > => {
 
     const response = await axios.get(
-        "/v1/admin/registration-paths/index-recursion"
+        BASE_URL + "/public/index-registration-path"
     );
 
     return response.data;

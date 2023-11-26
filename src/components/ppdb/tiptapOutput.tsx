@@ -14,6 +14,7 @@ const TiptapOutput = ({
   desc: string;
   style?: React.CSSProperties;
 }) => {
+  
   const editorInput = useEditor({
     extensions: [
       StarterKit,
@@ -24,9 +25,10 @@ const TiptapOutput = ({
       Highlight,
       TextAlign.configure({ types: ["heading", "paragraph"] }),
     ],
-    content: desc,
     editable: false,
   });
+
+  editorInput?.commands.setContent(desc)
 
   return (
     <RichTextEditor editor={editorInput} style={{ border: "none" }}>

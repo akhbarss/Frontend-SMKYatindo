@@ -3,12 +3,13 @@ import { modals } from "@mantine/modals";
 import { UseQueryResult, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { BsFileEarmarkImage } from "react-icons/bs";
 import { MdClose } from "react-icons/md";
-import { Payment, getAllPayment } from "../../../apis/student/getAllPayment";
-import { ResponseType } from "../../../types/global";
-import { DarkTheme } from "../../../utils/darkTheme";
+import { Payment, getAllPayment } from "../../../../apis/student/getAllPayment";
+import { ResponseType } from "../../../../types/global";
+import { DarkTheme } from "../../../../utils/darkTheme";
 import { useParams } from "react-router-dom";
-import { ConfirmPaymentPayload, confirmPayment } from "../../../apis/student/confirmPayment";
-import { convertToFileObject } from "../../../utils/imageUtils";
+import { ConfirmPaymentPayload, confirmPayment } from "../../../../apis/student/confirmPayment";
+import { convertToFileObject } from "../../../../utils/imageUtils";
+import { useDisclosure } from "@mantine/hooks";
 
 type TPembayaran = {
     // queryPayment: UseQueryResult<ResponseType<Payment[]>, Error>
@@ -19,7 +20,7 @@ const Pembayaran: React.FC<TPembayaran> = () => {
     const theme = useMantineTheme()
     const { userId, gelombangId } = useParams()
     const queryClient = useQueryClient()
-
+    const [openedKonfirmasi, { close, open }] = useDisclosure()
 
     const {
         data: payments, isLoading: loadPayments, isFetching
@@ -28,11 +29,13 @@ const Pembayaran: React.FC<TPembayaran> = () => {
         queryFn: () => getAllPayment({ batchId: gelombangId, userId })
     })
 
-    // async function convert() {
-    //     // const files = await convertToFileObject(payments?.data[0].image);
-    //     // console.log(files)
-    // }
-    // convert()
+    async function convert() {
+        const files = await convertToFileObject(payments?.data[0].image);
+        console.log(files)
+    }
+    if (payments?.data[0]?.image) {
+        convert()
+    }
     console.log(payments)
 
     const confirmPaymentMutation = useMutation({
@@ -163,10 +166,10 @@ const Pembayaran: React.FC<TPembayaran> = () => {
                                                         {
                                                             payment.status === "WAITING_PAYMENT" && (
                                                                 <Button onClick={() => {
-                                                                    submitConfirmPayment({
-                                                                        payment_id: payment.id,
-                                                                        student_id: +userId
-                                                                    })
+                                                                    // submitConfirmPayment({
+                                                                    //     payment_id: payment.id,
+                                                                    //     student_id: +userId
+                                                                    // })
                                                                 }} >Konfirmasi</Button>
                                                             )
                                                         }

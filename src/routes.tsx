@@ -1,7 +1,9 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { lazy } from "react";
 import { Navigate, Outlet, RouteObject } from "react-router-dom";
 import Interceptors from "./Interceptor";
+import { ProviderMantine } from "./components";
 import MissingPPDB from "./components/ppdb/missingPPDB";
 import Unauthorized from "./components/ppdb/unauthorized";
 import AuthLayout from "./layouts/AuthLayout";
@@ -9,11 +11,6 @@ import DashboardLayout from "./layouts/DashboardLayout";
 import GuestLayout from "./layouts/GuestLayout";
 import JalurPendaftaranDetailLayout from "./layouts/JalurPendaftaranDetailLayout";
 import { PendaftarPPDB } from "./pages";
-import DetailPendaftar from "./pages/ppdb/admin/DetailPendaftar";
-import PendaftarPerGelombang from "./pages/ppdb/admin/PendaftarPerGelombang";
-import Gelombang from "./pages/ppdb/admin/jalurPendaftaranPPDB/Gelombang";
-import InformasiUmum from "./pages/ppdb/admin/jalurPendaftaranPPDB/InformasiUmum";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -28,7 +25,9 @@ export const routes: RouteObject[] = [
     Component: () => (
       <Interceptors>
         <QueryClientProvider client={queryClient}>
-          <Outlet />
+          <ProviderMantine>
+            <Outlet />
+          </ProviderMantine>
           <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
       </Interceptors>
@@ -85,6 +84,10 @@ export const routes: RouteObject[] = [
             ),
             children: [
               {
+                path: "profile",
+                Component: lazy(() => import("./pages/ppdb/Profile"))
+              },
+              {
                 path: "home",
                 index: true,
                 Component: lazy(
@@ -107,14 +110,13 @@ export const routes: RouteObject[] = [
                     )
                 ),
               },
-
               {
                 path: "dashboard",
-                Component: lazy(() => import("./pages/ppdb/admin/Dashboard")),
+                Component: lazy(() => import("./pages/ppdb/admin/dashboard/Dashboard")),
               },
               {
                 path: "alur",
-                Component: lazy(() => import("./pages/ppdb/admin/AlurPPPDB")),
+                Component: lazy(() => import("./pages/ppdb/admin/alur-pendaftaran/AlurPPPDB")),
               },
               {
                 path: "jalur-pendaftaran",
@@ -124,7 +126,7 @@ export const routes: RouteObject[] = [
                     Component: lazy(
                       () =>
                         import(
-                          "./pages/ppdb/admin/jalurPendaftaranPPDB/JalurPendaftaranAdmin"
+                          "./pages/ppdb/admin/jalur-pendaftaran/JalurPendaftaranAdmin"
                         )
                     ),
                   },
@@ -138,11 +140,11 @@ export const routes: RouteObject[] = [
                     children: [
                       {
                         path: "informasi-umum",
-                        Component: InformasiUmum,
+                        Component: lazy(() => import("./pages/ppdb/admin/jalur-pendaftaran/InformasiUmum")),
                       },
                       {
                         path: "gelombang",
-                        Component: Gelombang,
+                        Component: lazy(() => import("./pages/ppdb/admin/jalur-pendaftaran/Gelombang")),
                       },
                     ],
                   },
@@ -150,15 +152,29 @@ export const routes: RouteObject[] = [
               },
               {
                 path: "pendaftar-ppdb",
-                Component: () => <PendaftarPPDB />,
+                Component: () => (
+                  <PendaftarPPDB >
+                    <Outlet />
+                  </PendaftarPPDB>
+                ),
+                children: [
+                  {
+                    path: "pembelian",
+                    Component: lazy(() => import("./pages/ppdb/admin/pendaftar/PendaftarGelombangTPembelian")),
+                  },
+                  {
+                    path: "pengembalian",
+                    Component: lazy(() => import("./pages/ppdb/admin/pendaftar/PendaftarGelombangTPengembalian"))
+                  }
+                ]
               },
               {
-                path: "pendaftar-ppdb/:gelombangId",
-                Component: () => <PendaftarPerGelombang />,
+                path: "pendaftar-ppdb/:tipeGelombang/:gelombangId",
+                Component: lazy(() => import("./pages/ppdb/admin/pendaftar/PendaftarPerGelombang")),
               },
               {
-                path: "pendaftar-ppdb/:gelombangId/:userId",
-                Component: () => <DetailPendaftar />,
+                path: "pendaftar-ppdb/:tipeGelombang/:gelombangId/:userId",
+                Component: lazy(() => import("./pages/ppdb/admin/pendaftar/DetailPendaftar")),
               },
             ],
           },

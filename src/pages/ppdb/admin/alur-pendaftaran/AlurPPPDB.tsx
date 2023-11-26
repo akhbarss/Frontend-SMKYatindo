@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import {
   Accordion,
   AccordionControlProps,
@@ -5,9 +6,12 @@ import {
   Box,
   Button,
   Center,
-  LoadingOverlay,
+  Group,
+  Modal,
   Skeleton,
-  Stack
+  Stack,
+  Text,
+  Title
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -15,36 +19,34 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { AiFillEdit } from "react-icons/ai";
 import { BsFillTrashFill } from "react-icons/bs";
-import { CreateAlurPayload, createAlur } from "../../../apis/alur/createAlur";
-import { DeleteAlurPayload, deleteAlur } from "../../../apis/alur/deleteAlur";
-import { EditAlurPayload, editAlur } from "../../../apis/alur/editAlur";
+import { CreateAlurPayload, createAlur } from "../../../../apis/alur/createAlur";
+import { DeleteAlurPayload, deleteAlur } from "../../../../apis/alur/deleteAlur";
+import { EditAlurPayload, editAlur } from "../../../../apis/alur/editAlur";
 import {
   AlurPendaftaran,
   GetAllAlurPendaftaran,
-} from "../../../apis/alur/getAlur";
-import Page from "../../../components/Page";
-import PageLabel from "../../../components/PageLabel";
-import ModalAlurCreate from "../../../components/modal/modalAlurCreate";
-import ModalAlurEdit from "../../../components/modal/modalAlurEdit";
-import DataKosong from "../../../components/ppdb/dataKosong";
-import TiptapOutput from "../../../components/ppdb/tiptapOutput";
-import { DarkTheme } from "../../../utils/darkTheme";
+} from "../../../../apis/alur/getAlur";
+import Page from "../../../../components/Page";
+import PageLabel from "../../../../components/PageLabel";
+import ModalAlurCreate from "../../../../components/modal/modalAlurCreate";
+import ModalAlurEdit from "../../../../components/modal/modalAlurEdit";
+import DataKosong from "../../../../components/ppdb/dataKosong";
+import TiptapOutput from "../../../../components/ppdb/tiptapOutput";
+import { DarkTheme } from "../../../../utils/darkTheme";
 
 const AlurPPPDB = () => {
   const dark = DarkTheme();
-
-  const [openedCreate, { open: openCreate, close: closeCreate }] =
-    useDisclosure(false);
-  const [openedEdit, { open: openEdit, close: closeEdit }] =
-    useDisclosure(false);
   const queryClient = useQueryClient();
+  const [openedCreate, { open: openCreate, close: closeCreate }] = useDisclosure(false);
+  const [openedEdit, { open: openEdit, close: closeEdit }] = useDisclosure(false);
+  const [openedDelete, { open: openDelete, close: closeDelete }] = useDisclosure(false);
 
   const [idAlur, setIdAlur] = useState(null);
   const [title, setTitle] = useState("");
   const [descAlurPPDB, setDescAlurPPDB] = useState("");
 
   const {
-    data: alurPendaftaran,
+    data,
     isError: isErr,
     isLoading: load,
     refetch,
@@ -68,7 +70,6 @@ const AlurPPPDB = () => {
   const submitCreateAlur = (payload: CreateAlurPayload) => {
     createAlurMutation.mutate(payload, {
       onSuccess: (response) => {
-        console.log("Success");
         console.log(response);
         toast.success("Data berhasil ditambahkan");
         setTitle("");
@@ -92,19 +93,18 @@ const AlurPPPDB = () => {
     editAlurMutation.mutate(payload, {
       onSuccess: (response) => {
         console.log(response);
-        console.log("Success");
         toast.success("Data berhasil diubah");
         setIdAlur("");
         setTitle("");
         setDescAlurPPDB("");
         closeEdit();
         refetch();
+        // setAlurPendaftaran(data)
         queryClient.invalidateQueries({ queryKey: ["get_all_alur"] });
       },
       onError: (err) => {
         // @ts-ignore
         const status = err?.response?.status;
-
         if (status === 400) {
           console.log("DATA TIDAK BOLEH KOSONG");
           toast.error("Data tidak boleh kosong");
@@ -117,19 +117,19 @@ const AlurPPPDB = () => {
     deleteAlurMutation.mutate(payload, {
       onSuccess: (response) => {
         console.log(response);
-        console.log("Success");
         toast.success("Data berhasil dihapus");
-        close();
+        closeDelete()
         refetch();
+        setIdAlur(null)
+        setTitle("")
       },
       onError: (err) => {
-        console.log("FAILED");
-        console.log(err);
+        console.log(err)
+        toast.error("Gagal menghapus alur pendaftaran")
       },
     });
   };
 
-  // if (load) return <PageLoading />;
   if (isErr) return <h1>Terjadi Kesalahan</h1>;
 
   const tambahALurHandler = () => {
@@ -170,7 +170,7 @@ const AlurPPPDB = () => {
           }}
         >
           <ActionIcon
-            className="bg-[#2A166F] hover:bg-[#2A166F]"
+            color="brand-yatindo"
             variant="filled"
             size={40}
             radius={100}
@@ -185,12 +185,15 @@ const AlurPPPDB = () => {
           </ActionIcon>
 
           <ActionIcon
-            className="bg-[#2A166F] hover:bg-[#2A166F]"
+            color="brand-yatindo"
             variant="filled"
-            color="blue"
             size={40}
             radius={100}
-            onClick={() => deleteAlurHandler(data.id)}
+            onClick={() => {
+              openDelete()
+              setTitle(data.title)
+              setIdAlur(data.id)
+            }}
           >
             <BsFillTrashFill size={20} />
           </ActionIcon>
@@ -203,10 +206,13 @@ const AlurPPPDB = () => {
     <Page title={"Alur Pendaftaran"}>
       <PageLabel label={"Alur Pendaftaran"} />
 
-      <Stack className={"style-box max-w-[70rem] mx-auto"} >
+      <Stack mt={40} spacing={"2rem"} className={"style-box max-w-[70rem] mx-auto"} >
+
+        <Button onClick={openCreate}>
+          Tambah
+        </Button>
 
         <Box
-          mt={50}
           sx={{
             display: "flex",
             flexDirection: "column",
@@ -217,49 +223,48 @@ const AlurPPPDB = () => {
           <Accordion multiple variant="separated" chevronPosition="left">
             {load ? <>
               <Skeleton height={80} />
-            </> : alurPendaftaran && alurPendaftaran?.data?.length > 0 ? (
-              alurPendaftaran.data.map((item) => (
-                <Accordion.Item
-                  key={item.id}
-                  value={item.id.toString()}
-                  sx={{
-                    boxShadow: "0 4px 10px -6px black",
-                    backgroundColor: `${dark ? "#25262B" : "white"}`,
-                    padding: "0.5rem 0.5rem",
-                    border: "0.0625rem solid #dee2e6"
-                  }}
-                  styles={{
-                    item: {
-                      backgroundColor: "blue",
-                    },
-                  }}
-                >
-                  <AccordionControl
-                    propss={{
-                      id: item.id.toString(),
-                      children: <h2>{item.title}</h2>,
-                    }}
-                    data={item}
-                  />
-                  <Accordion.Panel
-                    sx={{
-                      borderTop: `1px solid ${dark ? "gray" : "#d9d9d9"}`,
-                    }}
+            </> : data?.data && data?.data?.length > 0 ? (
+              data.data.sort((a, b) => a.id - b.id).map((item) => {
+                return (
+                  <Accordion.Item
+                    key={item.id}
+                    value={item.id.toString()}
+                    mb={20}
+                    sx={theme => ({
+                      boxShadow: "0 4px 10px -6px black",
+                      backgroundColor: `${dark ? theme.colors.dark[9] : "white"}`,
+                      padding: "0.5rem 0.5rem",
+                      border: "0.0625rem solid #dee2e6",
+                      '&[data-active]': {
+                        backgroundColor: dark ? theme.colors.dark[9] : "white",
+                        border: "0.0625rem solid #dee2e6",
+                      },
+                    })}
                   >
-                    <TiptapOutput desc={item.content} />
-                  </Accordion.Panel>
-                </Accordion.Item>
-              ))
+                    <AccordionControl
+                      propss={{
+                        id: item.id.toString(),
+                        children: <h2>{item.title}</h2>,
+                      }}
+                      data={item}
+                    />
+                    <Accordion.Panel
+                      sx={{
+                        borderTop: `1px solid ${dark ? "gray" : "#d9d9d9"}`,
+                      }}
+                    >
+                      <TiptapOutput desc={item.content} />
+                    </Accordion.Panel>
+                  </Accordion.Item>
+                )
+              })
             ) : (
               <DataKosong />
             )}
           </Accordion>
-
-          <Button mt={40} onClick={openCreate}>
-            Tambah
-          </Button>
         </Box>
 
+        {/* MODAL CREATE ALUR PENDAFTARAN */}
         <ModalAlurCreate
           close={closeCreate}
           createAlurMutation={createAlurMutation}
@@ -271,6 +276,7 @@ const AlurPPPDB = () => {
           title={title}
         />
 
+        {/* MODAL CREATE EDIT PENDAFTARAN */}
         <ModalAlurEdit
           opened={openedEdit}
           close={closeEdit}
@@ -282,9 +288,52 @@ const AlurPPPDB = () => {
           editAlurHandler={editAlurHandler}
           editAlurMutation={editAlurMutation}
         />
-
-        <LoadingOverlay visible={deleteAlurMutation.status === "pending"} overlayBlur={1} />
       </Stack>
+
+      {/* MODAL DELETE ALUR */}
+      <Modal
+        centered
+        closeOnEscape={false}
+        closeOnClickOutside={false}
+        withCloseButton={false}
+        opened={openedDelete}
+        onClose={() => {
+          closeDelete()
+          setTitle("")
+          setIdAlur(null)
+        }}
+      >
+        <Stack>
+
+          <Title order={3}>
+            Hapus Alur Pendaftaran
+          </Title>
+          <Text>
+            Anda yakin ingin menghapus alur pendaftaran {title}?
+          </Text>
+        </Stack>
+        <Group mt={20} position="right">
+          <Button
+            disabled={deleteAlurMutation.status === "pending"}
+            variant="outline"
+            onClick={() => {
+              closeDelete()
+              setTitle("")
+              setIdAlur(null)
+            }}
+          >
+            Batal
+          </Button>
+          <Button
+            variant="danger"
+            onClick={() => deleteAlurHandler(idAlur)}
+            loading={deleteAlurMutation.status === "pending"}
+          >
+            Hapus
+          </Button>
+        </Group>
+      </Modal>
+
     </Page>
   );
 };

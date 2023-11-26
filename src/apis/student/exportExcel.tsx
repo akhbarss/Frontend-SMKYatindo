@@ -1,29 +1,18 @@
-import axios from "../../utils/axios";
+import axios from "axios";
 import { ResponseType } from "../../types/global";
-
+import { BASE_URL } from "../../utils/axios";
 
 export const exportExcel = async (batchId: string): Promise<
     ResponseType<any>
 > => {
-
-    // const request = await axios.post(`/v1/student/get-student-to-excel?batchId=` + batchId);
-    // const request = await axios.get(`/public/generate-excel`, {
-    //     headers: {
-    //         "Content-Type": "application/octet-stream"
-    //     }
-    // });
-
-    // axios.post("/public/generate-excel", {
-    axios.post(`/v1/student/get-student-to-excel?batchId=` + batchId, {
+    axios.get(BASE_URL + "/public/get-student-to-excel?batchId=" + batchId, {
         responseType: 'blob', // Menangani tipe respons sebagai blob (file),
-        
     })
         .then(response => {
 
             const contentDisposition = response.headers['Content-Disposition'];
             console.log(contentDisposition)
-            
-            // console.log(response)
+
             const url = window.URL.createObjectURL(new Blob([response.data]))
             const link = document.createElement('a');
             link.href = url;
@@ -35,5 +24,5 @@ export const exportExcel = async (batchId: string): Promise<
             console.error('Gagal mengunduh file Excel:', error);
         });
 
-    return ;
+    return;
 };

@@ -27,6 +27,7 @@ type TModalBiayaTambahanCreate = {
     close: () => void
     titleModal: string
     tambahBiayaTambahanHandler: (data: FormCreateBiayaTambahan) => void,
+    loading?: boolean
     form: UseFormReturnType<{
         id: number;
         judulBiaya: string;
@@ -59,7 +60,8 @@ const ModalBiayaTambahanCreate: React.FC<TModalBiayaTambahanCreate> = ({
     close,
     titleModal,
     tambahBiayaTambahanHandler,
-    form
+    form,
+    loading
 }) => {
 
     const fields = form.values.priceDetails.map((item, index) => (
@@ -162,24 +164,29 @@ const ModalBiayaTambahanCreate: React.FC<TModalBiayaTambahanCreate> = ({
 
                 <Group
                     position="right"
-                    sx={{
+                    sx={theme => ({
                         position: "absolute",
                         bottom: 0,
                         right: 0,
                         left: 0,
                         padding: "1rem 4rem",
-                        backgroundColor: "whitesmoke",
+                        backgroundColor: theme.colorScheme === 'dark' ? "black" : "whitesmoke",
                         zIndex: 1
-                    }}
+                    })}
                 >
-                    <Button variant="outline" onClick={() => {
-                        close()
-                    }}>
+                    <Button
+                        variant="outline"
+                        onClick={() => {
+                            close()
+                        }}
+                        disabled={loading}
+                    >
                         Batal
                     </Button>
 
                     <Button
                         type='submit'
+                        loading={loading}
                     >
                         Tambah
                     </Button>

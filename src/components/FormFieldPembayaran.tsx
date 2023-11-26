@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import {
   Group,
   Image,
@@ -9,15 +11,14 @@ import {
   TextInput,
   useMantineTheme,
 } from "@mantine/core";
-import { Controller, useFormContext } from "react-hook-form";
 import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
+import { Controller, useFormContext } from "react-hook-form";
 import toast from "react-hot-toast";
 import { FaUpload } from "react-icons/fa";
-import { ImCross } from "react-icons/im";
 import { HiPhoto } from "react-icons/hi2";
+import { ImCross } from "react-icons/im";
 import { NumericFormat } from "react-number-format";
 import { RadioGroupCustom } from "./fields/RadioGroup";
-import React from "react";
 
 const FormFieldPembayaran = () => {
   const theme = useMantineTheme();
@@ -34,9 +35,11 @@ const FormFieldPembayaran = () => {
   return (
     <Stack spacing={10}>
       <Controller
+        rules={{ required: true }}
         render={({ field: { onChange, value } }) => (
           <Dropzone
             multiple={false}
+            // @ts-ignore
             onChange={(e) => onChange(e.target.files?.[0] ?? null)}
             onReject={(files) => {
               const fileToLarge = files[0].errors[0].code == "file-too-large";
@@ -60,7 +63,7 @@ const FormFieldPembayaran = () => {
                   size="3.2rem"
                   color={
                     theme.colors[theme.primaryColor][
-                      theme.colorScheme === "dark" ? 4 : 6
+                    theme.colorScheme === "dark" ? 4 : 6
                     ]
                   }
                 />
@@ -101,29 +104,35 @@ const FormFieldPembayaran = () => {
         name={"payment_prove"}
         control={control}
       />
-      <NumericFormat
-        thousandSeparator="."
-        decimalSeparator=","
-        prefix="Rp. "
-        customInput={TextInput}
-        error={errors.amount && <div>{errors.amount?.message}</div>}
-        placeholder="Rp. 0"
-        label="Input Nominal"
-        description="Input Nominal"
-        required
-        {...register("amount", {
-          required: false,
-          valueAsNumber: true,
-        })}
-        onValueChange={(values) => {
-          setValue("amount", values.floatValue);
-        }}
+      <Controller
+        rules={{ required: true, }}
+        name="amount"
+        control={control}
+        render={({ field: { ref, onChange, ...field }, }) => (
+          <NumericFormat
+            thousandSeparator="."
+            decimalSeparator=","
+            prefix="Rp. "
+            customInput={TextInput}
+            // @ts-ignore
+            error={errors.amount && <div>{errors.amount?.message}</div>}
+            placeholder="Rp. 0"
+            label="Input Nominal"
+            description="Input Nominal"
+            onValueChange={({ floatValue }) => {
+              onChange(floatValue)
+            }}
+            {...field}
+          />
+        )}
+
       />
       <RadioGroupCustom
         name="payment_method"
         control={control}
         label="Metode Pembayaran"
         description="Pilih salah satu"
+        rules={{ required: true, }}
       >
         <Group mt="xs">
           <Radio value="CASH" label="Tunai" />
@@ -137,6 +146,7 @@ const FormFieldPembayaran = () => {
             label="Nama Bank"
             placeholder="Bank BCA,BNI"
             withAsterisk
+            // @ts-ignore
             error={errors.bank_name && <div>{errors.bank_name?.message}</div>}
             required
             {...register("bank_name", {
@@ -150,6 +160,7 @@ const FormFieldPembayaran = () => {
             withAsterisk
             type="number"
             error={
+              // @ts-ignore
               errors.bank_account && <div>{errors.bank_account?.message}</div>
             }
             required
@@ -162,6 +173,7 @@ const FormFieldPembayaran = () => {
             label="Nama Pemilik Rekening"
             description="Masukkan nama pemilik rekening"
             withAsterisk
+            // @ts-ignore
             error={errors.bank_user && <div>{errors.bank_user?.message}</div>}
             required
             {...register("bank_user", {

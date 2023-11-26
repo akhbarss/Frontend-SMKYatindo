@@ -11,7 +11,7 @@ export type EditGelombangPayload = {
     bank_account: string;
     bank_name: string;
     bank_user: string;
-    price: string;
+    price: number;
     batchCode: string;
 };
 
@@ -24,7 +24,7 @@ type EditGelombangRequest = {
     bank_account: string;
     bank_name: string;
     bank_user: string;
-    price: string;
+    price: number;
     batchCode: string;
 }
 

@@ -11,27 +11,31 @@ import {
   useMantineTheme,
 } from "@mantine/core";
 import { MdKeyboardArrowDown } from "react-icons/md";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useBreakPoints } from "../../utils/UseBreakpoints";
+import { gradesUtils } from "../../utils/gradesUtils";
+import { DarkTheme } from "../../utils/darkTheme";
 
 const AppBar = ({
   opened,
   setOpened,
   fullname,
+  grade
 }: {
   opened: boolean;
   setOpened: () => void;
   fullname?: string;
+  grade: "SMK" | "SMP"
 }) => {
-  const { md, sm, xs } = useBreakPoints()
+  const { xs } = useBreakPoints()
   const theme = useMantineTheme();
   const navigate = useNavigate();
+  const dark = DarkTheme()
 
   return (
     <MantineHeader
       height={"70px"}
       sx={{
-        // boxShadow: `${dark ? "" : "0px -40px 50px 10px black"}`,
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
@@ -40,7 +44,7 @@ const AppBar = ({
           paddingInline: "15px",
         },
         position: "fixed",
-        backgroundColor: "#2A166F",
+        background: grade ? gradesUtils.find(item => grade === item.grade).bg : dark ? "#363062" : "linear-gradient(to left, #6548DB, #2A166F)",
       }}
     >
       <Group >
@@ -55,7 +59,7 @@ const AppBar = ({
         </MediaQuery>
 
         <img src="/logo-yatindo-hd.png" alt="Yatindo" className="w-[47px]" />
-        <Divider orientation="vertical" size={"xs"} color="white" sx={{ display: `${!xs && "none"}` }}/>
+        <Divider orientation="vertical" size={"xs"} color="white" sx={{ display: `${!xs && "none"}` }} />
         <Box >
           <Text weight={"bold"} lineClamp={1} color="white">
             PPDB Yatindo
@@ -67,7 +71,7 @@ const AppBar = ({
       </Group>
 
       <Group spacing={"lg"}>
-        <Menu trigger="hover" openDelay={100} closeDelay={400}>
+        <Menu width={200} trigger="hover" openDelay={100} closeDelay={400}>
           <Menu.Target>
             <Group spacing={5}>
               <Avatar
@@ -75,16 +79,16 @@ const AppBar = ({
                 src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=250&q=80"
               />
               <MdKeyboardArrowDown color="white" />
-              {/* <ActionIcon >
-                                <FaBars size={35} />
-                            </ActionIcon> */}
             </Group>
           </Menu.Target>
 
           <Menu.Dropdown>
             <Menu.Label>{fullname ?? "-"}</Menu.Label>
-            <Menu.Item>Profile</Menu.Item>
+            <Menu.Item to={"profile"} component={Link}>
+              Profile
+            </Menu.Item>
             <Menu.Item
+            color="red"
               onClick={() => {
                 localStorage.removeItem("_TuVbwpW");
                 navigate("/ppdb/auth/login");

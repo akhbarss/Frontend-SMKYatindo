@@ -1,20 +1,30 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+import { FaUser } from "react-icons/fa6";
 import {
   Accordion,
   AccordionControlProps,
   ActionIcon,
+  Badge,
+  Box,
   Button,
   Center,
-  LoadingOverlay,
+  Group,
+  Modal,
   Paper,
   Skeleton,
-  Text
+  Stack,
+  Text,
+  ThemeIcon,
+  Title,
+  useMantineTheme
 } from "@mantine/core";
 import { useForm as useFormMantine } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { AiFillEdit } from "react-icons/ai";
 import { BsFillTrashFill } from "react-icons/bs";
+import { LuCalendarClock } from "react-icons/lu";
 import { useParams } from "react-router-dom";
 import { CreateGelombangPayload, createGelombang } from "../../../../apis/gelombang/createGelombang";
 import { DeleteGelombangPayload, deleteGelombang } from "../../../../apis/gelombang/deleteGelombang";
@@ -22,11 +32,12 @@ import { EditGelombangPayload, editGelombang } from "../../../../apis/gelombang/
 import { getGelombangByIdJalur } from "../../../../apis/gelombang/getGelombangByIdJalur";
 import { TGelombang } from "../../../../apis/jalur/getJalur";
 import Page from "../../../../components/Page";
+import TestUjian from "../../../../components/TestUjian";
 import ModalGelombang from "../../../../components/modal/modalGelombang";
 import { DarkTheme } from "../../../../utils/darkTheme";
 
-export type FormValuesCreateGelombang = {
-  id: string | null
+export type FormValuesGelombang = {
+  id: number | null
   nama: string;
   jumlahPenerimaan: string;
   waktuDibuka: string;
@@ -41,10 +52,12 @@ export type FormValuesCreateGelombang = {
 const Gelombang = () => {
   const dark = DarkTheme()
   const { idJalurPendaftaran } = useParams()
+  const theme = useMantineTheme()
   const [openedCreate, { open: openCreate, close: closeCreate }] = useDisclosure(false);
   const [openedEdit, { open: openEdit, close: closeEdit }] = useDisclosure(false);
+  const [openedDelete, { open: openDelete, close: closeDelete }] = useDisclosure(false);
 
-  const formCreateM = useFormMantine<FormValuesCreateGelombang>({
+  const formGelombang = useFormMantine<FormValuesGelombang>({
     initialValues: {
       id: null,
       nama: "",
@@ -69,38 +82,20 @@ const Gelombang = () => {
     },
   })
 
-  // const {
-  //   data,
-  //   err,
-  //   isErr,
-  //   load,
-  //   refetch
-  // } = GetGelombangByIdJalur(idJalurPendaftaran)
-
   const {
     data: gelombang,
     isLoading,
-    isError,
     refetch,
-    error
   } = useQuery({
     queryKey: ["get_gelombang_by_id_jalur"],
     queryFn: () => getGelombangByIdJalur(idJalurPendaftaran)
   })
 
-  console.log(gelombang)
-  
-  const createGelombangMutation = useMutation({
-    mutationFn: createGelombang
-  })
+  console.log({ idJalurPendaftaran, gelombang })
 
-  const editGelombangMutation = useMutation({
-    mutationFn: editGelombang
-  })
-
-  const deleteGelombangMutation = useMutation({
-    mutationFn: deleteGelombang
-  })
+  const createGelombangMutation = useMutation({ mutationFn: createGelombang })
+  const editGelombangMutation = useMutation({ mutationFn: editGelombang })
+  const deleteGelombangMutation = useMutation({ mutationFn: deleteGelombang })
 
   // CREATE
   function submitCreateGelombang(payload: CreateGelombangPayload) {
@@ -109,10 +104,11 @@ const Gelombang = () => {
         console.log("SUCCESS : ", res)
         refetch()
         closeCreate()
-        formCreateM.reset()
+        formGelombang.reset()
         toast.success("Data berhasil ditambahkan")
       },
       onError: (error) => {
+        toast.error("Data gagal ditambahkan")
         console.log("FAILED : ", error)
       },
     })
@@ -125,7 +121,7 @@ const Gelombang = () => {
         console.log("SUCCESS : ", res)
         closeEdit()
         refetch()
-        formCreateM.reset()
+        formGelombang.reset()
         toast.success("Data berhasil diubah")
       },
       onError: (error) => {
@@ -139,7 +135,7 @@ const Gelombang = () => {
     deleteGelombangMutation.mutate(payload, {
       onSuccess: (res) => {
         console.log("SUCCESS : ", res)
-        closeCreate()
+        closeDelete()
         refetch()
         toast.success("Data berhasil dihapus")
       },
@@ -149,7 +145,7 @@ const Gelombang = () => {
     })
   }
 
-  function tambahGelombangHandler(datas: FormValuesCreateGelombang) {
+  function tambahGelombangHandler(datas: FormValuesGelombang) {
     const {
       biayaPendaftaran,
       jumlahPenerimaan,
@@ -161,9 +157,8 @@ const Gelombang = () => {
       waktuDitutup,
       kodeGelombang
     } = datas
-
     submitCreateGelombang({
-      idJalur: idJalurPendaftaran,
+      idJalur: +idJalurPendaftaran,
       payloadCreate: {
         bank_account: nomorRekening,
         bank_name: namaBank,
@@ -179,7 +174,7 @@ const Gelombang = () => {
     })
   }
 
-  function editGelombangHandler(datas: FormValuesCreateGelombang) {
+  function editGelombangHandler(datas: FormValuesGelombang) {
     const {
       id,
       biayaPendaftaran,
@@ -192,7 +187,6 @@ const Gelombang = () => {
       waktuDitutup,
       kodeGelombang,
     } = datas
-
     submitEditGelombang({
       id: +id,
       bank_account: nomorRekening,
@@ -214,7 +208,6 @@ const Gelombang = () => {
   }
 
   function AccordionControl({ propss, data }: { propss: AccordionControlProps, data: TGelombang }): JSX.Element {
-
     return (
       <Center>
         <Accordion.Control {...propss} className="font-bold" />
@@ -225,10 +218,9 @@ const Gelombang = () => {
             gap: "8px",
           }}
         >
-
           <ActionIcon
             variant="filled"
-            color="blue"
+            color="brand-smp"
             size={40}
             radius={100}
             onClick={() => {
@@ -244,14 +236,11 @@ const Gelombang = () => {
                 start_date,
                 id
               } = data
-
               const startDate = new Date(start_date)
               const endDate = new Date(end_date)
 
-              console.log(price)
-
-              formCreateM.setValues({
-                id: id + "",
+              formGelombang.setValues({
+                id: id,
                 // @ts-ignore
                 biayaPendaftaran: "Rp. " + price,
                 jumlahPenerimaan: max_quota + "",
@@ -270,17 +259,20 @@ const Gelombang = () => {
           >
             <AiFillEdit size={20} />
           </ActionIcon>
-
           <ActionIcon
             variant="filled"
-            color="blue"
+            color="brand-smp"
             size={40}
             radius={100}
-            onClick={() => deleteGelombangHandler(data.id)}
+            onClick={() => {
+              openDelete()
+              formGelombang.setValues({
+                id: data.id
+              })
+            }}
           >
             <BsFillTrashFill size={20} />
           </ActionIcon>
-
         </div>
       </Center>
     );
@@ -288,51 +280,109 @@ const Gelombang = () => {
 
   const contentGelombang = (
     <>
-      {gelombang?.data.length < 1 ? (
+      {gelombang?.data && gelombang?.data?.length < 1 ? (
         ""
       ) : (
-
         <Accordion
           multiple
           variant="separated"
           chevronPosition="left"
+          mt={30}
         >
-          {gelombang?.data?.map(gelombang => (
-            <Accordion.Item
-              key={gelombang.id}
-              value={gelombang.id.toString()}
-              sx={{
-                boxShadow: "0 4px 10px -6px black",
-                backgroundColor: `${dark ? "#25262B" : "white"}`,
-                padding: "0.5rem 0.5rem",
-              }}
-              styles={{
-                item: {
-                  backgroundColor: "blue",
-                },
-              }}
-            >
-              <AccordionControl
-                propss={{
-                  id: gelombang.id.toString(),
-                  children: (
-                    <>
-                      <h2>{gelombang.name}</h2>
-                      <p>{gelombang.countStudent} Pendaftar</p>
-                    </>
-                  )
-                }}
-                data={gelombang}
-              />
-              <Accordion.Panel
+          {gelombang?.data?.sort((a, b) => a.id - b.id).map(gelombang => {
+            const startDate = gelombang?.start_date ? new Date(gelombang.start_date) : null
+            const formatStartDate = startDate ? startDate.toLocaleDateString("id-ID", {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+              hour: 'numeric',
+              minute: 'numeric',
+            }).replace(".", ":").split(" pukul") : "Invalid Date"
+            const endDate = gelombang?.end_date ? new Date(gelombang.end_date) : null
+            const formatEndDate = endDate ? endDate.toLocaleDateString("id-ID", {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+              hour: 'numeric',
+              minute: 'numeric',
+            }).replace(".", ":").split(" pukul") : "Invalid Date"
+            const dateNow = new Date()
+            const isGelombangDibuka = dateNow >= startDate && startDate <= endDate
+
+            return (
+              <Accordion.Item
+                key={gelombang.id}
+                value={gelombang.id.toString()}
                 sx={{
-                  borderTop: `1px solid ${dark ? "gray" : "#d9d9d9"}`,
+                  boxShadow: "0 4px 10px -6px black",
+                  padding: "0 0.5rem",
+                  border: "0.0625rem solid #dee2e6",
+                  backgroundColor: `${dark ? theme.colors.dark[9] : "white"}`,
+                  '&[data-active]': {
+                    backgroundColor: dark ? theme.colors.dark[8] : "white",
+                    border: "0.0625rem solid #dee2e6",
+                  },
                 }}
               >
-                {/* <TiptapOutput desc={item.content} /> */}
-              </Accordion.Panel>
-            </Accordion.Item>
-          ))}
+                <AccordionControl
+                  propss={{
+                    id: gelombang.id.toString(),
+                    children: (
+                      <>
+                        <Text fw={600} size={26}>{gelombang.name}</Text>
+                        <Group mt={5}>
+                          <ThemeIcon variant="light" size={30} radius={"50%"}>
+                            <FaUser size={15} />
+                          </ThemeIcon>
+                          <Text size={16}> {gelombang.countStudent} Pendaftar</Text>
+                        </Group>
+                      </>
+                    )
+                  }}
+                  data={gelombang}
+                />
+                <Accordion.Panel
+                  sx={{
+                    borderTop: `1px solid ${dark ? "gray" : "#d9d9d9"}`,
+                  }}
+                >
+                  <Stack p={"1rem"}>
+                    <Paper
+                      withBorder
+                      p={"1rem"}
+                      sx={theme => ({
+                        backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[9] : theme.colors["brand-smp"][0],
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center"
+                      })}
+                    >
+
+                      <Group>
+                        <ThemeIcon radius={"100%"} size={50} mx={"sm"}>
+                          <LuCalendarClock size={30} />
+                        </ThemeIcon>
+                        <Box>
+                          <Text size={16} weight={"bolder"}>Pendaftaran Gelombang</Text>
+                          <Text>{formatStartDate} &ndash; {formatEndDate}</Text>
+                        </Box>
+                      </Group>
+                      <Badge
+                        variant="light"
+                        color={`${isGelombangDibuka ? "green" : "red"}`}
+                        size="lg"
+                      >
+                        {isGelombangDibuka ? "Dibuka" : "Ditutup"}
+                      </Badge>
+                    </Paper>
+
+                    <TestUjian idGelombang={gelombang.id} />
+
+                  </Stack>
+                </Accordion.Panel>
+              </Accordion.Item>
+            )
+          })}
         </Accordion>
       )}
     </>
@@ -346,32 +396,27 @@ const Gelombang = () => {
         shadow="sm"
         radius={"4rem"}
         px={"2.5rem"}
+        bg={dark ? theme.colors.dark[8] : "white"}
         sx={{
           display: "flex",
           justifyContent: "space-between",
-          padding: "1rem 2rem"
+          padding: "1rem 2rem",
         }}
       >
         <Text weight={"bold"} size={"xl"}>Daftar Gelombang</Text>
         <Button onClick={() => openCreate()} >
-          Tambah Gelombang
+          Tambah
         </Button>
       </Paper>
 
-      {
-        isLoading ? (
-          <Skeleton height={80} />
-        )
-          : (
-            contentGelombang
-          )
-      }
+      {isLoading ? <Skeleton height={80} /> : contentGelombang}
 
-
+      {/* MODAL CREATE GELOMBANG */}
       <ModalGelombang
+        title="Tambah Gelombang PPDB"
         opened={openedCreate}
         close={closeCreate}
-        formMantine={formCreateM}
+        formMantine={formGelombang}
         action={{
           actionFn: tambahGelombangHandler,
           label: "Tambah"
@@ -379,21 +424,60 @@ const Gelombang = () => {
         loading={createGelombangMutation.status === "pending"}
       />
 
+      {/* MODAL EDIT GELOMBANG */}
       <ModalGelombang
+        title="Ubah Gelombang PPDB"
         opened={openedEdit}
-        formMantine={formCreateM}
+        formMantine={formGelombang}
         action={{
           actionFn: editGelombangHandler,
           label: "Ubah"
         }}
         close={() => {
           closeEdit()
-          formCreateM.reset()
+          formGelombang.reset()
         }}
         loading={editGelombangMutation.status === "pending"}
       />
 
-      <LoadingOverlay visible={deleteGelombangMutation.status === "pending"} overlayBlur={1} />
+      {/* MODAL DELETE GELOMBANG */}
+      <Modal
+        centered
+        closeOnEscape={false}
+        closeOnClickOutside={false}
+        withCloseButton={false}
+        opened={openedDelete}
+        onClose={() => {
+          closeDelete()
+          formGelombang.reset()
+        }}
+      >
+        <Title order={3}>
+          Hapus Gelombang
+        </Title>
+        <Text mt={20}>
+          Anda yakin ingin menghapus gelombang {formGelombang.values.nama}?
+        </Text>
+        <Group mt={20} position="right">
+          <Button
+            disabled={deleteGelombangMutation.status === "pending"}
+            variant="outline"
+            onClick={() => {
+              closeDelete()
+              formGelombang.reset()
+            }}
+          >
+            Batal
+          </Button>
+          <Button
+            variant="danger"
+            onClick={() => deleteGelombangHandler(formGelombang.values.id)}
+            loading={deleteGelombangMutation.status === "pending"}
+          >
+            Hapus
+          </Button>
+        </Group>
+      </Modal>
     </Page>
   )
 }

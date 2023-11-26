@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 const MultiSelectStatus = (props: {
   type: string;
   value?: string[];
-  readonly?: boolean;
+  readOnly?: boolean;
   label?: string;
   searchable?: boolean;
   onChange?: (value: string | null | string[]) => void;
@@ -26,7 +26,8 @@ const MultiSelectStatus = (props: {
       {isSuccess && (
         <MultiSelect
           value={props.value}
-          readOnly={props.readonly}
+          // readOnly={props.readonly}
+          maxSelectedValues={2}
           label={props.label}
           onChange={props.onChange}
           searchable={props.searchable}

@@ -2,7 +2,7 @@ import axios from "../../utils/axios";
 import { ResponseType } from "../../types/global";
 
 export type CreateGelombangPayload = {
-    idJalur: string,
+    idJalur: number
     payloadCreate: {
         name: string,
         index: number;
@@ -18,6 +18,7 @@ export type CreateGelombangPayload = {
 };
 
 type CreateGelombangRequest = {
+    path_id: number;
     name: string,
     index: number;
     max_quota: number;
@@ -35,13 +36,10 @@ export const createGelombang = async (payload: CreateGelombangPayload): Promise<
         idJalur,
         payloadCreate
     } = payload
-
-    const data: CreateGelombangRequest = payloadCreate
+    const data: CreateGelombangRequest = { ...payloadCreate, path_id: idJalur }
 
     console.log(data)
-    
-    const response = await axios.post("/v1/admin/registration-batch/post?regisId=" + idJalur, data);
 
+    const response = await axios.post("/v1/admin/registration-batch/post", data);
     return response.data;
-    return
 };

@@ -1,3 +1,5 @@
+import {TabsProps} from "@mantine/core"
+
 export type JWT = {
   sub: string;
 };
@@ -148,3 +150,7 @@ export type TGRegistrationPath = {
 };
 
 export type TGlobalRegistrationPath = TGRegistrationPath[];
+
+export interface StyledTabsProps extends TabsProps {
+  grade: "SMP" | "SMK"
+}

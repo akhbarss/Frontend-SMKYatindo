@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { Box, Tabs, Text, useMantineTheme } from "@mantine/core";
 import { IconType } from "react-icons";
 import { BiLock } from "react-icons/bi";
@@ -37,11 +38,13 @@ const TabList = ({
             h={"10rem"}
             value={item.index.toString()}
             disabled={
+              // @ts-ignore
               card[i > 0 ? i - 1 : i].is_done == 0 || item.is_done === 0
             }
             style={{ position: "relative" }}
           >
             {!item.is_done &&
+              // @ts-ignore
               card[i > 0 ? i - 1 : i].is_done == 0 &&
               activeTabIndex !== item.index && (
                 <div
@@ -50,11 +53,10 @@ const TabList = ({
                     top: -15,
                     right: 10,
                     cursor: "not-allowed",
-                    backgroundColor: `${
-                      theme.colorScheme === "dark"
+                    backgroundColor: `${theme.colorScheme === "dark"
                         ? theme.colors.dark[6]
                         : theme.colors.gray[4]
-                    }`,
+                      }`,
                     borderRadius: "100px",
                     padding: "5px",
                   }}
@@ -70,11 +72,10 @@ const TabList = ({
                   top: -15,
                   right: 10,
                   cursor: "not-allowed",
-                  backgroundColor: `${
-                    theme.colorScheme === "dark"
+                  backgroundColor: `${theme.colorScheme === "dark"
                       ? theme.colors.dark[6]
                       : "white"
-                  }`,
+                    }`,
                   borderRadius: "100%",
                   padding: "4px",
                   color: "#51CF66",

@@ -20,6 +20,8 @@ import { getAllGelombangByTypeJalur } from "../../../apis/gelombang/getAllGelomb
 const StepGelombang: React.FC<Step> = ({ type = "PEMBELIAN" }) => {
   const filter = useQueryFilter({ step: 1, stagingId: null });
 
+  console.log(type)
+
   const queryClient = useQueryClient();
   const {
     data: jalur,
@@ -103,18 +105,21 @@ const StepGelombang: React.FC<Step> = ({ type = "PEMBELIAN" }) => {
             {jalurLoading && <Skeleton content={"Lorem ipsum"} />}
             {jalurSuccess &&
               jalur &&
-              jalur.data.length > 0 ?
-              jalur.data.map((batch) => (
-                <>
-                  <CardChooseBatch
-                    {...batch}
-                    onClick={() => onChooseBatch(batch.id, batch.name)}
-                  />
-                </>
+              jalur?.data?.length > 0 ?
+              jalur?.data?.sort((a, b) => a.id - b.id).map((batch) => (
+
+                <CardChooseBatch
+                  {...batch}
+                  key={batch.id}
+                  onClick={() => onChooseBatch(batch.id, batch.name)}
+                />
+
               ))
               : (
                 <>
-                  <Text size={"xl"} weight={"bold"}>Belum ada gelombang yang tersedia</Text>
+                  <Text size={"xl"} weight={"bold"}>
+                    Belum ada gelombang {type === "PEMBELIAN" ? "pembelian" : "pengembalian"} yang tersedia
+                  </Text>
                 </>
               )
             }

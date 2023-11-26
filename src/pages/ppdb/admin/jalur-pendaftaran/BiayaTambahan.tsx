@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import {
   Accordion,
   AccordionControlProps,
@@ -6,15 +7,17 @@ import {
   Button,
   Center,
   Flex,
-  LoadingOverlay,
+  Group,
+  Modal,
   Paper,
   Text,
   Title,
+  useMantineTheme
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { randomId, useDisclosure } from "@mantine/hooks";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { AiFillEdit } from "react-icons/ai";
 import { BsFillTrashFill } from "react-icons/bs";
 import { useParams } from "react-router-dom";
@@ -44,12 +47,12 @@ import { DarkTheme } from "../../../../utils/darkTheme";
 
 const BiayaTambahan = () => {
   const dark = DarkTheme();
+  const theme = useMantineTheme()
   const { idJalurPendaftaran } = useParams();
 
-  const [openedCreate, { open: openCreate, close: closeCreate }] =
-    useDisclosure(false);
-  const [openedEdit, { open: openEdit, close: closeEdit }] =
-    useDisclosure(false);
+  const [openedCreate, { open: openCreate, close: closeCreate }] = useDisclosure(false);
+  const [openedEdit, { open: openEdit, close: closeEdit }] = useDisclosure(false);
+  const [openedDelete, { open: openDelete, close: closeDelete }] = useDisclosure(false);
   const queryClient = useQueryClient();
 
   const form = useForm({
@@ -90,7 +93,6 @@ const BiayaTambahan = () => {
       onError: (err: Error) => {
         // @ts-ignore
         const status = err?.response?.status;
-
         if (status === 400) {
           console.log("DATA TIDAK BOLEH KOSONG");
           toast.error("Data tidak boleh kosong");
@@ -103,9 +105,10 @@ const BiayaTambahan = () => {
     deleteBiayaTambahanMutation.mutate(payload, {
       onSuccess: (response) => {
         console.log(response);
-        console.log("Success");
+        closeDelete()
         toast.success("Data berhasil dihapus");
         queryClient.invalidateQueries({ queryKey: ["get_all_biaya_tambahan"] });
+        form.reset()
       },
       onError: (err) => {
         console.log("FAILED");
@@ -117,7 +120,6 @@ const BiayaTambahan = () => {
   const submitEditBiayaTambahan = (payload: EditBiayaTambahanPayload) => {
     editBiayaTambahanMutation.mutate(payload, {
       onSuccess: (response) => {
-        console.log("Success");
         console.log(response);
         closeEdit();
         toast.success("Data berhasil diubah");
@@ -125,10 +127,9 @@ const BiayaTambahan = () => {
         queryClient.invalidateQueries({ queryKey: ["get_all_biaya_tambahan"] });
       },
       onError: (err) => {
-        // @ts-ignore
         console.log(err);
+        // @ts-ignore
         const status = err?.response?.status;
-
         if (status === 400) {
           console.log("DATA TIDAK BOLEH KOSONG");
           toast.error("Data tidak boleh kosong");
@@ -139,18 +140,15 @@ const BiayaTambahan = () => {
 
   function tambahBiayaTambahanHandler(data: FormCreateBiayaTambahan) {
     const { namePrice, priceDetails } = data;
-
     const numberPriceDetails = priceDetails.map((item) => ({
       subTitle: item.subTitle,
       price: +item.price,
     }));
-
     const payload: CreateBiayaTambahanPayload = {
       namePrice: namePrice,
       path_id: +idJalurPendaftaran,
       priceDetails: numberPriceDetails,
     };
-
     submitCreateBiayaTambahan(payload);
   }
 
@@ -160,12 +158,10 @@ const BiayaTambahan = () => {
 
   function editBiayaTambahanHandler(data: FormEditBiayaTambahan) {
     const { id, namePrice, priceDetails } = data;
-
     const numberPriceDetails = priceDetails.map((item) => ({
       subTitle: item.subTitle,
       price: +item.price,
     }));
-
     const payload: EditBiayaTambahanPayload = {
       id,
       namePrice,
@@ -222,7 +218,13 @@ const BiayaTambahan = () => {
             className="bg-[#2A166F] hover:bg-[#2A166F]"
             size={40}
             radius={100}
-            onClick={() => deleteBiayaTambahanHander(data.id)}
+            onClick={() => {
+              openDelete()
+              form.setValues({
+                id: data.id,
+                judulBiaya: data.namePrice
+              })
+            }}
           >
             <BsFillTrashFill size={20} />
           </ActionIcon>
@@ -238,6 +240,7 @@ const BiayaTambahan = () => {
         shadow="sm"
         radius={"4rem"}
         px={"2.5rem"}
+        bg={dark ? theme.colors.dark[8] : "white"}
         sx={{ padding: "1rem" }}
       >
         <Flex justify={"space-between"} align={"center"}>
@@ -248,24 +251,29 @@ const BiayaTambahan = () => {
       </Paper>
 
       <Accordion
+        mt={30}
+        mb={50}
         multiple
         variant="separated"
         chevronPosition="left"
-        mt={30}
-        mb={50}
       >
         {biayaTambahan &&
-          biayaTambahan?.data?.map((biaya) => {
+          biayaTambahan?.data?.sort((a, b) => a.id - b.id).map((biaya) => {
             const BiayaDetail = biaya.priceDetails;
-
             return (
               <Accordion.Item
+                mb={15}
                 key={biaya.id}
                 value={biaya.id.toString()}
                 sx={{
                   boxShadow: "0 4px 10px -6px black",
-                  backgroundColor: `${dark ? "#25262B" : "white"}`,
+                  backgroundColor: `${dark ? theme.colors.dark[9] : "white"}`,
                   padding: "0.5rem 0.5rem",
+                  border: "0.0625rem solid #dee2e6",
+                  '&[data-active]': {
+                    backgroundColor: dark ? theme.colors.dark[9] : "white",
+                    border: "0.0625rem solid #dee2e6",
+                  },
                 }}
               >
                 <AccordionControl
@@ -315,6 +323,7 @@ const BiayaTambahan = () => {
         opened={openedCreate}
         tambahBiayaTambahanHandler={tambahBiayaTambahanHandler}
         titleModal="Tambah Biaya Tambahan"
+        loading={createBiayaTambahanMutation.status === "pending"}
       />
 
       <ModalBiayaTambahanEdit
@@ -326,9 +335,47 @@ const BiayaTambahan = () => {
         }}
         editBiayaTambahanHandler={editBiayaTambahanHandler}
         titleModal="Ubah Biaya Tambahan"
+        loading={editBiayaTambahanMutation.status === "pending"}
       />
 
-      <LoadingOverlay visible={deleteBiayaTambahanMutation.status === "pending"} overlayBlur={1} />
+      {/* DELETE BIAYA TAMBAHAN */}
+      <Modal
+        centered
+        closeOnEscape={false}
+        closeOnClickOutside={false}
+        withCloseButton={false}
+        opened={openedDelete}
+        onClose={() => {
+          closeDelete()
+          form.reset()
+        }}
+      >
+        <Title order={3}>
+          Hapus Biaya Tambahan
+        </Title>
+        <Text mt={20}>
+          Anda yakin ingin menghapus biaya tambahan {form.values.judulBiaya}?
+        </Text>
+        <Group mt={20} position="right">
+          <Button
+            disabled={deleteBiayaTambahanMutation.status === "pending"}
+            variant="outline"
+            onClick={() => {
+              closeDelete()
+              form.reset()
+            }}
+          >
+            Batal
+          </Button>
+          <Button
+            variant="danger"
+            onClick={() => deleteBiayaTambahanHander(form.values.id)}
+            loading={deleteBiayaTambahanMutation.status === "pending"}
+          >
+            Hapus
+          </Button>
+        </Group>
+      </Modal>
     </Box>
   );
 };

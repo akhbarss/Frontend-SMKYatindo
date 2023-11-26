@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { AxiosResponse } from "axios";
 import axios from "../../utils/axios";
 import {
@@ -30,6 +31,7 @@ export type JalurPendaftaran = {
   start_date: number;
   end_date: number;
   price: string;
+  countStudent: number
 };
 
 export type TGetAllJalurPendaftaran = {

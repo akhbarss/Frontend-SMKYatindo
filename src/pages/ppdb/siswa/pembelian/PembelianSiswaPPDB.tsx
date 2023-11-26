@@ -1,10 +1,11 @@
-import { Divider, ScrollArea, Skeleton, Stack, Tabs, TabsProps } from "@mantine/core";
+import { Divider, ScrollArea, Skeleton, Stack, Tabs } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { FaAddressCard, FaRegFlag } from "react-icons/fa";
 import { FaMoneyCheckDollar } from "react-icons/fa6";
 import { RiGitMergeFill } from "react-icons/ri";
 import { useLocation, useNavigate } from "react-router-dom";
+import { jwtDecode } from "../../../../apis/alur/decodeJWT";
 import { getLastoffset } from "../../../../apis/pembelian";
 import Page from "../../../../components/Page";
 import PageLabel from "../../../../components/PageLabel";
@@ -13,10 +14,12 @@ import StepGelombang from "../../../../components/ppdb/siswa/StepGelombang";
 import StepPembayaran from "../../../../components/ppdb/siswa/StepPembayaran";
 import StepPilihJurusan from "../../../../components/ppdb/siswa/StepPilihJurusan";
 import TabList from "../../../../components/ppdb/siswa/tabList";
+import { StyledTabsProps } from "../../../../types/global";
 import generateQueryparam from "../../../../utils/generateQueryParam";
 import useFilter from "../../../../utils/useFilter";
 
-const StyledTabs = (props: TabsProps) => {
+const StyledTabs = (props: StyledTabsProps) => {
+  const { grade } = props
   return (
     <Tabs
       unstyled
@@ -26,7 +29,7 @@ const StyledTabs = (props: TabsProps) => {
           backgroundColor:
             theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.white,
           color: theme.colorScheme === "dark" ? "white" : theme.colors.gray[9],
-          border: "none",
+          border: "0.1625rem solid #dee2e6",
           boxShadow: "0 10px 20px -10px rgba(0,0,0,0.2)",
           cursor: "pointer",
           fontSize: theme.fontSizes.sm,
@@ -45,18 +48,14 @@ const StyledTabs = (props: TabsProps) => {
           },
 
           "&[data-active]": {
-            background: "linear-gradient(45deg, #4c6ef5 0%, #15aabf 100%)",
-            borderColor: theme.colors.blue[7],
+            background: `linear-gradient(45deg, ${(grade == "SMP" && "#2A166F") || (grade == "SMK" && "#FF6C22")}, ${(grade == "SMP" && "#6548DB") || (grade == "SMK" && "#ff9f22")})`,
+            borderColor: "green",
             color: theme.white,
             boxShadow: "0 10px 20px -10px rgba(0,0,0,0.5)",
           },
         },
-
-        tabsList: {
-          // overflowX: "auto",
-          // marginBlock: "4rem"
-        },
       })}
+
       {...props}
     />
   );
@@ -97,7 +96,6 @@ const PembelianSiswaPPDB = () => {
 
   const {
     data: stagings,
-    isLoading,
     isSuccess,
     isFetching
   } = useQuery({
@@ -107,9 +105,17 @@ const PembelianSiswaPPDB = () => {
     notifyOnChangeProps: "all",
   });
 
+  const {
+    data: user,
+  } = useQuery({
+    queryFn: jwtDecode,
+    queryKey: ["session"],
+  });
+
   const queryFilter = useFilter(filter);
   const location = useLocation();
   const navigate = useNavigate();
+  const grade = user?.data?.student?.grade
 
   useEffect(() => {
     setFilter(
@@ -149,42 +155,49 @@ const PembelianSiswaPPDB = () => {
   return (
     <Page title={"Pembelian"}>
       <PageLabel label={"Pembelian"} />
-      <Stack className={"style-box "}>
-        <StyledTabs value={`${filter.step}`} onTabChange={toStep}>
+      <Stack className={"style-box max-w-[100rem] mx-auto"}>
+        <StyledTabs
+          grade={grade}
+          value={`${filter.step}`}
+          onTabChange={toStep}
+        >
           <>
-            {isFetching ? <Skeleton mt={40} width={"100%"} height={200} visible /> : (
-              <>
-                {isSuccess && (
-                  <ScrollArea w={"100%"} display={"flex"} type="always" sx={{ display: 'block' }} offsetScrollbars >
-                    <TabList
-                      activeTabIndex={+filter.step}
-                      card={stagings.data.map((staging, index) => {
-                        return {
-                          label: staging.name,
-                          index: staging.index,
-                          icon: card[index]?.icon,
-                          is_done: staging.is_done === 1,
-                        };
-                      })}
-                    />
-                  </ScrollArea>
-                )}
-              </>
-            )}
+            <>
+              {isFetching ? <Skeleton mt={40} width={"100%"} height={200} visible /> : (
+                <>
+                  {isSuccess && (
+                    <ScrollArea w={"100%"} display={"flex"} type="always" sx={{ display: 'block' }} offsetScrollbars >
+                      <TabList
+                        activeTabIndex={+filter.step}
+                        card={stagings.data.map((staging, index) => {
+                          return {
+                            label: staging.name,
+                            index: staging.index,
+                            icon: card[index]?.icon,
+                            is_done: staging.is_done === 1,
+                          };
+                        })}
+                      />
+                    </ScrollArea>
+                  )}
+                </>
+              )}
+            </>
+
+            <Divider my={20} />
+
+            {
+              isFetching ? <Skeleton mt={40} width={"100%"} height={200} visible /> : (
+                <>
+                  {card.find((c) => c.index === filter.step)?.content}
+                </>
+              )
+            }
+
           </>
-
-          <Divider my={20} />
-
-          {
-            isFetching ? <Skeleton mt={40} width={"100%"} height={200} visible /> : (
-              <>
-                {card.find((c) => c.index === filter.step)?.content}
-              </>
-            )
-          }
         </StyledTabs>
       </Stack>
-    </Page>
+    </Page >
   );
 };
 

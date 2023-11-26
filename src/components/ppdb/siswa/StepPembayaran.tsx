@@ -1,27 +1,29 @@
-import React, { useMemo } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import {
   Box,
   Button,
   Divider,
+  Paper,
   Skeleton,
   Stack,
   Text,
-  Paper,
   Title,
 } from "@mantine/core";
-import toast, { Toaster } from "react-hot-toast";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import React, { useMemo } from "react";
+import { SubmitHandler } from "react-hook-form";
+import toast from "react-hot-toast";
 import { getOffsetStatus, uploadbuktibayar } from "../../../apis/pembelian";
 import useQueryFilter from "../../../hooks/useQueryFilter";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { SubmitHandler } from "react-hook-form";
-import FormWrapper from "../../FormWrapper";
+import { Step } from "../../../types/global";
 import ResponseError from "../../../utils/ResponseError";
-import SelectStatus from "../../SelectStatus";
+import { formatAngka } from "../../../utils/formatRupiah";
 import DataTable from "../../DataTable";
 import FormFieldPembayaran from "../../FormFieldPembayaran";
+import FormWrapper from "../../FormWrapper";
+import SelectStatus from "../../SelectStatus";
 import WaitingPaymentConfirmation from "../../WaitingPaymentConfirmation";
-import { formatAngka } from "../../../utils/formatRupiah";
-import { Step } from "../../../types/global";
 
 const paymentMethod = {
   CASH: "Tunai",
@@ -67,17 +69,6 @@ const StepPembayaran: React.FC<Step> = ({ type = "PEMBELIAN" }) => {
         header: "Atas Nama",
         accessorFn: (data) => data.bank_user,
       },
-      // {
-      //   id: "Aksi",
-      //   header: "Aksi",
-      //   cell: () => {
-      //     return (
-      //       <Button variant="filled" color={"red"}>
-      //         Batalkan
-      //       </Button>
-      //     );
-      //   },
-      // },
     ];
   }, []);
 
@@ -87,6 +78,7 @@ const StepPembayaran: React.FC<Step> = ({ type = "PEMBELIAN" }) => {
       if (key === "payment_prove") {
         formData.append("file", value?.[0]);
       } else {
+        // @ts-ignore
         formData.append(key, value);
       }
     }
@@ -105,11 +97,10 @@ const StepPembayaran: React.FC<Step> = ({ type = "PEMBELIAN" }) => {
 
   return (
     <Paper
-    withBorder
+      withBorder
       sx={(theme) => ({
-        backgroundColor: `${
-          theme.colorScheme === "dark" ? theme.colors.dark[9] : theme.white
-        }`,
+        backgroundColor: `${theme.colorScheme === "dark" ? theme.colors.dark[9] : theme.white
+          }`,
         padding: "2rem",
         boxShadow: "0 5px 10px -8px black",
         borderRadius: "7px",
@@ -148,6 +139,7 @@ const StepPembayaran: React.FC<Step> = ({ type = "PEMBELIAN" }) => {
                     :{" "}
                     <Text component="span" weight={"bold"}>
                       {formatAngka(
+                        // @ts-ignore
                         offset.data.registration_batch?.price ?? "0",
                         "Rp "
                       )}
@@ -189,11 +181,11 @@ const StepPembayaran: React.FC<Step> = ({ type = "PEMBELIAN" }) => {
               <td>
                 {statusLoading && <Skeleton content={"Lorem Ipsum"} />}
                 {statusSuccess && (
-                  <SelectStatus
-                    type={"STATUS"}
-                    readonly={true}
-                    value={offset.data.payment_status?.status}
-                  />
+                    <SelectStatus
+                      type={"STATUS"}
+                      readOnly={true}
+                      value={offset.data.payment_status?.status}
+                    />
                 )}
               </td>
             </tr>
@@ -214,16 +206,18 @@ const StepPembayaran: React.FC<Step> = ({ type = "PEMBELIAN" }) => {
           </Box>
         </>
       ) : (
-        <FormWrapper id={"form-uploadbukti"} onSubmit={onSubmitPayment}>
-          <Title order={3} my={50}>
-            Bukti Transfer
-          </Title>
-          <Divider />
-          <FormFieldPembayaran />
-          <Button type={"submit"} mt={10}>
-            Submit
-          </Button>
-        </FormWrapper>
+        <>
+          <FormWrapper id={"form-uploadbukti"} onSubmit={onSubmitPayment}>
+            <Title order={3} my={50}>
+              Bukti Transfer
+            </Title>
+            <Divider />
+            <FormFieldPembayaran />
+            <Button type={"submit"} mt={10}>
+              Submit
+            </Button>
+          </FormWrapper>
+        </>
       )}
     </Paper>
   );

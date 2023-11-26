@@ -88,7 +88,7 @@ const CardChooseBatch: React.FC<TCardChooseBatch> = ({
         color={`${isJalurDibuka ? "green" : "red"}`}
         size="lg"
       >
-        {isJalurDibuka ? "Dibuka" : "Ditutup"}
+        {isJalurDibuka ? "Dibuka" : "Sudah Ditutup"}
       </Badge>
     </Button>
   );

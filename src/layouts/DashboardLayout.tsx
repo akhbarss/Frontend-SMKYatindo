@@ -1,14 +1,18 @@
-import { AppShell, Paper } from "@mantine/core";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { AppShell, Box, ActionIcon, MantineProvider, Paper } from "@mantine/core";
+import { BsFillTelephoneFill } from "react-icons/bs"
 import { useDisclosure } from "@mantine/hooks";
+import { useQuery } from "@tanstack/react-query";
+import { Suspense, useEffect } from "react";
+import toast from "react-hot-toast";
+import { jwtDecode } from "../apis/alur/decodeJWT";
+import PageLoading from "../components/PageLoading";
+import { useBreakPoints } from "../utils/UseBreakpoints";
+import { gradesUtils } from "../utils/gradesUtils";
 import AppBar from "./Dashboard/AppBar";
 import Navigation from "./Dashboard/Navigation";
-import { useBreakPoints } from "../utils/UseBreakpoints";
 import { Footer } from "./index";
-import { Suspense, useEffect } from "react";
-import PageLoading from "../components/PageLoading";
-import { jwtDecode } from "../apis/alur/decodeJWT";
-import { useQuery } from "@tanstack/react-query";
-import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
 
 type TDashboard = {
   children: any;
@@ -29,53 +33,82 @@ const DashboardLayout: React.FC<TDashboard> = ({ children }) => {
   });
 
   useEffect(() => {
+    // console.log(user)
     if (isError) {
       toast.error("Error saat mengambil data sesi");
     }
   }, [isError, error, user]);
 
+  const grade = user?.data?.student?.grade
+
   return (
     <Suspense fallback={<PageLoading />}>
-      <AppShell
-        padding={0}
-        header={
-          <AppBar
-            opened={opened}
-            setOpened={toggle}
-            fullname={
-              isSuccess
-                ? user?.data?.student?.name || user?.data?.fullname
-                : "-"
-            }
-          />
-        }
-        navbar={
-          <Navigation
-            opened={opened}
-            access={
-              isSuccess ? user.data?.role_id?.rolesMenus.map((d) => d.path) : []
-            }
-          />
-        }
-        navbarOffsetBreakpoint="md"
-        // styles={{ main: {display: "flex"}, }}
+      <MantineProvider
+        withGlobalStyles
+        withNormalizeCSS
+        inherit
+        theme={{
+          primaryColor: grade ? gradesUtils.find(item => item.grade === grade)?.theme : "brand-smp"
+        }}
       >
-        <Paper className="relative flex flex-col flex-[1] h-full">
 
-          <Paper
-            p={`${sm ? "3rem 2.5rem" : "3rem 1rem"}`}
-            pb={"100px"}
-            className="style-box "
-            sx={() => ({
-              // minHeight: "80vh",
-            })}
-          >
-            {children}
+        <AppShell
+          padding={0}
+          header={
+            <AppBar
+              opened={opened}
+              setOpened={toggle}
+              grade={user?.data?.student?.grade}
+              fullname={
+                isSuccess
+                  ? user?.data?.student?.name || user?.data?.fullname
+                  : "-"
+              }
+            />
+          }
+          navbar={
+            <Navigation
+              opened={opened}
+              access={
+                isSuccess ? user.data?.role_id?.rolesMenus.map((d) => d.path) : []
+              }
+            />
+          }
+          navbarOffsetBreakpoint="md"
+        >
+
+          <Paper className="relative flex flex-col flex-[1] h-full ">
+            <Paper
+              p={`${sm ? "3rem 2.5rem" : "3rem 1rem"}`}
+              pb={"100px"}
+              className="style-box relative"
+            >
+              {children}
+            </Paper>
+            <Footer />
           </Paper>
-          <Footer />
-        </Paper>
 
-      </AppShell>
+          <Box
+            sx={{
+              position: "fixed",
+              bottom: 40,
+              right: 40
+            }}
+          >
+            <ActionIcon
+              color="blue"
+              variant="filled"
+              radius="100%"
+              size={50}
+              component={Link}
+              to={"#"}
+            >
+              <BsFillTelephoneFill size={25}/ >
+            </ActionIcon>
+          </Box>
+
+        </AppShell>
+      </MantineProvider>
     </Suspense>
   );
 };

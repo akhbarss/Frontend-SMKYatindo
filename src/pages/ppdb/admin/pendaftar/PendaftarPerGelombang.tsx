@@ -1,11 +1,11 @@
 import {
-    Badge,
-    Skeleton,
     ActionIcon,
+    Badge,
     Box,
     Button,
     Group,
     Paper,
+    Skeleton,
     Stack,
     Text,
     Title
@@ -14,25 +14,27 @@ import {
     IconTrash
 } from "@tabler/icons-react";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { MdArrowBackIosNew } from "react-icons/md";
-import { Link, useParams } from "react-router-dom";
-import { getGelombangById } from "../../../apis/gelombang/getGelombangById";
-import { getAllStudentByBatchId } from "../../../apis/student/getAllStudentByBatchId";
-import { getTotalPendaftarByBatch } from "../../../apis/total-pendaftar/getTotalPendaftarByBatch";
-import DataTable from "../../../components/DataTable";
-import Page from "../../../components/Page";
-import PageLabel from "../../../components/PageLabel";
-import { DarkTheme } from "../../../utils/darkTheme";
-import { statusValue } from "../../../utils/statusValue";
-import { Status } from "../../../types/global";
-import { exportExcel } from "../../../apis/student/exportExcel";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { getGelombangById } from "../../../../apis/gelombang/getGelombangById";
+import { exportExcel } from "../../../../apis/student/exportExcel";
+import { getAllStudentByBatchId } from "../../../../apis/student/getAllStudentByBatchId";
+import { getTotalPendaftarByBatch } from "../../../../apis/total-pendaftar/getTotalPendaftarByBatch";
+import DataTable from "../../../../components/DataTable";
+import Page from "../../../../components/Page";
+import PageLabel from "../../../../components/PageLabel";
+import { Status } from "../../../../types/global";
+import { DarkTheme } from "../../../../utils/darkTheme";
+import { statusValue } from "../../../../utils/statusValue";
 
 const PendaftarPerGelombang = () => {
 
     const dark = DarkTheme()
     const { gelombangId } = useParams()
     const [searchName, setSearchName] = useState("")
+    const { tipeGelombang } = useParams()
+    const navigate = useNavigate()
 
     const {
         data: totalPendaftar,
@@ -41,9 +43,6 @@ const PendaftarPerGelombang = () => {
         queryKey: ["get_total_pendaftar_batch"],
         queryFn: () => getTotalPendaftarByBatch(gelombangId)
     })
-
-    console.log(totalPendaftar?.data)
-
 
     const exportExcelMutation = useMutation({
         mutationFn: exportExcel
@@ -92,23 +91,13 @@ const PendaftarPerGelombang = () => {
         tanggalMendaftar: item?.registrationDate ?? null
     }))
 
-    // students?.push({
-    //     id: 2131,
-    //     nama: "Adi",
-    //     noWa: "082110977214",
-    //     status: "PAYMENT_CONFIRMED",
-    //     tanggalMendaftar: 1698912464000,
-    // })
-
     const filteredStatusStudent = students?.filter(student => {
-
         return student
         // uncomment the code below to display the appropriate status
         // return (student.status === "WAITING_PAYMENT" || student.status === "PAYMENT_CONFIRMED")
     })
 
     const filteredSearchStudent = filteredStatusStudent?.filter(student => {
-        // console.log(student.status)
         return student.nama.toLowerCase().includes(searchName.toLowerCase())
     })
 
@@ -163,16 +152,6 @@ const PendaftarPerGelombang = () => {
                 if (valueStatus) return (
                     <Badge size="lg" color={valueStatus.color} bg={!dark && "#dcfce2"}>{valueStatus.value}</Badge>
                 )
-                // console.log(status)
-                // if (status === "PAYMENT_CONFIRMED") {
-                //     return <Badge size="lg" color="green" bg={!dark && "#dcfce2"}>Terkonfirmasi</Badge>
-                // }
-                // if (status === "WAITING_PAYMENT") {
-                //     return <Badge size="lg" color={"red"} bg={dark ? "#3D1B1C" : "#ffd1d1"}>Belum Dikonfirmasi</Badge>
-                // }
-                // if (status === "REGISTERED") {
-                //     return <Badge size="lg" color={"blue"} >Terdaftar</Badge>
-                // }
                 return "-"
             },
         },
@@ -183,7 +162,7 @@ const PendaftarPerGelombang = () => {
                 const userId = data.row.original.id
                 return (
                     <Link
-                        to={`/ppdb/main/pendaftar-ppdb/${gelombangId}/${userId}`}
+                        to={`/ppdb/main/pendaftar-ppdb/${tipeGelombang}/${gelombangId}/${userId}`}
                         className="bg-blue-600 px-4 py-[3px] no-underline text-white rounded-full font-bold"
                     >
                         Detail
@@ -216,8 +195,8 @@ const PendaftarPerGelombang = () => {
             <Stack mt={20}>
                 {!isFetching && (
                     <Link
-                        to={"/ppdb/main/pendaftar-ppdb"}
-                        className="text-xl no-underline font-bold  flex  items-center gap-2 w-fit"
+                        to={`/ppdb/main/pendaftar-ppdb/${tipeGelombang}`}
+                        className="text-xl no-underline font-bold  flex  items-center gap-2 w-fit cursor-pointer"
                     >
                         <MdArrowBackIosNew color={`${dark ? "#9b87de" : "#2A166F"}`} />
                         <Text color={`${dark ? "#9b87de" : "#2A166F"}`}>Kembali</Text>

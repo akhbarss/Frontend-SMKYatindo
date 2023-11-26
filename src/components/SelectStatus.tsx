@@ -1,12 +1,12 @@
-import React from "react";
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { Loader, Select, SelectItem } from "@mantine/core";
-import { getLookup } from "../apis/lookup";
 import { useQuery } from "@tanstack/react-query";
+import { getLookup } from "../apis/lookup";
 
 const SelectStatus = (props: {
   type: string;
   value?: string;
-  readonly?: boolean;
+  readOnly?: boolean;
   label?: string;
   searchable?: boolean;
   data?: string | SelectItem[];
@@ -27,20 +27,28 @@ const SelectStatus = (props: {
       {isSuccess && (
         <Select
           value={props.value}
-          readOnly={props.readonly}
+          readOnly={props.readOnly}
           label={props.label}
           onChange={props.onChange}
           searchable={props.searchable}
+          styles={{
+            input: {
+              backgroundColor: props.readOnly && "#2A166F",
+              color: props.readOnly && "white",
+              fontWeight: `${props.readOnly ? "bolder" : "normal"}`
+            }
+          }}
+          // @ts-ignore
           data={
             props.data
               ? props.data
               : isSuccess &&
-                response.data.map((d) => {
-                  return {
-                    value: d.value,
-                    label: d.name,
-                  };
-                })
+              response.data.map((d) => {
+                return {
+                  value: d.value,
+                  label: d.name,
+                };
+              })
           }
           {...props}
         />

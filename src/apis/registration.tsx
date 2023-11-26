@@ -1,5 +1,6 @@
-import axios from "../utils/axios";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ResponseType } from "../types/global";
+import axios from "../utils/axios";
 
 export type RegistrationPayload = {
   username: string;
@@ -40,9 +41,6 @@ export const registration = async (
   payload: RegistrationPayload
 ): Promise<ResponseType<ResponseType<RegistrationResponse>>> => {
   const response = await axios.post("/v1/auth/register-student", payload);
-
-  console.log(payload)
-  
   return response.data;
 };
 

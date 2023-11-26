@@ -16,6 +16,7 @@ type TModalKeteranganCreate = {
     description: string,
     setDescription: React.Dispatch<React.SetStateAction<string>>,
     tambahKeteranganHandler: () => void,
+    loading?: boolean
 }
 
 const ModalKeteranganCreate: React.FC<TModalKeteranganCreate> = ({
@@ -27,10 +28,11 @@ const ModalKeteranganCreate: React.FC<TModalKeteranganCreate> = ({
     name,
     setName,
     tambahKeteranganHandler,
+    loading
 }) => {
     return (
         <ModalAdmin
-            size='70rem'
+            size='60rem'
             onClose={close}
             opened={opened}
             title={titleModal}
@@ -39,6 +41,7 @@ const ModalKeteranganCreate: React.FC<TModalKeteranganCreate> = ({
                 titleAccept: "Tambah"
             }}
             withFooter
+            loading={loading}
         >
             <Stack
                 mt={"3rem"}

@@ -30,7 +30,7 @@ const GuestPPDB = () => {
   const menuGuest = useMemo(
     () => [
       { label: "Beranda", path: "beranda" },
-      { label: "PPDB", path: "ppdb" },
+      { label: "Daftar", path: "ppdb" },
       { label: "Alur Pendaftaran", path: "alur-pendaftaran" },
       { label: "Jalur Pendaftaran", path: "jalur-pendaftaran" },
     ],

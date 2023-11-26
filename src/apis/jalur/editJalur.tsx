@@ -6,9 +6,9 @@ export type EditJalurPayload = {
     id: number
     name: string,
     type: TipeJalur,
-    start_date: Date,
-    end_date: Date
-    price: string
+    start_date: string,
+    end_date: string
+    price: number
 };
 
 type EditJalurRequest = {
@@ -16,7 +16,7 @@ type EditJalurRequest = {
     type: TipeJalur,
     start_date: string,
     end_date: string
-    price: string
+    price: number
 }
 
 export const editJalur = async (payload: EditJalurPayload): Promise<ResponseType<Response>> => {
@@ -31,12 +31,11 @@ export const editJalur = async (payload: EditJalurPayload): Promise<ResponseType
     } = payload
 
     const data: EditJalurRequest = {
-        end_date: end_date.toISOString(),
+        end_date,
         name,
         price,
-        start_date: start_date.toISOString(),
+        start_date,
         type
-
     }
 
     console.log(data)

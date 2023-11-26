@@ -26,6 +26,7 @@ export type Student = {
   batch_id: null;
   registrationBatch: null;
   registrationPaths: null;
+  grade: "SMP" | "SMK"
 
   dad_name: string;
   dad_phone: string;

@@ -28,6 +28,7 @@ type TModalBiayaTambahanEdit = {
     close: () => void;
     titleModal: string;
     editBiayaTambahanHandler: (data: FormEditBiayaTambahan) => void;
+    loading?: boolean
     form: UseFormReturnType<{
         id: number;
         judulBiaya: string;
@@ -60,7 +61,8 @@ const ModalBiayaTambahanEdit: React.FC<TModalBiayaTambahanEdit> = ({
     close,
     titleModal,
     editBiayaTambahanHandler,
-    form
+    form,
+    loading
 }) => {
 
     const fields = form?.values?.priceDetails?.map((item, index) => (
@@ -162,23 +164,27 @@ const ModalBiayaTambahanEdit: React.FC<TModalBiayaTambahanEdit> = ({
 
                 <Group
                     position="right"
-                    sx={{
+                    sx={theme => ({
                         position: "absolute",
                         bottom: 0,
                         right: 0,
                         left: 0,
                         padding: "1rem 4rem",
-                        backgroundColor: "whitesmoke",
+                        backgroundColor: theme.colorScheme === 'dark' ? "black" : "whitesmoke",
                         zIndex: 1
-                    }}
+                    })}
                 >
-                    <Button variant="outline" onClick={() => {
-                        close()
-                    }}>
+                    <Button
+                        variant="outline"
+                        onClick={() => {
+                            close()
+                        }}
+                        disabled={loading}
+                    >
                         Batal
                     </Button>
 
-                    <Button type='submit'>
+                    <Button type='submit' loading={loading}>
                         Ubah
                     </Button>
                 </Group>

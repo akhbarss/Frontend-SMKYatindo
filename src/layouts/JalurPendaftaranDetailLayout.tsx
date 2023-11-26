@@ -8,9 +8,9 @@ import {
   useParams
 } from "react-router-dom";
 import { GetAllJalurPendaftaran } from "../apis/jalur/getJalur";
-import { DarkTheme } from "../utils/darkTheme";
 import Page from "../components/Page";
 import PageLabel from "../components/PageLabel";
+import { DarkTheme } from "../utils/darkTheme";
 
 type TJalurPendaftaranDetailLayout = {
   children: React.ReactNode;
@@ -25,7 +25,6 @@ const JalurPendaftaranDetailLayout: React.FC<TJalurPendaftaranDetailLayout> = ({
   const location = useLocation();
 
   const { data: dataJalur, } = GetAllJalurPendaftaran();
-
   const jalur = dataJalur?.find(
     (jalur) => jalur.id + "" === idJalurPendaftaran
   );
@@ -45,7 +44,6 @@ const JalurPendaftaranDetailLayout: React.FC<TJalurPendaftaranDetailLayout> = ({
         </Link>
 
         <Tabs
-          // defaultValue="pembelian"
           value={location.pathname.split("/")[5]}
           onTabChange={(value) => navigate(`${value}`)}
           color="blue"

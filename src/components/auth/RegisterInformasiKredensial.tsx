@@ -1,4 +1,4 @@
-import { Button, Group, Stack, TextInput } from "@mantine/core";
+import { Button, Group, Stack, TextInput,PasswordInput } from "@mantine/core";
 import { UseMutationResult } from "@tanstack/react-query";
 import { RegistrationPayload, RegistrationResponse } from "../../apis/registration";
 import { ResponseType } from "../../types/global";
@@ -27,11 +27,10 @@ const RegisterInformasiKredensial: React.FC<TRegisterInformasiKredensial> = ({
   return (
     <form onSubmit={submitHandler}>
       <Stack mt={20}>
-        <TextInput
+        <PasswordInput
           label="Password"
           withAsterisk
           required
-          type="password"
           autoFocus
           value={password}
           onChange={(e) => setPassword(e.target.value)}

@@ -1,12 +1,50 @@
-import { Navbar, NavLink, ScrollArea, ThemeIcon } from "@mantine/core";
+import { NavLink, Navbar, ScrollArea, createStyles, getStylesRef } from "@mantine/core";
+import { useIsFetching } from "@tanstack/react-query";
 import { useEffect, useMemo, useState } from "react";
-import { FiGitPullRequest, FiHome } from "react-icons/fi";
+import { IconType } from "react-icons";
+import { FaHome, FaLine } from "react-icons/fa";
+import { GiWaves } from "react-icons/gi";
+import { IoGitPullRequest } from "react-icons/io5";
+import { MdAppRegistration, MdDashboard } from "react-icons/md";
 import { RiFileList3Line } from "react-icons/ri";
 import { useLocation, useNavigate } from "react-router-dom";
-import { MdAppRegistration, MdDashboard } from "react-icons/md";
-import { FaLine } from "react-icons/fa";
-import { GiWaves } from "react-icons/gi";
-import { useQueryClient, useIsFetching } from "@tanstack/react-query";
+import { DarkTheme } from "../../utils/darkTheme";
+
+type TMenuSiswaNavigation = {
+  label: string;
+  path: string;
+  icon: IconType;
+  color: string;
+}[]
+
+const useStyles = createStyles((theme) => ({
+  link: {
+    ...theme.fn.focusStyles(),
+    backgroundColor: "white",
+    color:
+      theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[7],
+    fontWeight: 600,
+    borderRadius: 6,
+
+    "&:hover": {
+      backgroundColor:
+        theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[3],
+      color: theme.colorScheme === "dark" ? theme.white : theme.black,
+
+      [`& .${getStylesRef("icon")}`]: {
+        color: theme.colorScheme === "dark" ? theme.white : theme.black,
+      },
+    },
+  },
+
+  linkActive: {
+    "&, &:hover": {
+      backgroundColor: "#1971C2",
+      color: "white",
+    },
+  },
+}))
+
 
 const Navigation = ({
   opened,
@@ -15,72 +53,53 @@ const Navigation = ({
   opened: boolean;
   access: string[];
 }) => {
-  const [menus, setMenus] = useState([]);
+  const [menus, setMenus] = useState<TMenuSiswaNavigation>([]);
+  const dark = DarkTheme()
+  const { classes, cx } = useStyles()
 
-  const menusSiswa = useMemo(
+  const menusSiswa = useMemo<TMenuSiswaNavigation>(
     () => [
       {
         label: "Home",
         path: "/ppdb/main/home",
-        icon: (
-          <ThemeIcon color="blue" variant="light">
-            <FiHome />
-          </ThemeIcon>
-        ),
+        icon: FaHome,
+        color: "orange"
       },
       {
         label: "Pembelian",
         path: "/ppdb/main/pembelian",
-        icon: (
-          <ThemeIcon color="green" variant="light">
-            <RiFileList3Line />
-          </ThemeIcon>
-        ),
+        icon: RiFileList3Line,
+        color: "green"
       },
       {
         label: "Pengembalian",
         path: "/ppdb/main/pengembalian",
-        icon: (
-          <ThemeIcon variant="light" color="violet">
-            <FiGitPullRequest />
-          </ThemeIcon>
-        ),
+        icon: IoGitPullRequest,
+        color: "violet"
       },
       {
         label: "Dashboard",
         path: "/ppdb/main/dashboard",
-        icon: (
-          <ThemeIcon variant="light" color="cyan">
-            <MdDashboard />
-          </ThemeIcon>
-        ),
+        icon: MdDashboard,
+        color: "cyan"
       },
       {
         label: "Alur Pendaftaran",
         path: "/ppdb/main/alur",
-        icon: (
-          <ThemeIcon variant="light" color="indigo">
-            <GiWaves />
-          </ThemeIcon>
-        ),
+        icon: GiWaves,
+        color: "indigo"
       },
       {
         label: "Jalur Pendaftaran",
         path: "/ppdb/main/jalur-pendaftaran",
-        icon: (
-          <ThemeIcon variant="light" color="lime">
-            <FaLine />
-          </ThemeIcon>
-        ),
+        icon: FaLine,
+        color: "lime"
       },
       {
         label: "Pendaftar",
         path: "/ppdb/main/pendaftar-ppdb",
-        icon: (
-          <ThemeIcon variant="light" color="lime">
-            <MdAppRegistration />
-          </ThemeIcon>
-        ),
+        icon: MdAppRegistration,
+        color: "lime"
       },
     ],
     []
@@ -100,12 +119,13 @@ const Navigation = ({
 
   return (
     <Navbar
-      // bg={"#fff"}
+      bg={dark ? "#363062" : "#2A166F"}
       px="sm"
       py="xl"
       width={{ base: 300 }}
       hiddenBreakpoint="md"
       hidden={!opened}
+      sx={{ border: "none" }}
     >
       <Navbar.Section grow component={ScrollArea} mx="-xs" px="xs">
         {menus &&
@@ -113,19 +133,22 @@ const Navigation = ({
           menus.map((menu, i) => {
             return (
               <NavLink
-                active={pathUrl === menu.path}
-                icon={menu.icon}
+                mt={10}
+                className={cx(classes.link, {
+                  [classes.linkActive]: pathUrl.includes(menu.path),
+                })}
+                icon={
+                  <menu.icon color={pathUrl !== menu.path ? menu.color : undefined} size="1.2rem" />
+                }
                 key={i}
-                variant="light"
-                color="gray"
+                variant="filled"
                 label={menu.label}
                 onClick={() => {
                   if (countQueryFetching > 0) {
                     return
-                  } else [
+                  } else[
                     navigate(menu.path as never)
                   ]
-                  // setOpened();
                 }}
               />
             );

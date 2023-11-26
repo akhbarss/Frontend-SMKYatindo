@@ -1,9 +1,9 @@
 import {
-    Group,
-    Button,
-    Modal,
-    ScrollArea,
     Box,
+    Button,
+    Group,
+    Modal,
+    ScrollArea
 } from '@mantine/core'
 import React from 'react'
 
@@ -33,16 +33,18 @@ const ModalAdmin: React.FC<TModalAdmin> = ({
 
 }) => {
     return (
-        <Modal.Root onClose={onClose} opened={opened} size={size} centered>
+        <Modal.Root onClose={onClose} opened={opened} size={size} centered  closeOnClickOutside={false} closeOnEscape={false}>
             <Modal.Overlay />
             <Modal.Content sx={{ padding: 0, overflow: "hidden" }}>
-                <Modal.Header sx={{
-                    background: "#2A166F",
-                    color: "white",
-                    fontSize: "25px"
-                }}>
+                <Modal.Header
+                    sx={{
+                        background: "#2A166F",
+                        color: "white",
+                        fontSize: "25px"
+                    }}
+                >
                     {title}
-                    <Modal.CloseButton />
+                    {/* <Modal.CloseButton /> */}
                 </Modal.Header>
 
                 <Modal.Body sx={{ padding: 0 }} >
@@ -60,19 +62,24 @@ const ModalAdmin: React.FC<TModalAdmin> = ({
                 {withFooter && (
                     <Group
                         position="right"
-                        sx={{
+                        sx={theme => ({
                             padding: "1rem 4rem",
-                            backgroundColor: "whitesmoke"
-                        }}
+                            backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[9] : "whitesmoke",
+                            position: "sticky",
+                            bottom: 0,
+                            marginTop: "2rem"
+                        })}
                     >
                         <Button
                             variant="outline"
                             onClick={() => onClose()}
+                            disabled={loading}
                         >
                             Batal
                         </Button>
 
                         <Button
+                            color='brand-yatindo'
                             onClick={() => onAccept?.acceptFn()}
                             loading={loading}
                         >

@@ -18,6 +18,7 @@ import { useQuery } from "@tanstack/react-query";
 import { GetAllAlurPendaftaran } from "../../../../apis/alur/getAlur";
 import TiptapOutput from "../../../../components/ppdb/tiptapOutput";
 import { useNavigate } from "react-router-dom";
+import { gradesUtils } from "../../../../utils/gradesUtils";
 
 const BerandaSiswaPPDB = () => {
   const { md } = useBreakPoints();
@@ -54,13 +55,14 @@ const BerandaSiswaPPDB = () => {
     queryFn: GetAllAlurPendaftaran,
   });
 
+  const grade = user?.data?.student?.grade
+
   return (
     <Page title={"Beranda"}>
       <Stack className={"style-box max-w-[70rem] mx-auto"} >
         <Box
           sx={{
-            background:
-              "linear-gradient(to left, rgba(141, 108, 255, 1), rgba(51, 154, 240, 1))",
+            background: grade ? gradesUtils.find(item => grade === item.grade).bg : "linear-gradient(to left, #2A166F, #6548DB)",
             padding: "3rem 3rem",
             borderRadius: "5px",
             color: "white",
@@ -84,7 +86,7 @@ const BerandaSiswaPPDB = () => {
               ? user?.data?.student?.name || user?.data?.fullname
               : "-"}
             . <br />
-            Calon Siswa SMK Yayasan Tinta Emas Indonesia
+            Calon Siswa {grade === "SMK" && "SMK"} {grade === "SMP" && "SMP"} Yayasan Tinta Emas Indonesia
           </Text>
           <img
             src="/svg/icon-home.svg"
@@ -99,9 +101,9 @@ const BerandaSiswaPPDB = () => {
           <Alert
             icon={<TbAlertCircleFilled size="1rem" />}
             title="Informasi"
-            color=""
             radius="xs"
             withCloseButton
+            variant="light"
             closeButtonLabel="Close alert"
             onClose={() => setShowAler(false)}
           >
@@ -110,29 +112,27 @@ const BerandaSiswaPPDB = () => {
           </Alert>
         )}
 
-        <Box>
-          <Card shadow="xl">
-            <Text weight={"bold"}>Alur Pendaftaran</Text>
-            {isLoading && <LoadingOverlay visible={true} />}
-            {isSuccessGetAlur && (
-              <Timeline active={active} bulletSize={24} lineWidth={2}>
-                {alurPendaftaran &&
-                  alurPendaftaran.data?.length > 0 &&
-                  alurPendaftaran.data?.map((alur) => (
-                    <Timeline.Item
-                      mt={30}
-                      key={alur.id}
-                      bullet={<FaCheck size={12} />}
-                      title={alur.title}
-                      lineVariant="solid"
-                    >
-                      <TiptapOutput desc={alur.content} />
-                    </Timeline.Item>
-                  ))}
-              </Timeline>
-            )}
-          </Card>
-        </Box>
+        <Card shadow="xl" withBorder>
+          <Text weight={"bold"}>Alur Pendaftaran</Text>
+          {isLoading && <LoadingOverlay visible={true} />}
+          {isSuccessGetAlur && (
+            <Timeline active={active} bulletSize={24} lineWidth={2}>
+              {alurPendaftaran &&
+                alurPendaftaran.data?.length > 0 &&
+                alurPendaftaran.data?.map((alur) => (
+                  <Timeline.Item
+                    mt={30}
+                    key={alur.id}
+                    bullet={<FaCheck size={12} />}
+                    title={alur.title}
+                    lineVariant="solid"
+                  >
+                    <TiptapOutput desc={alur.content} />
+                  </Timeline.Item>
+                ))}
+            </Timeline>
+          )}
+        </Card>
       </Stack>
     </Page>
   );

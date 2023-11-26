@@ -1,4 +1,7 @@
-import React, { useEffect } from "react";
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+/* eslint-disable @typescript-eslint/no-unnecessary-type-constraint */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useEffect } from "react";
 import {
   DeepPartial,
   FormProvider,
@@ -26,6 +29,7 @@ const FormWrapper = <T extends unknown>({
   noValidate = true,
 }: TFormWrapper<T>) => {
   const methods = useForm<T>({
+    // @ts-ignore
     defaultValues: initialValues as DeepPartial<T>,
     mode: method,
   });

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import {
     Avatar,
     Box,
@@ -13,37 +14,41 @@ import { useQuery } from "@tanstack/react-query";
 import { BsWhatsapp } from "react-icons/bs";
 import { MdArrowBackIosNew } from "react-icons/md";
 import { Link, useParams } from 'react-router-dom';
-import { getStudent } from "../../../apis/student/getStudent";
-import Page from '../../../components/Page';
-import PageLabel from '../../../components/PageLabel';
-import { DarkTheme } from '../../../utils/darkTheme';
-import { statusValue } from "../../../utils/statusValue";
+import { getStudent } from "../../../../apis/student/getStudent";
+import Page from '../../../../components/Page';
+import PageLabel from '../../../../components/PageLabel';
+import { DarkTheme } from '../../../../utils/darkTheme';
+import { statusValue } from "../../../../utils/statusValue";
 import Pembayaran from "./Pembayaran";
 import BiodataAdmin from "./BiodataAdmin";
 
+interface TErrResponse extends Error {
+    response: {
+        status: string | object | number
+    }
+}
+
 const DetailPendaftar = () => {
-    const { userId, gelombangId } = useParams()
+    const { userId, gelombangId, tipeGelombang } = useParams()
     const dark = DarkTheme()
 
     const studentQuery = useQuery({
         queryKey: ["get_student"],
         queryFn: () => getStudent({ userId }),
-
     })
 
     const {
         data: student,
-        isLoading: loadStudent,
-        isFetched,
-        isPending,
         isError,
         error,
         isFetching,
     } = studentQuery
 
+    const err = error as TErrResponse
+
     if (isError) return (
         <Paper p={"lg"}>
-            <h1>{error?.response?.status === 400 ? "Pendaftar tidak ditemukan" : "Terjadi kesalahan"}</h1>
+            <h1>{err?.response?.status === 400 ? "Pendaftar tidak ditemukan" : "Terjadi kesalahan"}</h1>
             <Link
                 className="text-xl no-underline font-bold  flex  items-center gap-2 w-fit px-8 py-2 bg-black text-white rounded-full"
                 to={"/ppdb/main/pendaftar-ppdb/" + gelombangId}
@@ -53,8 +58,16 @@ const DetailPendaftar = () => {
         </Paper>
     )
 
+    const name = student?.data.name
+    const formattedName = name
+        ?.split(' ')
+        .map(word => word.charAt(0).toUpperCase())
+        .slice(0, 2)
+        .join('');
+
     const status = statusValue[student?.data?.status]
     const unformattedTanggalMendaftar = new Date(student?.data?.registrationDate)
+    // @ts-ignore
     const formattedTanggalMendaftar = !isNaN(unformattedTanggalMendaftar) ? unformattedTanggalMendaftar.toLocaleDateString("id-ID", {
         weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
     }) : "Tanggal tidak valid"
@@ -66,7 +79,7 @@ const DetailPendaftar = () => {
 
                 {!isFetching && (
                     <Link
-                        to={"/ppdb/main/pendaftar-ppdb/" + gelombangId}
+                        to={`/ppdb/main/pendaftar-ppdb/${tipeGelombang}/${gelombangId}`}
                         className="text-xl no-underline font-bold  flex  items-center gap-2 w-fit "
 
                     >
@@ -85,7 +98,7 @@ const DetailPendaftar = () => {
                     {isFetching ? (
                         <Skeleton circle height={200} />
                     ) : (
-                        <Avatar size={220} color="cyan" sx={{ border: "3px solid grey" }} radius={"100%"}>MR</Avatar>
+                        <Avatar size={220} color="cyan" sx={{ border: "3px solid grey" }} radius={"100%"}>{formattedName}</Avatar>
                     )}
 
                     <Box sx={{ flex: 1 }} className="flex flex-col gap-4" key={student?.data.id}>
@@ -132,9 +145,7 @@ const DetailPendaftar = () => {
                     }}
                 >
                     <Tabs.List>
-                        <Tabs.Tab color="blue" value="pembayaran">
-                            Pembayaran
-                        </Tabs.Tab>
+                        <Tabs.Tab  value="pembayaran">Pembayaran</Tabs.Tab>
                         <Tabs.Tab value="biodata">Biodata</Tabs.Tab>
                     </Tabs.List>
 

@@ -6,9 +6,9 @@ export type TipeJalur = "PENGEMBALIAN" | "PEMBELIAN"
 export type CreateJalurPayload = {
     name: string,
     type: TipeJalur,
-    start_date: Date,
-    end_date: Date
-    price: string
+    start_date: string,
+    end_date: string
+    price: number
 };
 
 type CreateJalurRequest = {
@@ -16,29 +16,15 @@ type CreateJalurRequest = {
     type: TipeJalur,
     start_date: string,
     end_date: string
-    price: string
+    price: number
 }
 
 export const createJalur = async (payload: CreateJalurPayload): Promise<ResponseType<Response>> => {
 
-    const {
-        end_date,
-        name,
-        price,
-        start_date,
-        type,
-    } = payload
-
-    const data: CreateJalurRequest = {
-        end_date: end_date.toISOString(),
-        name,
-        price,
-        start_date: start_date.toISOString(),
-        type
-    }
+    const data: CreateJalurRequest = payload
 
     console.log(data)
-    
+
     const response = await axios.post("/v1/admin/registration-paths/post-multi", data);
 
     return response.data;

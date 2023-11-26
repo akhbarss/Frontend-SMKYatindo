@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import {
   Box,
   Button,
@@ -11,7 +12,7 @@ import {
 } from "@mantine/core";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import { scroller } from 'react-scroll';
 import { LoginPayload, login } from "../../apis/login";
@@ -19,6 +20,7 @@ import Page from "../../components/Page";
 import SideAuthLayout from "../../layouts/SideAuthLayout";
 import ResponseError from "../../utils/ResponseError";
 import { useBreakPoints } from "../../utils/UseBreakpoints";
+import { DarkTheme } from "../../utils/darkTheme";
 
 const Login = () => {
   const [noWhatsapp, setNoWhatsapp] = useState("");
@@ -28,15 +30,16 @@ const Login = () => {
   });
 
   const { md } = useBreakPoints();
-
+  const dark = DarkTheme()
   const navigate = useNavigate();
 
   const sampleSubmitData = (payload: LoginPayload) => {
     loginMutation.mutate(payload, {
       onSuccess: (response) => {
         toast.success("Sukses Login!");
-
+        // @ts-ignore
         localStorage.setItem("_TuVbwpW", response.data.access_token);
+        // @ts-ignore
         localStorage.setItem("_RuvTpQv", response.data.refresh_token);
         navigate("/ppdb/main/home");
       },
@@ -61,10 +64,7 @@ const Login = () => {
             ${!md && "bg-[url(/bg-layout-auth.png)]"} bg-contain bg-no-repeat bg-right`
           }
         >
-          <Box
-            w={`${md ? "30rem" : "20rem"}`}
-            // className="py-[2rem] mx-auto mt-20 "
-          >
+          <Box w={`${md ? "30rem" : "20rem"}`}>
             <Title align="center">Login</Title>
 
             <form onSubmit={submitHandler} className="mt-10">
@@ -73,6 +73,7 @@ const Login = () => {
                   withAsterisk
                   label="Nomor Whatsapp"
                   required
+                  autoFocus
                   // type="number"
                   value={noWhatsapp}
                   onChange={(e) => setNoWhatsapp(e.target.value)}
@@ -94,8 +95,10 @@ const Login = () => {
                   }}
                 >
                   <Text
-                    // to={"/ppdb/auth/register"}
-                    className="text-[#103C6F] text-center underline cursor-pointer"
+                    to={"/ppdb"}
+                    component={Link}
+                    c={dark ? "#9E9EFF" : "#364FC7"}
+                    className=" text-center underline cursor-pointer"
                     onClick={() => {
                       navigate("/ppdb")
                       setTimeout(() => {
@@ -106,22 +109,19 @@ const Login = () => {
                           offset: -100,
                         });
                       }, 300)
-
                     }}
                   >
                     Belum punya akun? daftar
                   </Text>
 
-                  <Link
-                    to={"https://wa.me/6281380908008"}
-                    className="text-[#103C6F] text-center"
-                  >
+                  <Text to={"https://wa.me/6281380908008"} component={Link} c={dark ? "#9E9EFF" : "#364FC7"} className="text-center underline cursor-pointer">
                     Lupa Password?
-                  </Link>
+                  </Text>
                 </Group>
 
                 <Button
                   type="submit"
+                  color="#9E9EFF"
                   loading={loginMutation.status === "pending"}
                 >
                   Login

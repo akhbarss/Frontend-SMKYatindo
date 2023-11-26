@@ -3,14 +3,11 @@ import { useBreakPoints } from "../utils/UseBreakpoints"
 import { useLocation } from "react-router-dom"
 
 const SideAuthLayout = ({ page }: { page: "SMK" | "SMP" }) => {
-
     const { md } = useBreakPoints()
     const { pathname } = useLocation()
 
     const pageSMK = page === "SMK"
     const pageSMP = page === "SMP"
-
-
 
     return (
         <>
@@ -22,7 +19,9 @@ const SideAuthLayout = ({ page }: { page: "SMK" | "SMP" }) => {
                             <Text weight={"bold"}>PPDB Yatindo</Text>
                         </Box>
 
-                        <img src="/yayasan.png" alt="" width={130} className="mt-[50px]" />
+                        {pageSMK && <img src="/LOGO_SMK_YATINDO.png" alt="SMK-YATINDO" className="mt-[50px]"  width={130}/>}
+                        {pageSMP && <img src="/LOGO_SMP_YATINDO.png" alt="SMP-YATINDO" className="mt-[50px]"  width={130}/>}
+                        {(!pageSMK && !pageSMP) && <img src="/logo-yatindo-hd.png" alt="YATINDO" className="mt-[50px]"  width={130}/>}
 
                         <Text mt={40} align="center" color="white" size={25} className="font-semibold">
                             {
@@ -34,8 +33,8 @@ const SideAuthLayout = ({ page }: { page: "SMK" | "SMP" }) => {
                                     </>
                                 )
                             }
-                            Tinta <br />
-                            Emas Indonesia
+                            TINTA <br />
+                            EMAS INDONESIA
                         </Text>
 
                     </Box>

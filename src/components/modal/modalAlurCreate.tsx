@@ -48,6 +48,7 @@ const ModalAlurCreate: React.FC<TModalAlurCreate> = ({
                 <Text align="left" weight={"bold"} >Nama</Text>
 
                 <TextInput
+                    data-autofocus
                     value={title}
                     onChange={(val) => setTitle(val.target.value)}
                 />

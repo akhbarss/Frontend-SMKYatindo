@@ -15,7 +15,7 @@ const CetakKartu = () => {
       <Card
         mt={30}
         sx={{
-          background: "linear-gradient(to bottom, #2A166F, #420BFF)",
+          background: "linear-gradient(to left, #2A166F, #6548DB)",
           width: "30rem",
           height: "15rem",
           marginInline: "auto",

@@ -1,5 +1,6 @@
-import axios from "../../utils/axios";
+import axios from "axios"
 import { ResponseType } from "../../types/global";
+import { BASE_URL } from "../../utils/axios";
 
 export type AlurPendaftaran = {
   id: number;
@@ -10,6 +11,6 @@ export type AlurPendaftaran = {
 export const GetAllAlurPendaftaran = async (): Promise<
   ResponseType<AlurPendaftaran[]>
 > => {
-  const request = await axios.get("/v1/admin/alur-ppdb/index");
+  const request = await axios.get(BASE_URL + "/public/index-alur-ppdb");
   return request.data;
 };

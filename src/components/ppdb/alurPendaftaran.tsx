@@ -23,6 +23,8 @@ const AlurPendaftaran = () => {
     queryFn: GetAllAlurPendaftaran,
   });
 
+  console.log(alurPendaftaran)
+  
   return (
     <>
       <Box id="alur-pendaftaran" mt={100} className="flex flex-col">

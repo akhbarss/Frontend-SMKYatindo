@@ -1,8 +1,8 @@
-import { Box, Button, Stack, Text, Title, Paper } from "@mantine/core";
+import { Button, Paper, Stack, Text, Title } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { chooseMajor, getOffsetStatus } from "../../../apis/pembelian";
 import useQueryFilter from "../../../hooks/useQueryFilter";
 import { Step } from "../../../types/global";
@@ -91,21 +91,21 @@ const StepPilihJurusan: React.FC<Step> = ({ type = "PEMBELIAN" }) => {
             {type === "PEMBELIAN" ? (
               <MultiSelectStatus
                 type={"MAJOR"}
-                readonly={Boolean(
+                readOnly={Boolean(
                   statusSuccess && offset.data.offset_data?.majors
                 )}
                 onChange={(value) => setChoosed(value)}
                 value={choosed && Array.from(choosed)}
               />
             ) : (
-              <SelectStatus
-                type={"MAJOR"}
-                readonly={Boolean(
-                  statusSuccess && offset.data.offset_data?.majors
-                )}
-                onChange={(value) => setChoosed(value)}
-                value={choosed && choosed.toString()}
-              />
+                <SelectStatus
+                  type={"MAJOR"}
+                  readOnly={Boolean(
+                    statusSuccess && offset.data.offset_data?.majors
+                  )}
+                  onChange={(value) => setChoosed(value)}
+                  value={choosed && choosed.toString()}
+                />
             )}
 
             <Button

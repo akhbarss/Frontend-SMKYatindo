@@ -16,6 +16,7 @@ type TModalKeteranganEdit = {
     description: string,
     setDescription: React.Dispatch<React.SetStateAction<string>>,
     editKeteranganHandler: () => void,
+    loading?: boolean
 }
 
 const ModalKeteranganEdit: React.FC<TModalKeteranganEdit> = ({
@@ -27,7 +28,7 @@ const ModalKeteranganEdit: React.FC<TModalKeteranganEdit> = ({
     name,
     setName,
     editKeteranganHandler,
-
+    loading
 }) => {
     return (
         <ModalAdmin
@@ -40,6 +41,7 @@ const ModalKeteranganEdit: React.FC<TModalKeteranganEdit> = ({
                 titleAccept: "Ubah"
             }}
             withFooter
+            loading={loading}
         >
             <Stack p={20} pb={"6rem"} mt={"3rem"}>
                 <Text align="left" weight={"bold"} >Nama</Text>

@@ -1,0 +1,85 @@
+.card-student {
+  background: darkorange;
+  padding: 10px;
+  /* max-width: 500px; */
+  margin-inline: auto;
+  border-radius: 20px;
+  /* margin: ; */
+}
+
+.inner-card {
+  background: white;
+  border-radius: 10px;
+  padding: 40px;
+}
+
+.logo-yatindo {
+  width: 70px;
+  position: absolute;
+  left: 0;
+}
+
+.header {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.title {
+  font-weight: bold;
+  text-align: center;
+  margin-inline: auto;
+  font-size: 20px;
+}
+
+.divider {
+  background-color: darkorange;
+  height: 6px;
+  width: 100%;
+  border-radius: 10px;
+}
+
+.biodata {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.profile {
+  width: 150px;
+  height: 200px;
+}
+
+.biodata-detail {
+  width: 100%;
+  margin-block: 30px;
+  /* margin-right: 10px; */
+  margin-left: 20px;
+}
+
+.biodata-detail table {
+  width: 100%;
+}
+
+table {
+  width: 100%;
+}
+
+.detail-pendaftaran {
+  margin-top: 10px;
+  width: 100%;
+}
+
+tr {
+    /* display: flex; */
+}
+
+td {
+  padding-block: 5px;
+  margin-left: auto;
+  text-align: left;
+  vertical-align: top; 
+  /* min-width: 5rem;  */
+  min-width: 10rem; 
+}

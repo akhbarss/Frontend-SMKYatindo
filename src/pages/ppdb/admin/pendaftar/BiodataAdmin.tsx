@@ -12,10 +12,10 @@ import {
     ThemeIcon
 } from "@mantine/core";
 import { BsFileEarmarkImage } from "react-icons/bs";
-import { DarkTheme } from '../../../utils/darkTheme';
+import { DarkTheme } from '../../../../utils/darkTheme';
 import { UseQueryResult } from "@tanstack/react-query";
-import { ResponseType } from "../../../types/global";
-import { TStudentDetail } from "../../../apis/student/getStudent";
+import { ResponseType } from "../../../../types/global";
+import { TStudentDetail } from "../../../../apis/student/getStudent";
 
 type TBiodataAdmin = {
     studentQuery: UseQueryResult<ResponseType<TStudentDetail>, Error>
@@ -37,12 +37,10 @@ const BiodataAdmin: React.FC<TBiodataAdmin> = ({ studentQuery }) => {
         label: { userSelect: "none", fontWeight: "bold" },
     }
 
-    console.log(student?.data)
+    // console.log(student?.data)
 
     return (
         <>
-
-            <Text mt={60} size={40} weight={"bold"}>Biodata PENGEMBALIAN</Text>
             {/* IDENTITAS DIRI */}
             <Paper mt={40} bg={dark ? "dark" : "white"} withBorder shadow='lg' p={"lg"}>
                 <Group>

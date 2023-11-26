@@ -3,7 +3,7 @@ import {
   ColorScheme,
   ColorSchemeProvider,
   MantineProvider,
-  useEmotionCache,
+  useEmotionCache
 } from "@mantine/core";
 import { useHotkeys, useLocalStorage } from "@mantine/hooks";
 import { ModalsProvider } from "@mantine/modals";
@@ -11,14 +11,12 @@ import {
   createDataModel,
   createInformasi,
   createModalSuccess,
-  modalAlurAdmin,
 } from "./modals";
 
 const modals = {
   createData: createDataModel,
   createInformasi,
   modalSuccess: createModalSuccess,
-  modalAlurAdmin,
 };
 declare module "@mantine/modals" {
   export interface MantineModalsOverride {
@@ -57,56 +55,44 @@ export default function ProviderMantine({
           theme={{
             colorScheme,
             colors: {
-              "brand-blue": [
-                "#e4f2ff",
-                "#bad6f8",
-                "#90bbef",
-                "#66a0e7",
-                "#3c85de",
-                "#256bc6",
-                "#1a539a",
-                "#103c6f", // main color
-                "#052445",
-                "#000d1c",
+              "brand-smp": [
+                "#ede9fc", // 0
+                "#ccc1f6", // 1
+                "#aa99f0", // 2
+                "#8971ea", // 3
+                "#6849e4", // 4
+                "#4721de", // 5
+                "#381ab2", // 6
+                "#2b1485", // 7
+                "#1c0d59", // 8
+                "#0e072c", // 9
               ],
-              "brand-sky-blue": [
-                "#e2f4ff",
-                "#bcdcf6",
-                "#93c3ea",
-                "#6babe0", // main color
-                "#4493d7",
-                "#2b79bd",
-                "#1f5e94",
-                "#13436b",
-                "#052842",
-                "#000e1b",
-              ],
-              "brand-yellow": [
-                "#fff7db",
-                "#ffe7af",
-                "#fcd681",
-                "#f9c650",
-                "#f8b621", // main color
-                "#de9c07",
-                "#ad7a02",
-                "#7c5700",
-                "#4b3400",
-                "#1d1000",
-              ],
-              // "brand-blues": ["#2A166F"],
+              "brand-smk": [
+                "#fcf2e9", // 0
+                "#f6dac1", // 1
+                "#f0c299", // 2
+                "#eaa971", // 3
+                "#e49149", // 4
+                "#de7921", // 5
+                "#b2611a", // 6
+                "#b2481a", // 7
+                "#59300d", // 8
+                "#2c1807", // 9
+              ]
             },
-            // primaryColor: "brand-blues",
-            // primaryShade:4,
+            primaryColor: "brand-smp",
+            primaryShade: { dark: 4, light: 7 },
             fontFamily: "Poppins, sans-serif",
             headings: {
               fontFamily: "Poppins, sans-serif",
             },
+            defaultGradient: {
+              deg: 120,
+              from: "#aa99f0",
+              to: "#381ab2"
+            },
             components: {
               Button: {
-                defaultProps: (theme) => ({
-                  color: theme.colorScheme === 'dark' ? theme.colors.dark[9] : "brand-blue"
-                  // color: "brand-blue"
-                }),
                 variants: {
                   danger: (theme) => ({
                     root: {
@@ -134,6 +120,7 @@ export default function ProviderMantine({
             modalProps={{
               centered: true,
               size: "lg",
+              closeOnEscape: false
             }}
           >
             {children}

@@ -1,26 +1,17 @@
-import React from "react";
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import {
   Grid,
   Group,
-  Image,
   Radio,
-  rem,
-  SimpleGrid,
   Stack,
-  Text,
   Textarea,
-  TextInput,
-  useMantineTheme,
+  TextInput
 } from "@mantine/core";
+import { DateInput } from "@mantine/dates";
 import { Controller, useFormContext } from "react-hook-form";
-import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
 import toast from "react-hot-toast";
-import { FaUpload } from "react-icons/fa";
-import { ImCross } from "react-icons/im";
-import { HiPhoto } from "react-icons/hi2";
 import { RadioGroupCustom } from "./fields/RadioGroup";
 import SelectStatus from "./SelectStatus";
-import { DateInput } from "@mantine/dates";
 import UploadDropzone from "./UploadDropzone";
 
 export type TFormFieldBiodata = {
@@ -43,7 +34,6 @@ export type TFormFieldBiodata = {
 };
 
 const FormFieldBiodata = () => {
-  const theme = useMantineTheme();
   const {
     register,
     control,
@@ -62,6 +52,7 @@ const FormFieldBiodata = () => {
             }}
             value={value}
             multiple={false}
+            // @ts-ignore
             onChange={(e) => onChange(e.target.files?.[0] ?? null)}
             onReject={(files) => {
               const fileToLarge = files[0].errors[0].code == "file-too-large";

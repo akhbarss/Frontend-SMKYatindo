@@ -1,4 +1,5 @@
-import { Text, Box, Paper, Stack, Stepper, Title, rem } from "@mantine/core";
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+import { Box, Paper, Stack, Stepper, Text, Title, rem } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { useMutation } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
@@ -34,7 +35,8 @@ const Register = () => {
 
   useEffect(() => {
     const path = pathname.substring(1).split("/")
-    setPage(path[3].toUpperCase())
+    const grade = path[3].toUpperCase() as "SMK" || "SMP"
+    setPage(grade)
   }, [pathname])
 
   const handleStepChange = (nextStep: number) => {
@@ -52,7 +54,9 @@ const Register = () => {
     registrationMutation.mutate(payload, {
       onSuccess: (response) => {
         if (import.meta.env.VITE_SESSION === "localstorage") {
+          // @ts-ignore
           localStorage.setItem("_TuVbwpW", response.data.access_token); // access_token
+          // @ts-ignore
           localStorage.setItem("_RuvTpQv", response.data.refresh_token); // refresh_token
         }
 
@@ -82,7 +86,7 @@ const Register = () => {
         address: alamat,
         name: namaLengkap,
         school_origin: asalSekolah,
-        grade: "SMK"
+        grade: pageRegister
       },
     };
 
