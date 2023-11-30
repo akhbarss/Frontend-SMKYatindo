@@ -10,7 +10,7 @@ import { DateTimePicker } from '@mantine/dates'
 import { UseFormReturnType } from '@mantine/form'
 import React from 'react'
 import ModalAdmin from '../modalAdmin'
-import { FormValuesTesUjian } from "../TestUjian"
+import { FormValuesTesUjian } from "../TestUjianAdmin"
 
 type TModalTestUjian = {
     title: string
@@ -69,9 +69,14 @@ const ModalTestUjian: React.FC<TModalTestUjian> = ({
                                 withAsterisk
                                 aria-required="true"
                                 label="Waktu Pendaftaran Dibuka"
-                                dropdownType="modal"
+                                dropdownType="popover"
                                 {...formMantine.getInputProps("waktuDibuka")}
                                 clearable
+                                styles={{ 
+                                    calendar: {
+                                        width: "100px"
+                                    }
+                                 }}
                             />
                         </Grid.Col>
                         <Grid.Col md={6}>

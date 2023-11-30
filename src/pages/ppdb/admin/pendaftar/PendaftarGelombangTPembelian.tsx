@@ -45,15 +45,15 @@ const PendaftarGelombangTPembelian = () => {
                                                 className="drop-shadow-lg rounded-md no-underline text-black "
                                             >
                                                 <Paper
-                                                    shadow="lg"
-                                                    sx={theme => ({
-                                                        backgroundColor: dark ? theme.colors.dark[8] : theme.white,
-                                                        padding: "1rem 1.5rem",
-                                                        display: "flex",
-                                                        flexDirection: "column",
-                                                        alignItems: "start",
-                                                        border: "0.0625rem solid #dee2e6",
-                                                    })}
+                                                        shadow="lg"
+                                                        sx={theme => ({
+                                                            backgroundColor: dark ? theme.colors.dark[8] : theme.white,
+                                                            padding: "1rem 1.5rem",
+                                                            display: "flex",
+                                                            flexDirection: "column",
+                                                            alignItems: "start",
+                                                            border: "0.0625rem solid #dee2e6",
+                                                        })}
                                                 >
                                                     <h1 className="text-xl  font-bold">
                                                         {item.name}

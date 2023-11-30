@@ -36,6 +36,10 @@ const PendaftarPerGelombang = () => {
     const { tipeGelombang } = useParams()
     const navigate = useNavigate()
 
+    const [pageSize, setPageSize] = useState(10)
+    const [pageCount, setPageCount] = useState(1)
+    // const [pageSize, setPageSize] = useState(10)
+
     const {
         data: totalPendaftar,
         isLoading: loadTotalPendaftar,
@@ -77,18 +81,20 @@ const PendaftarPerGelombang = () => {
         queryFn: () => getGelombangById(gelombangId)
     })
 
+    const totalData = student?.data?.totalElements
+    const totalPages = student?.data?.totalPages
     const students: {
         id: number,
         nama: string,
         noWa: string,
         tanggalMendaftar: number | null,
         status: Status
-    }[] = student?.data?.map(item => ({
+    }[] = student?.data?.content?.map(item => ({
         id: item?.id ?? 1,
         nama: item?.name ?? "-",
         noWa: item?.phone ?? "-",
         status: item?.status ?? null,
-        tanggalMendaftar: item?.registrationDate ?? null
+        tanggalMendaftar: item?.registration_Date ?? null
     }))
 
     const filteredStatusStudent = students?.filter(student => {
@@ -100,6 +106,8 @@ const PendaftarPerGelombang = () => {
     const filteredSearchStudent = filteredStatusStudent?.filter(student => {
         return student.nama.toLowerCase().includes(searchName.toLowerCase())
     })
+
+    console.log(student)
 
     const columns = [
         {
@@ -260,19 +268,20 @@ const PendaftarPerGelombang = () => {
                             <Text>{error.message}</Text>
                         ) : (
                             <DataTable
-                                pagination={{
-                                    pageIndex: 0,
-                                    pageSize: 1000
-                                }}
                                 data={filteredSearchStudent}
                                 canExpand={() => true}
                                 columns={columns}
                                 loading={isFetching}
                                 useSearchInput={true}
                                 noCard={true}
-                                totalRecords={students?.length}
                                 usePagination={false}
                                 onSearch={(inputValue) => setSearchName(inputValue.toLowerCase())}
+                                totalRecords={totalData}
+                                pagination={{
+                                    pageIndex: 0,
+                                    pageSize: 1000,
+                                }}
+                                pageCount={totalPages}
                             />
                         )
                     }

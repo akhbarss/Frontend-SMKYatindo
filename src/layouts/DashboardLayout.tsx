@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { AppShell, Box, ActionIcon, MantineProvider, Paper } from "@mantine/core";
-import { BsFillTelephoneFill } from "react-icons/bs"
+import { ActionIcon, AppShell, Box, MantineProvider } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useQuery } from "@tanstack/react-query";
 import { Suspense, useEffect } from "react";
 import toast from "react-hot-toast";
+import { BsFillTelephoneFill } from "react-icons/bs";
+import { Link } from "react-router-dom";
 import { jwtDecode } from "../apis/alur/decodeJWT";
 import PageLoading from "../components/PageLoading";
 import { useBreakPoints } from "../utils/UseBreakpoints";
@@ -12,7 +13,6 @@ import { gradesUtils } from "../utils/gradesUtils";
 import AppBar from "./Dashboard/AppBar";
 import Navigation from "./Dashboard/Navigation";
 import { Footer } from "./index";
-import { Link } from "react-router-dom";
 
 type TDashboard = {
   children: any;
@@ -75,18 +75,21 @@ const DashboardLayout: React.FC<TDashboard> = ({ children }) => {
             />
           }
           navbarOffsetBreakpoint="md"
+          style={{
+            overflow: "hidden",
+          }}
         >
-
-          <Paper className="relative flex flex-col flex-[1] h-full ">
-            <Paper
-              p={`${sm ? "3rem 2.5rem" : "3rem 1rem"}`}
-              pb={"100px"}
-              className="style-box relative"
+          <Box className="style-box flex flex-col flex-[1] h-full ">
+            <Box
+              pb={"50px"}
+              p={`${sm ? "3rem 2rem" : "3rem 1rem"}`}
+              className="flex-[1]"
             >
+
               {children}
-            </Paper>
+            </Box>
             <Footer />
-          </Paper>
+          </Box>
 
           <Box
             sx={{
@@ -101,9 +104,10 @@ const DashboardLayout: React.FC<TDashboard> = ({ children }) => {
               radius="100%"
               size={50}
               component={Link}
-              to={"#"}
+              to={"https://wa.me/6281380908008?text=Halo Admin Yatindo"}
+              target="_blank"
             >
-              <BsFillTelephoneFill size={25}/ >
+              <BsFillTelephoneFill size={25} />
             </ActionIcon>
           </Box>
 

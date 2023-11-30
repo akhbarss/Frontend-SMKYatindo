@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Paper,
   Stack,
@@ -52,8 +53,6 @@ const StepCetakKartu: React.FC<Step> = ({ type = "PEMBELIAN" }) => {
     );
   };
 
-  console.log("Step Cetak Kartu")
-  
   return (
     <>
       <Paper
@@ -65,12 +64,22 @@ const StepCetakKartu: React.FC<Step> = ({ type = "PEMBELIAN" }) => {
           padding: "2rem",
         })}
       >
-        <Text align={"center"} weight={500} size={"xl"}>
-          {type === "PEMBELIAN"
-            ? "Selamat anda telah terdaftar disistem kami, silahkan klik selesai untuk ke halaman Jalur Pendaftaran/Pengembalian"
-            : "Selamat anda telah terdaftar menjadi calon siswa, harap menunggu informasi lebih lanjut"}
-        </Text>
+        <Box maw={800} mx={"auto"}>
+          <Text
+            align={"center"}
+            weight={500}
+            style={{
+              fontSize: "clamp(1rem, 3.4783vw + 0.3043rem, 1.2rem)"
+            }}
+          >
+            {type === "PEMBELIAN"
+              ? "Selamat anda telah terdaftar disistem kami, silakan download pdf kartu formulir anda, lalu  klik selesai untuk ke halaman Jalur Pengembalian"
+              : "Selamat anda telah terdaftar menjadi calon siswa, silakan download pdf kartu formulir anda, harap menunggu informasi lebih lanjut"}
+          </Text>
+        </Box>
         <Stack align={"center"}>
+
+          <PrintPage />
 
           <Button
             onClick={onClickDone}
@@ -84,8 +93,6 @@ const StepCetakKartu: React.FC<Step> = ({ type = "PEMBELIAN" }) => {
           </Button>
         </Stack>
       </Paper>
-
-      {/* <PrintPage dummy="" /> */}
     </>
   );
 };

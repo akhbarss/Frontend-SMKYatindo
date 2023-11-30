@@ -1,4 +1,4 @@
-import { Paper, Stack, Tabs, Text } from "@mantine/core";
+import { Paper, Stack, Skeleton, Tabs, Text } from "@mantine/core";
 import { BsFillCaretRightFill } from "react-icons/bs";
 import { MdArrowBackIosNew } from "react-icons/md";
 import {
@@ -11,6 +11,7 @@ import { GetAllJalurPendaftaran } from "../apis/jalur/getJalur";
 import Page from "../components/Page";
 import PageLabel from "../components/PageLabel";
 import { DarkTheme } from "../utils/darkTheme";
+import { Suspense } from "react"
 
 type TJalurPendaftaranDetailLayout = {
   children: React.ReactNode;
@@ -37,8 +38,8 @@ const JalurPendaftaranDetailLayout: React.FC<TJalurPendaftaranDetailLayout> = ({
           to={"/ppdb/main/jalur-pendaftaran"}
           className="text-xl no-underline font-bold  flex  items-center gap-2 w-fit"
         >
-          <MdArrowBackIosNew color={`${dark ? "#9b87de"  : "#2A166F"}`}/>
-          <Text color={`${dark ? "#9b87de"  : "#2A166F"}`}>
+          <MdArrowBackIosNew color={`${dark ? "#9b87de" : "#2A166F"}`} />
+          <Text color={`${dark ? "#9b87de" : "#2A166F"}`}>
             Kembali
           </Text>
         </Link>
@@ -84,7 +85,9 @@ const JalurPendaftaranDetailLayout: React.FC<TJalurPendaftaranDetailLayout> = ({
             </Tabs.List>
           </Paper>
         </Tabs>
-        {children}
+        <Suspense fallback={<Skeleton height={60} radius={"4rem"}/>}>
+          {children}
+        </Suspense>
       </Stack>
     </Page>
   );

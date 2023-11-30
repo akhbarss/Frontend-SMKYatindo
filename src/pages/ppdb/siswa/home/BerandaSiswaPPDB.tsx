@@ -119,11 +119,11 @@ const BerandaSiswaPPDB = () => {
             <Timeline active={active} bulletSize={24} lineWidth={2}>
               {alurPendaftaran &&
                 alurPendaftaran.data?.length > 0 &&
-                alurPendaftaran.data?.map((alur) => (
+                alurPendaftaran.data?.map((alur, i) => (
                   <Timeline.Item
                     mt={30}
                     key={alur.id}
-                    bullet={<FaCheck size={12} />}
+                    bullet={<p>{i + 1}</p>}
                     title={alur.title}
                     lineVariant="solid"
                   >

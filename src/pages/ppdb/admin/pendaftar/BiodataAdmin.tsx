@@ -37,12 +37,12 @@ const BiodataAdmin: React.FC<TBiodataAdmin> = ({ studentQuery }) => {
         label: { userSelect: "none", fontWeight: "bold" },
     }
 
-    // console.log(student?.data)
+    console.log(student?.data)
 
     return (
         <>
             {/* IDENTITAS DIRI */}
-            <Paper mt={40} bg={dark ? "dark" : "white"} withBorder shadow='lg' p={"lg"}>
+            <Paper mt={40}  withBorder shadow='lg' p={"lg"} sx={theme => ({backgroundColor: dark ? theme.colors.dark[9] : "white"})}>
                 <Group>
                     <Divider orientation='vertical' size={"0.5rem"} color='#2A166F' />
                     <Text weight={"bold"} size={30}>Identitas Diri</Text>
@@ -224,13 +224,7 @@ const BiodataAdmin: React.FC<TBiodataAdmin> = ({ studentQuery }) => {
 
 
             {/* INFORMASI ORANG TUA */}
-            <Paper
-                shadow="lg"
-                p="lg"
-                withBorder
-                mt={40}
-                bg={dark ? "dark" : "white"}
-            >
+            <Paper mt={40}  withBorder shadow='lg' p={"lg"} sx={theme => ({backgroundColor: dark ? theme.colors.dark[9] : "white"})}>
                 <Group >
                     <Divider orientation='vertical' size={"0.5rem"} color='#2A166F' />
                     <Text weight={"bold"} size={30}>Informasi Orang Tua</Text>
@@ -335,7 +329,7 @@ const BiodataAdmin: React.FC<TBiodataAdmin> = ({ studentQuery }) => {
                             px={"lg"}
                             bg={dark ? "black" : "#E3E5FC"}
                             className="rounded-md cursor-pointer"
-                        // onClick={() => openModalBuktiPembayaran()}
+                            // onClick={() => openModalBuktiPembayaran()}
                         >
                             <ThemeIcon radius={"100%"} color="#2A166F" size={45}>
                                 <BsFileEarmarkImage size={25} />
@@ -352,19 +346,15 @@ const BiodataAdmin: React.FC<TBiodataAdmin> = ({ studentQuery }) => {
                             px={"lg"}
                             bg={dark ? "black" : "#E3E5FC"}
                             className="rounded-md cursor-pointer"
-                        // onClick={() => openModalBuktiPembayaran()}
+                            // onClick={() => openModalBuktiPembayaran()}
                         >
                             <ThemeIcon radius={"100%"} color="#2A166F" size={45}>
                                 <BsFileEarmarkImage size={25} />
                             </ThemeIcon>
                             <Text size={20} weight={"bold"}>File Akta</Text>
                         </Group>
-
                     </Grid.Col>
-
-
                 </Grid>
-
             </Paper>
         </>
     )

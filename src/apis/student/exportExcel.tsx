@@ -6,7 +6,7 @@ export const exportExcel = async (batchId: string): Promise<
     ResponseType<any>
 > => {
     axios.get(BASE_URL + "/public/get-student-to-excel?batchId=" + batchId, {
-        responseType: 'blob', // Menangani tipe respons sebagai blob (file),
+        responseType: 'blob', // Menangani tipe 
     })
         .then(response => {
 

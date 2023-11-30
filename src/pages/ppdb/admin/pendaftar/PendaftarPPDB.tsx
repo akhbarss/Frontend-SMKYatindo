@@ -2,9 +2,10 @@ import {
   Box,
   Paper,
   Tabs,
-  Title
+  Title,
+  Skeleton
 } from "@mantine/core";
-import { useEffect } from "react";
+import { useEffect, Suspense } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Page from "../../../../components/Page";
 import PageLabel from "../../../../components/PageLabel";
@@ -14,7 +15,6 @@ import { DarkTheme } from "../../../../utils/darkTheme";
 const PendaftarPPDB = ({ children }) => {
   const navigate = useNavigate()
   const location = useLocation();
-
   const dark = DarkTheme()
   const { xs } = useBreakPoints();
 
@@ -35,9 +35,6 @@ const PendaftarPPDB = ({ children }) => {
           onTabChange={(value) => navigate(`${value}`)}
           color="blue"
           styles={{
-            tabsList: {
-              // fontSize: "30px"
-            },
             tabLabel: {
               fontSize: "20px",
               color: "white"
@@ -50,7 +47,6 @@ const PendaftarPPDB = ({ children }) => {
               }
             }
           }}
-
         >
           <Paper
             withBorder
@@ -69,8 +65,9 @@ const PendaftarPPDB = ({ children }) => {
               <Tabs.Tab value="pengembalian">Pengembalian</Tabs.Tab>
             </Tabs.List>
           </Paper>
-
-          {children}
+          <Suspense fallback={<Skeleton h={80} mt={40} />}>
+            {children}
+          </Suspense>
         </Tabs>
       </Box>
     </Page>

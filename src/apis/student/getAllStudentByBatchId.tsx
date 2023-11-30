@@ -7,15 +7,46 @@ type TStudent = {
     phone: string
     address: string
     status: Status
-    registrationDate: number | null
+    registration_Date: number | null
 }
 
+
+type ResponseGetAllStudentByBatchId = {
+    content: TStudent[];
+    pageable: {
+        pageNumber: number,
+        pageSize: number,
+        sort: {
+            empty: boolean;
+            sorted: boolean;
+            unsorted: boolean;
+        },
+        offset: number;
+        unpaged: boolean;
+        paged: boolean;
+    },
+    last: boolean;
+    totalPages: number;
+    totalElements: number;
+    size: number;
+    number: number;
+    sort: {
+        empty: boolean;
+        sorted: boolean;
+        unsorted: boolean;
+    },
+    first: boolean;
+    numberOfElements: number;
+    empty: false
+}
+
+
 export const getAllStudentByBatchId = async (gelombangId: string): Promise<
-    ResponseType<TStudent[]>
+    ResponseType<ResponseGetAllStudentByBatchId>
 > => {
 
     const response = await axios.get(
-        "/v1/admin/registration-batch/get-students?batchId=" + gelombangId
+        `/v1/admin/registration-batch/get-students?batchId=${gelombangId}&page=0&size=1000`
     );
 
     return response.data;

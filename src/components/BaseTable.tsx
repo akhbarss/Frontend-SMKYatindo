@@ -22,7 +22,7 @@ const BaseTable = <T extends unknown>({
   isResize = false,
 }: TBaseTable<T>) => {
   return (
-    <Table striped highlightOnHover withBorder>
+    <Table striped highlightOnHover withBorder sx={{ overflow:"auto" }}>
       <thead>
         {table?.getHeaderGroups().map((headerGroup) => (
           <tr key={headerGroup.id}>
@@ -102,7 +102,8 @@ const BaseTable = <T extends unknown>({
                         isResize && index < row.getVisibleCells().length - 1
                           ? 2
                           : 0,
-                      paddingBlock: "1rem"
+                      paddingBlock: "1rem",
+                      width:"5px"
                     }}
                   >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -111,7 +112,7 @@ const BaseTable = <T extends unknown>({
               </tr>
               {renderSubComponent && row?.getIsExpanded() && (
                 <tr>
-                  <td colSpan={row.getVisibleCells().length}>
+                  <td colSpan={row.getVisibleCells().length} style={{ width:"5px" }}>
                     {renderSubComponent ? renderSubComponent(row) : "-"}
                   </td>
                 </tr>

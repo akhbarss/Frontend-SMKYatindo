@@ -1,5 +1,4 @@
 export const toDataUrl = (url) => {
-  console.log(url)
   fetch(url)
     .then((response) => response.blob())
     .then(
@@ -16,13 +15,12 @@ export const convertToFileObject = async (
   fileName: string
 ): Promise<File[]> => {
   const dataUrl = await toDataUrl(
-    `http://localhost:8080/api/v1/uploads/${fileName}`
-    // `${import.meta.env.VITE_BASE_BACKEND_URL}uploads/${fileName}`
+    `http://localhost:8080/uploads/${fileName}`
+    // `${import.meta.env.VITE_BASE_BACKEND_URL}/${fileName}`
   );
   return [dataUrlToFile(dataUrl, fileName)];
 };
 export const dataUrlToFile = (dataurl, filename) => {
-  console.log({dataurl, filename})
   
   let arr = dataurl.split(",");
   let mime = arr[0].match(/:(.*?);/)[1];

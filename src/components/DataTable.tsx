@@ -17,7 +17,7 @@ import {
 import BaseTable, { TBaseTable } from "./BaseTable";
 import { TBasicTable } from "./BasicTable";
 import { useDebounce } from "../utils/useDebounce";
-import { Box, Card, Flex, Input, Text } from "@mantine/core";
+import { Box, Card, Flex, Input, ScrollArea, Text } from "@mantine/core";
 import { BiSearch } from "react-icons/bi";
 import ButtonColumnFilter from "./ButtonColumnFilter";
 import Pagination from "./Pagination";
@@ -203,13 +203,15 @@ const DataTable = <T extends unknown>({
                 </Text>
               </Box>
             ) : null}
-            <BaseTable
-              table={table}
-              loading={props.loading}
-              useFooter={useFooter}
-              isResize={enableResizeColumn}
-              renderSubComponent={renderSubComponent}
-            />
+            <Box component={ScrollArea} type="always" offsetScrollbars>
+              <BaseTable
+                table={table}
+                loading={props.loading}
+                useFooter={useFooter}
+                isResize={enableResizeColumn}
+                renderSubComponent={renderSubComponent}
+              />
+            </Box>
             {usePagination ? (
               <>
                 <Box my={5} />
@@ -228,7 +230,8 @@ const DataTable = <T extends unknown>({
                   totalRecords={totalRecords}
                   currentSize={table.getState().pagination.pageSize}
                   onChangePageSize={(e) => {
-                    table.setPageSize(Number(e.target.value));
+                    console.log(e)
+                    // table.setPageSize(Number(e.target.value));
                   }}
                   disableFirst={!table.getCanPreviousPage()}
                   disablePrev={!table.getCanPreviousPage()}

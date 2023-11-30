@@ -167,6 +167,7 @@ const PembelianSiswaPPDB = () => {
                 <>
                   {isSuccess && (
                     <ScrollArea w={"100%"} display={"flex"} type="always" sx={{ display: 'block' }} offsetScrollbars >
+
                       <TabList
                         activeTabIndex={+filter.step}
                         card={stagings.data.map((staging, index) => {
@@ -178,6 +179,7 @@ const PembelianSiswaPPDB = () => {
                           };
                         })}
                       />
+
                     </ScrollArea>
                   )}
                 </>

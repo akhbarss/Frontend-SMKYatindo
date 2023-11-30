@@ -2,13 +2,13 @@ import { ActionIcon, Badge, Box, Button, Divider, Group, Image, Paper, ScrollAre
 import { modals } from "@mantine/modals";
 import { UseQueryResult, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { BsFileEarmarkImage } from "react-icons/bs";
-import { MdClose } from "react-icons/md";
+import { MdClose, MdOpenInNew } from "react-icons/md";
 import { Payment, getAllPayment } from "../../../../apis/student/getAllPayment";
 import { ResponseType } from "../../../../types/global";
 import { DarkTheme } from "../../../../utils/darkTheme";
-import { useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { ConfirmPaymentPayload, confirmPayment } from "../../../../apis/student/confirmPayment";
-import { convertToFileObject } from "../../../../utils/imageUtils";
+// import { convertToFileObject } from "../../../../utils/imageUtils";
 import { useDisclosure } from "@mantine/hooks";
 
 type TPembayaran = {
@@ -18,6 +18,7 @@ type TPembayaran = {
 const Pembayaran: React.FC<TPembayaran> = () => {
     const dark = DarkTheme()
     const theme = useMantineTheme()
+    const navigate = useNavigate()
     const { userId, gelombangId } = useParams()
     const queryClient = useQueryClient()
     const [openedKonfirmasi, { close, open }] = useDisclosure()
@@ -28,15 +29,8 @@ const Pembayaran: React.FC<TPembayaran> = () => {
         queryKey: ["get_all_payment"],
         queryFn: () => getAllPayment({ batchId: gelombangId, userId })
     })
-
-    async function convert() {
-        const files = await convertToFileObject(payments?.data[0].image);
-        console.log(files)
-    }
-    if (payments?.data[0]?.image) {
-        convert()
-    }
-    console.log(payments)
+    
+    console.log(payments?.data)
 
     const confirmPaymentMutation = useMutation({
         mutationFn: confirmPayment
@@ -60,7 +54,7 @@ const Pembayaran: React.FC<TPembayaran> = () => {
 
     }
 
-    const openModalBuktiPembayaran = () => modals.open({
+    const openModalBuktiPembayaran = (imageName: string) => modals.open({
         children: (
             <>
                 <Box component={ScrollArea.Autosize} className='overflow-auto'>
@@ -69,7 +63,7 @@ const Pembayaran: React.FC<TPembayaran> = () => {
                             <MdClose size={30} />
                         </ActionIcon>
                     </Box>
-                    <Image src='/contoh-bukti-pembayaran.jpg' />
+                    <Image src={`http://localhost:8080/uploads/${imageName}`} />
                 </Box>
             </>
         ),
@@ -99,10 +93,9 @@ const Pembayaran: React.FC<TPembayaran> = () => {
                                         style: 'currency',
                                         currency: 'IDR'
                                     })
-
+                                    const nameImage = payment?.image
                                     const transfer = payment.method === "TRANSFER"
                                     const cash = payment.method === "CASH"
-
                                     const confirmed = payment?.status === "PAYMENT_CONFIRMED"
                                     const notConfirmed = payment?.status === "WAITING_PAYMENT"
 
@@ -116,7 +109,6 @@ const Pembayaran: React.FC<TPembayaran> = () => {
                                             sx={theme => ({ backgroundColor: dark ? theme.colors.dark[8] : theme.white, flex: 1 })}
                                         >
                                             <Stack>
-
                                                 <Group grow>
                                                     <Group>
                                                         <Badge
@@ -131,46 +123,59 @@ const Pembayaran: React.FC<TPembayaran> = () => {
                                                             {payment?.status == "PAYMENT_CONFIRMED" && <p>Terkonfirmasi</p>}
                                                             {payment?.status == "WAITING_PAYMENT" && <p>Belum Terkonfirmasi</p>}
                                                         </Badge>
-                                                        {
-                                                            transfer && <Text weight={"bold"}>{payment.bank_name} - {payment.bank_account} a/n {payment.bank_user}</Text>
-                                                        }
-                                                        {
-                                                            cash && <Text weight={"bold"}>Tunai</Text>
-                                                        }
-
+                                                        {transfer && <Text weight={"bold"}>{payment.bank_name} - {payment.bank_account} a/n {payment.bank_user}</Text>}
+                                                        {cash && <Text weight={"bold"}>Tunai</Text>}
                                                     </Group>
                                                     <Box >
                                                         <Text weight={"bold"} align="right" c={dark ? "green" : "#2A166F"}>+ {formatter.format(payment?.total).replace(",00", "")}</Text>
                                                     </Box>
                                                 </Group>
-                                                <Group
-                                                    p={"lg"}
-                                                    bg={dark ? theme.colors.dark[5] : "#E3E5FC"}
-                                                    className="rounded-md cursor-pointer"
-                                                    onClick={() => openModalBuktiPembayaran()}
-                                                >
-                                                    <ThemeIcon radius={"100%"} color="#2A166F" size={50}>
-                                                        <BsFileEarmarkImage size={30} />
-                                                    </ThemeIcon>
-                                                    <Text size={20} weight={"bold"}>File Bukti Pembayaran</Text>
+                                                <Group p={"lg"} bg={dark ? theme.colors.dark[5] : "#E3E5FC"}>
+                                                    {/* OPEN MODAL IMAGE */}
+                                                    <Group
+                                                        className="rounded-md cursor-pointer flex-[2]"
+                                                        onClick={() => {
+                                                            openModalBuktiPembayaran(nameImage)
+                                                        }}
+                                                    >
+                                                        <ThemeIcon radius={"100%"} color="#2A166F" size={50}>
+                                                            <BsFileEarmarkImage size={30} />
+                                                        </ThemeIcon>
+                                                        <Text size={20} weight={"bold"}>File Bukti Pembayaran</Text>
+                                                    </Group>
+
+                                                    {/* OPEN IMAGE IN NEW TAB */}
+                                                    <ActionIcon
+                                                        component={Link}
+                                                        to={`${import.meta.env.VITE_BACKEND_URL_PUBLIC || "http://localhost:8080"}/uploads/${nameImage}`}
+                                                        variant="filled"
+                                                        color="#2A166F"
+                                                        size={50}
+                                                        radius={"50%"}
+                                                        target="_blank"
+                                                    >
+                                                        <MdOpenInNew size={30} />
+                                                    </ActionIcon>
                                                 </Group>
                                                 <Divider />
                                                 <Group grow>
                                                     <Text>Sabtu, 04 November 2023</Text>
                                                     <Group position="right">
-                                                        {
-                                                            payment.status === "PAYMENT_CONFIRMED" && (
-                                                                <Button color="red">Batalkan Konfirmasi</Button>
-                                                            )
-                                                        }
+                                                        {payment.status === "PAYMENT_CONFIRMED" && <Button color="red">Batalkan Konfirmasi</Button>}
                                                         {
                                                             payment.status === "WAITING_PAYMENT" && (
-                                                                <Button onClick={() => {
-                                                                    // submitConfirmPayment({
-                                                                    //     payment_id: payment.id,
-                                                                    //     student_id: +userId
-                                                                    // })
-                                                                }} >Konfirmasi</Button>
+                                                                <Button
+                                                                    onClick={() => {
+                                                                        submitConfirmPayment({
+                                                                            payment_id: payment.id,
+                                                                            student_id: +userId
+                                                                        })
+                                                                        // `${import.meta.env.VITE_BASE_BACKEND_URL}/${fileName}`
+                                                                    }}
+
+                                                                >
+                                                                    Konfirmasi
+                                                                </Button>
                                                             )
                                                         }
                                                     </Group>

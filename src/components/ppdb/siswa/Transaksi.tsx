@@ -400,8 +400,6 @@ const PembelianFormulir = ({
       >
         {content}
       </Box>
-
-      <Toaster />
     </>
   );
 };

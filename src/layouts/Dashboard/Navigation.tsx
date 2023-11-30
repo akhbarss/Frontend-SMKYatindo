@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { IconType } from "react-icons";
 import { FaHome, FaLine } from "react-icons/fa";
 import { GiWaves } from "react-icons/gi";
+import { CgNotes } from "react-icons/cg";
 import { IoGitPullRequest } from "react-icons/io5";
 import { MdAppRegistration, MdDashboard } from "react-icons/md";
 import { RiFileList3Line } from "react-icons/ri";
@@ -75,7 +76,13 @@ const Navigation = ({
         label: "Pengembalian",
         path: "/ppdb/main/pengembalian",
         icon: IoGitPullRequest,
-        color: "violet"
+        color: "red"
+      },
+      {
+        label: "Tes Ujian",
+        path: "/ppdb/main/tes-ujian",
+        icon: CgNotes,
+        color: "blue"
       },
       {
         label: "Dashboard",
@@ -144,11 +151,15 @@ const Navigation = ({
                 variant="filled"
                 label={menu.label}
                 onClick={() => {
-                  if (countQueryFetching > 0) {
+                  if (pathUrl.includes(menu.path)) {
                     return
-                  } else[
-                    navigate(menu.path as never)
-                  ]
+                  } else {
+                    if (countQueryFetching > 0) {
+                      return
+                    } else[
+                      navigate(menu.path as never)
+                    ]
+                  }
                 }}
               />
             );

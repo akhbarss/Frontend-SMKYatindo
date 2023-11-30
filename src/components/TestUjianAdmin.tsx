@@ -24,11 +24,11 @@ import { EditTesUjianPayload, editTesUjian } from "../apis/test-ujian/editTesUji
 import { getTestUjian } from '../apis/test-ujian/getTestUjian';
 import ModalTestUjian from './modal/modalTestUjian';
 
-type TypeTestUjian = {
+type TypeTestUjianAdmin = {
     idGelombang: number;
 }
 
-export type FormValuesTesUjian = {
+export type FormValuesTesUjianAdmin = {
     id: number | null;
     nama: string;
     link: string;
@@ -36,13 +36,13 @@ export type FormValuesTesUjian = {
     waktuDitutup: string;
 }
 
-const TestUjian: React.FC<TypeTestUjian> = ({ idGelombang }) => {
+const TestUjianAdmin: React.FC<TypeTestUjianAdmin> = ({ idGelombang }) => {
     // const queryClient = new QueryClient()
     const [openedCreateTestUjian, { open: openCreateTestUjian, close: closeCreateTestUjian }] = useDisclosure(false);
     const [openedEditTestUjian, { open: openEditTestUjian, close: closeEditTestUjian }] = useDisclosure(false);
     const [openedDeleteTestUjian, { open: openDeleteTestUjian, close: closeDeleteTestUjian }] = useDisclosure(false);
 
-    const formTesUjian = useForm<FormValuesTesUjian>({
+    const formTesUjian = useForm<FormValuesTesUjianAdmin>({
         initialValues: {
             id: null,
             link: "",
@@ -89,7 +89,7 @@ const TestUjian: React.FC<TypeTestUjian> = ({ idGelombang }) => {
             }
         })
     }
-    function createTesUjianHandler(data: FormValuesTesUjian) {
+    function createTesUjianHandler(data: FormValuesTesUjianAdmin) {
         const { link, nama, waktuDibuka, waktuDitutup } = data
         submitCreateTesUjian({
             link,
@@ -116,7 +116,7 @@ const TestUjian: React.FC<TypeTestUjian> = ({ idGelombang }) => {
             }
         })
     }
-    function editTesUjianHandler(data: FormValuesTesUjian) {
+    function editTesUjianHandler(data: FormValuesTesUjianAdmin) {
         const { link, nama, waktuDibuka, waktuDitutup, id } = data
         submitEditTesUjian({
             id,
@@ -332,4 +332,4 @@ const TestUjian: React.FC<TypeTestUjian> = ({ idGelombang }) => {
     )
 }
 
-export default TestUjian
+export default TestUjianAdmin

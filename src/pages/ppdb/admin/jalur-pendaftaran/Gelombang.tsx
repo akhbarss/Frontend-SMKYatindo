@@ -32,7 +32,7 @@ import { EditGelombangPayload, editGelombang } from "../../../../apis/gelombang/
 import { getGelombangByIdJalur } from "../../../../apis/gelombang/getGelombangByIdJalur";
 import { TGelombang } from "../../../../apis/jalur/getJalur";
 import Page from "../../../../components/Page";
-import TestUjian from "../../../../components/TestUjian";
+import TestUjian from "../../../../components/TestUjianAdmin";
 import ModalGelombang from "../../../../components/modal/modalGelombang";
 import { DarkTheme } from "../../../../utils/darkTheme";
 
@@ -208,6 +208,7 @@ const Gelombang = () => {
   }
 
   function AccordionControl({ propss, data }: { propss: AccordionControlProps, data: TGelombang }): JSX.Element {
+    
     return (
       <Center>
         <Accordion.Control {...propss} className="font-bold" />
@@ -228,13 +229,13 @@ const Gelombang = () => {
                 bank_account,
                 bank_name,
                 bank_user,
-                batchCode,
                 end_date,
                 max_quota,
                 name,
                 price,
                 start_date,
-                id
+                id,
+                batchCode
               } = data
               const startDate = new Date(start_date)
               const endDate = new Date(end_date)

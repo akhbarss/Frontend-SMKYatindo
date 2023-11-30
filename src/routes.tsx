@@ -103,12 +103,11 @@ export const routes: RouteObject[] = [
               },
               {
                 path: "pengembalian",
-                Component: lazy(
-                  () =>
-                    import(
-                      "./pages/ppdb/siswa/pengembalian/PengembalianSiswaPPDB"
-                    )
-                ),
+                Component: lazy(() => import("./pages/ppdb/siswa/pengembalian/PengembalianSiswaPPDB")),
+              },
+              {
+                path: "tes-ujian",
+                Component: lazy(() => import("./pages/ppdb/siswa/test-ujian/TesUjian")),
               },
               {
                 path: "dashboard",

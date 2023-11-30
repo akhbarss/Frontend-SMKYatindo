@@ -22,6 +22,7 @@ import Page from '../../components/Page';
 import PageLabel from '../../components/PageLabel';
 import { useMemo } from "react"
 import { useBreakPoints } from "../../utils/UseBreakpoints";
+import { formattedNameFn } from "../../utils/formattedName";
 
 const color = ["teal", "violet", "blue", "pink", "green", "yellow", "red", "orange", "indigo", "cyan", "grape", "#a436b5", "#36b59e", "#b56536"]
 
@@ -67,7 +68,6 @@ const Profile = () => {
     }
 
     const submitHandler = (data: typeof form.values) => {
-
         submitChangePassword({ password: data.password })
     }
 
@@ -75,6 +75,12 @@ const Profile = () => {
     const admin = isSuccess && user?.data
     const isStudent = isSuccess && user?.data.role_id.role_name === "User"
     const isAdmin = isSuccess && user?.data.role_id.role_name === "Admin"
+
+    const adminName = admin?.fullname
+    const studentName = student?.name
+    
+    const formattedNameStudent = formattedNameFn(studentName)
+    const formattedNameAdmin = formattedNameFn(adminName)
 
     const randomNum = useMemo(() => {
         return Math.floor(Math.random() * 14) + 1
@@ -123,12 +129,13 @@ const Profile = () => {
                                         border: `4px solid transparent`,
                                     }}
                                 >
-                                    MA
+                                    {formattedNameStudent ? formattedNameStudent : ""}
+                                    {formattedNameAdmin ? formattedNameAdmin : ""}
                                 </Avatar>
                             </Box>
                             <Text size={30} fw={700} mt={!md ? 40 : 0}>
-                                {isSuccess && isAdmin ? admin?.fullname : ""}
-                                {isSuccess && isStudent ? student?.name : ""}
+                                {isSuccess && isAdmin ? adminName : ""}
+                                {isSuccess && isStudent ? studentName : ""}
                             </Text>
                         </Card.Section>
                     </Card>
