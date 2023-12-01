@@ -6,13 +6,16 @@ import { Staging, StudentStagingOffset } from "../types/student";
 export const chooseBatch = async ({
   batchId,
   type,
+  grade
 }: {
   batchId: number;
   type: "PEMBELIAN" | "PENGEMBALIAN";
+  grade: "SMP" | "SMK"
 }): Promise<ResponseType<any>> => {
   const response = await axios.put("/v1/student/choose-batch", {
     batch_id: batchId,
     type,
+    grade
   });
   return response.data;
 };

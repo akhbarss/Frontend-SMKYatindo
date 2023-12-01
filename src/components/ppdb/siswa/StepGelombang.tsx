@@ -52,10 +52,10 @@ const StepGelombang: React.FC<Step> = ({ type = "PEMBELIAN" }) => {
     mutationFn: chooseBatch,
   });
 
-  const onChooseBatch = (id: number, name: string) => {
+  const onChooseBatch = (id: number, name: string, grade: "SMP" | "SMK") => {
     const onAccept = () => {
       chooseBatchMutation.mutate(
-        { batchId: id, type: type },
+        { batchId: id, type: type, grade: grade },
         {
           onSuccess: () => {
             toast.success("Sukses memilih gelommbang pendaftaran");
@@ -84,6 +84,8 @@ const StepGelombang: React.FC<Step> = ({ type = "PEMBELIAN" }) => {
 
   const filteringJalurByGrade = (jalurSuccess &&
     jalur && getGradeSuccess && data) && jalur?.data?.filter(item => item.grade === grade?.toUpperCase())
+
+  console.log(filteringJalurByGrade)
 
   return (
     <Paper
@@ -119,7 +121,7 @@ const StepGelombang: React.FC<Step> = ({ type = "PEMBELIAN" }) => {
                   <CardChooseBatch
                     {...batch}
                     key={batch.id}
-                    onClick={() => onChooseBatch(batch.id, batch.name)}
+                    onClick={() => onChooseBatch(batch.id, batch.name, batch.grade)}
                   />
 
                 ))

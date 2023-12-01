@@ -92,6 +92,7 @@ const ModalGelombang: React.FC<TModalGelombang> = ({
                     <Select
                         required
                         label="Nama Bank"
+                        defaultValue="CIMB"
                         {...formMantine.getInputProps("namaBank")}
                         data={["CIMB", "BCA", "BRI", "BNI", "MANDIRI"]}
                     />
