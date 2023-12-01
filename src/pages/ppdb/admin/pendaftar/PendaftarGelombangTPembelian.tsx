@@ -35,7 +35,7 @@ const PendaftarGelombangTPembelian = () => {
                     <>
                         {
                             gelombangByJalurPembelian?.data?.length < 1 ? (
-                                <DataKosong />
+                                <DataKosong message="Data kosong"/>
                             ) : (
                                 <Grid >
                                     {gelombangByJalurPembelian?.data?.sort((a, b) => a.id - b.id)?.map(item => (

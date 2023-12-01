@@ -69,14 +69,9 @@ const ModalTestUjian: React.FC<TModalTestUjian> = ({
                                 withAsterisk
                                 aria-required="true"
                                 label="Waktu Pendaftaran Dibuka"
-                                dropdownType="popover"
+                                dropdownType="modal"
                                 {...formMantine.getInputProps("waktuDibuka")}
                                 clearable
-                                styles={{ 
-                                    calendar: {
-                                        width: "100px"
-                                    }
-                                 }}
                             />
                         </Grid.Col>
                         <Grid.Col md={6}>

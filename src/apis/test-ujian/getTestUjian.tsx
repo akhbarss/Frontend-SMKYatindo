@@ -17,7 +17,7 @@ export const getTestUjian = async (gelombangId: number): Promise<
 > => {
 
     const response = await axios.get(
-        "/v1/admin/exam-information/index?batchId=" + gelombangId
+        "/v1/user/exam-information/index?batchId=" + gelombangId
     );
 
     return response.data;

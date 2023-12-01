@@ -92,6 +92,16 @@ export default function ProviderMantine({
               to: "#381ab2"
             },
             components: {
+              DateTimePicker: {
+                styles: {
+                  calendar: {
+                    maxWidth: "500px"
+                  },
+                  calendarHeader: {
+                    marginInline: "auto"
+                  }
+                },
+              },
               Button: {
                 variants: {
                   danger: (theme) => ({

@@ -13,6 +13,6 @@ export type EditTesUjianPayload = {
 export const editTesUjian = async (payload: EditTesUjianPayload): Promise<ResponseType<Response>> => {
     const { id, ...data } = payload
 
-    const response = await axios.patch("/v1/admin/exam-information/update?id=" + id, data);
+    const response = await axios.patch("/v1/user/exam-information/update?id=" + id, data);
     return response.data;
 };

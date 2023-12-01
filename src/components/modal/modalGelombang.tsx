@@ -4,6 +4,7 @@ import {
     Group,
     Stack,
     TextInput,
+    Select
 } from "@mantine/core"
 import { DateTimePicker } from '@mantine/dates'
 import { UseFormReturnType } from '@mantine/form'
@@ -88,11 +89,18 @@ const ModalGelombang: React.FC<TModalGelombang> = ({
 
                     </Grid>
 
-                    <TextInput
+                    <Select
                         required
                         label="Nama Bank"
                         {...formMantine.getInputProps("namaBank")}
+                        data={["CIMB", "BCA", "BRI", "BNI", "MANDIRI"]}
                     />
+
+                    {/* <TextInput
+                        required
+                        label="Nama Bank"
+                        {...formMantine.getInputProps("namaBank")}
+                    /> */}
 
                     <TextInput
                         required

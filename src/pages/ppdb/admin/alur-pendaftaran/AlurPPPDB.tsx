@@ -259,7 +259,7 @@ const AlurPPPDB = () => {
                 )
               })
             ) : (
-              <DataKosong />
+              <DataKosong message="Data kosong"/>
             )}
           </Accordion>
         </Box>

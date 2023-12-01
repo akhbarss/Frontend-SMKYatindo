@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Loader,
   LoadingOverlay,
@@ -7,22 +6,29 @@ import {
   Stack,
   Text,
 } from "@mantine/core";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import CardChooseBatch from "./CardChooseBatch";
-import { chooseBatch, getOffsetStatus } from "../../../apis/pembelian";
-import toast from "react-hot-toast";
-import ResponseError from "../../../utils/ResponseError";
 import { modals } from "@mantine/modals";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import React from "react";
+import toast from "react-hot-toast";
+import { jwtDecode } from "../../../apis/alur/decodeJWT";
+import { getAllGelombangByTypeJalur } from "../../../apis/gelombang/getAllGelombangByTypeJalur";
+import { chooseBatch, getOffsetStatus } from "../../../apis/pembelian";
 import useQueryFilter from "../../../hooks/useQueryFilter";
 import { Step } from "../../../types/global";
-import { getAllGelombangByTypeJalur } from "../../../apis/gelombang/getAllGelombangByTypeJalur";
+import ResponseError from "../../../utils/ResponseError";
+import CardChooseBatch from "./CardChooseBatch";
 
 const StepGelombang: React.FC<Step> = ({ type = "PEMBELIAN" }) => {
   const filter = useQueryFilter({ step: 1, stagingId: null });
 
-  console.log(type)
-
   const queryClient = useQueryClient();
+  const { data, isSuccess: getGradeSuccess } = useQuery({
+    queryKey: ["get_session_grade"],
+    queryFn: jwtDecode
+  })
+
+  const grade = data?.data?.student?.grade
+
   const {
     data: jalur,
     isLoading: jalurLoading,
@@ -76,6 +82,9 @@ const StepGelombang: React.FC<Step> = ({ type = "PEMBELIAN" }) => {
     });
   };
 
+  const filteringJalurByGrade = (jalurSuccess &&
+    jalur && getGradeSuccess && data) && jalur?.data?.filter(item => item.grade === grade?.toUpperCase())
+
   return (
     <Paper
       withBorder
@@ -103,25 +112,24 @@ const StepGelombang: React.FC<Step> = ({ type = "PEMBELIAN" }) => {
           <Text weight={500}>Pilih Salah Satu Gelombang</Text>
           <Stack mt={20}>
             {jalurLoading && <Skeleton content={"Lorem ipsum"} />}
-            {jalurSuccess &&
-              jalur &&
-              jalur?.data?.length > 0 ?
-              jalur?.data?.sort((a, b) => a.id - b.id).map((batch) => (
+            {
+              filteringJalurByGrade?.length > 0 ?
+                filteringJalurByGrade?.sort((a, b) => a.id - b.id).map((batch) => (
 
-                <CardChooseBatch
-                  {...batch}
-                  key={batch.id}
-                  onClick={() => onChooseBatch(batch.id, batch.name)}
-                />
+                  <CardChooseBatch
+                    {...batch}
+                    key={batch.id}
+                    onClick={() => onChooseBatch(batch.id, batch.name)}
+                  />
 
-              ))
-              : (
-                <>
-                  <Text size={"xl"} weight={"bold"}>
-                    Belum ada gelombang {type === "PEMBELIAN" ? "pembelian" : "pengembalian"} yang tersedia
-                  </Text>
-                </>
-              )
+                ))
+                : (
+                  <>
+                    <Text size={"xl"} weight={"bold"}>
+                      Belum ada gelombang {type === "PEMBELIAN" ? "pembelian" : "pengembalian"} yang tersedia
+                    </Text>
+                  </>
+                )
             }
           </Stack>
         </>

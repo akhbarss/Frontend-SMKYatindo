@@ -37,7 +37,7 @@ const CardJalurPendaftaran = ({
                             className={`w-[200px] min-w-[200px] max-w-[200px] flex-grow min-h-[125px] p-[22px] font-black  transition-all ease-out rounded-lg  border
                              ${activeCard === jalur.id
                                     ? styleActive
-                                    : `${dark ? "bg-[#291872]" : "bg-white"} text-black`}`
+                                    : `${dark ? "bg-black text-white " : "bg-white"} text-black`}`
                             }
                         >
                             {jalur.name}

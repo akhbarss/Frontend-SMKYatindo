@@ -11,6 +11,9 @@ import DashboardLayout from "./layouts/DashboardLayout";
 import GuestLayout from "./layouts/GuestLayout";
 import JalurPendaftaranDetailLayout from "./layouts/JalurPendaftaranDetailLayout";
 import { PendaftarPPDB } from "./pages";
+import JalurPendaftaranAdminSMP from "./pages/ppdb/admin/jalur-pendaftaran/JalurPendaftaranAdminSMP";
+import JalurPendaftarahAdmin from "./pages/ppdb/admin/jalur-pendaftaran/JalurPendaftaranAdmin";
+import JalurPendaftaranAdminSMK from "./pages/ppdb/admin/jalur-pendaftaran/JalurPendaftaranAdminSMK";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -107,7 +110,7 @@ export const routes: RouteObject[] = [
               },
               {
                 path: "tes-ujian",
-                Component: lazy(() => import("./pages/ppdb/siswa/test-ujian/TesUjian")),
+                Component: lazy(() => import("./pages/ppdb/siswa/test-ujian/TesUjianStudent")),
               },
               {
                 path: "dashboard",
@@ -119,18 +122,31 @@ export const routes: RouteObject[] = [
               },
               {
                 path: "jalur-pendaftaran",
+                Component: () => (
+                  <JalurPendaftarahAdmin>
+                    <Outlet />
+                  </JalurPendaftarahAdmin>
+                ),
                 children: [
+                  // {
+                  //   index: true,
+                  //   // Component: lazy(
+                  //   //   () =>
+                  //   //     import(
+                  //   //       "./pages/ppdb/admin/jalur-pendaftaran/JalurPendaftaranAdmin"
+                  //   //     )
+                  //   // ),
+                  // },
                   {
-                    index: true,
-                    Component: lazy(
-                      () =>
-                        import(
-                          "./pages/ppdb/admin/jalur-pendaftaran/JalurPendaftaranAdmin"
-                        )
-                    ),
+                    path: "smp",
+                    Component: JalurPendaftaranAdminSMP
                   },
                   {
-                    path: ":idJalurPendaftaran",
+                    path: "smk",
+                    Component: JalurPendaftaranAdminSMK
+                  },
+                  {
+                    path: ":grade/:idJalurPendaftaran",
                     Component: () => (
                       <JalurPendaftaranDetailLayout>
                         <Outlet />

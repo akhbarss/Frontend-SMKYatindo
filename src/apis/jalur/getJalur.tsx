@@ -6,6 +6,7 @@ import {
   RefetchOptions,
   useQuery,
 } from "@tanstack/react-query";
+import { ResponseType } from "../../types/global";
 
 export type TGelombang = {
   id: number;
@@ -43,20 +44,41 @@ export type TGetAllJalurPendaftaran = {
   ) => Promise<QueryObserverResult<AxiosResponse<any, any>, Error>>;
 };
 
-export const GetAllJalurPendaftaran = () => {
+export type GetAllJalurPendaftaranPayload = "SMK" | "SMP"
 
-  const { data, isLoading, isError, refetch } = useQuery({
-    queryKey: ["getAllJalurPendaftaran"],
-    queryFn: () =>
-      axios.get("/v1/admin/registration-paths/index"),
-  });
+type ResponseGetAllJalurPendaftaranPayload = {
+  countStudent: boolean;
+  end_date: number;
+  grade: "SMP" | "SMK"
+  id: number;
+  name: string;
+  price: number;
+  start_date: number;
+  type: string;
+}
 
-  return {
-    data: data?.data?.data,
-    load: isLoading,
-    isErr: isError,
-    refetch,
-  } as TGetAllJalurPendaftaran;
-};
+export const getAllJalurPendaftaran = async (payload: GetAllJalurPendaftaranPayload): Promise<ResponseType<ResponseGetAllJalurPendaftaranPayload[]>> => {
+
+console.log("payload : ",payload)
+  const response = await axios.get("/v1/admin/registration-paths/index?grade=" + payload)
+
+  return response.data
+}
+
+// export const GetAllJalurPendaftaran = (payload: "SMK" | "SMP") => {
+
+//   const { data, isLoading, isError, refetch } = useQuery({
+//     queryKey: ["getAllJalurPendaftaran" + payload],
+//     queryFn: () =>
+//       axios.get("/v1/admin/registration-paths/index?grade=" + payload),
+//   });
+
+//   return {
+//     data: data?.data?.data,
+//     load: isLoading,
+//     isErr: isError,
+//     refetch,
+//   } as TGetAllJalurPendaftaran;
+// };
 
 

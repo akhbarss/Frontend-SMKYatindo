@@ -32,7 +32,7 @@ const PendaftarGelombangTPengembalian = () => {
                 <>
                     {
                         gelombangByJalurPengembalian?.data?.length < 1 ? (
-                            <DataKosong />
+                            <DataKosong message="Data kosong" />
                         ) : (
                             <Grid >
                                 {

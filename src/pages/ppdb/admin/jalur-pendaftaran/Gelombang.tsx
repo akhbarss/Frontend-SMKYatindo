@@ -32,7 +32,7 @@ import { EditGelombangPayload, editGelombang } from "../../../../apis/gelombang/
 import { getGelombangByIdJalur } from "../../../../apis/gelombang/getGelombangByIdJalur";
 import { TGelombang } from "../../../../apis/jalur/getJalur";
 import Page from "../../../../components/Page";
-import TestUjian from "../../../../components/TestUjianAdmin";
+import TestUjianAdmin from "../../../../components/TestUjianAdmin";
 import ModalGelombang from "../../../../components/modal/modalGelombang";
 import { DarkTheme } from "../../../../utils/darkTheme";
 
@@ -126,6 +126,7 @@ const Gelombang = () => {
       },
       onError: (error) => {
         console.log("FAILED : ", error)
+        toast.error("Data gagal diubah")
       },
     })
   }
@@ -140,6 +141,7 @@ const Gelombang = () => {
         toast.success("Data berhasil dihapus")
       },
       onError: (error) => {
+        toast.error("Data gagal dihapus")
         console.log("FAILED : ", error)
       },
     })
@@ -377,7 +379,7 @@ const Gelombang = () => {
                       </Badge>
                     </Paper>
 
-                    <TestUjian idGelombang={gelombang.id} />
+                    <TestUjianAdmin idGelombang={gelombang.id} />
 
                   </Stack>
                 </Accordion.Panel>

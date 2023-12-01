@@ -11,6 +11,6 @@ export type CreateTesUjianPayload = {
 };
 
 export const createTestUjian = async (payload: CreateTesUjianPayload): Promise<ResponseType<Response>> => {
-    const response = await axios.post("/v1/admin/exam-information/create", payload);
+    const response = await axios.post("/v1/user/exam-information/create", payload);
     return response.data;
 };

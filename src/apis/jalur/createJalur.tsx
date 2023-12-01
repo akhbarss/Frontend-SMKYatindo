@@ -8,7 +8,8 @@ export type CreateJalurPayload = {
     type: TipeJalur,
     start_date: string,
     end_date: string
-    price: number
+    price: number;
+    grade: "SMP" | "SMK"
 };
 
 type CreateJalurRequest = {
@@ -16,7 +17,8 @@ type CreateJalurRequest = {
     type: TipeJalur,
     start_date: string,
     end_date: string
-    price: number
+    price: number;
+    grade: "SMP" | "SMK"
 }
 
 export const createJalur = async (payload: CreateJalurPayload): Promise<ResponseType<Response>> => {
