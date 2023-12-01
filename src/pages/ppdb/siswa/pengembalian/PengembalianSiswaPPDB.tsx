@@ -163,6 +163,8 @@ const PengembalianSiswaPPDB = () => {
     navigate(`${location.pathname}?${generateQueryparam(toFilter)}`);
   };
 
+  const stagingCardFilterByGrade = isSuccess && stagings?.data?.filter(staging => staging?.grade === grade)
+
   return (
     <Page title={"Pengembalian"}>
       <PageLabel label={"Pengembalian"} />
@@ -175,7 +177,7 @@ const PengembalianSiswaPPDB = () => {
                   <ScrollArea w={"100%"} display={"flex"} type="always" sx={{ display: 'block' }} offsetScrollbars >
                     <TabList
                       activeTabIndex={+filter.step}
-                      card={stagings.data.map((staging, index) => {
+                      card={stagingCardFilterByGrade?.map((staging, index) => {
                         return {
                           label: staging.name,
                           index: staging.index,

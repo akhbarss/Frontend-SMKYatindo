@@ -3,6 +3,7 @@ export type GetBatchOffsetType = {
   id: number;
   index: number;
   is_done: number;
+  grade: "SMP" | "SMK";
 };
 
 export type BaseBatch = {

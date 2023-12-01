@@ -152,6 +152,9 @@ const PembelianSiswaPPDB = () => {
     navigate(`${location.pathname}?${generateQueryparam(toFilter)}`);
   };
 
+  console.log(stagings?.data)
+  const stagingCardFilterByGrade = isSuccess && stagings?.data?.filter(staging => staging?.grade === grade)
+
   return (
     <Page title={"Pembelian"}>
       <PageLabel label={"Pembelian"} />
@@ -170,7 +173,7 @@ const PembelianSiswaPPDB = () => {
 
                       <TabList
                         activeTabIndex={+filter.step}
-                        card={stagings.data.map((staging, index) => {
+                        card={stagingCardFilterByGrade.map((staging, index) => {
                           return {
                             label: staging.name,
                             index: staging.index,
