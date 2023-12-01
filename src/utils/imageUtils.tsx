@@ -9,7 +9,8 @@ export const toDataUrl = (url) => {
           reader.onerror = reject;
           reader.readAsDataURL(blob);
         })
-    );
+    )
+    .catch(err => console.log(err))
 }
 export const convertToFileObject = async (
   fileName: string
@@ -18,6 +19,7 @@ export const convertToFileObject = async (
     `http://localhost:8080/uploads/${fileName}`
     // `${import.meta.env.VITE_BASE_BACKEND_URL}/${fileName}`
   );
+  console.log({DATAURL: dataUrl})
   return [dataUrlToFile(dataUrl, fileName)];
 };
 export const dataUrlToFile = (dataurl, filename) => {

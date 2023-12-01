@@ -61,7 +61,7 @@ const JalurPendaftaranDetailLayout: React.FC<TJalurPendaftaranDetailLayout> = ({
         <Stack className={"style-box max-w-[70rem] mx-auto"} >
           <PageLabel label="Detail Jalur Pendaftaran" />
           <Link
-            to={-1}
+            to={`/ppdb/main/jalur-pendaftaran/${grade}`}
             className="text-xl no-underline font-bold  flex  items-center gap-2 w-fit"
           >
             <MdArrowBackIosNew color={`${dark ? "#9b87de" : "#2A166F"}`} />

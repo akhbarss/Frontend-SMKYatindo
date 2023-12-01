@@ -9,13 +9,19 @@ import {
     Text,
     TextInput,
     Textarea,
-    ThemeIcon
+    ThemeIcon,
+    Box,
+    ScrollArea,
+    ActionIcon,
+    Image
 } from "@mantine/core";
 import { BsFileEarmarkImage } from "react-icons/bs";
 import { DarkTheme } from '../../../../utils/darkTheme';
 import { UseQueryResult } from "@tanstack/react-query";
 import { ResponseType } from "../../../../types/global";
 import { TStudentDetail } from "../../../../apis/student/getStudent";
+import { modals } from "@mantine/modals";
+import { MdClose } from "react-icons/md";
 
 type TBiodataAdmin = {
     studentQuery: UseQueryResult<ResponseType<TStudentDetail>, Error>
@@ -38,6 +44,30 @@ const BiodataAdmin: React.FC<TBiodataAdmin> = ({ studentQuery }) => {
     }
 
     console.log(student?.data)
+
+
+    const openModalImage = (imageName: string) => modals.open({
+        children: (
+            <>
+                <Box component={ScrollArea.Autosize} className='overflow-auto'>
+                    <Box className='z-50 fixed top-0 right-0 left-0' p={10}>
+                        <ActionIcon variant='light' onClick={() => modals.closeAll()} ml={"auto"}>
+                            <MdClose size={30} />
+                        </ActionIcon>
+                    </Box>
+                    <Image src={`http://localhost:8080/uploads/${imageName}`} />
+                </Box>
+            </>
+        ),
+        size: "100rem",
+        styles: {
+            body: {
+                padding: 0
+            },
+            header: { display: "none" }
+        },
+        centered: true
+    });
 
     return (
         <>
@@ -330,7 +360,7 @@ const BiodataAdmin: React.FC<TBiodataAdmin> = ({ studentQuery }) => {
                             px={"lg"}
                             bg={dark ? "black" : "#E3E5FC"}
                             className="rounded-md cursor-pointer"
-                        // onClick={() => openModalBuktiPembayaran()}
+                            onClick={() => openModalImage(student?.data?.family_card)}
                         >
                             <ThemeIcon radius={"100%"} color="#2A166F" size={45}>
                                 <BsFileEarmarkImage size={25} />
@@ -347,7 +377,7 @@ const BiodataAdmin: React.FC<TBiodataAdmin> = ({ studentQuery }) => {
                             px={"lg"}
                             bg={dark ? "black" : "#E3E5FC"}
                             className="rounded-md cursor-pointer"
-                        // onClick={() => openModalBuktiPembayaran()}
+                            onClick={() => openModalImage(student?.data?.birth_card)}
                         >
                             <ThemeIcon radius={"100%"} color="#2A166F" size={45}>
                                 <BsFileEarmarkImage size={25} />

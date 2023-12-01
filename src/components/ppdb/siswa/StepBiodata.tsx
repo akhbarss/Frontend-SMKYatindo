@@ -70,7 +70,7 @@ const StepBiodata: React.FC<Step> = ({ type = "PENGEMBALIAN" }) => {
 
   const setValues = async () => {
     const student: Student = offset.data?.student;
-
+    console.log({ student })
     student.profile_picture = await convertToFileObject(
       student.profile_picture as string
     );
@@ -82,6 +82,7 @@ const StepBiodata: React.FC<Step> = ({ type = "PENGEMBALIAN" }) => {
     student.family_card = await convertToFileObject(
       student.family_card as string
     );
+    console.log({ student })
 
     setInit({
       ...student,
@@ -93,9 +94,15 @@ const StepBiodata: React.FC<Step> = ({ type = "PENGEMBALIAN" }) => {
 
   useEffect(() => {
     if (statusSuccess) {
-      // setValues();
+      setValues();
     }
   }, [statusSuccess]);
+
+  setTimeout(() => {
+    
+    console.log({ initialValues })
+  }, 1000)
+  console.log({ initialValues })
 
   return (
     <FormWrapper
@@ -129,8 +136,8 @@ const StepBiodata: React.FC<Step> = ({ type = "PENGEMBALIAN" }) => {
           <Box
             sx={(theme) => ({
               backgroundColor: `${theme.colorScheme === "dark"
-                  ? theme.colors.dark[7]
-                  : theme.white
+                ? theme.colors.dark[7]
+                : theme.white
                 }`,
               padding: "2rem",
               boxShadow: "0 5px 10px -8px black",
@@ -146,8 +153,8 @@ const StepBiodata: React.FC<Step> = ({ type = "PENGEMBALIAN" }) => {
           <Box
             sx={(theme) => ({
               backgroundColor: `${theme.colorScheme === "dark"
-                  ? theme.colors.dark[7]
-                  : theme.white
+                ? theme.colors.dark[7]
+                : theme.white
                 }`,
               marginTop: 10,
               padding: "2rem",

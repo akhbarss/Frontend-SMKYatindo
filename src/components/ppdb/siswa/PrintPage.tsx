@@ -64,7 +64,7 @@ class PrintContent extends Component<TPrintContent> {
                         <header className={classes["header"]}>
                             <img className={classes["logo-yatindo"]} src="/logo-yatindo-hd.png" alt="" />
                             <h3 className={classes["title"]}>
-                            Kartu Pendaftaran Siswa <br /> SMP - SMK TINTA EMAS INDONESIA <br />Tahun Ajaran {awalTahun ? awalTahun : " undenfined"} / {akhirTahun ? akhirTahun : "undefined"}
+                                Kartu Pendaftaran Siswa <br /> SMP - SMK TINTA EMAS INDONESIA <br />Tahun Ajaran {awalTahun ? awalTahun : " undenfined"} / {akhirTahun ? akhirTahun : "undefined"}
                             </h3>
                         </header>
 
@@ -228,7 +228,7 @@ const PrintPage = () => {
                     namaJalur="PENGEMBALIAN FORMULIR REGULER GEL. 2"
                     name={user?.data?.student?.name}
                     noTelepon={user?.data?.student?.phone}
-                    nomorPeserta={user?.data?.student?.batch_id}
+                    nomorPeserta={user?.data?.student?.formulirId}
                     pilihanJalur1="TKJ"
                     pilihanJalur2="AKL"
                     profileImgName=""
@@ -242,13 +242,13 @@ const PrintPage = () => {
                         <PrintContent
                             dummyCard
                             akhirTahun="2025"
-                            alamat="bekasi"
-                            asalSekolah="Smp Yatindo"
+                            alamat={user?.data?.student?.address}
+                            asalSekolah={user?.data?.student?.school_origin}
                             awalTahun="2024"
                             namaJalur="PENGEMBALIAN FORMULIR REGULER GEL. 2"
-                            name="Muhammad Akhbar Firdaus"
-                            noTelepon="082110977214"
-                            nomorPeserta="2023-2-001"
+                            name={user?.data?.student?.name}
+                            noTelepon={user?.data?.student?.phone}
+                            nomorPeserta={user?.data?.student?.formulirId}
                             pilihanJalur1="TKJ"
                             pilihanJalur2="AKL"
                             profileImgName=""

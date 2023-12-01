@@ -29,12 +29,9 @@ import { FormValuesCreateJalur } from "./JalurPendaftaranAdmin";
 
 const JalurPendaftaranAdminSMK = () => {
     const dark = DarkTheme()
-
     const [openedCreate, { open: openCreate, close: closeCreate }] = useDisclosure(false);
     const [openedEdit, { open: openEdit, close: closeEdit }] = useDisclosure(false);
     const [openedDelete, { open: openDelete, close: closeDelete }] = useDisclosure(false);
-
-
 
     const formCreateMantine = useFormMantine<FormValuesCreateJalur>({
         initialValues: {
