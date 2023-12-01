@@ -34,6 +34,7 @@ const StepBiodata: React.FC<Step> = ({ type = "PENGEMBALIAN" }) => {
     TFormFieldBiodata & TFormFieldInformasiOrangTua
   > = (data) => {
     const formData = new FormData();
+    console.log({ data })
     for (const [key, value] of Object.entries(data)) {
       if (value !== null) {
         if (
@@ -49,7 +50,7 @@ const StepBiodata: React.FC<Step> = ({ type = "PENGEMBALIAN" }) => {
         }
       }
     }
-
+    console.log({ formData })
     updateBioMutation.mutate(formData, {
       onSuccess: () => {
         toast.success("Sukses update informasi biodata");
@@ -92,7 +93,7 @@ const StepBiodata: React.FC<Step> = ({ type = "PENGEMBALIAN" }) => {
 
   useEffect(() => {
     if (statusSuccess) {
-      setValues();
+      // setValues();
     }
   }, [statusSuccess]);
 
@@ -103,13 +104,12 @@ const StepBiodata: React.FC<Step> = ({ type = "PENGEMBALIAN" }) => {
       onSubmit={onSubmitBiodata}
     >
       {statusSuccess &&
-      offset.data.current_state?.status === "WAITING_PAYMENT" &&
-      offset.data.current_state?.type === type ? (
+        offset.data.current_state?.status === "WAITING_PAYMENT" &&
+        offset.data.current_state?.type === type ? (
         <Box
           sx={(theme) => ({
-            backgroundColor: `${
-              theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white
-            }`,
+            backgroundColor: `${theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white
+              }`,
             padding: "2rem",
             boxShadow: "0 5px 10px -8px black",
             borderRadius: "7px",
@@ -128,11 +128,10 @@ const StepBiodata: React.FC<Step> = ({ type = "PENGEMBALIAN" }) => {
         <>
           <Box
             sx={(theme) => ({
-              backgroundColor: `${
-                theme.colorScheme === "dark"
+              backgroundColor: `${theme.colorScheme === "dark"
                   ? theme.colors.dark[7]
                   : theme.white
-              }`,
+                }`,
               padding: "2rem",
               boxShadow: "0 5px 10px -8px black",
               borderRadius: "7px",
@@ -146,11 +145,10 @@ const StepBiodata: React.FC<Step> = ({ type = "PENGEMBALIAN" }) => {
           </Box>
           <Box
             sx={(theme) => ({
-              backgroundColor: `${
-                theme.colorScheme === "dark"
+              backgroundColor: `${theme.colorScheme === "dark"
                   ? theme.colors.dark[7]
                   : theme.white
-              }`,
+                }`,
               marginTop: 10,
               padding: "2rem",
               boxShadow: "0 5px 10px -8px black",

@@ -6,8 +6,8 @@ export type TStudentDetail = {
     address: string;
     batch_id: number
     // birth_card: null
-    // birth_date: null
-    // birth_place: null
+    birth_date: null | string | number
+    birth_place: null | string | number
     city: string
     dad_address: string
     dad_job: string

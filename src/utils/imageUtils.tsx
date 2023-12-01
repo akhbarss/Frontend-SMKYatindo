@@ -21,7 +21,7 @@ export const convertToFileObject = async (
   return [dataUrlToFile(dataUrl, fileName)];
 };
 export const dataUrlToFile = (dataurl, filename) => {
-  
+  console.log({dataurl, filename})
   let arr = dataurl.split(",");
   let mime = arr[0].match(/:(.*?);/)[1];
   let bstr = atob(arr[1]);

@@ -42,7 +42,7 @@ const BiodataAdmin: React.FC<TBiodataAdmin> = ({ studentQuery }) => {
     return (
         <>
             {/* IDENTITAS DIRI */}
-            <Paper mt={40}  withBorder shadow='lg' p={"lg"} sx={theme => ({backgroundColor: dark ? theme.colors.dark[9] : "white"})}>
+            <Paper mt={40} withBorder shadow='lg' p={"lg"} sx={theme => ({ backgroundColor: dark ? theme.colors.dark[9] : "white" })}>
                 <Group>
                     <Divider orientation='vertical' size={"0.5rem"} color='#2A166F' />
                     <Text weight={"bold"} size={30}>Identitas Diri</Text>
@@ -123,6 +123,7 @@ const BiodataAdmin: React.FC<TBiodataAdmin> = ({ studentQuery }) => {
                             readOnly
                             label="Tempat Lahir"
                             // @ts-ignore
+                            value={student?.data?.birth_place}
                             // value={student?.data.} ? student?.data.}:""
                             styles={stylesInput}
                         />
@@ -135,7 +136,7 @@ const BiodataAdmin: React.FC<TBiodataAdmin> = ({ studentQuery }) => {
                             readOnly
                             label="Tanggal Lahir"
                             // @ts-ignore
-                            // value={student?.data.phone ? student?.data.phone:""}
+                            value={student?.data.phone ? new Date(student?.data?.birth_date).toLocaleDateString() : ""}
                             styles={stylesInput}
                         />
 
@@ -224,7 +225,7 @@ const BiodataAdmin: React.FC<TBiodataAdmin> = ({ studentQuery }) => {
 
 
             {/* INFORMASI ORANG TUA */}
-            <Paper mt={40}  withBorder shadow='lg' p={"lg"} sx={theme => ({backgroundColor: dark ? theme.colors.dark[9] : "white"})}>
+            <Paper mt={40} withBorder shadow='lg' p={"lg"} sx={theme => ({ backgroundColor: dark ? theme.colors.dark[9] : "white" })}>
                 <Group >
                     <Divider orientation='vertical' size={"0.5rem"} color='#2A166F' />
                     <Text weight={"bold"} size={30}>Informasi Orang Tua</Text>
@@ -329,7 +330,7 @@ const BiodataAdmin: React.FC<TBiodataAdmin> = ({ studentQuery }) => {
                             px={"lg"}
                             bg={dark ? "black" : "#E3E5FC"}
                             className="rounded-md cursor-pointer"
-                            // onClick={() => openModalBuktiPembayaran()}
+                        // onClick={() => openModalBuktiPembayaran()}
                         >
                             <ThemeIcon radius={"100%"} color="#2A166F" size={45}>
                                 <BsFileEarmarkImage size={25} />
@@ -346,7 +347,7 @@ const BiodataAdmin: React.FC<TBiodataAdmin> = ({ studentQuery }) => {
                             px={"lg"}
                             bg={dark ? "black" : "#E3E5FC"}
                             className="rounded-md cursor-pointer"
-                            // onClick={() => openModalBuktiPembayaran()}
+                        // onClick={() => openModalBuktiPembayaran()}
                         >
                             <ThemeIcon radius={"100%"} color="#2A166F" size={45}>
                                 <BsFileEarmarkImage size={25} />

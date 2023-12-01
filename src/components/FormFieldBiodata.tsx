@@ -50,6 +50,9 @@ const FormFieldBiodata = () => {
             onDrop={(droppedFiles) => {
               onChange(droppedFiles);
             }}
+            accept={{
+              'image/*': [], // All images
+            }}
             value={value}
             multiple={false}
             // @ts-ignore
@@ -152,7 +155,7 @@ const FormFieldBiodata = () => {
             render={({ field: { onChange, value } }) => (
               <SelectStatus
                 type={"RELIGION"}
-                readonly={false}
+                readOnly={false}
                 label={"Agama"}
                 onChange={onChange}
                 value={value}
@@ -190,9 +193,20 @@ const FormFieldBiodata = () => {
             render={({ field: { onChange, value } }) => (
               <DateInput
                 value={value}
-                onChange={onChange}
+                onChange={e => {
+                  const date = new Date(e)
+                  onChange(date)
+                }}
                 label="Tanggal Lahir"
                 placeholder="Tanggal Lahir"
+                styles={{
+                  calendar: {
+                    maxWidth: "500px"
+                  },
+                  calendarHeader: {
+                    marginInline: "auto"
+                  }
+                }}
               />
             )}
             name={"birth_date"}
