@@ -1,13 +1,13 @@
-import { Box, Text, Button, Divider, Group } from "@mantine/core";
+import { Box, Button, Divider, Group, Text } from "@mantine/core";
+import { useQuery } from "@tanstack/react-query";
 import html2pdf from "html2pdf.js";
-import { Component, useRef } from 'react';
+import { Component, useRef, useState } from 'react';
 import { FaFilePdf } from "react-icons/fa6";
 import { useReactToPrint, } from "react-to-print";
+import { jwtDecode } from "../../../apis/alur/decodeJWT";
 import { useBreakPoints } from "../../../utils/UseBreakpoints";
 import { DarkTheme } from "../../../utils/darkTheme";
 import classes from "../../style/CetakKartuSMK.module.css";
-import { jwtDecode } from "../../../apis/alur/decodeJWT";
-import { useQuery } from "@tanstack/react-query";
 
 interface TPrintContent {
     name: string | null;
@@ -75,52 +75,52 @@ class PrintContent extends Component<TPrintContent> {
                                 profileImgName ? <img className={classes["profile"]} src={`/${profileImgName}`} alt=" " /> : <div className={classes["profile"]} />
                             }
                             <div className={classes["biodata-detail"]}>
-                                <table>
+                                <table className={classes["table"]}>
                                     <tbody>
                                         <tr>
-                                            <td>
+                                            <td className={classes["td"]}>
                                                 <div style={{ display: "flex", justifyContent: "space-between" }}>
                                                     <p>Nomor Peserta</p>
                                                     <p>: </p>
                                                 </div>
                                             </td>
-                                            <td>{nomorPeserta ? nomorPeserta : "-"}</td>
+                                            <td className={classes["td"]}>{nomorPeserta ? nomorPeserta : "-"}</td>
                                         </tr>
                                         <tr>
-                                            <td>
+                                            <td className={classes["td"]}>
                                                 <div style={{ display: "flex", justifyContent: "space-between" }}>
                                                     <p>Nama Peserta</p>
                                                     <p>: </p>
                                                 </div>
                                             </td>
-                                            <td>{name ? name : "-"}</td>
+                                            <td className={classes["td"]}>{name ? name : "-"}</td>
                                         </tr>
                                         <tr>
-                                            <td>
+                                            <td className={classes["td"]}>
                                                 <div style={{ display: "flex", justifyContent: "space-between" }}>
                                                     <p>Nomor Telepon</p>
                                                     <p>: </p>
                                                 </div>
                                             </td>
-                                            <td>{noTelepon ? noTelepon : "-"}</td>
+                                            <td className={classes["td"]}>{noTelepon ? noTelepon : "-"}</td>
                                         </tr>
                                         <tr>
-                                            <td>
+                                            <td className={classes["td"]}>
                                                 <div style={{ display: "flex", justifyContent: "space-between" }}>
                                                     <p>Alamat</p>
                                                     <p>: </p>
                                                 </div>
                                             </td>
-                                            <td>{alamat ? alamat : "-"}</td>
+                                            <td className={classes["td"]}>{alamat ? alamat : "-"}</td>
                                         </tr>
                                         <tr>
-                                            <td>
+                                            <td className={classes["td"]}>
                                                 <div style={{ display: "flex", justifyContent: "space-between" }}>
                                                     <p>Asal Sekolah</p>
                                                     <p>: </p>
                                                 </div>
                                             </td>
-                                            <td>{asalSekolah ? asalSekolah : "-"}</td>
+                                            <td className={classes["td"]}>{asalSekolah ? asalSekolah : "-"}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -133,32 +133,33 @@ class PrintContent extends Component<TPrintContent> {
                             <table className="table">
                                 <tbody>
                                     <tr>
-                                        <td>
+                                        <td className={classes["td"]}>
                                             <div style={{ display: "flex", justifyContent: "space-between" }}>
                                                 <p>Jalur</p>
                                                 <p>: </p>
                                             </div>
                                         </td>
-                                        <td>PEMBELIAN FORMULIR</td>
+                                        <td className={classes["td"]}>PEMBELIAN FORMULIR</td>
                                     </tr>
                                     <tr>
-                                        <td>
+                                        <td className={classes["td"]}>
                                             <div style={{ display: "flex", justifyContent: "space-between" }}>
                                                 <p>Pilihan Jurusan 1</p>
                                                 <p>: </p>
                                             </div>
                                         </td>
-                                        <td>Teknik Jaringan Komputer dan Telekomunikasi</td>
+                                        <td className={classes["td"]}>{pilihanJalur1 ? pilihanJalur1 : "-"}</td>
                                     </tr>
-                                    <tr>
-                                        <td>
+
+                                    {pilihanJalur2 && <tr>
+                                        <td className={classes["td"]}>
                                             <div style={{ display: "flex", justifyContent: "space-between" }}>
                                                 <p>Pilihan Jurusan 2</p>
                                                 <p>: </p>
                                             </div>
                                         </td>
-                                        <td>Teknik Kendaraan Ringan</td>
-                                    </tr>
+                                        <td className={classes["td"]}>{pilihanJalur2 ? pilihanJalur2 : "-"}</td>
+                                    </tr>}
                                 </tbody>
                             </table>
                         </div>
@@ -173,6 +174,7 @@ const PrintPage = () => {
     const dark = DarkTheme()
     const componentRef = useRef()
     const { md, } = useBreakPoints()
+    const [img, setImg] = useState(null)
 
     const {
         error,
@@ -184,7 +186,32 @@ const PrintPage = () => {
         queryKey: ["session-print"],
     });
 
-    console.log(user?.data)
+    const majors = {
+        TJKT: "Teknik Jaringan dan Komputer Telekomunikasi",
+        TKR: "Teknik Kendaraan Ringan",
+        TAV: "Teknik Audio dan Video",
+        AKL: "Akuntansi Keuangan Lembaga"
+    }
+
+    function displaySelectedMajors(major: string) {
+        const selectedMajors = major.split(',');
+        let result = [] as string[]
+
+        for (let i = 0; i < selectedMajors.length; i++) {
+            const code = selectedMajors[i].trim();
+            const optionNumber = i + 1;
+            const selectedMajorName = majors[code];
+
+            // result += `Pilihan jurusan ${optionNumber}: "${selectedMajorName}"\n`;
+            result.push(selectedMajorName)
+        }
+
+        return result;
+    }
+
+    const resMajor = user?.data?.student?.major && displaySelectedMajors(user.data.student.major)
+    console.log({ user})
+
 
     const handlePrint = useReactToPrint({
         onPrintError: (error) => console.log({ error }),
@@ -229,8 +256,8 @@ const PrintPage = () => {
                     name={user?.data?.student?.name}
                     noTelepon={user?.data?.student?.phone}
                     nomorPeserta={user?.data?.student?.formulirId}
-                    pilihanJalur1="TKJ"
-                    pilihanJalur2="AKL"
+                    pilihanJalur1={resMajor[0]}
+                    pilihanJalur2={resMajor[1]}
                     profileImgName=""
                     textColor="black"
                     bgColor="white"
@@ -249,8 +276,8 @@ const PrintPage = () => {
                             name={user?.data?.student?.name}
                             noTelepon={user?.data?.student?.phone}
                             nomorPeserta={user?.data?.student?.formulirId}
-                            pilihanJalur1="TKJ"
-                            pilihanJalur2="AKL"
+                            pilihanJalur1={resMajor[0]}
+                            pilihanJalur2={resMajor[1]}
                             profileImgName=""
                             textColor={`${dark ? "white" : "black"}`}
                             bgColor={`${dark ? "black" : "white"}`}

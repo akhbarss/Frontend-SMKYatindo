@@ -58,9 +58,14 @@ const StepPilihJurusan: React.FC<Step> = ({ type = "PEMBELIAN" }) => {
     }
   };
   useEffect(() => {
+    console.log("=====================OFFSETTTTTT=====================")
+    console.log(offset?.data)
     if (statusSuccess && offset.data.offset_data) {
       setChoosed(offset.data.offset_data?.majors?.split(","));
     }
+    // if (statusSuccess && offset.data?.current_state) {
+    //   setChoosed(offset.data.current_state?.majors?.split(","));
+    // }
   }, [statusSuccess, offset]);
 
   return (
@@ -93,19 +98,21 @@ const StepPilihJurusan: React.FC<Step> = ({ type = "PEMBELIAN" }) => {
                 type={"MAJOR"}
                 readOnly={Boolean(
                   statusSuccess && offset.data.offset_data?.majors
+                  // statusSuccess && offset.data.current_state?.majors
                 )}
                 onChange={(value) => setChoosed(value)}
                 value={choosed && Array.from(choosed)}
               />
             ) : (
-                <SelectStatus
-                  type={"MAJOR"}
-                  readOnly={Boolean(
-                    statusSuccess && offset.data.offset_data?.majors
-                  )}
-                  onChange={(value) => setChoosed(value)}
-                  value={choosed && choosed.toString()}
-                />
+              <SelectStatus
+                type={"MAJOR"}
+                readOnly={Boolean(
+                  statusSuccess && offset.data.offset_data?.majors
+                  // statusSuccess && offset.data.current_state?.majors
+                )}
+                onChange={(value) => setChoosed(value)}
+                value={choosed && choosed.toString()}
+              />
             )}
 
             <Button
@@ -114,6 +121,7 @@ const StepPilihJurusan: React.FC<Step> = ({ type = "PEMBELIAN" }) => {
               loading={chooseMutation.isPending}
               disabled={Boolean(
                 statusSuccess && offset.data.offset_data?.majors
+                // statusSuccess && offset.data.current_state?.majors
               )}
             >
               Submit

@@ -155,7 +155,7 @@ const JalurPendaftaranAdminSMP = () => {
         })
     }
 
-    const contentJalurBackend = dataJalur && dataJalur?.data?.length > 0 ? dataJalur?.data?.map(item => {
+    const contentJalurBackend = dataJalur && dataJalur?.data?.length > 0 ? dataJalur?.data?.sort((a, b) => a.id - b.id)?.map(item => {
         const {
             end_date,
             id,
@@ -254,7 +254,7 @@ const JalurPendaftaranAdminSMP = () => {
             </Box>
         )
     }) : (
-        <DataKosong message="Data kosong"/>
+        <DataKosong message="Data kosong" />
     )
 
     return (

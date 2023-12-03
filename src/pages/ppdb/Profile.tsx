@@ -28,7 +28,6 @@ const color = ["teal", "violet", "blue", "pink", "green", "yellow", "red", "oran
 
 const Profile = () => {
     const { md } = useBreakPoints()
-
     const changePasswordMutation = useMutation({
         mutationFn: changePassword
     })
@@ -42,7 +41,6 @@ const Profile = () => {
             password: isNotEmpty("Harap isi password password baru anda"),
             confirmPassword: matchesField("password", "Password tidak sama")
         }
-
     })
 
     const {
@@ -68,17 +66,17 @@ const Profile = () => {
     }
 
     const submitHandler = (data: typeof form.values) => {
-        submitChangePassword({ password: data.password })
+        submitChangePassword({ password: data.password, id: user?.data?.id })
     }
 
     const student = isSuccess && user?.data?.student
     const admin = isSuccess && user?.data
     const isStudent = isSuccess && user?.data.role_id.role_name === "User"
     const isAdmin = isSuccess && user?.data.role_id.role_name === "Admin"
-
+    // console.log(user?.data)
     const adminName = admin?.fullname
     const studentName = student?.name
-    
+
     const formattedNameStudent = formattedNameFn(studentName)
     const formattedNameAdmin = formattedNameFn(adminName)
 
@@ -139,33 +137,32 @@ const Profile = () => {
                             </Text>
                         </Card.Section>
                     </Card>
-                    <form onSubmit={form.onSubmit(submitHandler)}>
-                        <Stack mt={30}>
-                            {isSuccess && isStudent ? (
-                                <>
-                                    <TextInput label="Nama" readOnly value={student?.name} />
+                    {isSuccess && isAdmin ? (
+                        <>
+                            <TextInput label="Nama" readOnly value={admin?.fullname} />
 
-                                    <TextInput label="No Telepon" readOnly value={student?.phone} />
-                                </>
-                            ) : ""}
-                            {
-                                isSuccess && isAdmin ? (
-                                    <>
-                                        <TextInput label="Nama" readOnly value={admin?.fullname} />
+                            <TextInput label="No Telepon" readOnly value={admin?.username} />
+                        </>
+                    ) : ""}
+                    {isSuccess && isStudent ? (
+                        <>
+                            <TextInput label="Nama" readOnly value={student?.name} />
 
-                                        <TextInput label="No Telepon" readOnly value={admin?.username} />
-                                    </>
-                                ) : ""
-                            }
-
-                            <Text mt={20} fz={30} fw={600}>Ubah Password</Text>
-                            <PasswordInput label="Password Baru" {...form.getInputProps("password")} />
-                            <PasswordInput label="Konfirmasi Password" {...form.getInputProps("confirmPassword")} />
-                            <Group position='right' mt={20} >
-                                <Button type='submit' loading={changePasswordMutation.status === "pending"} >Ubah Password</Button>
-                            </Group>
-                        </Stack>
-                    </form>
+                            <TextInput label="No Telepon" readOnly value={student?.phone} />
+                        </>
+                    ) : ""}
+                    {
+                        isAdmin && <form onSubmit={form.onSubmit(submitHandler)}>
+                            <Stack mt={30}>
+                                <Text mt={20} fz={30} fw={600}>Ubah Password</Text>
+                                <PasswordInput label="Password Baru" {...form.getInputProps("password")} />
+                                <PasswordInput label="Konfirmasi Password" {...form.getInputProps("confirmPassword")} />
+                                <Group position='right' mt={20} >
+                                    <Button type='submit' loading={changePasswordMutation.status === "pending"} >Ubah Password</Button>
+                                </Group>
+                            </Stack>
+                        </form>
+                    }
                 </Stack>
             </Page>
         </>

@@ -1,5 +1,7 @@
 import {
     Stack,
+    Select,
+    Box,
     Text,
     TextInput
 } from '@mantine/core'
@@ -18,6 +20,8 @@ type TModalAlurEdit = {
     descAlurPPDB: string,
     setDescAlurPPDB: React.Dispatch<React.SetStateAction<string>>,
     setIdAlur: React.Dispatch<React.SetStateAction<string>>,
+    grade: string;
+    setGrade: React.Dispatch<React.SetStateAction<string>>;
     editAlurHandler: () => void,
     editAlurMutation: UseMutationResult<ResponseType<Response>, Error, EditAlurPayload, unknown>
 }
@@ -31,7 +35,9 @@ const ModalAlurEdit: React.FC<TModalAlurEdit> = ({
     setDescAlurPPDB,
     editAlurHandler,
     editAlurMutation,
-    setIdAlur
+    setIdAlur,
+    grade,
+    setGrade
 }) => {
     return (
         <ModalAlur
@@ -53,20 +59,30 @@ const ModalAlurEdit: React.FC<TModalAlurEdit> = ({
 
         >
             <Stack p={20} pb={"6rem"}>
-                <Text align="left" weight={"bold"} >Nama</Text>
+                <Box>
+                    <Text align="left" weight={"bold"} >Nama</Text>
+                    <TextInput
+                        value={title}
+                        onChange={(val) => setTitle(val.target.value)}
+                    />
+                </Box>
 
-                <TextInput
-                    value={title}
-                    onChange={(val) => setTitle(val.target.value)}
-                />
+                <Box>
+                    <Text align="left" weight={"bold"} >Jenjang</Text>
+                    <Select
+                        data={["SMP", "SMK"]}
+                        value={grade}
+                        onChange={(e) => setGrade(e)}
+                    />
+                </Box>
 
-                <Text align="left" mt={30} weight={"bold"}>Deskripsi Keterangan</Text>
-
-                <TiptapInput
-
-                    desc={descAlurPPDB}
-                    setDesc={setDescAlurPPDB}
-                />
+                <Box>
+                    <Text align="left" weight={"bold"}>Deskripsi Keterangan</Text>
+                    <TiptapInput
+                        desc={descAlurPPDB}
+                        setDesc={setDescAlurPPDB}
+                    />
+                </Box>
             </Stack>
         </ModalAlur>
     )

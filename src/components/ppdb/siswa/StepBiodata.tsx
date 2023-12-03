@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { Step } from "../../../types/global";
-import { Box, Button, Stack, Title } from "@mantine/core";
+import { Box, Button, Stack, Title, LoadingOverlay } from "@mantine/core";
 import FormFieldBiodata, { TFormFieldBiodata } from "../../FormFieldBiodata";
 import FormWrapper from "../../FormWrapper";
 import FormFieldInformasiOrangTua, {
@@ -18,11 +18,11 @@ import dayjs from "dayjs";
 import { Student } from "../../../types/student";
 import {
   convertToFileObject,
-  dataUrlToFile,
-  toDataUrl,
 } from "../../../utils/imageUtils";
+import { jwtDecode } from "../../../apis/alur/decodeJWT";
 
 const StepBiodata: React.FC<Step> = ({ type = "PENGEMBALIAN" }) => {
+  const [load, setLoad] = useState(false)
   const filter = useQueryFilter({ step: 3, stagingId: null });
   const [initialValues, setInit] = useState<Student>(null);
   const queryClient = useQueryClient();
@@ -30,11 +30,20 @@ const StepBiodata: React.FC<Step> = ({ type = "PENGEMBALIAN" }) => {
     mutationFn: updateBio,
   });
 
+  console.log("============STEP BIODATAAA============")
+  console.log({ initialValues })
+
+  const { data } = useQuery({
+    queryKey: ["get-session-from-bio"],
+    queryFn: jwtDecode
+  })
+
+  console.log({ data })
+
   const onSubmitBiodata: SubmitHandler<
     TFormFieldBiodata & TFormFieldInformasiOrangTua
   > = (data) => {
     const formData = new FormData();
-    console.log({ data })
     for (const [key, value] of Object.entries(data)) {
       if (value !== null) {
         if (
@@ -50,7 +59,7 @@ const StepBiodata: React.FC<Step> = ({ type = "PENGEMBALIAN" }) => {
         }
       }
     }
-    console.log({ formData })
+
     updateBioMutation.mutate(formData, {
       onSuccess: () => {
         toast.success("Sukses update informasi biodata");
@@ -70,26 +79,72 @@ const StepBiodata: React.FC<Step> = ({ type = "PENGEMBALIAN" }) => {
 
   const setValues = async () => {
     const student: Student = offset.data?.student;
+    setLoad(true)
+    // const profile_picture = typeof student?.profile_picture === "string"
     console.log({ student })
-    student.profile_picture = await convertToFileObject(
-      student.profile_picture as string
-    );
+    // console.log("TIPE DATA :", profile_picture, typeof student?.profile_picture, student?.profile_picture)
+    if (typeof student?.profile_picture === "string") {
+      try {
+        student.profile_picture = await convertToFileObject(
+          student.profile_picture as string
+        )
 
-    student.birth_card = await convertToFileObject(
-      student.birth_card as string
-    );
+        student.birth_card = await convertToFileObject(
+          student.birth_card as string
+        )
 
-    student.family_card = await convertToFileObject(
-      student.family_card as string
-    );
-    console.log({ student })
+        student.family_card = await convertToFileObject(
+          student.family_card as string
+        )
+        console.log("-----------SEBELUM INIT-----------")
+        console.log({ student })
+        setInit({
+          ...student,
+          birth_date: student.birth_date
+            ? dayjs(student.birth_date).toDate()
+            : null,
+        });
+        setLoad(false)
+      } catch (error) {
+        setLoad(false)
+        toast.error("Gagal mengambil data biodata, silakan coba lagi")
+      }
+    } else if (student?.profile_picture === null) {
+      console.log("null")
+      setInit({
+        ...student,
+        birth_date: student.birth_date
+          ? dayjs(student.birth_date).toDate()
+          : null,
+      });
+      setLoad(false)
+    } else {
+      try {
+        student.profile_picture = await convertToFileObject(
+          student.profile_picture[0].name as string
+        )
 
-    setInit({
-      ...student,
-      birth_date: student.birth_date
-        ? dayjs(student.birth_date).toDate()
-        : null,
-    });
+        student.birth_card = await convertToFileObject(
+          student.birth_card[0].name as string
+        )
+
+        student.family_card = await convertToFileObject(
+          student.family_card[0].name as string
+        )
+        console.log("-----------SEBELUM INIT-----------")
+        console.log({ student })
+        setInit({
+          ...student,
+          birth_date: student.birth_date
+            ? dayjs(student.birth_date).toDate()
+            : null,
+        });
+        setLoad(false)
+      } catch (error) {
+        setLoad(false)
+        toast.error("Gagal mengambil data biodata, silakan coba lagi")
+      }
+    }
   };
 
   useEffect(() => {
@@ -97,12 +152,6 @@ const StepBiodata: React.FC<Step> = ({ type = "PENGEMBALIAN" }) => {
       setValues();
     }
   }, [statusSuccess]);
-
-  setTimeout(() => {
-    
-    console.log({ initialValues })
-  }, 1000)
-  console.log({ initialValues })
 
   return (
     <FormWrapper
@@ -133,48 +182,55 @@ const StepBiodata: React.FC<Step> = ({ type = "PENGEMBALIAN" }) => {
         </Box>
       ) : (
         <>
-          <Box
-            sx={(theme) => ({
-              backgroundColor: `${theme.colorScheme === "dark"
-                ? theme.colors.dark[7]
-                : theme.white
-                }`,
-              padding: "2rem",
-              boxShadow: "0 5px 10px -8px black",
-              borderRadius: "7px",
-            })}
-          >
-            <Stack>
-              <Title>Isi Biodata</Title>
+          <Box pos={"relative"}>
 
-              <FormFieldBiodata />
-            </Stack>
-          </Box>
-          <Box
-            sx={(theme) => ({
-              backgroundColor: `${theme.colorScheme === "dark"
-                ? theme.colors.dark[7]
-                : theme.white
-                }`,
-              marginTop: 10,
-              padding: "2rem",
-              boxShadow: "0 5px 10px -8px black",
-              borderRadius: "7px",
-            })}
-          >
-            <Stack>
-              <Title>Informasi Orang Tua</Title>
+            <Box
+              sx={(theme) => ({
+                backgroundColor: `${theme.colorScheme === "dark"
+                  ? theme.colors.dark[7]
+                  : theme.white
+                  }`,
+                padding: "2rem",
+                boxShadow: "0 5px 10px -8px black",
+                borderRadius: "7px",
+              })}
+            >
+              <Stack>
+                <Title>Isi Biodata</Title>
 
-              <FormFieldInformasiOrangTua />
-              <Button
-                type={"submit"}
-                variant={"filled"}
-                loading={updateBioMutation.isPending}
-              >
-                Submit
-              </Button>
-            </Stack>
+                <FormFieldBiodata />
+
+              </Stack>
+            </Box>
+            <Box
+              sx={(theme) => ({
+                backgroundColor: `${theme.colorScheme === "dark"
+                  ? theme.colors.dark[7]
+                  : theme.white
+                  }`,
+                marginTop: 10,
+                padding: "2rem",
+                boxShadow: "0 5px 10px -8px black",
+                borderRadius: "7px",
+              })}
+            >
+              <Stack>
+                <Title>Informasi Orang Tua</Title>
+
+                <FormFieldInformasiOrangTua />
+                <Button
+                  type={"submit"}
+                  variant={"filled"}
+                  loading={updateBioMutation.isPending}
+                >
+                  Submit
+                </Button>
+              </Stack>
+            </Box>
+            <LoadingOverlay visible={load} zIndex={10} />
+
           </Box>
+
         </>
       )}
     </FormWrapper>

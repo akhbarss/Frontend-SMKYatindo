@@ -36,7 +36,9 @@ const FormFieldPembayaran = () => {
     <Stack spacing={10}>
       <Controller
         rules={{ required: true }}
-        render={({ field: { onChange, value } }) => (
+        render={({ field: { onChange, value } }) => {
+          console.log(value)
+          return(
           <Dropzone
             multiple={false}
             // @ts-ignore
@@ -84,6 +86,9 @@ const FormFieldPembayaran = () => {
               mt={5}
               breakpoints={[{ maxWidth: "sm", cols: 1 }]}
             >
+              {
+                JSON.stringify(value)
+              }
               {value &&
                 value.map((file, index) => {
                   const imageUrl = URL.createObjectURL(file);
@@ -100,7 +105,7 @@ const FormFieldPembayaran = () => {
                 })}
             </SimpleGrid>
           </Dropzone>
-        )}
+        )}}
         name={"payment_prove"}
         control={control}
       />

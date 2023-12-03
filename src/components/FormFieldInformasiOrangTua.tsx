@@ -197,6 +197,7 @@ const FormFieldInformasiOrangTua = () => {
           },
         }}
       />
+      <Text size={"xs"} c="red">{errors?.family_card?.message}</Text>
       <Controller
         render={({ field: { onChange, value } }) => (
           <UploadDropzone
@@ -225,6 +226,7 @@ const FormFieldInformasiOrangTua = () => {
         name={"birth_card"}
         control={control}
       />
+      <Text size={"xs"} c="red">{errors?.birth_card?.message}</Text>
     </Stack>
   );
 };

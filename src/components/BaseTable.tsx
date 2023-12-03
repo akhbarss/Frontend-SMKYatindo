@@ -22,7 +22,7 @@ const BaseTable = <T extends unknown>({
   isResize = false,
 }: TBaseTable<T>) => {
   return (
-    <Table striped highlightOnHover withBorder sx={{ overflow:"auto" }}>
+    <Table striped highlightOnHover withBorder>
       <thead>
         {table?.getHeaderGroups().map((headerGroup) => (
           <tr key={headerGroup.id}>
@@ -52,8 +52,8 @@ const BaseTable = <T extends unknown>({
                       header.getContext()
                     )}
                     {{
-                      // asc: " 🔼",
-                      // desc: " 🔽",
+                      asc: " 🔼",
+                      desc: " 🔽",
                     }[header.column.getIsSorted() as string] ?? null}
                   </div>
                 )}
@@ -103,7 +103,6 @@ const BaseTable = <T extends unknown>({
                           ? 2
                           : 0,
                       paddingBlock: "1rem",
-                      width:"5px"
                     }}
                   >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -112,7 +111,7 @@ const BaseTable = <T extends unknown>({
               </tr>
               {renderSubComponent && row?.getIsExpanded() && (
                 <tr>
-                  <td colSpan={row.getVisibleCells().length} style={{ width:"5px" }}>
+                  <td colSpan={row.getVisibleCells().length}>
                     {renderSubComponent ? renderSubComponent(row) : "-"}
                   </td>
                 </tr>

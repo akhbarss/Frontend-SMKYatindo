@@ -152,7 +152,7 @@ const PembelianSiswaPPDB = () => {
     navigate(`${location.pathname}?${generateQueryparam(toFilter)}`);
   };
 
-  console.log(stagings?.data)
+  // console.log(stagings?.data)
   const stagingCardFilterByGrade = isSuccess && stagings?.data?.filter(staging => staging?.grade === grade)
 
   return (

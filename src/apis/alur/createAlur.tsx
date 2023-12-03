@@ -2,9 +2,9 @@ import axios from "../../utils/axios";
 import { ResponseType } from "../../types/global";
 
 export type CreateAlurPayload = {
-    title: string
-    content: string
-    // user_id: number
+    title: string;
+    content: string;
+    grade: "SMK" | "SMP"
 };
 
 export const createAlur = async (payload: CreateAlurPayload): Promise<ResponseType<Response>> => {

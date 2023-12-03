@@ -14,9 +14,10 @@ import {
     IconTrash
 } from "@tabler/icons-react";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { createColumnHelper } from "@tanstack/react-table";
 import { useState } from "react";
 import { MdArrowBackIosNew } from "react-icons/md";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { getGelombangById } from "../../../../apis/gelombang/getGelombangById";
 import { exportExcel } from "../../../../apis/student/exportExcel";
 import { getAllStudentByBatchId } from "../../../../apis/student/getAllStudentByBatchId";
@@ -29,16 +30,10 @@ import { DarkTheme } from "../../../../utils/darkTheme";
 import { statusValue } from "../../../../utils/statusValue";
 
 const PendaftarPerGelombang = () => {
-
     const dark = DarkTheme()
     const { gelombangId } = useParams()
     const [searchName, setSearchName] = useState("")
     const { tipeGelombang } = useParams()
-    const navigate = useNavigate()
-
-    const [pageSize, setPageSize] = useState(10)
-    const [pageCount, setPageCount] = useState(1)
-    // const [pageSize, setPageSize] = useState(10)
 
     const {
         data: totalPendaftar,
@@ -64,7 +59,6 @@ const PendaftarPerGelombang = () => {
 
     const {
         data: student,
-        isLoading: loadStudent,
         isFetching,
         isError: isErrorGetStudent,
         error
@@ -107,67 +101,64 @@ const PendaftarPerGelombang = () => {
         return student.nama.toLowerCase().includes(searchName.toLowerCase())
     })
 
-    console.log(student)
+    console.log({student})
+
+    type Student = {
+        id: number;
+        nama: string;
+        noWa: string;
+        tanggalMendaftar: number;
+        status: Status
+    }
+
+    const columnHelper = createColumnHelper<Student>()
 
     const columns = [
-        {
-            accessorKey: "no",
-            header: "No",
-            accessorFn: (data, deps) => {
-                return deps + 1;
+        columnHelper.accessor(row => row.id, {
+            id: 'Id',
+            cell: (info) => info.row.index + 1,
+            header: () => <span>ID</span>,
+        }),
+        columnHelper.accessor(row => row.nama, {
+            id: 'Nama',
+            cell: info => <span style={{ whiteSpace: "nowrap" }}>{info.getValue()}</span>,
+            header: () => <span>Nama</span>,
+        }),
+        columnHelper.accessor(row => row.noWa, {
+            id: 'No Telepon',
+            cell: info => info.getValue(),
+            header: () => <span>No. Telepon</span>,
+        }),
+        columnHelper.accessor(row => row.tanggalMendaftar, {
+            id: 'Tanggal Mendaftar',
+            cell: info => {
+                const val = info.getValue()
+                const formatDate = val && new Date(val)
+                return !val ? "-" :
+                    formatDate.toLocaleDateString("id-ID", {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric',
+                    })
             },
-        },
-        {
-            accessorKey: "nama",
-            header: "Nama",
-            accessorFn: (data) => {
-                return data.nama
-            },
-        },
-        {
-            accessorKey: "noWa",
-            header: "No. Telepon",
-            accessorFn: (data) => {
-                return data.noWa
-            },
-        },
-        {
-            accessorKey: "tanggalMendaftar",
-            header: "Tanggal Mendaftar",
-            cell: (data,) => {
-                const date = data?.row?.original?.tanggalMendaftar
-                const formattedDate = new Date(date)
-                return (
-                    <span>
-                        {!date ? "-" :
-                            formattedDate.toLocaleDateString("id-ID", {
-                                year: 'numeric',
-                                month: 'short',
-                                day: 'numeric',
-                            })
-                        }
-                    </span>
-                )
-            }
-        },
-        {
-            accessorKey: "status",
-            header: "Status",
-            cell: (data) => {
-                const status = data.row.original.status as Status
-                const valueStatus = statusValue[status]
-
+            header: () => <span style={{ whiteSpace: "nowrap" }}>Tanggal Mendaftar</span>,
+        }),
+        columnHelper.accessor(row => row.status, {
+            id: 'Status',
+            cell: info => {
+                const val = info.getValue()
+                const valueStatus = statusValue[val]
                 if (valueStatus) return (
                     <Badge size="lg" color={valueStatus.color} bg={!dark && "#dcfce2"}>{valueStatus.value}</Badge>
                 )
                 return "-"
             },
-        },
-        {
-            id: "detail",
-            header: "Detail",
-            cell: (data) => {
-                const userId = data.row.original.id
+            header: () => <span style={{ whiteSpace: "nowrap" }}>Status</span>,
+        }),
+        columnHelper.display({
+            id: 'Detail',
+            cell: info => {
+                const userId = info.row.original.id
                 return (
                     <Link
                         to={`/ppdb/main/pendaftar-ppdb/${tipeGelombang}/${gelombangId}/${userId}`}
@@ -176,14 +167,13 @@ const PendaftarPerGelombang = () => {
                         Detail
                     </Link>
                 )
-            }
-        },
-        {
-            id: "aksi",
-            header: "Aksi",
-            cell: (data) => {
-                const userId = data.row.original.id
-
+            },
+            header: () => <span >Detail</span>,
+        }),
+        columnHelper.display({
+            id: 'Aksi',
+            cell: (info) => {
+                const userId = info.row.original.id
                 return (
                     <ActionIcon
                         color="red"
@@ -193,8 +183,9 @@ const PendaftarPerGelombang = () => {
                         <IconTrash />
                     </ActionIcon>
                 )
-            }
-        },
+            },
+            header: () => <span >Aksi</span>,
+        }),
     ];
 
     return (

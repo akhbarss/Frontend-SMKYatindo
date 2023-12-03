@@ -19,8 +19,11 @@ import Page from '../../../../components/Page';
 import PageLabel from '../../../../components/PageLabel';
 import { DarkTheme } from '../../../../utils/darkTheme';
 import { statusValue } from "../../../../utils/statusValue";
-import Pembayaran from "./Pembayaran";
 import BiodataAdmin from "./BiodataAdmin";
+import Pembayaran from "./Pembayaran";
+import UbahPassword from "./UbahPassword";
+import ProfilePicture from "../../../../components/ppdb/ProfilePicture";
+import { convertToFileObject } from "../../../../utils/imageUtils";
 
 interface TErrResponse extends Error {
     response: {
@@ -51,13 +54,14 @@ const DetailPendaftar = () => {
             <h1>{err?.response?.status === 400 ? "Pendaftar tidak ditemukan" : "Terjadi kesalahan"}</h1>
             <Link
                 className="text-xl no-underline font-bold  flex  items-center gap-2 w-fit px-8 py-2 bg-black text-white rounded-full"
-                to={"/ppdb/main/pendaftar-ppdb/" + gelombangId}
+                to={`/ppdb/main/pendaftar-ppdb/${tipeGelombang}/${gelombangId}`}
             >
                 Kembali
             </Link>
         </Paper>
     )
 
+    const profilePictureName = student?.data?.profile_picture
     const name = student?.data.name
     const formattedName = name
         ?.split(' ')
@@ -71,6 +75,7 @@ const DetailPendaftar = () => {
     const formattedTanggalMendaftar = !isNaN(unformattedTanggalMendaftar) ? unformattedTanggalMendaftar.toLocaleDateString("id-ID", {
         weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
     }) : "Tanggal tidak valid"
+
 
     return (
         <Page title='Detail Informasi Pendaftar' key={student?.data.id}>
@@ -97,6 +102,12 @@ const DetailPendaftar = () => {
                 >
                     {isFetching ? (
                         <Skeleton circle height={200} />
+                    ) : profilePictureName ? (
+                        <>
+                            <ProfilePicture
+                                img={profilePictureName}
+                            />
+                        </>
                     ) : (
                         <Avatar size={220} color="cyan" sx={{ border: "3px solid grey" }} radius={"100%"}>{formattedName}</Avatar>
                     )}
@@ -145,8 +156,9 @@ const DetailPendaftar = () => {
                     }}
                 >
                     <Tabs.List>
-                        <Tabs.Tab  value="pembayaran">Pembayaran</Tabs.Tab>
+                        <Tabs.Tab value="pembayaran">Pembayaran</Tabs.Tab>
                         <Tabs.Tab value="biodata">Biodata</Tabs.Tab>
+                        <Tabs.Tab value="ubah_password">Ubah Password</Tabs.Tab>
                     </Tabs.List>
 
                     <Tabs.Panel value="pembayaran" mt={30}>
@@ -155,6 +167,10 @@ const DetailPendaftar = () => {
 
                     <Tabs.Panel value="biodata" mt={30}>
                         <BiodataAdmin studentQuery={studentQuery} />
+                    </Tabs.Panel>
+
+                    <Tabs.Panel value="ubah_password" mt={30}>
+                        <UbahPassword />
                     </Tabs.Panel>
 
                 </Tabs>

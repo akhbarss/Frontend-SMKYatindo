@@ -152,8 +152,8 @@ const JalurPendaftaranAdminSMK = () => {
             type: datas.tipeJalur as TipeJalur
         })
     }
-
-    const contentJalurBackend = dataJalur && dataJalur?.data?.length > 0 ? dataJalur?.data?.map(item => {
+console.log(dataJalur)
+    const contentJalurBackend = dataJalur && dataJalur?.data?.length > 0 ? dataJalur?.data?.sort((a,b) => a.id - b.id)?.map(item => {
         const {
             end_date,
             id,

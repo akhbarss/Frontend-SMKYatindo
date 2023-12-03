@@ -11,6 +11,7 @@ import {
 import { FaUpload } from "react-icons/fa";
 import { ImCross } from "react-icons/im";
 import { HiPhoto } from "react-icons/hi2";
+import { DarkTheme } from "../utils/darkTheme";
 
 interface TUploadDropzone extends DropzoneProps {
   label: string;
@@ -27,6 +28,8 @@ const UploadDropzone: React.FC<TUploadDropzone> = ({
   label,
 }) => {
   const theme = useMantineTheme();
+  const dark = DarkTheme()
+  console.log({ valueDropZone: value })
   return (
     <Dropzone
       multiple={multiple}
@@ -51,7 +54,7 @@ const UploadDropzone: React.FC<TUploadDropzone> = ({
             size="3.2rem"
             color={
               theme.colors[theme.primaryColor][
-                theme.colorScheme === "dark" ? 4 : 6
+              theme.colorScheme === "dark" ? 4 : 6
               ]
             }
           />
@@ -65,7 +68,7 @@ const UploadDropzone: React.FC<TUploadDropzone> = ({
         <Dropzone.Idle>
           <HiPhoto size="3.2rem" />
         </Dropzone.Idle>
-        <Text sx={{ zIndex: 9, color: value && !multiple ? "white" : "black" }}>
+        <Text sx={{ zIndex: 9, color: value && !multiple ? dark ? "transparent" : "transparent" : dark ? "white" : "black" }}>
           {label}
         </Text>
 
@@ -78,10 +81,14 @@ const UploadDropzone: React.FC<TUploadDropzone> = ({
               <Image
                 key={index}
                 src={imageUrl}
+                width={"80%"}
                 sx={{
+                  // width: "100px"
                   position: "absolute",
                   filter: "brightness(50%)",
                   top: 0,
+                  // right: 0,
+                  // left:0
                 }}
                 imageProps={{
                   onLoad: () => URL.revokeObjectURL(imageUrl),

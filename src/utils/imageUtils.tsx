@@ -1,29 +1,31 @@
 export const toDataUrl = (url) => {
-  fetch(url)
-    .then((response) => response.blob())
+  console.log({url})
+  return fetch(url)
+    .then((response) => {
+      return response.blob()
+    })
     .then(
-      (blob) =>
-        new Promise((resolve, reject) => {
+      (blob) => {
+        return new Promise((resolve, reject) => {
           const reader = new FileReader();
           reader.onloadend = () => resolve(reader.result);
           reader.onerror = reject;
           reader.readAsDataURL(blob);
         })
+      }
     )
-    .catch(err => console.log(err))
+    .catch(err => { throw new Error("Failed Fetch Image") })
 }
 export const convertToFileObject = async (
   fileName: string
 ): Promise<File[]> => {
+  console.log({fileName})
   const dataUrl = await toDataUrl(
-    `http://localhost:8080/uploads/${fileName}`
-    // `${import.meta.env.VITE_BASE_BACKEND_URL}/${fileName}`
+    `${import.meta.env.VITE_BASE_BACKEND_URL}/uploads/${fileName}`
   );
-  console.log({DATAURL: dataUrl})
   return [dataUrlToFile(dataUrl, fileName)];
 };
 export const dataUrlToFile = (dataurl, filename) => {
-  console.log({dataurl, filename})
   let arr = dataurl.split(",");
   let mime = arr[0].match(/:(.*?);/)[1];
   let bstr = atob(arr[1]);

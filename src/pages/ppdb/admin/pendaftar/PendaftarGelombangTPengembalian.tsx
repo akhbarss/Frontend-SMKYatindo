@@ -1,6 +1,8 @@
 import {
     Grid,
     Group,
+    Box,
+    Divider,
     Paper,
     Skeleton,
     Tabs,
@@ -24,20 +26,28 @@ const PendaftarGelombangTPengembalian = () => {
         queryFn: () => getAllGelombangByTypeJalur("PENGEMBALIAN"),
     });
 
+    const filterGelombangBySMP = gelombangByJalurPengembalian?.data?.filter(gelombang => gelombang.grade === "SMP")?.sort((a, b) => a.id - b.id)
+    const filterGelombangBySMK = gelombangByJalurPengembalian?.data?.filter(gelombang => gelombang.grade === "SMK")?.sort((a, b) => a.id - b.id)
+
     return (
         <Tabs.Panel value="pengembalian" mt={40}>
             {loadGelPengembalian ? (
                 <Skeleton height={80} />
             ) : (
                 <>
-                    {
+                    {/* {
                         gelombangByJalurPengembalian?.data?.length < 1 ? (
                             <DataKosong message="Data kosong" />
-                        ) : (
-                            <Grid >
-                                {
-                                    gelombangByJalurPengembalian?.data?.sort((a, b) => a.id - b.id)?.map(item => (
-                                        <Grid.Col md={6} key={item.id}>
+                        ) : ( */}
+                    <>
+                        <Box>
+                            <Text weight={"bolder"} fz={18}>SMP</Text>
+                            <Divider mb={20} size={"xs"} />
+                            {filterGelombangBySMP?.length < 1
+                                ? <DataKosong message='Data kosong' />
+                                : filterGelombangBySMP?.map(item => (
+                                    <Grid mt={20} key={item.id} >
+                                        <Grid.Col md={6}>
                                             <Link
                                                 to={`${item.id}`}
                                                 className="drop-shadow-lg rounded-md no-underline text-black "
@@ -53,7 +63,7 @@ const PendaftarGelombangTPengembalian = () => {
                                                         border: "0.0625rem solid #dee2e6",
                                                     })}
                                                 >
-                                                    <h1 className="text-xl font-bold">
+                                                    <h1 className="text-xl  font-bold">
                                                         {item.name}
                                                     </h1>
                                                     <Group mt={10} >
@@ -65,10 +75,52 @@ const PendaftarGelombangTPengembalian = () => {
                                                 </Paper>
                                             </Link>
                                         </Grid.Col>
-                                    ))}
-                            </Grid>
-                        )
-                    }
+                                    </Grid>
+                                ))
+                            }
+                        </Box>
+                        <Box mt={40}>
+                            <Text weight={"bolder"} fz={18}>SMK</Text>
+                            <Divider mb={20} size={"xs"} />
+                            {filterGelombangBySMK?.length < 1
+                                ? <DataKosong message='Data kosong' />
+                                : filterGelombangBySMK?.map(item => (
+                                    <Grid mt={20} key={item.id} >
+                                        <Grid.Col md={6}>
+                                            <Link
+                                                to={`${item.id}`}
+                                                className="drop-shadow-lg rounded-md no-underline text-black "
+                                            >
+                                                <Paper
+                                                    shadow="lg"
+                                                    sx={theme => ({
+                                                        backgroundColor: dark ? theme.colors.dark[8] : theme.white,
+                                                        padding: "1rem 1.5rem",
+                                                        display: "flex",
+                                                        flexDirection: "column",
+                                                        alignItems: "start",
+                                                        border: "0.0625rem solid #dee2e6",
+                                                    })}
+                                                >
+                                                    <h1 className="text-xl  font-bold">
+                                                        {item.name}
+                                                    </h1>
+                                                    <Group mt={10} >
+                                                        <HiMiniUserCircle size={30} />
+                                                        <Text >
+                                                            {item.countStudent} Pendaftar
+                                                        </Text>
+                                                    </Group>
+                                                </Paper>
+                                            </Link>
+                                        </Grid.Col>
+                                    </Grid>
+                                ))
+                            }
+                        </Box>
+                    </>
+                    {/* )
+                    } */}
                 </>
             )}
         </Tabs.Panel>

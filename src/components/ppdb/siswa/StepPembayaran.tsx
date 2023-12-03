@@ -46,6 +46,8 @@ const StepPembayaran: React.FC<Step> = ({ type = "PEMBELIAN" }) => {
     queryFn: () => getOffsetStatus(filter.stagingId, type),
     enabled: !!filter.stagingId,
   });
+  console.log("--------------STEP PEMBAYARAN----------------")
+  console.log(offset?.data)
 
   const columns = useMemo(() => {
     return [
@@ -73,6 +75,9 @@ const StepPembayaran: React.FC<Step> = ({ type = "PEMBELIAN" }) => {
   }, []);
 
   const onSubmitPayment: SubmitHandler<any> = (data) => {
+    // offset.data.registration_batch?.price
+    console.log(data)
+    
     const formData = new FormData();
     for (const [key, value] of Object.entries(data)) {
       if (key === "payment_prove") {
@@ -181,11 +186,11 @@ const StepPembayaran: React.FC<Step> = ({ type = "PEMBELIAN" }) => {
               <td>
                 {statusLoading && <Skeleton content={"Lorem Ipsum"} />}
                 {statusSuccess && (
-                    <SelectStatus
-                      type={"STATUS"}
-                      readOnly={true}
-                      value={offset.data.payment_status?.status}
-                    />
+                  <SelectStatus
+                    type={"STATUS"}
+                    readOnly={true}
+                    value={offset.data.payment_status?.status}
+                  />
                 )}
               </td>
             </tr>

@@ -5,6 +5,7 @@ export type EditAlurPayload = {
     id: number
     title: string
     content: string
+    grade: "SMP" | "SMK"
 };
 
 export const editAlur = async (payload: EditAlurPayload): Promise<ResponseType<Response>> => {

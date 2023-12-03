@@ -85,7 +85,7 @@ const StepGelombang: React.FC<Step> = ({ type = "PEMBELIAN" }) => {
   const filteringJalurByGrade = (jalurSuccess &&
     jalur && getGradeSuccess && data) && jalur?.data?.filter(item => item.grade === grade?.toUpperCase())
 
-  console.log(filteringJalurByGrade)
+  console.log(offset?.data?.offset_data)
 
   return (
     <Paper

@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import {
+  Text,
   Grid,
   Group,
   Radio,
@@ -39,7 +40,8 @@ const FormFieldBiodata = () => {
     control,
     formState: { errors },
   } = useFormContext<TFormFieldBiodata>();
-
+  console.log({ errors })
+  console.log(errors?.profile_picture?.message)
   return (
     <Stack spacing={10}>
       <Controller
@@ -74,6 +76,7 @@ const FormFieldBiodata = () => {
           },
         }}
       />
+      <Text size={"xs"} c="red">{errors?.profile_picture?.message}</Text>
       <Grid>
         <Grid.Col lg={6} sm={12}>
           <TextInput
@@ -90,6 +93,7 @@ const FormFieldBiodata = () => {
         </Grid.Col>
         <Grid.Col lg={6} sm={12}>
           <TextInput
+            disabled
             description="Nomor Whatsapp"
             label="Nomor WhatsApp"
             placeholder="Nomor Whatsapp"
@@ -152,7 +156,7 @@ const FormFieldBiodata = () => {
         </Grid.Col>
         <Grid.Col lg={6} sm={12}>
           <Controller
-            render={({ field: { onChange, value } }) => (
+            render={({ field: { onChange, value, } }) => (
               <SelectStatus
                 type={"RELIGION"}
                 readOnly={false}
@@ -171,6 +175,7 @@ const FormFieldBiodata = () => {
               },
             }}
           />
+          <Text c="red" size={"xs"}>{errors?.religion?.message}</Text>
         </Grid.Col>
         <Grid.Col lg={6} sm={12}>
           <TextInput
@@ -190,8 +195,9 @@ const FormFieldBiodata = () => {
         </Grid.Col>
         <Grid.Col lg={6} sm={12}>
           <Controller
-            render={({ field: { onChange, value } }) => (
+            render={({ field: { onChange, value }, fieldState: { error } }) => (
               <DateInput
+                error={error?.message}
                 value={value}
                 onChange={e => {
                   const date = new Date(e)

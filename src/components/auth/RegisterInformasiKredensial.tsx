@@ -1,4 +1,4 @@
-import { Button, Group, Stack, TextInput,PasswordInput } from "@mantine/core";
+import { Button, Group, Stack, TextInput, PasswordInput } from "@mantine/core";
 import { UseMutationResult } from "@tanstack/react-query";
 import { RegistrationPayload, RegistrationResponse } from "../../apis/registration";
 import { ResponseType } from "../../types/global";
@@ -43,7 +43,6 @@ const RegisterInformasiKredensial: React.FC<TRegisterInformasiKredensial> = ({
           >
             Simpan dan lanjutkan
           </Button>
-          {/* <Button onClick={() => console.log(noWhatsapp)}>Get Whatsapp</Button> */}
         </Group>
       </Stack>
     </form>

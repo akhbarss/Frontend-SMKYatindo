@@ -20,7 +20,7 @@ export type Student = {
   school_origin: "Yatindo";
   profile_picture?: File[] | string;
   status: null;
-  major: null;
+  major: string;
   staging_id: null;
   path_id: null;
   batch_id: null;

@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import {
+  Divider,
   Accordion,
   AccordionControlProps,
   ActionIcon,
@@ -44,6 +45,7 @@ const AlurPPPDB = () => {
   const [idAlur, setIdAlur] = useState(null);
   const [title, setTitle] = useState("");
   const [descAlurPPDB, setDescAlurPPDB] = useState("");
+  const [grade, setGrade] = useState("");
 
   const {
     data,
@@ -54,6 +56,8 @@ const AlurPPPDB = () => {
     queryKey: ["get_all_alur"],
     queryFn: GetAllAlurPendaftaran,
   });
+
+  console.log(data)
 
   const createAlurMutation = useMutation({
     mutationFn: createAlur,
@@ -69,10 +73,10 @@ const AlurPPPDB = () => {
 
   const submitCreateAlur = (payload: CreateAlurPayload) => {
     createAlurMutation.mutate(payload, {
-      onSuccess: (response) => {
-        console.log(response);
+      onSuccess: () => {
         toast.success("Data berhasil ditambahkan");
         setTitle("");
+        setGrade("")
         setDescAlurPPDB("");
         closeCreate();
         queryClient.invalidateQueries({ queryKey: ["get_all_alur"] });
@@ -80,10 +84,10 @@ const AlurPPPDB = () => {
       onError: (err) => {
         // @ts-ignore
         const status = err?.response?.status;
-
         if (status === 400) {
-          console.log("DATA TIDAK BOLEH KOSONG");
           toast.error("Data tidak boleh kosong");
+        } else {
+          toast.error("Gagal membuat alur")
         }
       },
     });
@@ -91,23 +95,23 @@ const AlurPPPDB = () => {
 
   const submitEditAlur = (payload: EditAlurPayload) => {
     editAlurMutation.mutate(payload, {
-      onSuccess: (response) => {
-        console.log(response);
+      onSuccess: () => {
         toast.success("Data berhasil diubah");
         setIdAlur("");
         setTitle("");
+        setGrade("")
         setDescAlurPPDB("");
         closeEdit();
         refetch();
-        // setAlurPendaftaran(data)
         queryClient.invalidateQueries({ queryKey: ["get_all_alur"] });
       },
       onError: (err) => {
         // @ts-ignore
         const status = err?.response?.status;
         if (status === 400) {
-          console.log("DATA TIDAK BOLEH KOSONG");
           toast.error("Data tidak boleh kosong");
+        } else {
+          toast.error("Gagal mengubah alur");
         }
       },
     });
@@ -115,16 +119,14 @@ const AlurPPPDB = () => {
 
   const submitDeleteAlur = (payload: DeleteAlurPayload) => {
     deleteAlurMutation.mutate(payload, {
-      onSuccess: (response) => {
-        console.log(response);
+      onSuccess: () => {
         toast.success("Data berhasil dihapus");
         closeDelete()
         refetch();
         setIdAlur(null)
         setTitle("")
       },
-      onError: (err) => {
-        console.log(err)
+      onError: () => {
         toast.error("Gagal menghapus alur pendaftaran")
       },
     });
@@ -136,6 +138,7 @@ const AlurPPPDB = () => {
     const data = {
       content: descAlurPPDB,
       title,
+      grade: grade as "SMK" | "SMP"
     };
     submitCreateAlur(data);
   };
@@ -149,6 +152,7 @@ const AlurPPPDB = () => {
       content: descAlurPPDB,
       id: idAlur,
       title: title,
+      grade: grade as "SMK" | "SMP"
     });
   }
 
@@ -259,9 +263,38 @@ const AlurPPPDB = () => {
                 )
               })
             ) : (
-              <DataKosong message="Data kosong"/>
+              <DataKosong message="Data kosong" />
             )}
           </Accordion>
+        </Box>
+
+        <Box>
+          <Text
+            weight={600}
+            sx={(theme) => ({
+              fontSize: 20,
+              [theme.fn.largerThan("sm")]: {
+                fontSize: 24,
+              },
+            })}
+          >
+            SMP
+          </Text>
+          <Divider />
+        </Box>
+        <Box>
+          <Text
+            weight={600}
+            sx={(theme) => ({
+              fontSize: 20,
+              [theme.fn.largerThan("sm")]: {
+                fontSize: 24,
+              },
+            })}
+          >
+            SMK
+          </Text>
+          <Divider />
         </Box>
 
         {/* MODAL CREATE ALUR PENDAFTARAN */}
@@ -272,6 +305,8 @@ const AlurPPPDB = () => {
           opened={openedCreate}
           setDescAlurPPDB={setDescAlurPPDB}
           setTitle={setTitle}
+          grade={grade}
+          setGrade={setGrade}
           tambahALurHandler={tambahALurHandler}
           title={title}
         />
@@ -301,6 +336,7 @@ const AlurPPPDB = () => {
           closeDelete()
           setTitle("")
           setIdAlur(null)
+          setGrade("")
         }}
       >
         <Stack>
@@ -320,6 +356,7 @@ const AlurPPPDB = () => {
               closeDelete()
               setTitle("")
               setIdAlur(null)
+              setGrade("")
             }}
           >
             Batal

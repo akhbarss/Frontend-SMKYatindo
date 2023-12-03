@@ -1,15 +1,14 @@
 import { ActionIcon, Badge, Box, Button, Divider, Group, Image, Paper, ScrollArea, Skeleton, Stack, Text, ThemeIcon, useMantineTheme } from "@mantine/core";
 import { modals } from "@mantine/modals";
-import { UseQueryResult, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { BsFileEarmarkImage } from "react-icons/bs";
 import { MdClose, MdOpenInNew } from "react-icons/md";
-import { Payment, getAllPayment } from "../../../../apis/student/getAllPayment";
-import { ResponseType } from "../../../../types/global";
-import { DarkTheme } from "../../../../utils/darkTheme";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { ConfirmPaymentPayload, confirmPayment } from "../../../../apis/student/confirmPayment";
+import { getAllPayment } from "../../../../apis/student/getAllPayment";
+import { DarkTheme } from "../../../../utils/darkTheme";
 // import { convertToFileObject } from "../../../../utils/imageUtils";
-import { useDisclosure } from "@mantine/hooks";
+import { convertToFileObject } from "../../../../utils/imageUtils";
 
 type TPembayaran = {
     // queryPayment: UseQueryResult<ResponseType<Payment[]>, Error>
@@ -18,19 +17,15 @@ type TPembayaran = {
 const Pembayaran: React.FC<TPembayaran> = () => {
     const dark = DarkTheme()
     const theme = useMantineTheme()
-    const navigate = useNavigate()
     const { userId, gelombangId } = useParams()
     const queryClient = useQueryClient()
-    const [openedKonfirmasi, { close, open }] = useDisclosure()
 
     const {
-        data: payments, isLoading: loadPayments, isFetching
+        data: payments, isFetching
     } = useQuery({
         queryKey: ["get_all_payment"],
         queryFn: () => getAllPayment({ batchId: gelombangId, userId })
     })
-    
-    console.log(payments?.data)
 
     const confirmPaymentMutation = useMutation({
         mutationFn: confirmPayment
@@ -51,31 +46,66 @@ const Pembayaran: React.FC<TPembayaran> = () => {
                 console.log("Failed : ", err)
             }
         })
-
     }
 
-    const openModalBuktiPembayaran = (imageName: string) => modals.open({
-        children: (
-            <>
-                <Box component={ScrollArea.Autosize} className='overflow-auto'>
-                    <Box className='z-50 fixed top-0 right-0 left-0' p={10}>
-                        <ActionIcon variant='light' onClick={() => modals.closeAll()} ml={"auto"}>
-                            <MdClose size={30} />
-                        </ActionIcon>
+    const openModalBuktiPembayaran = async (imageName: string) => {
+        const img = imageName && await convertToFileObject(
+            imageName
+        )
+        modals.open({
+            children: (
+                <>
+                    <Box component={ScrollArea.Autosize} className='overflow-auto'>
+                        <Box className='z-50 fixed top-0 right-0 left-0' p={10}>
+                            <ActionIcon
+                                ml={"auto"}
+                                variant='light'
+                                onClick={() => {
+                                    modals.closeAll()
+                                }}
+                            >
+                                <MdClose size={30} />
+                            </ActionIcon>
+                        </Box>
+                        {
+                            img?.length > 0 ? img.map((file, index) => {
+                                const imageUrl = URL.createObjectURL(file);
+                                return (
+                                    <Image
+                                        key={index}
+                                        src={imageUrl}
+                                        imageProps={{
+                                            onLoad: () => URL.revokeObjectURL(imageUrl),
+                                        }}
+                                    />
+                                );
+                            }) : (
+                                <Box
+                                    mt={20}
+                                    p={100}
+                                    sx={{
+                                        justifyContent: "center",
+                                        alignItems: "center"
+                                    }}
+                                >
+                                    <Text align="center" fw={"bolder"} fz={24}>Data kosong</Text>
+                                </Box>
+                            )
+                        }
+                        {/* <Image src={`http://localhost:8080/uploads/${imageName}`} /> */}
                     </Box>
-                    <Image src={`http://localhost:8080/uploads/${imageName}`} />
-                </Box>
-            </>
-        ),
-        size: "100rem",
-        styles: {
-            body: {
-                padding: 0
+                </>
+            ),
+            size: "100rem",
+            styles: {
+                body: {
+                    padding: 0
+                },
+                header: { display: "none" }
             },
-            header: { display: "none" }
-        },
-        centered: true
-    });
+            centered: true
+        })
+    }
 
     return (
         <Stack>

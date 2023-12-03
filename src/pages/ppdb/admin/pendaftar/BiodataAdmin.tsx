@@ -1,27 +1,27 @@
 import {
+    ActionIcon,
+    Box,
     Divider,
-    Styles,
-    TextInputStylesNames,
     Grid,
     Group,
+    Image,
     Paper,
-    Stack,
+    ScrollArea,
+    Styles,
     Text,
     TextInput,
+    TextInputStylesNames,
     Textarea,
-    ThemeIcon,
-    Box,
-    ScrollArea,
-    ActionIcon,
-    Image
+    ThemeIcon
 } from "@mantine/core";
-import { BsFileEarmarkImage } from "react-icons/bs";
-import { DarkTheme } from '../../../../utils/darkTheme';
-import { UseQueryResult } from "@tanstack/react-query";
-import { ResponseType } from "../../../../types/global";
-import { TStudentDetail } from "../../../../apis/student/getStudent";
 import { modals } from "@mantine/modals";
+import { UseQueryResult } from "@tanstack/react-query";
+import { BsFileEarmarkImage } from "react-icons/bs";
 import { MdClose } from "react-icons/md";
+import { TStudentDetail } from "../../../../apis/student/getStudent";
+import { ResponseType } from "../../../../types/global";
+import { DarkTheme } from '../../../../utils/darkTheme';
+import { convertToFileObject } from "../../../../utils/imageUtils";
 
 type TBiodataAdmin = {
     studentQuery: UseQueryResult<ResponseType<TStudentDetail>, Error>
@@ -32,10 +32,6 @@ const BiodataAdmin: React.FC<TBiodataAdmin> = ({ studentQuery }) => {
 
     const {
         data: student,
-        isLoading,
-        isFetching,
-        isError,
-        error
     } = studentQuery
 
     const stylesInput: Styles<TextInputStylesNames, Record<string, any>> = {
@@ -43,31 +39,64 @@ const BiodataAdmin: React.FC<TBiodataAdmin> = ({ studentQuery }) => {
         label: { userSelect: "none", fontWeight: "bold" },
     }
 
-    console.log(student?.data)
-
-
-    const openModalImage = (imageName: string) => modals.open({
-        children: (
-            <>
-                <Box component={ScrollArea.Autosize} className='overflow-auto'>
-                    <Box className='z-50 fixed top-0 right-0 left-0' p={10}>
-                        <ActionIcon variant='light' onClick={() => modals.closeAll()} ml={"auto"}>
-                            <MdClose size={30} />
-                        </ActionIcon>
+    const openModalImage = async (imageName: string) => {
+        const img = imageName && await convertToFileObject(
+            imageName
+        )
+        modals.open({
+            children: (
+                <>
+                    <Box component={ScrollArea.Autosize} className='overflow-auto'>
+                        <Box className='z-50 fixed top-0 right-0 left-0' p={10}>
+                            <ActionIcon
+                                ml={"auto"}
+                                variant='light'
+                                onClick={() => {
+                                    modals.closeAll()
+                                }}
+                            >
+                                <MdClose size={30} />
+                            </ActionIcon>
+                        </Box>
+                        {
+                            img?.length > 0 ? img.map((file, index) => {
+                                const imageUrl = URL.createObjectURL(file);
+                                return (
+                                    <Image
+                                        key={index}
+                                        src={imageUrl}
+                                        imageProps={{
+                                            onLoad: () => URL.revokeObjectURL(imageUrl),
+                                        }}
+                                    />
+                                );
+                            }) : (
+                                <Box
+                                    mt={20}
+                                    p={100}
+                                    sx={{
+                                        justifyContent: "center",
+                                        alignItems: "center"
+                                    }}
+                                >
+                                    <Text align="center" fw={"bolder"} fz={24}>Data kosong</Text>
+                                </Box>
+                            )
+                        }
+                        {/* <Image src={`http://localhost:8080/uploads/${imageName}`} /> */}
                     </Box>
-                    <Image src={`http://localhost:8080/uploads/${imageName}`} />
-                </Box>
-            </>
-        ),
-        size: "100rem",
-        styles: {
-            body: {
-                padding: 0
+                </>
+            ),
+            size: "100rem",
+            styles: {
+                body: {
+                    padding: 0
+                },
+                header: { display: "none" }
             },
-            header: { display: "none" }
-        },
-        centered: true
-    });
+            centered: true
+        })
+    }
 
     return (
         <>
@@ -113,7 +142,6 @@ const BiodataAdmin: React.FC<TBiodataAdmin> = ({ studentQuery }) => {
 
                     </Grid.Col>
 
-
                     <Grid.Col md={6}>
                         <TextInput
                             size="sm"
@@ -133,7 +161,6 @@ const BiodataAdmin: React.FC<TBiodataAdmin> = ({ studentQuery }) => {
                             value={student?.data.gender ? student?.data.gender : ""}
                             styles={stylesInput}
                         />
-
                     </Grid.Col>
 
                     <Grid.Col md={6}>
@@ -144,7 +171,6 @@ const BiodataAdmin: React.FC<TBiodataAdmin> = ({ studentQuery }) => {
                             value={student?.data.religion ? student?.data.religion : ""}
                             styles={stylesInput}
                         />
-
                     </Grid.Col>
 
                     <Grid.Col md={6}>
@@ -153,11 +179,10 @@ const BiodataAdmin: React.FC<TBiodataAdmin> = ({ studentQuery }) => {
                             readOnly
                             label="Tempat Lahir"
                             // @ts-ignore
-                            value={student?.data?.birth_place}
+                            value={student?.data?.birth_place ? student?.data?.birth_place : ""}
                             // value={student?.data.} ? student?.data.}:""
                             styles={stylesInput}
                         />
-
                     </Grid.Col>
 
                     <Grid.Col md={6} >
@@ -169,7 +194,6 @@ const BiodataAdmin: React.FC<TBiodataAdmin> = ({ studentQuery }) => {
                             value={student?.data.phone ? new Date(student?.data?.birth_date).toLocaleDateString() : ""}
                             styles={stylesInput}
                         />
-
                     </Grid.Col>
 
                     <Grid.Col span={12} >
@@ -181,7 +205,6 @@ const BiodataAdmin: React.FC<TBiodataAdmin> = ({ studentQuery }) => {
                             value={student?.data.address ? student?.data.address : ""}
                             styles={stylesInput}
                         />
-
                     </Grid.Col>
 
                     <Grid.Col span={6} >
@@ -192,7 +215,6 @@ const BiodataAdmin: React.FC<TBiodataAdmin> = ({ studentQuery }) => {
                             value={student?.data.province ? student?.data.province : ""}
                             styles={stylesInput}
                         />
-
                     </Grid.Col>
 
                     <Grid.Col span={6} >
@@ -203,7 +225,6 @@ const BiodataAdmin: React.FC<TBiodataAdmin> = ({ studentQuery }) => {
                             value={student?.data.city ? student?.data.city : ""}
                             styles={stylesInput}
                         />
-
                     </Grid.Col>
 
                     <Grid.Col span={6} >
@@ -214,7 +235,6 @@ const BiodataAdmin: React.FC<TBiodataAdmin> = ({ studentQuery }) => {
                             value={student?.data.sub_district ? student?.data.sub_district : ""}
                             styles={stylesInput}
                         />
-
                     </Grid.Col>
 
                     <Grid.Col span={6} >
@@ -225,7 +245,6 @@ const BiodataAdmin: React.FC<TBiodataAdmin> = ({ studentQuery }) => {
                             value={student?.data.district ? student?.data.district : ""}
                             styles={stylesInput}
                         />
-
                     </Grid.Col>
 
                     <Grid.Col span={6} >
@@ -236,7 +255,6 @@ const BiodataAdmin: React.FC<TBiodataAdmin> = ({ studentQuery }) => {
                             value={student?.data.postal_code ? student?.data.postal_code : ""}
                             styles={stylesInput}
                         />
-
                     </Grid.Col>
 
                     <Grid.Col span={6} >
@@ -247,7 +265,6 @@ const BiodataAdmin: React.FC<TBiodataAdmin> = ({ studentQuery }) => {
                             value={student?.data.school_origin ? student?.data.school_origin : ""}
                             styles={stylesInput}
                         />
-
                     </Grid.Col>
 
                 </Grid>
@@ -270,7 +287,6 @@ const BiodataAdmin: React.FC<TBiodataAdmin> = ({ studentQuery }) => {
                             value={student?.data.dad_name ? student?.data.dad_name : ""}
                             styles={stylesInput}
                         />
-
                     </Grid.Col>
 
                     <Grid.Col sm={6}>
@@ -281,7 +297,6 @@ const BiodataAdmin: React.FC<TBiodataAdmin> = ({ studentQuery }) => {
                             value={student?.data.mother_name ? student?.data.mother_name : ""}
                             styles={stylesInput}
                         />
-
                     </Grid.Col>
 
                     <Grid.Col sm={6}>
@@ -292,7 +307,6 @@ const BiodataAdmin: React.FC<TBiodataAdmin> = ({ studentQuery }) => {
                             value={student?.data.dad_job ? student?.data.dad_job : ""}
                             styles={stylesInput}
                         />
-
                     </Grid.Col>
 
                     <Grid.Col sm={6}>
@@ -303,7 +317,6 @@ const BiodataAdmin: React.FC<TBiodataAdmin> = ({ studentQuery }) => {
                             value={student?.data.mother_job ? student?.data.mother_job : ""}
                             styles={stylesInput}
                         />
-
                     </Grid.Col>
 
                     <Grid.Col sm={6}>
@@ -314,7 +327,6 @@ const BiodataAdmin: React.FC<TBiodataAdmin> = ({ studentQuery }) => {
                             value={student?.data.dad_phone ? student?.data.dad_phone : ""}
                             styles={stylesInput}
                         />
-
                     </Grid.Col>
 
                     <Grid.Col sm={6}>
@@ -325,7 +337,6 @@ const BiodataAdmin: React.FC<TBiodataAdmin> = ({ studentQuery }) => {
                             value={student?.data.mother_phone ? student?.data.mother_phone : ""}
                             styles={stylesInput}
                         />
-
                     </Grid.Col>
 
                     <Grid.Col sm={6}>
@@ -337,7 +348,6 @@ const BiodataAdmin: React.FC<TBiodataAdmin> = ({ studentQuery }) => {
                             value={student?.data.dad_address ? student?.data.dad_address : ""}
                             styles={stylesInput}
                         />
-
                     </Grid.Col>
 
                     <Grid.Col sm={6}>
@@ -349,7 +359,6 @@ const BiodataAdmin: React.FC<TBiodataAdmin> = ({ studentQuery }) => {
                             value={student?.data.mother_address ? student?.data.mother_address : ""}
                             styles={stylesInput}
                         />
-
                     </Grid.Col>
 
                     <Grid.Col span={12}>
@@ -360,7 +369,10 @@ const BiodataAdmin: React.FC<TBiodataAdmin> = ({ studentQuery }) => {
                             px={"lg"}
                             bg={dark ? "black" : "#E3E5FC"}
                             className="rounded-md cursor-pointer"
-                            onClick={() => openModalImage(student?.data?.family_card)}
+                            onClick={() => {
+                                openModalImage(student?.data?.family_card)
+                                // setImage(student?.data?.family_card)
+                            }}
                         >
                             <ThemeIcon radius={"100%"} color="#2A166F" size={45}>
                                 <BsFileEarmarkImage size={25} />

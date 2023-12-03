@@ -63,7 +63,7 @@
   width: 100%;
 }
 
-table {
+.table {
   width: 100%;
 }
 
@@ -72,15 +72,10 @@ table {
   width: 100%;
 }
 
-tr {
-    /* display: flex; */
-}
-
-td {
+.td {
   padding-block: 5px;
   margin-left: auto;
-  padding-left: 5px;
   text-align: left;
-  vertical-align: top; 
-  min-width: 10rem; 
+  vertical-align: top;
+  min-width: 10rem;
 }
