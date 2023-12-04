@@ -37,9 +37,8 @@ const FormFieldPembayaran = () => {
       <Controller
         rules={{ required: true }}
         render={({ field: { onChange, value } }) => {
-          console.log(value)
           return(
-          <Dropzone
+          <Dropzone 
             multiple={false}
             // @ts-ignore
             onChange={(e) => onChange(e.target.files?.[0] ?? null)}
@@ -86,9 +85,6 @@ const FormFieldPembayaran = () => {
               mt={5}
               breakpoints={[{ maxWidth: "sm", cols: 1 }]}
             >
-              {
-                JSON.stringify(value)
-              }
               {value &&
                 value.map((file, index) => {
                   const imageUrl = URL.createObjectURL(file);

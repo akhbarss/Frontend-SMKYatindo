@@ -16,13 +16,10 @@ const Header = () => {
         <MantineHeader
             height={"13vh"}
             sx={((theme: MantineTheme) => {
-                console.log()
-
                 return {
                     display: "flex",
                     alignItems: "center",
                     paddingInline: "2rem",
-                    // backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : '#171F44',
                     backgroundColor: theme.colorScheme === 'dark' ? '#171F44' : '#171F44',
                     borderBottom: '1px solid black',
                     zIndex: 100,

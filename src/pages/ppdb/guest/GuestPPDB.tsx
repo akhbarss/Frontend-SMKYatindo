@@ -109,21 +109,21 @@ const GuestPPDB = () => {
                   Yayasan Tinta Emas Indonesia, Jl. Asem Jaya No.1, RT.004/RW.005, Mustika Jaya, Kec. Mustika Jaya, Kota Bks, Jawa Barat 17158
                 </Text>
                 <Group mt={20}>
-                  <ActionIcon variant="filled" color={"indigo"} size={"lg"} component={Link} to={"https://wa.me/6281380908008?text=Halo Admin Yatindo"} target="_blank">
-                    <FaWhatsapp size={20} />
+                  <ActionIcon variant="filled" color={"indigo"} size={45} component={Link} to={"https://wa.me/6281380908008?text=Halo Admin Yatindo"} target="_blank">
+                    <FaWhatsapp size={30} />
                   </ActionIcon>
-                  <ActionIcon variant="filled" color="indigo" size={"lg"} component={Link} to={"https://www.instagram.com/smk_yatindo/"} target="_blank">
-                    <FaInstagram size={20} />
+                  <ActionIcon variant="filled" color="indigo" size={45} component={Link} to={"https://www.instagram.com/smk_yatindo/"} target="_blank">
+                    <FaInstagram size={30} />
                   </ActionIcon>
-                  <ActionIcon variant="filled" color="indigo" size={"lg"} component={Link} to={"https://youtube.com/@smp-smktintaemasyatindo9557?si=ZPPqAkG4TXplUr0g"} target="_blank">
-                    <FaYoutube size={20} />
+                  <ActionIcon variant="filled" color="indigo" size={45} component={Link} to={"https://youtube.com/@smp-smktintaemasyatindo9557?si=ZPPqAkG4TXplUr0g"} target="_blank">
+                    <FaYoutube size={30} />
                   </ActionIcon>
-                  <Button w={100} ml={20} variant="gradient" gradient={{ from: "cyan", to: "indigo", }} color="grape" component={Link} to={"/ppdb/auth/login"}>Masuk</Button>
+                  <Button w={130} h={45} ml={20} variant="gradient" gradient={{ from: "cyan", to: "indigo", }} color="grape" component={Link} to={"/ppdb/auth/login"}>Masuk</Button>
                 </Group>
               </Box>
               <Box sx={{ display: `${!lg && "none"}` }}>
                 <Card p={0} radius={"25px"}>
-                  <Image src="/smk-1.jpg" width={450} className="hover:brightness-75 transition  duration-300 ease-in-out" />
+                  <Image src="/smk-1.jpg" width={480} className="hover:brightness-75 transition  duration-300 ease-in-out" />
                 </Card>
               </Box>
             </Group>

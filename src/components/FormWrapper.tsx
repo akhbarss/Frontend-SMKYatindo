@@ -36,7 +36,6 @@ const FormWrapper = <T extends unknown>({
 
   useEffect(() => {
     if (initialValues) {
-      console.log({initialValues})
       for (const [key, value] of Object.entries(initialValues)) {
         methods.setValue(key as any, value);
       }

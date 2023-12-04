@@ -38,7 +38,6 @@ const ModalGelombang: React.FC<TModalGelombang> = ({
 }) => {
 
     function submitHandler(data: typeof formMantine.values) {
-        // console.log(data)
         actionFn(data)
     }
 

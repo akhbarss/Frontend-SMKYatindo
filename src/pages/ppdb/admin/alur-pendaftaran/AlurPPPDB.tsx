@@ -57,8 +57,6 @@ const AlurPPPDB = () => {
     queryFn: GetAllAlurPendaftaran,
   });
 
-  console.log(data)
-
   const createAlurMutation = useMutation({
     mutationFn: createAlur,
   });
@@ -206,6 +204,9 @@ const AlurPPPDB = () => {
     );
   }
 
+  const filterAlurBySMP = data?.data?.filter(alur => alur.grade === "SMP").sort((a, b) => a.id - b.id)
+  const filterAlurBySMK = data?.data?.filter(alur => alur.grade === "SMK").sort((a, b) => a.id - b.id)
+
   return (
     <Page title={"Alur Pendaftaran"}>
       <PageLabel label={"Alur Pendaftaran"} />
@@ -216,57 +217,6 @@ const AlurPPPDB = () => {
           Tambah
         </Button>
 
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "16px",
-            paddingBottom: "40px",
-          }}
-        >
-          <Accordion multiple variant="separated" chevronPosition="left">
-            {load ? <>
-              <Skeleton height={80} />
-            </> : data?.data && data?.data?.length > 0 ? (
-              data.data.sort((a, b) => a.id - b.id).map((item) => {
-                return (
-                  <Accordion.Item
-                    key={item.id}
-                    value={item.id.toString()}
-                    mb={20}
-                    sx={theme => ({
-                      boxShadow: "0 4px 10px -6px black",
-                      backgroundColor: `${dark ? theme.colors.dark[9] : "white"}`,
-                      padding: "0.5rem 0.5rem",
-                      border: "0.0625rem solid #dee2e6",
-                      '&[data-active]': {
-                        backgroundColor: dark ? theme.colors.dark[9] : "white",
-                        border: "0.0625rem solid #dee2e6",
-                      },
-                    })}
-                  >
-                    <AccordionControl
-                      propss={{
-                        id: item.id.toString(),
-                        children: <h2>{item.title}</h2>,
-                      }}
-                      data={item}
-                    />
-                    <Accordion.Panel
-                      sx={{
-                        borderTop: `1px solid ${dark ? "gray" : "#d9d9d9"}`,
-                      }}
-                    >
-                      <TiptapOutput desc={item.content} />
-                    </Accordion.Panel>
-                  </Accordion.Item>
-                )
-              })
-            ) : (
-              <DataKosong message="Data kosong" />
-            )}
-          </Accordion>
-        </Box>
 
         <Box>
           <Text
@@ -282,6 +232,63 @@ const AlurPPPDB = () => {
           </Text>
           <Divider />
         </Box>
+
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "16px",
+            paddingBottom: "40px",
+          }}
+        >
+          <Accordion multiple variant="separated" chevronPosition="left">
+            {
+              load
+                ? <Skeleton height={80} />
+                : filterAlurBySMP?.length > 0
+                  ? (
+                    filterAlurBySMP?.map((item) => {
+                      return (
+                        <Accordion.Item
+                          key={item.id}
+                          value={item.id.toString()}
+                          mb={20}
+                          sx={theme => ({
+                            boxShadow: "0 4px 10px -6px black",
+                            backgroundColor: `${dark ? theme.colors.dark[9] : "white"}`,
+                            padding: "0.5rem 0.5rem",
+                            border: "0.0625rem solid #dee2e6",
+                            '&[data-active]': {
+                              backgroundColor: dark ? theme.colors.dark[9] : "white",
+                              border: "0.0625rem solid #dee2e6",
+                            },
+                          })}
+                        >
+                          <AccordionControl
+                            propss={{
+                              id: item.id.toString(),
+                              children: <h2>{item.title}</h2>,
+                            }}
+                            data={item}
+                          />
+                          <Accordion.Panel
+                            sx={{
+                              borderTop: `1px solid ${dark ? "gray" : "#d9d9d9"}`,
+                            }}
+                          >
+                            <TiptapOutput desc={item.content} />
+                          </Accordion.Panel>
+                        </Accordion.Item>
+                      )
+                    })
+                  )
+                  :
+                  (
+                    <DataKosong message="Data kosong" />
+                  )}
+          </Accordion>
+        </Box>
+
         <Box>
           <Text
             weight={600}
@@ -295,6 +302,62 @@ const AlurPPPDB = () => {
             SMK
           </Text>
           <Divider />
+        </Box>
+
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "16px",
+            paddingBottom: "40px",
+          }}
+        >
+          <Accordion multiple variant="separated" chevronPosition="left">
+            {
+              load
+                ? <Skeleton height={80} />
+                : filterAlurBySMK?.length > 0
+                  ? (
+                    filterAlurBySMK?.map((item) => {
+                      return (
+                        <Accordion.Item
+                          key={item.id}
+                          value={item.id.toString()}
+                          mb={20}
+                          sx={theme => ({
+                            boxShadow: "0 4px 10px -6px black",
+                            backgroundColor: `${dark ? theme.colors.dark[9] : "white"}`,
+                            padding: "0.5rem 0.5rem",
+                            border: "0.0625rem solid #dee2e6",
+                            '&[data-active]': {
+                              backgroundColor: dark ? theme.colors.dark[9] : "white",
+                              border: "0.0625rem solid #dee2e6",
+                            },
+                          })}
+                        >
+                          <AccordionControl
+                            propss={{
+                              id: item.id.toString(),
+                              children: <h2>{item.title}</h2>,
+                            }}
+                            data={item}
+                          />
+                          <Accordion.Panel
+                            sx={{
+                              borderTop: `1px solid ${dark ? "gray" : "#d9d9d9"}`,
+                            }}
+                          >
+                            <TiptapOutput desc={item.content} />
+                          </Accordion.Panel>
+                        </Accordion.Item>
+                      )
+                    })
+                  )
+                  :
+                  (
+                    <DataKosong message="Data kosong" />
+                  )}
+          </Accordion>
         </Box>
 
         {/* MODAL CREATE ALUR PENDAFTARAN */}

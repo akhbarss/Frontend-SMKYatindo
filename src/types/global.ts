@@ -1,4 +1,4 @@
-import {TabsProps} from "@mantine/core"
+import { TabsProps } from "@mantine/core";
 
 export type JWT = {
   sub: string;
@@ -144,6 +144,7 @@ export type TGAdditionalPrices = {
 export type TGRegistrationPath = {
   id: number;
   name: string;
+  grade: "SMP" | "SMK";
   registrationBatches: TGRegistrationBatch[];
   generalInformations: TGGeneralInformations[];
   additionalPrices: TGAdditionalPrices[];
@@ -152,5 +153,5 @@ export type TGRegistrationPath = {
 export type TGlobalRegistrationPath = TGRegistrationPath[];
 
 export interface StyledTabsProps extends TabsProps {
-  grade: "SMP" | "SMK"
+  grade: "SMP" | "SMK";
 }

@@ -230,8 +230,7 @@ const DataTable = <T extends unknown>({
                   totalRecords={totalRecords}
                   currentSize={table.getState().pagination.pageSize}
                   onChangePageSize={(e) => {
-                    console.log(e)
-                    // table.setPageSize(Number(e.target.value));
+                    table.setPageSize(Number(e.target.value));
                   }}
                   disableFirst={!table.getCanPreviousPage()}
                   disablePrev={!table.getCanPreviousPage()}

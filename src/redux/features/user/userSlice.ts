@@ -69,8 +69,6 @@ export const userSlice = createSlice({
       (state, action: PayloadAction<User>) => {
         // (state, action: PayloadAction<any>) => {
 
-        console.log(action.payload);
-
         state.loading = false;
         state.users = action.payload;
         state.error = "";

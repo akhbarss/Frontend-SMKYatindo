@@ -26,9 +26,6 @@ const JalurPendaftaranDetailLayout: React.FC<TJalurPendaftaranDetailLayout> = ({
   const navigate = useNavigate();
   const location = useLocation();
 
-  // const { data: dataJalur, } = getAllJalurPendaftaran((grade as GetAllJalurPendaftaranPayload));
-  console.log(grade)
-
   const {
     data: dataJalur,
     // isError: isErr,
@@ -39,13 +36,9 @@ const JalurPendaftaranDetailLayout: React.FC<TJalurPendaftaranDetailLayout> = ({
     queryFn: () => getAllJalurPendaftaran((grade.toUpperCase() as GetAllJalurPendaftaranPayload))
   })
 
-  console.log(dataJalur)
   const jalur = dataJalur?.data?.find(
     (jalur) => jalur.id + "" === idJalurPendaftaran
   );
-
-  console.log(jalur)
-  // console.log(location.pathname.split("/")[6])
 
   return (
     <Page title="Detail Jalur Pendaftaran">

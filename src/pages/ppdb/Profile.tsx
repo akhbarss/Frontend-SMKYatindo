@@ -1,10 +1,10 @@
 import {
     Avatar,
-    Button,
-    Group,
     Box,
-    PasswordInput,
+    Button,
     Card,
+    Group,
+    PasswordInput,
     Stack,
     Text,
     TextInput
@@ -15,12 +15,12 @@ import {
     useForm
 } from "@mantine/form";
 import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMemo } from "react";
 import toast from 'react-hot-toast';
 import { jwtDecode } from '../../apis/alur/decodeJWT';
-import { ChangePasswordPayload, changePassword } from '../../apis/changePassword';
+import { ChangePasswordPayloadAdmin, changePasswordAdmin } from "../../apis/changePasswordAdmin";
 import Page from '../../components/Page';
 import PageLabel from '../../components/PageLabel';
-import { useMemo } from "react"
 import { useBreakPoints } from "../../utils/UseBreakpoints";
 import { formattedNameFn } from "../../utils/formattedName";
 
@@ -29,7 +29,7 @@ const color = ["teal", "violet", "blue", "pink", "green", "yellow", "red", "oran
 const Profile = () => {
     const { md } = useBreakPoints()
     const changePasswordMutation = useMutation({
-        mutationFn: changePassword
+        mutationFn: changePasswordAdmin
     })
 
     const form = useForm({
@@ -44,7 +44,6 @@ const Profile = () => {
     })
 
     const {
-        error,
         isError,
         isSuccess,
         data: user,
@@ -53,13 +52,13 @@ const Profile = () => {
         queryKey: ["session-profile"],
     });
 
-    const submitChangePassword = (payload: ChangePasswordPayload) => {
+    const submitChangePassword = (payload: ChangePasswordPayloadAdmin) => {
         changePasswordMutation.mutate(payload, {
-            onSuccess: (res) => {
+            onSuccess: () => {
                 toast.success("Ubah password berhasil!")
                 form.reset()
             },
-            onError: (err) => {
+            onError: () => {
                 toast.error("Gagal mengubah password")
             }
         })
@@ -73,7 +72,6 @@ const Profile = () => {
     const admin = isSuccess && user?.data
     const isStudent = isSuccess && user?.data.role_id.role_name === "User"
     const isAdmin = isSuccess && user?.data.role_id.role_name === "Admin"
-    // console.log(user?.data)
     const adminName = admin?.fullname
     const studentName = student?.name
 

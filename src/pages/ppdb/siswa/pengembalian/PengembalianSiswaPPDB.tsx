@@ -66,7 +66,7 @@ function StyledTabs(props: StyledTabsProps) {
   );
 }
 
-const card = [
+const cardSMK = [
   {
     index: 1,
     label: "Pilih Jalur PPDB",
@@ -93,6 +93,38 @@ const card = [
   },
   {
     index: 5,
+    label: "Cetak Kartu Peserta",
+    icon: FaAddressCard,
+    content: <StepCetakKartu type={"PENGEMBALIAN"} />,
+  },
+];
+const cardSMP = [
+  {
+    index: 1,
+    label: "Pilih Jalur PPDB",
+    icon: RiGitMergeFill,
+    content: <StepGelombang type={"PENGEMBALIAN"} />,
+  },
+  {
+    index: 2,
+    label: "Transaksi Pengembalian",
+    icon: FaMoneyCheckDollar,
+    content: <StepPembayaran type={"PENGEMBALIAN"} />,
+  },
+  {
+    index: 3,
+    label: "Isi Biodata",
+    icon: IoPerson,
+    content: <StepBiodata type={"PENGEMBALIAN"} />,
+  },
+  // {
+  //   index: 4,
+  //   label: "Pilih Jurusan",
+  //   icon: FaRegFlag,
+  //   content: <StepPilihJurusan type={"PENGEMBALIAN"} />,
+  // },
+  {
+    index: 4,
     label: "Cetak Kartu Peserta",
     icon: FaAddressCard,
     content: <StepCetakKartu type={"PENGEMBALIAN"} />,
@@ -175,17 +207,32 @@ const PengembalianSiswaPPDB = () => {
               <>
                 {isSuccess && (
                   <ScrollArea w={"100%"} display={"flex"} type="always" sx={{ display: 'block' }} offsetScrollbars >
-                    <TabList
-                      activeTabIndex={+filter.step}
-                      card={stagingCardFilterByGrade?.map((staging, index) => {
-                        return {
-                          label: staging.name,
-                          index: staging.index,
-                          icon: card[index]?.icon,
-                          is_done: staging.is_done === 1,
-                        };
-                      })}
-                    />
+                    {
+                      grade == "SMP" && <TabList
+                        activeTabIndex={+filter.step}
+                        card={stagingCardFilterByGrade?.map((staging, index) => {
+                          return {
+                            label: staging.name,
+                            index: staging.index,
+                            icon: cardSMP[index]?.icon,
+                            is_done: staging.is_done === 1,
+                          };
+                        })}
+                      />
+                    }
+                    {
+                      grade == "SMK" && <TabList
+                        activeTabIndex={+filter.step}
+                        card={stagingCardFilterByGrade?.map((staging, index) => {
+                          return {
+                            label: staging.name,
+                            index: staging.index,
+                            icon: cardSMK[index]?.icon,
+                            is_done: staging.is_done === 1,
+                          };
+                        })}
+                      />
+                    }
                   </ScrollArea>
                 )}
               </>
@@ -197,7 +244,8 @@ const PengembalianSiswaPPDB = () => {
           {
             isFetching ? <Skeleton mt={40} width={"100%"} height={200} visible /> : (
               <>
-                {card.find((c) => c.index === filter.step)?.content}
+                {grade == "SMP" && cardSMP.find((c) => c.index === filter.step)?.content}
+                {grade == "SMK" && cardSMK.find((c) => c.index === filter.step)?.content}
               </>
             )
           }

@@ -1,4 +1,21 @@
-import { ActionIcon, Badge, Box, Button, Divider, Group, Image, Paper, ScrollArea, Skeleton, Stack, Text, ThemeIcon, useMantineTheme } from "@mantine/core";
+import {
+    ActionIcon,
+    Badge,
+    Box,
+    Button,
+    Divider,
+    Group,
+    Image,
+    Paper,
+    ScrollArea,
+    Skeleton,
+    Stack,
+    Text,
+    ThemeIcon,
+    useMantineTheme,
+    Modal,
+
+} from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { BsFileEarmarkImage } from "react-icons/bs";
@@ -7,18 +24,16 @@ import { Link, useParams } from "react-router-dom";
 import { ConfirmPaymentPayload, confirmPayment } from "../../../../apis/student/confirmPayment";
 import { getAllPayment } from "../../../../apis/student/getAllPayment";
 import { DarkTheme } from "../../../../utils/darkTheme";
-// import { convertToFileObject } from "../../../../utils/imageUtils";
 import { convertToFileObject } from "../../../../utils/imageUtils";
+import { useDisclosure } from "@mantine/hooks";
+import toast from "react-hot-toast";
 
-type TPembayaran = {
-    // queryPayment: UseQueryResult<ResponseType<Payment[]>, Error>
-}
-
-const Pembayaran: React.FC<TPembayaran> = () => {
+const Pembayaran = () => {
     const dark = DarkTheme()
     const theme = useMantineTheme()
     const { userId, gelombangId } = useParams()
     const queryClient = useQueryClient()
+    const [opened, { open, close }] = useDisclosure()
 
     const {
         data: payments, isFetching
@@ -34,16 +49,16 @@ const Pembayaran: React.FC<TPembayaran> = () => {
     const submitConfirmPayment = (payload: ConfirmPaymentPayload) => {
         confirmPaymentMutation.mutate(payload, {
             onSuccess: (res) => {
-                console.log("Succes : ", res)
                 queryClient.invalidateQueries({
                     queryKey: ["get_all_payment"]
                 })
                 queryClient.invalidateQueries({
                     queryKey: ["get_student"]
                 })
+                toast.success("Success")
             },
             onError: (err) => {
-                console.log("Failed : ", err)
+                toast.error("Gagal mengkonfirmasi data")
             }
         })
     }
@@ -196,9 +211,17 @@ const Pembayaran: React.FC<TPembayaran> = () => {
                                                             payment.status === "WAITING_PAYMENT" && (
                                                                 <Button
                                                                     onClick={() => {
-                                                                        submitConfirmPayment({
-                                                                            payment_id: payment.id,
-                                                                            student_id: +userId
+                                                                        modals.openConfirmModal({
+                                                                            title: "Konfirmasi Pembayaran",
+                                                                            children: "Anda yakin ingin mengkonfirmasi pembayaran ini?",
+                                                                            onConfirm: () => {
+                                                                                submitConfirmPayment({
+                                                                                    payment_id: payment.id,
+                                                                                    student_id: +userId
+                                                                                })
+                                                                            },
+                                                                            onCancel: () => console.log("cancel"),
+                                                                            labels: { cancel: "Batal", confirm: "Konfirmasi" }
                                                                         })
                                                                         // `${import.meta.env.VITE_BASE_BACKEND_URL}/${fileName}`
                                                                     }}
@@ -224,6 +247,16 @@ const Pembayaran: React.FC<TPembayaran> = () => {
                         </>
                     )
             }
+
+
+            <Modal
+                opened={opened}
+                onClose={() => close()}
+
+            >
+
+
+            </Modal>
 
         </Stack>
     )

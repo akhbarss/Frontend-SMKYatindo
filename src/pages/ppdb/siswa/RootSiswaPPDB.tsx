@@ -34,9 +34,6 @@ const RootAdminPPDB = () => {
 
     useEffect(() => {
         const activeLink = menuSiswa.find(menu => pathUrl === menu.path)
-        console.log("activeLink :", activeLink)
-
-
         if (activeLink) {
             setActive(activeLink.label)
         }

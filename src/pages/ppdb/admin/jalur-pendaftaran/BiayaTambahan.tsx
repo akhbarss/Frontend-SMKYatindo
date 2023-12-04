@@ -82,9 +82,7 @@ const BiayaTambahan = () => {
 
   const submitCreateBiayaTambahan = (payload: CreateBiayaTambahanPayload) => {
     createBiayaTambahanMutation.mutate(payload, {
-      onSuccess: (response) => {
-        console.log("Success");
-        console.log(response);
+      onSuccess: () => {
         closeCreate();
         toast.success("Data berhasil dtambahkan");
         form.reset()
@@ -94,46 +92,42 @@ const BiayaTambahan = () => {
         // @ts-ignore
         const status = err?.response?.status;
         if (status === 400) {
-          console.log("DATA TIDAK BOLEH KOSONG");
           toast.error("Data tidak boleh kosong");
         }
+        toast.error("Gagal menambah data");
       },
     });
   };
 
   const submitDeleteBiayaTambahan = (payload: DeleteBiayaTambahanPayload) => {
     deleteBiayaTambahanMutation.mutate(payload, {
-      onSuccess: (response) => {
-        console.log(response);
+      onSuccess: () => {
         closeDelete()
         toast.success("Data berhasil dihapus");
         queryClient.invalidateQueries({ queryKey: ["get_all_biaya_tambahan"] });
         form.reset()
       },
-      onError: (err) => {
-        console.log("FAILED");
-        console.log(err);
+      onError: () => {
+        toast.error("Gagal mengubah data");
       },
     });
   };
 
   const submitEditBiayaTambahan = (payload: EditBiayaTambahanPayload) => {
     editBiayaTambahanMutation.mutate(payload, {
-      onSuccess: (response) => {
-        console.log(response);
+      onSuccess: () => {
         closeEdit();
         toast.success("Data berhasil diubah");
         form.reset()
         queryClient.invalidateQueries({ queryKey: ["get_all_biaya_tambahan"] });
       },
       onError: (err) => {
-        console.log(err);
         // @ts-ignore
         const status = err?.response?.status;
         if (status === 400) {
-          console.log("DATA TIDAK BOLEH KOSONG");
           toast.error("Data tidak boleh kosong");
         }
+        toast.error("Gagal mengubah data");
       },
     });
   };

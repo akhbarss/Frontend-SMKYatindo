@@ -58,7 +58,6 @@ const Keterangan = () => {
     const submitCreateKeterangan = (payload: CreateKeteranganPayload) => {
         createKeteranganMutation.mutate(payload, {
             onSuccess: (response) => {
-                console.log(response);
                 setName("");
                 setDescription("");
                 closeCreate();
@@ -69,7 +68,6 @@ const Keterangan = () => {
                 // @ts-ignore
                 const status = err?.response?.status;
                 if (status === 400) {
-                    console.log("DATA TIDAK BOLEH KOSONG");
                     toast.error("Data tidak boleh kosong");
                 }
             },
@@ -79,7 +77,6 @@ const Keterangan = () => {
     const submitDeleteAlur = (payload: DeleteKeteranganPayload) => {
         deleteKeteranganMutation.mutate(payload, {
             onSuccess: (response) => {
-                console.log(response);
                 setName("")
                 setIdKeterangan(null)
                 toast.success("Data berhasil dihapus");
@@ -87,7 +84,6 @@ const Keterangan = () => {
                 closeDelete()
             },
             onError: (err) => {
-                console.log(err);
             },
         });
     };
@@ -95,7 +91,6 @@ const Keterangan = () => {
     const submitEditKeterangan = (payload: EditKeteranganPayload) => {
         editKeteranganMutation.mutate(payload, {
             onSuccess: (response) => {
-                console.log(response);
                 setIdKeterangan(null)
                 setName("");
                 setDescription("");
@@ -107,7 +102,6 @@ const Keterangan = () => {
                 // @ts-ignore
                 const status = err?.response?.status;
                 if (status === 400) {
-                    console.log("DATA TIDAK BOLEH KOSONG");
                     toast.error("Data tidak boleh kosong");
                 }
             },

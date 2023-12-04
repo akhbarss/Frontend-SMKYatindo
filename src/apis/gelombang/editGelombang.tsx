@@ -57,8 +57,6 @@ export const editGelombang = async (payload: EditGelombangPayload): Promise<Resp
         batchCode
     }
 
-    console.log(data)
-
     const response = await axios.patch("/v1/admin/registration-batch/update?id=" + id, data);
 
     return response.data;

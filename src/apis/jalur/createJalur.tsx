@@ -25,8 +25,6 @@ export const createJalur = async (payload: CreateJalurPayload): Promise<Response
 
     const data: CreateJalurRequest = payload
 
-    console.log(data)
-
     const response = await axios.post("/v1/admin/registration-paths/post-multi", data);
 
     return response.data;

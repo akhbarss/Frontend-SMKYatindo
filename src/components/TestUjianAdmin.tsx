@@ -76,16 +76,14 @@ const TestUjianAdmin: React.FC<TypeTestUjianAdmin> = ({ idGelombang }) => {
 
     function submitCreateTesUjian(payload: CreateTesUjianPayload) {
         createTesUjianMutation.mutate(payload, {
-            onSuccess: (res) => {
-                console.log(res)
+            onSuccess: () => {
                 refetch()
                 toast.success("Data berhasil ditambahkan")
                 closeCreateTestUjian()
                 formTesUjian.reset()
             },
-            onError: (err) => {
+            onError: () => {
                 toast.error("Data gagal ditambahkan")
-                console.log(err)
             }
         })
     }
@@ -103,15 +101,13 @@ const TestUjianAdmin: React.FC<TypeTestUjianAdmin> = ({ idGelombang }) => {
 
     function submitEditTesUjian(payload: EditTesUjianPayload) {
         editTesUjianMutation.mutate(payload, {
-            onSuccess: (res) => {
-                console.log(res)
+            onSuccess: () => {
                 refetch()
                 closeEditTestUjian()
                 toast.success("Data berhasil diubah")
                 formTesUjian.reset()
             },
-            onError: (err) => {
-                console.log(err)
+            onError: () => {
                 toast.error("Data gagal diubah")
             }
         })
@@ -122,7 +118,6 @@ const TestUjianAdmin: React.FC<TypeTestUjianAdmin> = ({ idGelombang }) => {
             id,
             link,
             title: nama,
-            // for_major: "TAV",
             endDate: waktuDitutup,
             startDate: waktuDibuka,
         })
@@ -131,15 +126,13 @@ const TestUjianAdmin: React.FC<TypeTestUjianAdmin> = ({ idGelombang }) => {
 
     function submitDeleteTesUjian(payload: DeleteTesUjianPayload) {
         deleteTesUjianMutation.mutate(payload, {
-            onSuccess: (res) => {
-                console.log(res)
+            onSuccess: () => {
                 refetch()
                 toast.success("Data berhasil dihapus")
                 closeDeleteTestUjian()
                 formTesUjian.reset()
             },
-            onError: (err) => {
-                console.log(err)
+            onError: () => {
                 toast.error("Gagal menghapus data")
             }
         })
@@ -212,7 +205,6 @@ const TestUjianAdmin: React.FC<TypeTestUjianAdmin> = ({ idGelombang }) => {
                                         })
                                     }}
                                     onClose={() => {
-                                        // formTesUjian.reset()
                                         console.log("close")
                                     }}
                                 >

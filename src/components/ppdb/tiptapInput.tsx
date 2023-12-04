@@ -62,8 +62,6 @@ const TiptapInput = ({
 
     const padding = { padding: "0.6rem 0.3rem" }
 
-    const descAlur = `<ol><li><p>calon siswa baru mengakses laman PPDB online</p><p></p></li><li><p>Klik daftar / masuk</p><p></p></li><li><p>Pilih gelombang PPDB</p></li></ol><p></p><ol start="4"><li><p>Lakukan pembelian formulir pendaftaran dan unggah bukti pembayaran<br></p></li><li><p>Pilih jurusan<br></p></li><li><p>Cetak kartu peserta<br></p></li><li><p>Wa admin 081380908008</p></li></ol>`
-
     const editorInput = useEditor({
         extensions: [
             StarterKit,
@@ -74,27 +72,16 @@ const TiptapInput = ({
             Highlight,
             TextAlign.configure({ types: ['heading', 'paragraph'] }),
         ],
-        // content: desc,
         content: desc,
         onUpdate: ({ editor, }) => {
             const html = editor.getHTML()
             setDesc(html)
-            // console.log(html)
         },
-        // editable: false
     });
 
     return (
         <RichTextEditor
             editor={editorInput}
-
-        // style={style}
-        // styles={{
-        //     content: {
-        //         minHeight: "20vh",
-        //         padding: ""
-        //     }
-        // }}
         >
             <RichTextEditor.Toolbar sticky stickyOffset={0}>
                 <RichTextEditor.ControlsGroup >

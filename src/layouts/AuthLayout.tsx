@@ -17,7 +17,6 @@ const AuthLayout: React.FC<TAuthLayout> = ({ children }) => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    console.log(pathname)
     if (pathname === "/ppdb/auth" || pathname === "/ppdb/auth/") {
       navigate("/ppdb/auth/login")
     }

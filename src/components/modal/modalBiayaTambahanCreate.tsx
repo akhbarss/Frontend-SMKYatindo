@@ -134,9 +134,6 @@ const ModalBiayaTambahanCreate: React.FC<TModalBiayaTambahanCreate> = ({
             onClose={close}
             opened={opened}
             title={titleModal}
-            onAccept={{
-                acceptFn: () => console.log("submit"),
-            }}
             withFooter={false}
         >
             <form onSubmit={form.onSubmit(e => onSubmit(e))}>

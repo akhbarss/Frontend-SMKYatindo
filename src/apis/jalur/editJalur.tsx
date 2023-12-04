@@ -38,8 +38,6 @@ export const editJalur = async (payload: EditJalurPayload): Promise<ResponseType
         type
     }
 
-    console.log(data)
-
     const response = await axios.patch("/v1/admin/registration-paths/update?id=" + id, data);
 
     return response.data;
