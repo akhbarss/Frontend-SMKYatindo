@@ -36,7 +36,6 @@ const ModalTestUjian: React.FC<TModalTestUjian> = ({
     title
 }) => {
     const submitHandler = (data) => {
-        console.log(data)
         actionFn(data)
     }
 

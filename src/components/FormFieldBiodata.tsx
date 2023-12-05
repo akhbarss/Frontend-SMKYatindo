@@ -40,8 +40,6 @@ const FormFieldBiodata = () => {
     control,
     formState: { errors },
   } = useFormContext<TFormFieldBiodata>();
-  console.log({ errors })
-  console.log(errors?.profile_picture?.message)
   return (
     <Stack spacing={10}>
       <Controller

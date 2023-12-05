@@ -61,33 +61,6 @@ const StyledTabs = (props: StyledTabsProps) => {
   );
 };
 
-const card = [
-  {
-    index: 1,
-    label: "Pilih Gelombang PPDB",
-    icon: RiGitMergeFill,
-    content: <StepGelombang type="PEMBELIAN" />,
-  },
-  {
-    index: 2,
-    label: "Transaksi Pembelian",
-    icon: FaMoneyCheckDollar,
-    content: <StepPembayaran />,
-  },
-  {
-    index: 3,
-    label: "Pilih Jurusan",
-    icon: FaRegFlag,
-    content: <StepPilihJurusan />,
-  },
-  {
-    index: 4,
-    label: "Cetak Kartu Peserta",
-    icon: FaAddressCard,
-    content: <StepCetakKartu />,
-  },
-];
-
 const PembelianSiswaPPDB = () => {
   const [filter, setFilter] = useState<{ step: number; stagingId?: number }>({
     step: 1,
@@ -111,6 +84,55 @@ const PembelianSiswaPPDB = () => {
     queryFn: jwtDecode,
     queryKey: ["session"],
   });
+
+  console.log(user?.data?.student)
+  // const grade = user?.data?.student
+  const cardSMK = [
+    {
+      index: 1,
+      label: "Pilih Gelombang PPDB",
+      icon: RiGitMergeFill,
+      content: <StepGelombang type="PEMBELIAN" />,
+    },
+    {
+      index: 2,
+      label: "Transaksi Pembelian",
+      icon: FaMoneyCheckDollar,
+      content: <StepPembayaran />,
+    },
+    {
+      index: 3,
+      label: "Pilih Jurusan",
+      icon: FaRegFlag,
+      content: <StepPilihJurusan />,
+    },
+    {
+      index: 4,
+      label: "Cetak Kartu Peserta",
+      icon: FaAddressCard,
+      content: <StepCetakKartu />,
+    },
+  ];
+  const cardSMP = [
+    {
+      index: 1,
+      label: "Pilih Gelombang PPDB",
+      icon: RiGitMergeFill,
+      content: <StepGelombang type="PEMBELIAN" />,
+    },
+    {
+      index: 2,
+      label: "Transaksi Pembelian",
+      icon: FaMoneyCheckDollar,
+      content: <StepPembayaran />,
+    },
+    {
+      index: 3,
+      label: "Cetak Kartu Peserta",
+      icon: FaAddressCard,
+      content: <StepCetakKartu />,
+    },
+  ];
 
   const queryFilter = useFilter(filter);
   const location = useLocation();
@@ -152,7 +174,6 @@ const PembelianSiswaPPDB = () => {
     navigate(`${location.pathname}?${generateQueryparam(toFilter)}`);
   };
 
-  // console.log(stagings?.data)
   const stagingCardFilterByGrade = isSuccess && stagings?.data?.filter(staging => staging?.grade === grade)
 
   return (
@@ -170,18 +191,38 @@ const PembelianSiswaPPDB = () => {
                 <>
                   {isSuccess && (
                     <ScrollArea w={"100%"} display={"flex"} type="always" sx={{ display: 'block' }} offsetScrollbars >
+                      {
+                        grade === "SMK" && (
 
-                      <TabList
-                        activeTabIndex={+filter.step}
-                        card={stagingCardFilterByGrade.map((staging, index) => {
-                          return {
-                            label: staging.name,
-                            index: staging.index,
-                            icon: card[index]?.icon,
-                            is_done: staging.is_done === 1,
-                          };
-                        })}
-                      />
+                          <TabList
+                            activeTabIndex={+filter.step}
+                            card={stagingCardFilterByGrade.map((staging, index) => {
+                              return {
+                                label: staging.name,
+                                index: staging.index,
+                                icon: cardSMK[index]?.icon,
+                                is_done: staging.is_done === 1,
+                              };
+                            })}
+                          />
+                        )
+                      }
+                      {
+                        grade === "SMP" && (
+
+                          <TabList
+                            activeTabIndex={+filter.step}
+                            card={stagingCardFilterByGrade.map((staging, index) => {
+                              return {
+                                label: staging.name,
+                                index: staging.index,
+                                icon: cardSMP[index]?.icon,
+                                is_done: staging.is_done === 1,
+                              };
+                            })}
+                          />
+                        )
+                      }
 
                     </ScrollArea>
                   )}
@@ -194,7 +235,8 @@ const PembelianSiswaPPDB = () => {
             {
               isFetching ? <Skeleton mt={40} width={"100%"} height={200} visible /> : (
                 <>
-                  {card.find((c) => c.index === filter.step)?.content}
+                  {grade == "SMK" && cardSMK.find((c) => c.index === filter.step)?.content}
+                  {grade == "SMP" && cardSMP.find((c) => c.index === filter.step)?.content}
                 </>
               )
             }

@@ -6,6 +6,7 @@ export type AlurPendaftaran = {
   id: number;
   content: string;
   title: string;
+  grade: "SMP" | "SMK"
 };
 
 export const GetAllAlurPendaftaran = async (): Promise<

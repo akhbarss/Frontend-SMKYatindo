@@ -15,6 +15,7 @@ import {
 } from "@mantine/core";
 import { DateInput } from '@mantine/dates';
 import { Dropzone, FileWithPath, IMAGE_MIME_TYPE } from "@mantine/dropzone";
+import toast from "react-hot-toast";
 
 type TBiodata = {
     setActiveTabIndex: React.Dispatch<React.SetStateAction<number>>
@@ -83,16 +84,16 @@ const Biodata: React.FC<TBiodata> = ({ setActiveTabIndex }) => {
                 onReject={(files) => {
                     const fileToLarge = files[0].errors[0].code == "file-too-large"
                     if (fileToLarge) {
-                        console.log("Size gambar terlalu besar dari 5MB")
+                        toast.error("Size gambar terlalu besar dari 5MB")
                     }
-                    console.log('rejected files',)
+
+                    toast.error("rejected files")
                 }}
                 maxSize={3 * 1024 ** 2}
                 onDrop={(file) => {
                     if (file[0].path) {
                         setFiles(files)
                     }
-                    console.log(file[0].path)
                 }}
                 openRef={openRef}
                 accept={IMAGE_MIME_TYPE}

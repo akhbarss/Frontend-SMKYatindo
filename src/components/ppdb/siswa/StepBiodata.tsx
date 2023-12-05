@@ -30,15 +30,10 @@ const StepBiodata: React.FC<Step> = ({ type = "PENGEMBALIAN" }) => {
     mutationFn: updateBio,
   });
 
-  console.log("============STEP BIODATAAA============")
-  console.log({ initialValues })
-
   const { data } = useQuery({
     queryKey: ["get-session-from-bio"],
     queryFn: jwtDecode
   })
-
-  console.log({ data })
 
   const onSubmitBiodata: SubmitHandler<
     TFormFieldBiodata & TFormFieldInformasiOrangTua
@@ -80,9 +75,6 @@ const StepBiodata: React.FC<Step> = ({ type = "PENGEMBALIAN" }) => {
   const setValues = async () => {
     const student: Student = offset.data?.student;
     setLoad(true)
-    // const profile_picture = typeof student?.profile_picture === "string"
-    console.log({ student })
-    // console.log("TIPE DATA :", profile_picture, typeof student?.profile_picture, student?.profile_picture)
     if (typeof student?.profile_picture === "string") {
       try {
         student.profile_picture = await convertToFileObject(
@@ -96,8 +88,6 @@ const StepBiodata: React.FC<Step> = ({ type = "PENGEMBALIAN" }) => {
         student.family_card = await convertToFileObject(
           student.family_card as string
         )
-        console.log("-----------SEBELUM INIT-----------")
-        console.log({ student })
         setInit({
           ...student,
           birth_date: student.birth_date
@@ -110,7 +100,6 @@ const StepBiodata: React.FC<Step> = ({ type = "PENGEMBALIAN" }) => {
         toast.error("Gagal mengambil data biodata, silakan coba lagi")
       }
     } else if (student?.profile_picture === null) {
-      console.log("null")
       setInit({
         ...student,
         birth_date: student.birth_date
@@ -131,8 +120,6 @@ const StepBiodata: React.FC<Step> = ({ type = "PENGEMBALIAN" }) => {
         student.family_card = await convertToFileObject(
           student.family_card[0].name as string
         )
-        console.log("-----------SEBELUM INIT-----------")
-        console.log({ student })
         setInit({
           ...student,
           birth_date: student.birth_date

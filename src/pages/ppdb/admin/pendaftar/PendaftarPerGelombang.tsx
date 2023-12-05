@@ -28,6 +28,7 @@ import PageLabel from "../../../../components/PageLabel";
 import { Status } from "../../../../types/global";
 import { DarkTheme } from "../../../../utils/darkTheme";
 import { statusValue } from "../../../../utils/statusValue";
+import toast from "react-hot-toast";
 
 const PendaftarPerGelombang = () => {
     const dark = DarkTheme()
@@ -51,9 +52,9 @@ const PendaftarPerGelombang = () => {
     const sampleSubmitData = (batchId: string) => {
         exportExcelMutation.mutate(batchId, {
             onSuccess: (response) => {
-                console.log(response)
+                toast.success("Success")
             },
-            onError: (err) => console.log(err),
+            onError: (err) => toast.error("Gagal"),
         });
     };
 
@@ -100,8 +101,6 @@ const PendaftarPerGelombang = () => {
     const filteredSearchStudent = filteredStatusStudent?.filter(student => {
         return student.nama.toLowerCase().includes(searchName.toLowerCase())
     })
-
-    console.log({student})
 
     type Student = {
         id: number;

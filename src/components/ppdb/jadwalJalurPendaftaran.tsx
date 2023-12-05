@@ -11,7 +11,7 @@ const JadwalJalurPendaftaran = ({
     const { xs } = useBreakPoints()
     const theme = useMantineTheme()
     const dark = theme.colorScheme === 'dark'
-
+console.log({batch})
     return (
         <Box
             id='jadwal'

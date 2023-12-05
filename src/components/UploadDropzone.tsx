@@ -29,7 +29,6 @@ const UploadDropzone: React.FC<TUploadDropzone> = ({
 }) => {
   const theme = useMantineTheme();
   const dark = DarkTheme()
-  console.log({ valueDropZone: value })
   return (
     <Dropzone
       multiple={multiple}

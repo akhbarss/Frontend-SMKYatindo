@@ -22,6 +22,7 @@ export type Student = {
   status: null;
   major: string;
   staging_id: null;
+  pathName: string;
   path_id: null;
   batch_id: null;
   registrationBatch: null;

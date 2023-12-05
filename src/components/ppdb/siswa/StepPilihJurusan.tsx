@@ -58,10 +58,10 @@ const StepPilihJurusan: React.FC<Step> = ({ type = "PEMBELIAN" }) => {
     }
   };
   useEffect(() => {
-    console.log("=====================OFFSETTTTTT=====================")
-    console.log(offset?.data)
-    if (statusSuccess && offset.data.offset_data) {
-      setChoosed(offset.data.offset_data?.majors?.split(","));
+    if (statusSuccess && offset.data.current_state?.majors) {
+      setChoosed(offset.data.current_state?.majors?.split(","));
+    } else if (offset?.data?.major) {
+      // setChoosed(offset?.data?.major?.name);
     }
     // if (statusSuccess && offset.data?.current_state) {
     //   setChoosed(offset.data.current_state?.majors?.split(","));
@@ -97,7 +97,7 @@ const StepPilihJurusan: React.FC<Step> = ({ type = "PEMBELIAN" }) => {
               <MultiSelectStatus
                 type={"MAJOR"}
                 readOnly={Boolean(
-                  statusSuccess && offset.data.offset_data?.majors
+                  statusSuccess && offset.data.current_state?.majors ? offset.data.current_state?.majors : undefined
                   // statusSuccess && offset.data.current_state?.majors
                 )}
                 onChange={(value) => setChoosed(value)}
@@ -107,7 +107,7 @@ const StepPilihJurusan: React.FC<Step> = ({ type = "PEMBELIAN" }) => {
               <SelectStatus
                 type={"MAJOR"}
                 readOnly={Boolean(
-                  statusSuccess && offset.data.offset_data?.majors
+                  statusSuccess && offset.data.current_state?.majors ? offset.data.current_state?.majors : undefined
                   // statusSuccess && offset.data.current_state?.majors
                 )}
                 onChange={(value) => setChoosed(value)}
@@ -120,7 +120,7 @@ const StepPilihJurusan: React.FC<Step> = ({ type = "PEMBELIAN" }) => {
               onClick={onChooseMajor}
               loading={chooseMutation.isPending}
               disabled={Boolean(
-                statusSuccess && offset.data.offset_data?.majors
+                statusSuccess && offset.data.current_state?.majors
                 // statusSuccess && offset.data.current_state?.majors
               )}
             >

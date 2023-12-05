@@ -34,8 +34,6 @@ const CollapseNavbarPortal = ({
 
     const navigate = useNavigate()
 
-    console.log(menus)
-    
     return (
         <Collapse
             in={opened}
@@ -142,8 +140,6 @@ const CollapseCustomPPDB = ({
     const theme = useMantineTheme()
     const dark = theme.colorScheme === 'dark'
 
-    // console.log(menus)
-    
     return (
         <React.Fragment>
             {

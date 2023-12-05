@@ -11,7 +11,6 @@ export const exportExcel = async (batchId: string): Promise<
         .then(response => {
 
             const contentDisposition = response.headers['Content-Disposition'];
-            console.log(contentDisposition)
 
             const url = window.URL.createObjectURL(new Blob([response.data]))
             const link = document.createElement('a');

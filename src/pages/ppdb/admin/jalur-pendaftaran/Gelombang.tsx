@@ -91,8 +91,6 @@ const Gelombang = () => {
     queryFn: () => getGelombangByIdJalur(idJalurPendaftaran)
   })
 
-  console.log({ idJalurPendaftaran, gelombang })
-
   const createGelombangMutation = useMutation({ mutationFn: createGelombang })
   const editGelombangMutation = useMutation({ mutationFn: editGelombang })
   const deleteGelombangMutation = useMutation({ mutationFn: deleteGelombang })
@@ -100,16 +98,14 @@ const Gelombang = () => {
   // CREATE
   function submitCreateGelombang(payload: CreateGelombangPayload) {
     createGelombangMutation.mutate(payload, {
-      onSuccess: (res) => {
-        console.log("SUCCESS : ", res)
+      onSuccess: () => {
         refetch()
         closeCreate()
         formGelombang.reset()
         toast.success("Data berhasil ditambahkan")
       },
-      onError: (error) => {
+      onError: () => {
         toast.error("Data gagal ditambahkan")
-        console.log("FAILED : ", error)
       },
     })
   }
@@ -117,15 +113,13 @@ const Gelombang = () => {
   // EDIT
   function submitEditGelombang(payload: EditGelombangPayload) {
     editGelombangMutation.mutate(payload, {
-      onSuccess: (res) => {
-        console.log("SUCCESS : ", res)
+      onSuccess: () => {
         closeEdit()
         refetch()
         formGelombang.reset()
         toast.success("Data berhasil diubah")
       },
-      onError: (error) => {
-        console.log("FAILED : ", error)
+      onError: () => {
         toast.error("Data gagal diubah")
       },
     })
@@ -134,15 +128,13 @@ const Gelombang = () => {
   // DELETE
   function submitDeleteGelombang(payload: DeleteGelombangPayload) {
     deleteGelombangMutation.mutate(payload, {
-      onSuccess: (res) => {
-        console.log("SUCCESS : ", res)
+      onSuccess: () => {
         closeDelete()
         refetch()
         toast.success("Data berhasil dihapus")
       },
-      onError: (error) => {
+      onError: () => {
         toast.error("Data gagal dihapus")
-        console.log("FAILED : ", error)
       },
     })
   }

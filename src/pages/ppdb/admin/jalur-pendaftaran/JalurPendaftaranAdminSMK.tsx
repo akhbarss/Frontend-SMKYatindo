@@ -81,16 +81,14 @@ const JalurPendaftaranAdminSMK = () => {
 
     function submitCreateJalur(payload: CreateJalurPayload) {
         createJalurMutation.mutate(payload, {
-            onSuccess: (response) => {
+            onSuccess: () => {
                 refetch()
-                console.log(response)
                 closeCreate()
                 toast.success("Data berhasil ditambahkan")
                 formCreateMantine.reset()
             },
-            onError: (error) => {
+            onError: () => {
                 toast.error("Data gagal ditambahkan")
-                console.log(error)
             },
         })
     }
@@ -98,7 +96,6 @@ const JalurPendaftaranAdminSMK = () => {
     function submitEditJalur(payload: EditJalurPayload) {
         editJalurMutation.mutate(payload, {
             onSuccess: (response) => {
-                console.log(response)
                 formCreateMantine.reset()
                 closeEdit()
                 refetch()
@@ -106,7 +103,6 @@ const JalurPendaftaranAdminSMK = () => {
             },
             onError: (error) => {
                 toast.error("Data gagal diubah")
-                console.log(error)
             },
         })
     }
@@ -121,7 +117,6 @@ const JalurPendaftaranAdminSMK = () => {
             },
             onError: (error) => {
                 toast.error("Data gagal dihapus")
-                console.log(error)
             },
         })
     }
@@ -152,7 +147,7 @@ const JalurPendaftaranAdminSMK = () => {
             type: datas.tipeJalur as TipeJalur
         })
     }
-console.log(dataJalur)
+
     const contentJalurBackend = dataJalur && dataJalur?.data?.length > 0 ? dataJalur?.data?.sort((a,b) => a.id - b.id)?.map(item => {
         const {
             end_date,
@@ -215,7 +210,6 @@ console.log(dataJalur)
                         size={40}
                         radius={100}
                         onClick={() => {
-                            console.log(item)
                             openEdit()
                             formCreateMantine.setValues({
                                 id,

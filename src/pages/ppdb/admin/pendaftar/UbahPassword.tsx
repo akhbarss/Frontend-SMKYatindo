@@ -10,12 +10,14 @@ import {
 import { useMutation } from '@tanstack/react-query'
 import { useForm } from '@mantine/form'
 import { isNotEmpty, matchesField } from '@mantine/form'
-import { ChangePasswordPayload, changePassword } from '../../../../apis/changePassword'
+import { ChangePasswordPayloadStudent, changePasswordStudent } from '../../../../apis/changePasswordStudent'
 import toast from "react-hot-toast"
+import { useParams } from "react-router-dom"
 
 const UbahPassword = () => {
+    const { userId } = useParams()
     const changePasswordMutation = useMutation({
-        mutationFn: changePassword
+        mutationFn: changePasswordStudent
     })
 
     const form = useForm({
@@ -29,7 +31,7 @@ const UbahPassword = () => {
         }
     })
 
-    const submitChangePassword = (payload: ChangePasswordPayload) => {
+    const submitChangePassword = (payload: ChangePasswordPayloadStudent) => {
         changePasswordMutation.mutate(payload, {
             onSuccess: (res) => {
                 toast.success("Ubah password berhasil!")
@@ -42,7 +44,7 @@ const UbahPassword = () => {
     }
 
     const submitHandler = (data: typeof form.values) => {
-        submitChangePassword({ password: data.password, id: "null" })
+        submitChangePassword({ password: data.password, id: parseInt(userId) })
     }
 
     return (

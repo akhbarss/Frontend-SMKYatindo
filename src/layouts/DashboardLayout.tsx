@@ -33,8 +33,6 @@ const DashboardLayout: React.FC<TDashboard> = ({ children }) => {
   });
 
   useEffect(() => {
-    console.log("------------------FIRST APP------------------")
-    console.log("STATUS : ",user?.data)
     if (isError) {
       toast.error("Error saat mengambil data sesi");
     }

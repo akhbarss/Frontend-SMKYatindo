@@ -65,8 +65,6 @@ const JalurPendaftaranAdminSMP = () => {
         queryFn: () => getAllJalurPendaftaran("SMP")
     })
 
-    // console.log(dataJalur.)
-
     const createJalurMutation = useMutation({
         mutationFn: createJalur
     })
@@ -85,14 +83,12 @@ const JalurPendaftaranAdminSMP = () => {
         createJalurMutation.mutate(payload, {
             onSuccess: (response) => {
                 refetch()
-                console.log(response)
                 closeCreate()
                 toast.success("Data berhasil ditambahkan")
                 formCreateMantine.reset()
             },
             onError: (error) => {
                 toast.error("Data gagal ditambahkan")
-                console.log(error)
             },
         })
     }
@@ -100,7 +96,6 @@ const JalurPendaftaranAdminSMP = () => {
     function submitEditJalur(payload: EditJalurPayload) {
         editJalurMutation.mutate(payload, {
             onSuccess: (response) => {
-                console.log(response)
                 formCreateMantine.reset()
                 closeEdit()
                 refetch()
@@ -108,7 +103,6 @@ const JalurPendaftaranAdminSMP = () => {
             },
             onError: (error) => {
                 toast.error("Data gagal diubah")
-                console.log(error)
             },
         })
     }
@@ -123,7 +117,6 @@ const JalurPendaftaranAdminSMP = () => {
             },
             onError: (error) => {
                 toast.error("Data gagal dihapus")
-                console.log(error)
             },
         })
     }
@@ -217,7 +210,6 @@ const JalurPendaftaranAdminSMP = () => {
                         size={40}
                         radius={100}
                         onClick={() => {
-                            console.log(item)
                             openEdit()
                             formCreateMantine.setValues({
                                 id,

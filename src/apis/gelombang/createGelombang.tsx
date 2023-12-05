@@ -38,8 +38,6 @@ export const createGelombang = async (payload: CreateGelombangPayload): Promise<
     } = payload
     const data: CreateGelombangRequest = { ...payloadCreate, path_id: idJalur }
 
-    console.log(data)
-
     const response = await axios.post("/v1/admin/registration-batch/post", data);
     return response.data;
 };
