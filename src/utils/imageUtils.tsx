@@ -21,7 +21,7 @@ export const convertToFileObject = async (
 ): Promise<File[]> => {
   console.log({fileName})
   const dataUrl = await toDataUrl(
-    `${import.meta.env.VITE_BASE_BACKEND_URL}/uploads/${fileName}`
+    `${import.meta.env.VITE_BASE_BACKEND_URL}uploads/${fileName}`
   );
   return [dataUrlToFile(dataUrl, fileName)];
 };
