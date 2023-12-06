@@ -85,7 +85,6 @@ const PembelianSiswaPPDB = () => {
     queryKey: ["session"],
   });
 
-  console.log(user?.data?.student)
   // const grade = user?.data?.student
   const cardSMK = [
     {
@@ -196,7 +195,7 @@ const PembelianSiswaPPDB = () => {
 
                           <TabList
                             activeTabIndex={+filter.step}
-                            card={stagingCardFilterByGrade.map((staging, index) => {
+                            card={stagingCardFilterByGrade?.map((staging, index) => {
                               return {
                                 label: staging.name,
                                 index: staging.index,
@@ -212,7 +211,7 @@ const PembelianSiswaPPDB = () => {
 
                           <TabList
                             activeTabIndex={+filter.step}
-                            card={stagingCardFilterByGrade.map((staging, index) => {
+                            card={stagingCardFilterByGrade?.map((staging, index) => {
                               return {
                                 label: staging.name,
                                 index: staging.index,
