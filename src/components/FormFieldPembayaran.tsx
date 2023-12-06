@@ -86,7 +86,7 @@ const FormFieldPembayaran = () => {
               breakpoints={[{ maxWidth: "sm", cols: 1 }]}
             >
               {value &&
-                value.map((file, index) => {
+                value?.map((file, index) => {
                   const imageUrl = URL.createObjectURL(file);
                   return (
                     <Image
