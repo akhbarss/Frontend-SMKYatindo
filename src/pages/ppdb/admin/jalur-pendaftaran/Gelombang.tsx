@@ -104,7 +104,12 @@ const Gelombang = () => {
         formGelombang.reset()
         toast.success("Data berhasil ditambahkan")
       },
-      onError: () => {
+      onError: (error) => {
+        const errMsg = error?.response?.data?.messages
+        if (errMsg) {
+          toast.error(errMsg)
+          return
+        }
         toast.error("Data gagal ditambahkan")
       },
     })
@@ -119,7 +124,12 @@ const Gelombang = () => {
         formGelombang.reset()
         toast.success("Data berhasil diubah")
       },
-      onError: () => {
+      onError: (error) => {
+        const errMsg = error?.response?.data?.messages
+        if (errMsg) {
+          toast.error(errMsg)
+          return
+        }
         toast.error("Data gagal diubah")
       },
     })
@@ -133,7 +143,12 @@ const Gelombang = () => {
         refetch()
         toast.success("Data berhasil dihapus")
       },
-      onError: () => {
+      onError: (error) => {
+        const errMsg = error?.response?.data?.messages
+        if (errMsg) {
+          toast.error(errMsg)
+          return
+        }
         toast.error("Data gagal dihapus")
       },
     })
@@ -202,7 +217,7 @@ const Gelombang = () => {
   }
 
   function AccordionControl({ propss, data }: { propss: AccordionControlProps, data: TGelombang }): JSX.Element {
-    
+
     return (
       <Center>
         <Accordion.Control {...propss} className="font-bold" />

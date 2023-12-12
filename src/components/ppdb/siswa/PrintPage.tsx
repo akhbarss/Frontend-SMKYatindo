@@ -219,7 +219,7 @@ const PrintPage = () => {
             // setLoad(false)
             toast.error("Gagal mmengambil foto profil")
         }
-    }, [])
+    }, [img])
 
     useEffect((() => {
         if (img) {
@@ -228,10 +228,10 @@ const PrintPage = () => {
     }), [img, setValue])
 
     const majors = {
-        TJKT: "Teknik Jaringan dan Komputer Telekomunikasi",
-        TKR: "Teknik Kendaraan Ringan",
-        TAV: "Teknik Audio dan Video",
-        AKL: "Akuntansi Keuangan Lembaga"
+        TJKT: "Teknik Jaringan Komputer dan Telekomunikasi",
+        TKR: "Teknik Otomotif",
+        TAV: "Teknik Elektronika",
+        AKL: "Akuntansi dan Keuangan Lembaga"
     }
 
     function displaySelectedMajors(major: string) {

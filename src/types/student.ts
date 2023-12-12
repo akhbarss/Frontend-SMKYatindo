@@ -34,6 +34,9 @@ export type Student = {
   dad_job: string;
   dad_address: string;
 
+  isPurchasingDone: boolean |null;
+  isReturningDone : boolean |null;
+
   mother_name: string;
   mother_phone: string;
   mother_job: string;

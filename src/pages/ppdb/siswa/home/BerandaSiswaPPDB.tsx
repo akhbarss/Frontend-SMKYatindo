@@ -8,16 +8,15 @@ import {
   Text,
   Timeline,
 } from "@mantine/core";
-import { useEffect, useState } from "react";
-import { FaCheck } from "react-icons/fa";
-import { TbAlertCircleFilled } from "react-icons/tb";
-import { useBreakPoints } from "../../../../utils/UseBreakpoints";
-import Page from "../../../../components/Page";
-import { jwtDecode } from "../../../../apis/alur/decodeJWT";
 import { useQuery } from "@tanstack/react-query";
-import { GetAllAlurPendaftaran } from "../../../../apis/alur/getAlur";
-import TiptapOutput from "../../../../components/ppdb/tiptapOutput";
+import { useEffect, useState } from "react";
+import { TbAlertCircleFilled } from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "../../../../apis/alur/decodeJWT";
+import { GetAllAlurPendaftaran } from "../../../../apis/alur/getAlur";
+import Page from "../../../../components/Page";
+import TiptapOutput from "../../../../components/ppdb/tiptapOutput";
+import { useBreakPoints } from "../../../../utils/UseBreakpoints";
 import { gradesUtils } from "../../../../utils/gradesUtils";
 
 const BerandaSiswaPPDB = () => {
@@ -86,7 +85,7 @@ const BerandaSiswaPPDB = () => {
               ? user?.data?.student?.name || user?.data?.fullname
               : "-"}
             . <br />
-            Calon Siswa {grade === "SMK" && "SMK"} {grade === "SMP" && "SMP"} Yayasan Tinta Emas Indonesia
+            Calon Siswa {grade === "SMK" && "SMK"} {grade === "SMP" && "SMP"}  Tinta Emas Indonesia
           </Text>
           <img
             src="/svg/icon-home.svg"

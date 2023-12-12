@@ -39,6 +39,9 @@ const ModalAlurEdit: React.FC<TModalAlurEdit> = ({
     grade,
     setGrade
 }) => {
+    
+    console.log({ grade })
+    
     return (
         <ModalAlur
             size='70rem'

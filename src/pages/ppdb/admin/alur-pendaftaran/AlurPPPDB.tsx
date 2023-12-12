@@ -45,7 +45,7 @@ const AlurPPPDB = () => {
   const [idAlur, setIdAlur] = useState(null);
   const [title, setTitle] = useState("");
   const [descAlurPPDB, setDescAlurPPDB] = useState("");
-  const [grade, setGrade] = useState("");
+  const [grade, setGrade] = useState<"SMP" | "SMP" | string>("");
 
   const {
     data,
@@ -161,6 +161,7 @@ const AlurPPPDB = () => {
     propss: AccordionControlProps;
     data: AlurPendaftaran;
   }): JSX.Element {
+    console.log({data})
     return (
       <Center>
         <Accordion.Control {...propss} className="font-bold" />
@@ -180,9 +181,10 @@ const AlurPPPDB = () => {
               setIdAlur(data.id);
               setTitle(data.title);
               setDescAlurPPDB(data.content);
+              setGrade(data.grade)
               openEdit();
             }}
-          >
+            >
             <AiFillEdit size={20} />
           </ActionIcon>
 
@@ -193,6 +195,7 @@ const AlurPPPDB = () => {
             radius={100}
             onClick={() => {
               openDelete()
+              setGrade(data.grade)
               setTitle(data.title)
               setIdAlur(data.id)
             }}
@@ -216,7 +219,6 @@ const AlurPPPDB = () => {
         <Button onClick={openCreate}>
           Tambah
         </Button>
-
 
         <Box>
           <Text
@@ -376,6 +378,8 @@ const AlurPPPDB = () => {
 
         {/* MODAL CREATE EDIT PENDAFTARAN */}
         <ModalAlurEdit
+          grade={grade}
+          setGrade={setGrade}
           opened={openedEdit}
           close={closeEdit}
           title={title}
