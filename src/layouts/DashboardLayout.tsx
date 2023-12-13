@@ -32,7 +32,9 @@ const DashboardLayout: React.FC<TDashboard> = ({ children }) => {
     queryKey: ["session"],
   });
 
+  
   useEffect(() => {
+    console.log({user})
     if (isError) {
       toast.error("Error saat mengambil data sesi");
     }

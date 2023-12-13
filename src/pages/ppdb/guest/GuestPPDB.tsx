@@ -23,7 +23,7 @@ import Ppdb from "../../../components/ppdb/ppdb";
 import { useBreakPoints } from "../../../utils/UseBreakpoints";
 
 const GuestPPDB = () => {
-  const { md, xs, lg } = useBreakPoints();
+  const { md, xs, lg, sm } = useBreakPoints();
   const theme = useMantineTheme();
   const dark = theme.colorScheme === "dark";
 
@@ -52,7 +52,7 @@ const GuestPPDB = () => {
           border: "none"
         }}
       >
-        <Group spacing={`${md ? "md" : "xs"}`} className="max-lg:mx-auto">
+        <Group spacing={`${md ? "md" : "xs"}`} >
           <img src="/logo-yatindo-hd.png" alt="Yatindo" className="w-[47px]" />
           <Box >
             <Text weight={"bold"} lineClamp={1} color="white">
@@ -60,7 +60,7 @@ const GuestPPDB = () => {
             </Text>
           </Box>
         </Group>
-        <>
+        {/* <> */}
           {md ? (
             <>
               <Group mr={20}>
@@ -80,7 +80,19 @@ const GuestPPDB = () => {
               </Group>
             </>
           ) : ""}
-        </>
+
+          <Button
+            size="md"
+            ml={20}
+            variant="gradient"
+            gradient={{ from: "cyan", to: "indigo", }}
+            color="grape"
+            component={Link}
+            to={"/ppdb/auth/login"}
+          >
+            Masuk
+          </Button>
+        {/* </> */}
       </MantineHeader>
 
       <Paper className="style-box bg-gray-100 parralax ">
@@ -118,7 +130,6 @@ const GuestPPDB = () => {
                   <ActionIcon variant="filled" color="indigo" size={45} component={Link} to={"https://youtube.com/@smp-smktintaemasyatindo9557?si=ZPPqAkG4TXplUr0g"} target="_blank">
                     <FaYoutube size={30} />
                   </ActionIcon>
-                  <Button w={130} h={45} ml={20} variant="gradient" gradient={{ from: "cyan", to: "indigo", }} color="grape" component={Link} to={"/ppdb/auth/login"}>Masuk</Button>
                 </Group>
               </Box>
               <Box sx={{ display: `${!lg && "none"}` }}>

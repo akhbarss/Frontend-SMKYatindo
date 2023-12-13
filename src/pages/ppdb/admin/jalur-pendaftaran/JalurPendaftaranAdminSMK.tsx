@@ -87,7 +87,12 @@ const JalurPendaftaranAdminSMK = () => {
                 toast.success("Data berhasil ditambahkan")
                 formCreateMantine.reset()
             },
-            onError: () => {
+            onError: (error) => {
+                const errMsg = error?.response?.data?.messages
+                if (errMsg) {
+                    toast.error(errMsg)
+                    return
+                }
                 toast.error("Data gagal ditambahkan")
             },
         })
@@ -102,6 +107,11 @@ const JalurPendaftaranAdminSMK = () => {
                 toast.success("Data berhasil diubah")
             },
             onError: (error) => {
+                const errMsg = error?.response?.data?.messages
+                if (errMsg) {
+                    toast.error(errMsg)
+                    return
+                }
                 toast.error("Data gagal diubah")
             },
         })
@@ -116,6 +126,11 @@ const JalurPendaftaranAdminSMK = () => {
                 refetch()
             },
             onError: (error) => {
+                const errMsg = error?.response?.data?.messages
+                if (errMsg) {
+                    toast.error(errMsg)
+                    return
+                }
                 toast.error("Data gagal dihapus")
             },
         })
@@ -148,7 +163,7 @@ const JalurPendaftaranAdminSMK = () => {
         })
     }
 
-    const contentJalurBackend = dataJalur && dataJalur?.data?.length > 0 ? dataJalur?.data?.sort((a,b) => a.id - b.id)?.map(item => {
+    const contentJalurBackend = dataJalur && dataJalur?.data?.length > 0 ? dataJalur?.data?.sort((a, b) => a.id - b.id)?.map(item => {
         const {
             end_date,
             id,
@@ -246,7 +261,7 @@ const JalurPendaftaranAdminSMK = () => {
             </Box>
         )
     }) : (
-        <DataKosong message="Data kosong"/>
+        <DataKosong message="Data kosong" />
     )
 
     return (

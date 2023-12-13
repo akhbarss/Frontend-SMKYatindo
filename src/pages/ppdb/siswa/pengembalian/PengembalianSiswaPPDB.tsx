@@ -1,4 +1,4 @@
-import { Divider, ScrollArea, Skeleton, Stack, Tabs } from "@mantine/core";
+import { Divider, ScrollArea, Skeleton, Stack, Tabs, Text } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { FaAddressCard, FaRegFlag } from "react-icons/fa";
@@ -160,6 +160,8 @@ const PengembalianSiswaPPDB = () => {
   const navigate = useNavigate();
   const grade = user?.data?.student?.grade
 
+  console.log({ user })
+
   useEffect(() => {
     setFilter(
       queryFilter?.initialValues as { step: number; stagingId?: number }
@@ -201,55 +203,65 @@ const PengembalianSiswaPPDB = () => {
     <Page title={"Pengembalian"}>
       <PageLabel label={"Pengembalian"} />
       <Stack className={"style-box max-w-[100rem] mx-auto"}>
-        <StyledTabs value={`${filter.step}`} onTabChange={toStep} grade={grade}>
-          {
-            isFetching ? <Skeleton mt={40} width={"100%"} height={200} visible /> : (
-              <>
-                {isSuccess && (
-                  <ScrollArea w={"100%"} display={"flex"} type="always" sx={{ display: 'block' }} offsetScrollbars >
-                    {
-                      grade == "SMP" && <TabList
-                        activeTabIndex={+filter.step}
-                        card={stagingCardFilterByGrade?.map((staging, index) => {
-                          return {
-                            label: staging.name,
-                            index: staging.index,
-                            icon: cardSMP[index]?.icon,
-                            is_done: staging.is_done === 1,
-                          };
-                        })}
-                      />
-                    }
-                    {
-                      grade == "SMK" && <TabList
-                        activeTabIndex={+filter.step}
-                        card={stagingCardFilterByGrade?.map((staging, index) => {
-                          return {
-                            label: staging.name,
-                            index: staging.index,
-                            icon: cardSMK[index]?.icon,
-                            is_done: staging.is_done === 1,
-                          };
-                        })}
-                      />
-                    }
-                  </ScrollArea>
-                )}
-              </>
-            )
-          }
+        {
+          user?.data?.student?.isPurchasingDone ?
+            (
+              <StyledTabs value={`${filter.step}`} onTabChange={toStep} grade={grade}>
+                {
+                  isFetching ? <Skeleton mt={40} width={"100%"} height={200} visible /> : (
+                    <>
+                      {isSuccess && (
+                        <ScrollArea w={"100%"} display={"flex"} type="always" sx={{ display: 'block' }} offsetScrollbars >
+                          {
+                            grade == "SMP" && <TabList
+                              activeTabIndex={+filter.step}
+                              card={stagingCardFilterByGrade?.map((staging, index) => {
+                                return {
+                                  label: staging.name,
+                                  index: staging.index,
+                                  icon: cardSMP[index]?.icon,
+                                  is_done: staging.is_done === 1,
+                                };
+                              })}
+                            />
+                          }
+                          {
+                            grade == "SMK" && <TabList
+                              activeTabIndex={+filter.step}
+                              card={stagingCardFilterByGrade?.map((staging, index) => {
+                                return {
+                                  label: staging.name,
+                                  index: staging.index,
+                                  icon: cardSMK[index]?.icon,
+                                  is_done: staging.is_done === 1,
+                                };
+                              })}
+                            />
+                          }
+                        </ScrollArea>
+                      )}
+                    </>
+                  )
+                }
 
-          <Divider my={20} />
+                <Divider my={20} />
 
-          {
-            isFetching ? <Skeleton mt={40} width={"100%"} height={200} visible /> : (
+                {
+                  isFetching ? <Skeleton mt={40} width={"100%"} height={200} visible /> : (
+                    <>
+                      {grade == "SMP" && cardSMP.find((c) => c.index === filter.step)?.content}
+                      {grade == "SMK" && cardSMK.find((c) => c.index === filter.step)?.content}
+                    </>
+                  )
+                }
+              </StyledTabs>
+            ) : (
               <>
-                {grade == "SMP" && cardSMP.find((c) => c.index === filter.step)?.content}
-                {grade == "SMK" && cardSMK.find((c) => c.index === filter.step)?.content}
+                <Text mt={40} align="center" maw={450} mx={'auto'}>
+                  Anda belum melakukan menyelesaikan step pembelian, mohon selesaikan step pembelian dahulu
+                </Text>
               </>
-            )
-          }
-        </StyledTabs>
+            )}
       </Stack>
     </Page>
   );

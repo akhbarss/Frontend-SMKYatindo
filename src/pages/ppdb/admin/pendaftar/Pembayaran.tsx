@@ -6,6 +6,7 @@ import {
     Divider,
     Group,
     Image,
+    Modal,
     Paper,
     ScrollArea,
     Skeleton,
@@ -13,11 +14,11 @@ import {
     Text,
     ThemeIcon,
     useMantineTheme,
-    Modal,
-
 } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 import { modals } from "@mantine/modals";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 import { BsFileEarmarkImage } from "react-icons/bs";
 import { MdClose, MdOpenInNew } from "react-icons/md";
 import { Link, useParams } from "react-router-dom";
@@ -25,8 +26,6 @@ import { ConfirmPaymentPayload, confirmPayment } from "../../../../apis/student/
 import { getAllPayment } from "../../../../apis/student/getAllPayment";
 import { DarkTheme } from "../../../../utils/darkTheme";
 import { convertToFileObject } from "../../../../utils/imageUtils";
-import { useDisclosure } from "@mantine/hooks";
-import toast from "react-hot-toast";
 
 const Pembayaran = () => {
     const dark = DarkTheme()
@@ -125,15 +124,12 @@ const Pembayaran = () => {
     return (
         <Stack>
             {
-                isFetching ? (
-                    <>
-                        <Skeleton height={130} />
-                    </>
-                )
+                isFetching ? (<Skeleton height={130} />)
                     : (
                         <>
                             {
                                 payments?.data.length > 0 ? payments?.data?.map(payment => {
+                                    console.log({payment}, payment.status)
                                     const formatter = new Intl.NumberFormat('id-ID', {
                                         style: 'currency',
                                         currency: 'IDR'
@@ -192,7 +188,7 @@ const Pembayaran = () => {
                                                     {/* OPEN IMAGE IN NEW TAB */}
                                                     <ActionIcon
                                                         component={Link}
-                                                        to={`${import.meta.env.VITE_BACKEND_URL_PUBLIC || "http://localhost:8080"}/uploads/${nameImage}`}
+                                                        to={`${import.meta.env.VITE_DOMAIN}/uploads/${nameImage}`}
                                                         variant="filled"
                                                         color="#2A166F"
                                                         size={50}
@@ -206,7 +202,7 @@ const Pembayaran = () => {
                                                 <Group grow>
                                                     <Text>Sabtu, 04 November 2023</Text>
                                                     <Group position="right">
-                                                        {payment.status === "PAYMENT_CONFIRMED" && <Button color="red">Batalkan Konfirmasi</Button>}
+                                                        {/* {payment.status === "PAYMENT_CONFIRMED" && <Button color="red">Batalkan Konfirmasi</Button>} */}
                                                         {
                                                             payment.status === "WAITING_PAYMENT" && (
                                                                 <Button
@@ -223,9 +219,7 @@ const Pembayaran = () => {
                                                                             onCancel: () => console.log("cancel"),
                                                                             labels: { cancel: "Batal", confirm: "Konfirmasi" }
                                                                         })
-                                                                        // `${import.meta.env.VITE_BASE_BACKEND_URL}/${fileName}`
                                                                     }}
-
                                                                 >
                                                                     Konfirmasi
                                                                 </Button>

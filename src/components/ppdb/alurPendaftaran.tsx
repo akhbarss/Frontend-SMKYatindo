@@ -52,6 +52,14 @@ const AlurPendaftaran = () => {
                   width: "3.5rem",
                   height: "3.5rem",
                 },
+                separator: {
+                  backgroundColor: "white"
+                },
+                verticalSeparatorActive: {
+                  // backgroundColor: "white"
+                },
+
+
                 stepIcon: {
                   border: "none",
                   // backgroundColor: `${dark ? "#291872" : "#020731"}`,
@@ -66,7 +74,7 @@ const AlurPendaftaran = () => {
                   boxShadow: `5px 5px 10px -5px ${dark ? "#291872" : "black"}`,
                 },
                 verticalSeparator: {
-                  borderLeft: `2px solid ${dark ? "#291872" : "#020731"}`,
+                  borderLeft: `2px solid ${dark ? "#291872" : "#291872"}`,
                   position: "absolute",
                   top: "calc(3.5rem + calc(2rem / 2))",
                   left: "calc(3.5rem / 2)",
@@ -75,7 +83,7 @@ const AlurPendaftaran = () => {
                   flex: 1,
                 },
                 step: {
-                  display: "flex",
+                  // display: "flex",
                   width: "100%",
                   gap: xs ? "2rem" : "",
                 },

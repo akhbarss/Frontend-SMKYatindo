@@ -1,5 +1,6 @@
 import {
     ActionIcon,
+    Modal,
     Badge,
     Box,
     Button,
@@ -29,12 +30,24 @@ import { Status } from "../../../../types/global";
 import { DarkTheme } from "../../../../utils/darkTheme";
 import { statusValue } from "../../../../utils/statusValue";
 import toast from "react-hot-toast";
+import { useDisclosure } from "@mantine/hooks";
+import { deleteStudentFromBatch } from "../../../../apis/student/deleteStudentFromBatch";
+
+type Student = {
+    id: number;
+    nama: string;
+    noWa: string;
+    tanggalMendaftar: number;
+    status: Status
+}
 
 const PendaftarPerGelombang = () => {
     const dark = DarkTheme()
     const { gelombangId } = useParams()
     const [searchName, setSearchName] = useState("")
     const { tipeGelombang } = useParams()
+    const [openedModal, { close: closeModal, open: openModal }] = useDisclosure()
+    const [pendaftar, setPenndaftar] = useState<{ id: number | null, name: string } | null>(null);
 
     const {
         data: totalPendaftar,
@@ -47,7 +60,9 @@ const PendaftarPerGelombang = () => {
     const exportExcelMutation = useMutation({
         mutationFn: exportExcel
     })
-
+    const deleteStudentFromBatchMutation = useMutation({
+        mutationFn: deleteStudentFromBatch
+    })
 
     const sampleSubmitData = (batchId: string) => {
         exportExcelMutation.mutate(batchId, {
@@ -76,6 +91,15 @@ const PendaftarPerGelombang = () => {
         queryFn: () => getGelombangById(gelombangId)
     })
 
+    const deleteStudentFromBatchHandler = () => {
+        if (pendaftar.id) {
+            deleteStudentFromBatchMutation.mutate(pendaftar.id, {
+                onSuccess: res => console.log(res),
+                onError: err => console.log({ err })
+            })
+        }
+    }
+
     const totalData = student?.data?.totalElements
     const totalPages = student?.data?.totalPages
     const students: {
@@ -101,14 +125,6 @@ const PendaftarPerGelombang = () => {
     const filteredSearchStudent = filteredStatusStudent?.filter(student => {
         return student.nama.toLowerCase().includes(searchName.toLowerCase())
     })
-
-    type Student = {
-        id: number;
-        nama: string;
-        noWa: string;
-        tanggalMendaftar: number;
-        status: Status
-    }
 
     const columnHelper = createColumnHelper<Student>()
 
@@ -172,12 +188,18 @@ const PendaftarPerGelombang = () => {
         columnHelper.display({
             id: 'Aksi',
             cell: (info) => {
-                const userId = info.row.original.id
+                const pendaftar = info.row.original
+
                 return (
                     <ActionIcon
                         color="red"
                         variant="filled"
-                        onClick={() => console.log(userId)}
+                        onClick={() => {
+                            if (pendaftar?.id && pendaftar?.nama) {
+                                openModal()
+                                setPenndaftar({ id: pendaftar?.id, name: pendaftar?.nama })
+                            }
+                        }}
                     >
                         <IconTrash />
                     </ActionIcon>
@@ -275,9 +297,37 @@ const PendaftarPerGelombang = () => {
                             />
                         )
                     }
-
                 </Paper>
             </Stack>
+            <Modal
+                centered
+                closeOnClickOutside={false}
+                closeOnEscape={false}
+                withCloseButton={false}
+                opened={openedModal}
+                onClose={() => {
+                    closeModal()
+                    setPenndaftar(null)
+                }}
+                title={<Text fz={25} fw={600}>Hapus Pendaftar</Text>}
+            >
+                <Stack>
+                    <Text>Anda yakin ingin menghapus pendaftar {pendaftar?.name}</Text>
+                    <Group position="right" >
+                        <Button variant="outline" onClick={closeModal}>
+                            Batal
+                        </Button>
+                        <Button
+                            color="red"
+                            type="button"
+                            loading={deleteStudentFromBatchMutation.status === "pending"}
+                            onClick={() => deleteStudentFromBatchHandler()}
+                        >
+                            Hapus
+                        </Button>
+                    </Group>
+                </Stack>
+            </Modal>
         </Page>
     )
 }
