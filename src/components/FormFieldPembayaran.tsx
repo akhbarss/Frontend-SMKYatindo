@@ -37,79 +37,84 @@ const FormFieldPembayaran = () => {
       <Controller
         rules={{ required: true }}
         render={({ field: { onChange, value } }) => {
-          return(
-          <Dropzone 
-            multiple={false}
-            // @ts-ignore
-            onChange={(e) => onChange(e.target.files?.[0] ?? null)}
-            onReject={(files) => {
-              const fileToLarge = files[0].errors[0].code == "file-too-large";
-              if (fileToLarge) {
-                toast.error("Size gambar terlalu besar dari 5MB");
-              }
-            }}
-            maxSize={3 * 1024 ** 2}
-            accept={IMAGE_MIME_TYPE}
-            onDrop={(droppedFiles) => {
-              onChange(droppedFiles);
-            }}
-          >
-            <Group
-              position="center"
-              spacing="xl"
-              style={{ minHeight: rem(220), pointerEvents: "none" }}
+          return (
+            <Dropzone
+              multiple={false}
+              // @ts-ignore
+              onChange={(e) => onChange(e.target.files?.[0] ?? null)}
+              onReject={(files) => {
+                const fileToLarge = files[0].errors[0].code == "file-too-large";
+                if (fileToLarge) {
+                  toast.error("Size gambar terlalu besar dari 5MB");
+                }
+              }}
+              maxSize={3 * 1024 ** 2}
+              accept={IMAGE_MIME_TYPE}
+              onDrop={(droppedFiles) => {
+                onChange(droppedFiles);
+              }}
             >
-              <Dropzone.Accept>
-                <FaUpload
-                  size="3.2rem"
-                  color={
-                    theme.colors[theme.primaryColor][
-                    theme.colorScheme === "dark" ? 4 : 6
-                    ]
-                  }
-                />
-              </Dropzone.Accept>
-              <Dropzone.Reject>
-                <ImCross
-                  size="3.2rem"
-                  color={theme.colors.red[theme.colorScheme === "dark" ? 4 : 6]}
-                />
-              </Dropzone.Reject>
-              <Dropzone.Idle>
-                <HiPhoto size="3.2rem" />
-              </Dropzone.Idle>
-              <Text size="">Upload Bukti Bayar, Max : 5MB</Text>
-            </Group>
-            <SimpleGrid
-              cols={4}
-              mt={5}
-              breakpoints={[{ maxWidth: "sm", cols: 1 }]}
-            >
-              {value &&
-                value?.map((file, index) => {
-                  const imageUrl = URL.createObjectURL(file);
-                  return (
-                    <Image
-                      key={index}
-                      src={imageUrl}
-                      w={20}
-                      imageProps={{
-                        onLoad: () => URL.revokeObjectURL(imageUrl),
-                      }}
-                    />
-                  );
-                })}
-            </SimpleGrid>
-          </Dropzone>
-        )}}
+              <Group
+                position="center"
+                spacing="xl"
+                style={{ minHeight: rem(220), pointerEvents: "none" }}
+              >
+                <Dropzone.Accept>
+                  <FaUpload
+                    size="3.2rem"
+                    color={
+                      theme.colors[theme.primaryColor][
+                        theme.colorScheme === "dark" ? 4 : 6
+                      ]
+                    }
+                  />
+                </Dropzone.Accept>
+                <Dropzone.Reject>
+                  <ImCross
+                    size="3.2rem"
+                    color={
+                      theme.colors.red[theme.colorScheme === "dark" ? 4 : 6]
+                    }
+                  />
+                </Dropzone.Reject>
+                <Dropzone.Idle>
+                  <HiPhoto size="3.2rem" />
+                </Dropzone.Idle>
+                <Text size="">Upload Bukti Bayar, Max : 5MB</Text>
+              </Group>
+              <SimpleGrid
+                cols={4}
+                mt={5}
+                breakpoints={[{ maxWidth: "sm", cols: 1 }]}
+              >
+                {console.log("value", value)}
+                {value &&
+                  value?.length > 0 &&
+                  value?.map((file, index) => {
+                    const imageUrl = URL.createObjectURL(file);
+                    return (
+                      <Image
+                        key={index}
+                        src={imageUrl}
+                        w={20}
+                        imageProps={{
+                          onLoad: () => URL.revokeObjectURL(imageUrl),
+                        }}
+                      />
+                    );
+                  })}
+              </SimpleGrid>
+            </Dropzone>
+          );
+        }}
         name={"payment_prove"}
         control={control}
       />
       <Controller
-        rules={{ required: true, }}
+        rules={{ required: true }}
         name="amount"
         control={control}
-        render={({ field: { ref, onChange, ...field }, }) => (
+        render={({ field: { ref, onChange, ...field } }) => (
           <NumericFormat
             thousandSeparator="."
             decimalSeparator=","
@@ -121,19 +126,18 @@ const FormFieldPembayaran = () => {
             label="Input Nominal"
             description="Input Nominal"
             onValueChange={({ floatValue }) => {
-              onChange(floatValue)
+              onChange(floatValue);
             }}
             {...field}
           />
         )}
-
       />
       <RadioGroupCustom
         name="payment_method"
         control={control}
         label="Metode Pembayaran"
         description="Pilih salah satu"
-        rules={{ required: true, }}
+        rules={{ required: true }}
       >
         <Group mt="xs">
           <Radio value="CASH" label="Tunai" />

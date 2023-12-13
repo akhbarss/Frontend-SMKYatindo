@@ -1,6 +1,7 @@
 import axios, { AxiosRequestConfig, InternalAxiosRequestConfig } from "axios";
 
 export const BASE_URL = import.meta.env.VITE_BACKEND_URL;
+// export const BASE_URL = "http://103.119.65.237:8088/api";
 
 const request = axios.create({
   baseURL: BASE_URL,
