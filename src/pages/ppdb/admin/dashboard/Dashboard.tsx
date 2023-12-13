@@ -1,29 +1,22 @@
-import { FaUsers, FaUser } from "react-icons/fa6";
-import { PiTimerBold } from "react-icons/pi";
-import { MdOutlinePriceCheck } from "react-icons/md";
 import {
-  Progress,
-  ThemeIcon,
-  Stack,
   Box,
-  Text,
   Group,
   Paper,
+  Progress,
   SimpleGrid,
-  rem,
-  RingProgress,
-  Center,
-  Flex,
-  Anchor,
-  useMantineTheme,
+  Stack,
+  Text,
+  ThemeIcon,
+  useMantineTheme
 } from "@mantine/core";
 import {
-  IconArrowUpRight,
-  IconDeviceAnalytics,
   IconArrowDownRight,
+  IconArrowUpRight
 } from "@tabler/icons-react";
-import DataTable from "../../../../components/DataTable";
 import { useMemo } from "react";
+import { FaUser, FaUsers } from "react-icons/fa6";
+import { MdOutlinePriceCheck } from "react-icons/md";
+import { PiTimerBold } from "react-icons/pi";
 import Page from "../../../../components/Page";
 import PageLabel from "../../../../components/PageLabel";
 import { DarkTheme } from "../../../../utils/darkTheme";
