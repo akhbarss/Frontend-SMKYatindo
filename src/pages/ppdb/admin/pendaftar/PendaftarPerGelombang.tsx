@@ -14,7 +14,7 @@ import {
 import {
     IconTrash
 } from "@tabler/icons-react";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useState } from "react";
 import { MdArrowBackIosNew } from "react-icons/md";
@@ -44,8 +44,9 @@ type Student = {
 const PendaftarPerGelombang = () => {
     const dark = DarkTheme()
     const { gelombangId } = useParams()
-    const [searchName, setSearchName] = useState("")
     const { tipeGelombang } = useParams()
+    const queryClient = useQueryClient()
+    const [searchName, setSearchName] = useState("")
     const [openedModal, { close: closeModal, open: openModal }] = useDisclosure()
     const [pendaftar, setPenndaftar] = useState<{ id: number | null, name: string } | null>(null);
 
@@ -94,8 +95,24 @@ const PendaftarPerGelombang = () => {
     const deleteStudentFromBatchHandler = () => {
         if (pendaftar.id) {
             deleteStudentFromBatchMutation.mutate(pendaftar.id, {
-                onSuccess: res => console.log(res),
-                onError: err => console.log({ err })
+                onSuccess: res => {
+                    const mesg = res?.message
+                    queryClient.invalidateQueries({queryKey: ["get_all_student_by_batch_id"]})
+                    closeModal()
+                    if (mesg) {
+                        toast.success(mesg)
+                        return
+                    }
+                    toast.success("Success")
+                },
+                onError: error => {
+                    const errMsg = error?.response?.data?.messages
+                    if (errMsg) {
+                        toast.error(errMsg)
+                        return
+                    }
+                    toast.error("Data gagal dihapus")
+                }
             })
         }
     }

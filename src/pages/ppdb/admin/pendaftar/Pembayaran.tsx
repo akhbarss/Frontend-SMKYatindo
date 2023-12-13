@@ -129,7 +129,6 @@ const Pembayaran = () => {
                         <>
                             {
                                 payments?.data.length > 0 ? payments?.data?.map(payment => {
-                                    console.log({payment}, payment.status)
                                     const formatter = new Intl.NumberFormat('id-ID', {
                                         style: 'currency',
                                         currency: 'IDR'

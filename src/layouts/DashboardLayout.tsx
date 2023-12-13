@@ -34,7 +34,6 @@ const DashboardLayout: React.FC<TDashboard> = ({ children }) => {
 
   
   useEffect(() => {
-    console.log({user})
     if (isError) {
       toast.error("Error saat mengambil data sesi");
     }

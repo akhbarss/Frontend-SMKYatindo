@@ -161,7 +161,6 @@ const AlurPPPDB = () => {
     propss: AccordionControlProps;
     data: AlurPendaftaran;
   }): JSX.Element {
-    console.log({data})
     return (
       <Center>
         <Accordion.Control {...propss} className="font-bold" />

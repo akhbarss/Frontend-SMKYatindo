@@ -160,8 +160,6 @@ const PengembalianSiswaPPDB = () => {
   const navigate = useNavigate();
   const grade = user?.data?.student?.grade
 
-  console.log({ user })
-
   useEffect(() => {
     setFilter(
       queryFilter?.initialValues as { step: number; stagingId?: number }
