@@ -1,11 +1,15 @@
-.card-student {
-  background: darkorange;
+.card-student-smk {
+  background-color: darkorange;
   padding: 10px;
-  /* color: black; */
-  /* max-width: 500px; */
   margin-inline: auto;
   border-radius: 20px;
-  /* margin: ; */
+}
+
+.card-student-smp {
+  background: rgb(57, 38, 101);
+  padding: 10px;
+  margin-inline: auto;
+  border-radius: 20px;
 }
 
 .inner-card {
@@ -34,11 +38,12 @@
   font-size: 20px;
 }
 
-.divider {
-  background-color: darkorange;
-  height: 6px;
-  width: 100%;
-  border-radius: 10px;
+.divider-smk {
+  border-color: darkorange;
+}
+
+.divider-smp {
+  border-color: rgb(57, 38, 101);
 }
 
 .biodata {

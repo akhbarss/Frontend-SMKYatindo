@@ -1,4 +1,4 @@
-import { Box, Button, Divider, Group, Text, Image } from "@mantine/core";
+import { Box, Button, Divider, Group, Text } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import html2pdf from "html2pdf.js";
 import { Component, useCallback, useEffect, useRef, useState } from 'react';
@@ -8,8 +8,8 @@ import { useReactToPrint, } from "react-to-print";
 import { jwtDecode } from "../../../apis/alur/decodeJWT";
 import { useBreakPoints } from "../../../utils/UseBreakpoints";
 import { DarkTheme } from "../../../utils/darkTheme";
-import classes from "../../style/CetakKartuSMK.module.css";
 import { convertToFileObject } from "../../../utils/imageUtils";
+import classes from "../../style/CetakKartuSMK.module.css";
 
 interface TPrintContent {
     fotoProfile: File[];
@@ -24,7 +24,7 @@ interface TPrintContent {
     namaJalur: string | null;
     pilihanJalur1: string | null;
     pilihanJalur2: string | null;
-
+    grade: "SMK" | "SMP"
     dummyCard: boolean;
     textColor: "white" | "black"
     // dark: boolean
@@ -43,13 +43,16 @@ class PrintContent extends Component<TPrintContent> {
             name,
             noTelepon,
             nomorPeserta,
-            profileImgName,
             akhirTahun,
             awalTahun,
             dummyCard,
             textColor,
-            bgColor
+            bgColor,
+            grade
         } = this.props
+
+        const smk = grade === "SMK"
+        const smp = grade === "SMP"
 
         return (
             <div
@@ -63,21 +66,18 @@ class PrintContent extends Component<TPrintContent> {
                     color: textColor
                 }}
             >
-                <div className={classes["card-student"]} >
+                <div className={classes[`${smk ? "card-student-smk" : "card-student-smp"}`]} >
                     <div className={classes["inner-card"]} style={{ backgroundColor: bgColor }}>
                         <header className={classes["header"]}>
                             <img className={classes["logo-yatindo"]} src="/logo-yatindo-hd.png" alt="" />
                             <h3 className={classes["title"]}>
-                                Kartu Pendaftaran Siswa <br /> SMP - SMK TINTA EMAS INDONESIA <br />Tahun Ajaran {awalTahun ? awalTahun : " undenfined"} / {akhirTahun ? akhirTahun : "undefined"}
+                                Kartu Pendaftaran Siswa <br /> {grade} TINTA EMAS INDONESIA <br />Tahun Ajaran {awalTahun ? awalTahun : " undenfined"} / {akhirTahun ? akhirTahun : "undefined"}
                             </h3>
                         </header>
 
-                        <Divider mt={20} orientation='horizontal' size={"lg"} color='orange' />
+                        <Divider mt={20} orientation='horizontal' size={"lg"} className={classes[`${smk ? "divider-smk" : "divider-smp"}`]} />
 
                         <div className={classes["biodata"]}>
-                            {/* {
-                                profileImgName ? <img className={classes["profile"]} src={`/${profileImgName}`} alt=" " /> : <div className={classes["profile"]} />
-                            } */}
                             {
                                 fotoProfile?.length > 0 ? fotoProfile?.map((file, index) => {
                                     const imageUrl = URL.createObjectURL(file);
@@ -87,9 +87,6 @@ class PrintContent extends Component<TPrintContent> {
                                             width={160}
                                             key={index}
                                             src={imageUrl}
-                                            // imageProps={{
-                                            //     onLoad: () => URL.revokeObjectURL(imageUrl),
-                                            // }}
                                             onLoad={() => URL.revokeObjectURL(imageUrl)}
                                         />
                                     )
@@ -148,7 +145,7 @@ class PrintContent extends Component<TPrintContent> {
                             </div>
                         </div>
 
-                        <Divider orientation='horizontal' size={"lg"} color='orange' />
+                        <Divider orientation='horizontal' size={"lg"} className={classes[`${smk ? "divider-smk" : "divider-smp"}`]}/>
 
                         <div className={classes["detail-pendaftaran"]}>
                             <table className="table">
@@ -208,21 +205,19 @@ const PrintPage = () => {
     });
 
     const img = user?.data?.student?.profile_picture
+    const grade = user?.data?.student?.grade
 
     const setValue = useCallback(async () => {
-        // setLoad(true)
         try {
             const data = await convertToFileObject(img as string)
-            // setLoad(false)
             setProfileImg(data)
         } catch (error) {
-            // setLoad(false)
             toast.error("Gagal mmengambil foto profil")
         }
     }, [img])
 
     useEffect((() => {
-        if (img) {
+        if (img !== null && img !== undefined) {
             setValue()
         }
     }), [img, setValue])
@@ -253,7 +248,7 @@ const PrintPage = () => {
     const resMajor = user?.data?.student?.major && displaySelectedMajors(user.data.student.major)
 
     const handlePrint = useReactToPrint({
-        onPrintError: (error) => {
+        onPrintError: () => {
             toast.error("Terjadi kesalahan")
         },
         content: () => componentRef.current,
@@ -286,6 +281,7 @@ const PrintPage = () => {
             <div style={{ display: "none" }}>
                 <PrintContent
                     dummyCard={false}
+                    grade={grade}
                     ref={componentRef}
                     akhirTahun="2025"
                     fotoProfile={profileImg}
@@ -308,6 +304,7 @@ const PrintPage = () => {
                     <>
                         <PrintContent
                             dummyCard
+                            grade={grade}
                             fotoProfile={profileImg}
                             akhirTahun="2025"
                             alamat={user?.data?.student?.address}
