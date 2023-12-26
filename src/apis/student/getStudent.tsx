@@ -1,5 +1,6 @@
 import axios from "../../utils/axios";
 import { ResponseType, Status } from "../../types/global";
+import { Student } from "../../types/student";
 
 export type TStudentDetail = {
     id: number
@@ -45,7 +46,7 @@ export type GetStudentPayload = {
 }
 
 export const getStudent = async (payload: GetStudentPayload): Promise<
-    ResponseType<TStudentDetail>
+    ResponseType<Student>
 > => {
     const { userId } = payload
 

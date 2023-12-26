@@ -173,7 +173,7 @@ const JalurPendaftaranAdminSMP = () => {
             >
                 <Link
                     className="flex-[1] no-underline p-[16px] "
-                    to={`${item.id}/informasi-umum`}
+                    to={`${item.id}/gelombang`}
                 >
                     <Text size={"xl"} weight={"bold"} sx={{
                         color: `${dark ? "white" : "black"}`

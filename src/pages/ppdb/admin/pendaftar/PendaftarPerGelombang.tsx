@@ -97,7 +97,7 @@ const PendaftarPerGelombang = () => {
             deleteStudentFromBatchMutation.mutate(pendaftar.id, {
                 onSuccess: res => {
                     const mesg = res?.message
-                    queryClient.invalidateQueries({queryKey: ["get_all_student_by_batch_id"]})
+                    queryClient.invalidateQueries({ queryKey: ["get_all_student_by_batch_id"] })
                     closeModal()
                     if (mesg) {
                         toast.success(mesg)
@@ -296,22 +296,24 @@ const PendaftarPerGelombang = () => {
                         isErrorGetStudent ? (
                             <Text>{error.message}</Text>
                         ) : (
-                            <DataTable
-                                data={filteredSearchStudent}
-                                canExpand={() => true}
-                                columns={columns}
-                                loading={isFetching}
-                                useSearchInput={true}
-                                noCard={true}
-                                usePagination={false}
-                                onSearch={(inputValue) => setSearchName(inputValue.toLowerCase())}
-                                totalRecords={totalData}
-                                pagination={{
-                                    pageIndex: 0,
-                                    pageSize: 1000,
-                                }}
-                                pageCount={totalPages}
-                            />
+                            <>
+                                <DataTable
+                                    data={filteredSearchStudent}
+                                    canExpand={() => true}
+                                    columns={columns}
+                                    loading={isFetching}
+                                    useSearchInput={true}
+                                    noCard={true}
+                                    usePagination={false}
+                                    onSearch={(inputValue) => setSearchName(inputValue.toLowerCase())}
+                                    totalRecords={totalData}
+                                    pagination={{
+                                        pageIndex: 0,
+                                        pageSize: 1000,
+                                    }}
+                                    pageCount={totalPages}
+                                />
+                            </>
                         )
                     }
                 </Paper>

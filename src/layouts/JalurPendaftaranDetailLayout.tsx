@@ -104,9 +104,9 @@ const JalurPendaftaranDetailLayout: React.FC<TJalurPendaftaranDetailLayout> = ({
 
               </div>
               <Tabs.List>
-                <Tabs.Tab color="cyan" value="informasi-umum">
+                {/* <Tabs.Tab color="cyan" value="informasi-umum">
                   Informasi Umum
-                </Tabs.Tab>
+                </Tabs.Tab> */}
                 <Tabs.Tab color="cyan" value="gelombang">Gelombang</Tabs.Tab>
               </Tabs.List>
             </Paper>

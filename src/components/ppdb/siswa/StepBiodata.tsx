@@ -11,7 +11,7 @@ import { SubmitHandler } from "react-hook-form";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getOffsetStatus } from "../../../apis/pembelian";
 import useQueryFilter from "../../../hooks/useQueryFilter";
-import { updateBio } from "../../../apis/pengembalian";
+import { fillBio } from "../../../apis/pengembalian";
 import toast from "react-hot-toast";
 import ResponseError from "../../../utils/ResponseError";
 import dayjs from "dayjs";
@@ -27,7 +27,7 @@ const StepBiodata: React.FC<Step> = ({ type = "PENGEMBALIAN" }) => {
   const [initialValues, setInit] = useState<Student>(null);
   const queryClient = useQueryClient();
   const updateBioMutation = useMutation({
-    mutationFn: updateBio,
+    mutationFn: fillBio,
   });
 
   const { data } = useQuery({

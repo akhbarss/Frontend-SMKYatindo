@@ -1,43 +1,57 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
     ActionIcon,
     Box,
+    Button,
     Divider,
     Grid,
     Group,
     Image,
+    LoadingOverlay,
     Paper,
     ScrollArea,
+    Stack,
     Styles,
     Text,
     TextInput,
     TextInputStylesNames,
     Textarea,
-    ThemeIcon
+    ThemeIcon,
+    Title
 } from "@mantine/core";
 import { modals } from "@mantine/modals";
-import { UseQueryResult } from "@tanstack/react-query";
+import { UseQueryResult, useMutation, useQueryClient } from "@tanstack/react-query";
 import { BsFileEarmarkImage } from "react-icons/bs";
 import { MdClose } from "react-icons/md";
 import { TStudentDetail } from "../../../../apis/student/getStudent";
 import { ResponseType } from "../../../../types/global";
 import { DarkTheme } from '../../../../utils/darkTheme';
 import { convertToFileObject } from "../../../../utils/imageUtils";
+import FormWrapper from "../../../../components/FormWrapper";
+import FormFieldBiodata, { TFormFieldBiodata } from "../../../../components/FormFieldBiodata";
+import FormFieldInformasiOrangTua, { TFormFieldInformasiOrangTua } from "../../../../components/FormFieldInformasiOrangTua";
+import { SubmitHandler } from "react-hook-form";
+import { updateBio } from "../../../../apis/updateBio";
+import toast from "react-hot-toast";
+import dayjs from "dayjs";
+import ResponseError from "../../../../utils/ResponseError";
+import { useEffect, useState, useCallback } from "react";
+import { Student } from "../../../../types/student";
 
 type TBiodataAdmin = {
-    studentQuery: UseQueryResult<ResponseType<TStudentDetail>, Error>
+    studentQuery: UseQueryResult<ResponseType<Student>, Error>
 }
 
 const BiodataAdmin: React.FC<TBiodataAdmin> = ({ studentQuery }) => {
-    const dark = DarkTheme()
-
+    // const dark = DarkTheme()
     const {
         data: student,
     } = studentQuery
-
-    const stylesInput: Styles<TextInputStylesNames, Record<string, any>> = {
-        input: { ":readOnly": { opacity: 1 } },
-        label: { userSelect: "none", fontWeight: "bold" },
-    }
+    // const stylesInput: Styles<TextInputStylesNames, Record<string, any>> = {
+    //     input: { ":readOnly": { opacity: 1 } },
+    //     label: { userSelect: "none", fontWeight: "bold" },
+    // }
 
     const openModalImage = async (imageName: string) => {
         const img = imageName && await convertToFileObject(
@@ -97,11 +111,178 @@ const BiodataAdmin: React.FC<TBiodataAdmin> = ({ studentQuery }) => {
             centered: true
         })
     }
+    const [load, setLoad] = useState(false)
+    const [initialValues, setInit] = useState<Student | null>(null);
+    const queryClient = useQueryClient();
+    const updateBioMutation = useMutation({
+        mutationFn: updateBio,
+    });
+
+    const onSubmitBiodata: SubmitHandler<
+        TFormFieldBiodata & TFormFieldInformasiOrangTua
+    > = (data) => {
+        const formData = new FormData();
+        for (const [key, value] of Object.entries(data)) {
+            if (value !== null) {
+                if (
+                    key === "profile_picture" ||
+                    key === "family_card" ||
+                    key === "birth_card"
+                ) {
+                    formData.append(key, value?.[0]);
+                } else if (key === "birth_date") {
+                    formData.append(key, dayjs(value as Date).format("YYYY-MM-DD"));
+                } else {
+                    formData.append(key, value as string);
+                }
+            }
+        }
+
+        updateBioMutation.mutate({
+            data: formData,
+            studentId: student?.data?.id
+        }, {
+            onSuccess: () => {
+                toast.success("Sukses update informasi biodata");
+                queryClient.invalidateQueries({
+                    queryKey: ["get_student"],
+                });
+            },
+            onError: (err) => ResponseError(err),
+        });
+    };
+
+    const setValues = useCallback(async () => {
+
+        setLoad(true)
+        if (typeof student?.data?.profile_picture === "string") {
+            try {
+                student.data.profile_picture = await convertToFileObject(
+                    student?.data.profile_picture as string
+                )
+
+                student.data.birth_card = await convertToFileObject(
+                    student?.data.birth_card as string
+                )
+
+                student.data.family_card = await convertToFileObject(
+                    student?.data.family_card as string
+                )
+                setInit({
+                    ...student?.data,
+                    birth_date: student?.data.birth_date
+                        ? dayjs(student?.data.birth_date).toDate()
+                        : null,
+                });
+                setLoad(false)
+            } catch (error) {
+                setLoad(false)
+                toast.error("Gagal mengambil data biodata, silakan coba lagi")
+            }
+        } else if (student?.data?.profile_picture === null) {
+            setInit({
+                // address: ""
+                // ...studen?.d
+                ...student?.data,
+                birth_date: student?.data?.birth_date
+                    ? dayjs(student?.data?.birth_date).toDate()
+                    : null,
+            });
+            setLoad(false)
+        } else {
+            try {
+                student.data.profile_picture = await convertToFileObject(
+                    student.data.profile_picture
+                )
+
+                student.birth_card = await convertToFileObject(
+                    student.data.birth_card as string
+                )
+
+                student.family_card = await convertToFileObject(
+                    student.data.family_card as string
+                )
+                setInit({
+                    ...student?.data,
+                    birth_date: student?.data?.birth_date
+                        ? dayjs(student?.data?.birth_date).toDate()
+                        : null,
+                });
+                setLoad(false)
+            } catch (error) {
+                setLoad(false)
+                toast.error("Gagal mengambil data biodata, silakan coba lagi")
+            }
+        }
+    }, [])
+    useEffect(() => {
+        if (student) {
+            setValues();
+        }
+    }, [student, setValues]);
 
     return (
         <>
+            <FormWrapper
+                id={"form-biodata"}
+                initialValues={initialValues}
+                onSubmit={onSubmitBiodata}
+            >
+                <>
+                    <Box pos={"relative"}>
+
+                        <Box
+                            sx={(theme) => ({
+                                backgroundColor: `${theme.colorScheme === "dark"
+                                    ? theme.colors.dark[7]
+                                    : theme.white
+                                    }`,
+                                padding: "2rem",
+                                boxShadow: "0 5px 10px -8px black",
+                                borderRadius: "7px",
+                            })}
+                        >
+                            <Stack>
+                                <Title>Isi Biodata</Title>
+
+                                <FormFieldBiodata />
+
+                            </Stack>
+                        </Box>
+                        <Box
+                            sx={(theme) => ({
+                                backgroundColor: `${theme.colorScheme === "dark"
+                                    ? theme.colors.dark[7]
+                                    : theme.white
+                                    }`,
+                                marginTop: 10,
+                                padding: "2rem",
+                                boxShadow: "0 5px 10px -8px black",
+                                borderRadius: "7px",
+                            })}
+                        >
+                            <Stack>
+                                <Title>Informasi Orang Tua</Title>
+
+                                <FormFieldInformasiOrangTua />
+                                <Button
+                                    type={"submit"}
+                                    variant={"filled"}
+                                // loading={updateBioMutation.isPending}
+                                >
+                                    Ubah
+                                </Button>
+                            </Stack>
+                        </Box>
+                        {/* <LoadingOverlay visible={load} zIndex={10} /> */}
+
+                    </Box>
+
+                </>
+            </FormWrapper>
+
             {/* IDENTITAS DIRI */}
-            <Paper mt={40} withBorder shadow='lg' p={"lg"} sx={theme => ({ backgroundColor: dark ? theme.colors.dark[9] : "white" })}>
+            {/* <Paper mt={40} withBorder shadow='lg' p={"lg"} sx={theme => ({ backgroundColor: dark ? theme.colors.dark[9] : "white" })}>
                 <Group>
                     <Divider orientation='vertical' size={"0.5rem"} color='#2A166F' />
                     <Text weight={"bold"} size={30}>Identitas Diri</Text>
@@ -268,12 +449,8 @@ const BiodataAdmin: React.FC<TBiodataAdmin> = ({ studentQuery }) => {
                     </Grid.Col>
 
                 </Grid>
-            </Paper>
 
-
-            {/* INFORMASI ORANG TUA */}
-            <Paper mt={40} withBorder shadow='lg' p={"lg"} sx={theme => ({ backgroundColor: dark ? theme.colors.dark[9] : "white" })}>
-                <Group >
+                <Group mt={40}>
                     <Divider orientation='vertical' size={"0.5rem"} color='#2A166F' />
                     <Text weight={"bold"} size={30}>Informasi Orang Tua</Text>
                 </Group>
@@ -398,7 +575,13 @@ const BiodataAdmin: React.FC<TBiodataAdmin> = ({ studentQuery }) => {
                         </Group>
                     </Grid.Col>
                 </Grid>
-            </Paper>
+
+                <Group position="right">
+                    <Button mt={30}>
+                        Update
+                    </Button>
+                </Group>
+            </Paper> */}
         </>
     )
 }

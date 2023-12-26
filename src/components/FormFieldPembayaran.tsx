@@ -87,7 +87,6 @@ const FormFieldPembayaran = () => {
                 mt={5}
                 breakpoints={[{ maxWidth: "sm", cols: 1 }]}
               >
-                {console.log("value", value)}
                 {value &&
                   value?.length > 0 &&
                   value?.map((file, index) => {
