@@ -1,0 +1,191 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    /* font-family: Arial, Helvetica, sans-serif; */
+
+    /* scroll-behavior: smooth; */
+}
+
+body {
+    margin: 0 !important;
+}
+
+.mantine-Stepper-stepWrapper {
+    background-color: transparent;
+    display: flex;
+    border: none;
+    /* background-color: bisque; */
+}
+
+
+.test-text {
+    font-size: 9vw;
+
+}
+
+.dashboard {
+    /* overflow-y: scroll;
+    scroll-behavior: smooth; */
+}
+
+.container-style {
+    animation: transitionIn 0.75s;
+    /* transition: 10s ease-out; */
+    /* animation-duration: 1s; */
+}
+
+.style-box {
+    animation: transitionIn 0.5s;
+    /* overflow: hidden; */
+    /* transition: 10s ease-out; */
+    /* animation-duration: 1s; */
+}
+
+@keyframes transitionIn {
+    from {
+        opacity: 0;
+        /* transform: rotateX(-100deg); */
+        /* transform: translateX(-50px);  */
+    }
+
+    to {
+        opacity: 1;
+        /* transform: rotateX(0); */
+        /* transform: translateX(0px);  */
+    }
+
+}
+
+/* .ant-layout-header.navbar-fixed {
+  position: fixed;
+  top: 0px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  height: 4rem;
+  width: 100%;
+  padding: 0 40px;
+  justify-content: space-between;
+  background-color: rgba(255, 255, 255, 0.411);
+  box-shadow: 0px 0px 10px 1px black;
+  transition: e;
+} */
+
+/* .ant-layout-header.navbar-fixed img {
+  width: 50px;
+} */
+
+/* .menu-item {
+  display: flex;
+  z-index: 2;
+  align-items: center;
+  gap: 1rem;
+} */
+/* .menu-item a {
+  text-decoration: none;
+} */
+
+/* Dashboard */
+
+/* .dashboard {
+  padding: 0;
+} */
+
+/* .logo-dashboard {
+  width: 150px ;
+} */
+
+.logo-dashboard:hover {
+    /* display: inline-block;
+    margin: 0 0.5rem; */
+
+    /* animation: heartBeat;  */
+    /* referring directly to the animation's @keyframe declaration */
+
+    /* animation-duration: 0.8s; */
+    /* don't forget to set a duration! */
+
+    /* --animate-delay: 0.9s; */
+
+}
+
+.parralax {
+    height: 100vh;
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100%;
+    background-image: url("/yatindo/yatindo.jpg");
+}
+
+.f1 {
+    display: flex;
+    flex-direction: column;
+    /* height: 100%; */
+    /* flex: 1; */
+    justify-content: center;
+    /* width: 100%; */
+}
+
+/* .yatindo { */
+/* display: flex; */
+/* flex-direction: column; */
+/* align-items: center; */
+/* color: white; */
+/* } */
+
+.text {
+    /* color: white; */
+    text-align: center;
+    /* text-shadow: 2px 2px 5px black; */
+    /* width: 85%; */
+    max-width: fit-content;
+    padding: 1rem;
+    margin-top: 1rem;
+    /* overflow: hidden; */
+    /* background-color: #111f4856; */
+    /* background-color: rgba(0, 0, 0, 0.45);
+    /* box-shadow: 2px 0px 30px 20px rgba(0, 0, 0, 0.5); */
+}
+
+.slogan {
+    margin-top: 2rem;
+    font-weight: bolder;
+    /* width: 85%; */
+    /* text-shadow: 2px 2px 10px black; */
+    text-align: center;
+    font-size: 20px;
+    /* -webkit-text-stroke: 1px black; */
+}
+
+.f2 {
+    text-align: center;
+    padding: 3rem;
+    overflow: hidden;
+}
+
+/* SCHOOL */
+
+.smp-image {
+    background-position-y: 50%;
+    height: 15rem;
+}
+
+.smk-image {
+    background-position-y: 50%;
+    height: 15rem;
+}
+
+.ppdb-image {
+    background-position-y: 50%;
+    height: 15rem;
+}
+
+
+
