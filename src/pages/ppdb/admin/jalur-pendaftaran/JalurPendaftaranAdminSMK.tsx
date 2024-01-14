@@ -54,7 +54,6 @@ const JalurPendaftaranAdminSMK = () => {
         },
     })
 
-console.log(formCreateMantine.errors)
     const {
         data: dataJalur,
         isError: isErr,

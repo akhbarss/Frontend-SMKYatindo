@@ -28,7 +28,6 @@ const UbahPassword = () => {
             confirmPassword: ""
         },
         validate: {
-            // password: isNotEmpty("Harap isi password baru"),
             confirmPassword: matchesField("password", "Password tidak sama")
         }
     })

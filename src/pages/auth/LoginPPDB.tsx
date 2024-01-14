@@ -72,7 +72,7 @@ const Login = () => {
                 <TextInput
                   withAsterisk
                   label="Nomor Whatsapp"
-                  // required
+                  required
                   autoFocus
                   // type="number"
                   value={noWhatsapp}
@@ -82,7 +82,7 @@ const Login = () => {
                 <PasswordInput
                   withAsterisk
                   label="Password"
-                  // required
+                  required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
