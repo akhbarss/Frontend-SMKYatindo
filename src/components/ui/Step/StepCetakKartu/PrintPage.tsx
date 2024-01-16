@@ -7,11 +7,11 @@ import { Component, useCallback, useEffect, useRef, useState } from 'react';
 import toast from "react-hot-toast";
 import { FaFilePdf } from "react-icons/fa6";
 import { useReactToPrint, } from "react-to-print";
-import { jwtDecode } from "../../../apis/alur/decodeJWT";
-import { useBreakPoints } from "../../../utils/UseBreakpoints";
-import { DarkTheme } from "../../../utils/darkTheme";
-import { convertToFileObject } from "../../../utils/imageUtils";
-import classes from "../../style/CetakKartuSMK.module.css";
+import { jwtDecode } from "../../../../apis/alur/decodeJWT";
+import { useBreakPoints } from "../../../../utils/UseBreakpoints";
+import { DarkTheme } from "../../../../utils/darkTheme";
+import { convertToFileObject } from "../../../../utils/imageUtils";
+import classes from "../../../style/CetakKartuSMK.module.css";
 
 interface TPrintContent {
     fotoProfile: File[];

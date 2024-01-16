@@ -2,7 +2,7 @@ import { Box, useMantineTheme } from '@mantine/core'
 import { TGRegistrationPath } from '../../types/global'
 import { useBreakPoints } from '../../utils/UseBreakpoints'
 
-const BiayaJalurPendaftaran = ({
+const ContentBiayaJalurPendaftaran = ({
     batch
 }: {
     batch?: TGRegistrationPath
@@ -83,4 +83,4 @@ const BiayaJalurPendaftaran = ({
         </Box>)
 }
 
-export default BiayaJalurPendaftaran
+export default ContentBiayaJalurPendaftaran

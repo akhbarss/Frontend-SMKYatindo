@@ -33,7 +33,7 @@ import { getGelombangByIdJalur } from "../../../../apis/gelombang/getGelombangBy
 import { TGelombang } from "../../../../apis/jalur/getJalur";
 import Page from "../../../../components/Page";
 import TestUjianAdmin from "../../../../components/TestUjianAdmin";
-import ModalGelombang from "../../../../components/modal/modalGelombang";
+import ModalGelombang from "../../../../components/Modal/modalGelombang";
 import { DarkTheme } from "../../../../utils/darkTheme";
 
 export type FormValuesGelombang = {

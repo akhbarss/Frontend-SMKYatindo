@@ -6,12 +6,11 @@ import {
   Title,
   useMantineTheme
 } from "@mantine/core";
-
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import { GetAllAlurPendaftaran } from "../../apis/alur/getAlur";
 import { useBreakPoints } from "../../utils/UseBreakpoints";
-import TiptapOutput from "./tiptapOutput";
+import TiptapOutput from "../ppdb/tiptapOutput";
 
 const AlurPendaftaran = () => {
   const { xs } = useBreakPoints();

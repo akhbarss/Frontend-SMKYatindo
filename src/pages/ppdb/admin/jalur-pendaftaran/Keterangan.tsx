@@ -25,8 +25,8 @@ import { CreateKeteranganPayload, createKeterangan } from "../../../../apis/info
 import { DeleteKeteranganPayload, deleteKeterangan } from "../../../../apis/informasi-umum/keterangan/deleteKeterangan"
 import { EditKeteranganPayload, editKeterangan } from "../../../../apis/informasi-umum/keterangan/editKeterangan"
 import { InformmasiUmumKeterangan, getAllKeterangan } from "../../../../apis/informasi-umum/keterangan/getAllKeterangan"
-import ModalKeteranganCreate from "../../../../components/modal/modalKeteranganCreate"
-import ModalKeteranganEdit from "../../../../components/modal/modalKeteranganEdit"
+import ModalKeteranganCreate from "../../../../components/Modal/modalKeteranganCreate"
+import ModalKeteranganEdit from "../../../../components/Modal/modalKeteranganEdit"
 import TiptapOutput from "../../../../components/ppdb/tiptapOutput"
 import { DarkTheme } from "../../../../utils/darkTheme"
 

@@ -1,7 +1,7 @@
 import React from "react";
 import { Badge, Box, Button, Group, Text, Title } from "@mantine/core";
 import { BiSolidTagAlt } from "react-icons/bi";
-import { DarkTheme } from "../../../utils/darkTheme";
+import { DarkTheme } from "../../utils/darkTheme";
 
 type TCardChooseBatch = {
   id: number;

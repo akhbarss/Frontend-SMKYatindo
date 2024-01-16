@@ -3,12 +3,12 @@ import { modals } from "@mantine/modals";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { chooseMajor, getOffsetStatus } from "../../../apis/pembelian";
-import useQueryFilter from "../../../hooks/useQueryFilter";
-import { Step } from "../../../types/global";
-import ResponseError from "../../../utils/ResponseError";
-import MultiSelectStatus from "../../MultiSelectStatus";
-import SelectStatus from "../../SelectStatus";
+import { chooseMajor, getOffsetStatus } from "../../../../apis/pembelian";
+import useQueryFilter from "../../../../hooks/useQueryFilter";
+import { Step } from "../../../../types/global";
+import ResponseError from "../../../../utils/ResponseError";
+import MultiSelectStatus from "../../../MultiSelectStatus";
+import SelectStatus from "../../../SelectStatus";
 
 const StepPilihJurusan: React.FC<Step> = ({ type = "PEMBELIAN" }) => {
   const filter = useQueryFilter({ step: 3, stagingId: null });

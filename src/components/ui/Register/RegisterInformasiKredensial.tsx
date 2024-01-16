@@ -1,10 +1,9 @@
-import { Button, Group, Stack, TextInput, PasswordInput } from "@mantine/core";
+import { Button, Group, PasswordInput, Stack } from "@mantine/core";
 import { UseMutationResult } from "@tanstack/react-query";
-import { RegistrationPayload, RegistrationResponse } from "../../apis/registration";
-import { ResponseType } from "../../types/global";
+import { RegistrationPayload, RegistrationResponse } from "../../../apis/registration";
+import { ResponseType } from "../../../types/global";
 
 type TRegisterInformasiKredensial = {
-  noWhatsapp: string;
   password: string;
   setPassword: React.Dispatch<React.SetStateAction<string>>;
   onSubmit: () => void;
@@ -12,7 +11,6 @@ type TRegisterInformasiKredensial = {
 };
 
 const RegisterInformasiKredensial: React.FC<TRegisterInformasiKredensial> = ({
-  noWhatsapp,
   password,
   setPassword,
   onSubmit,

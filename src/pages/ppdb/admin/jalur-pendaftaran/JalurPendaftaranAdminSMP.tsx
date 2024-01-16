@@ -22,8 +22,8 @@ import { CreateJalurPayload, TipeJalur, createJalur } from "../../../../apis/jal
 import { DeleteJalurPayload, deleteJalur } from "../../../../apis/jalur/deleteJalur";
 import { EditJalurPayload, editJalur } from "../../../../apis/jalur/editJalur";
 import { getAllJalurPendaftaran } from "../../../../apis/jalur/getJalur";
-import ModalJalurAdmin from '../../../../components/modal/modalJalurAdmin';
-import DataKosong from '../../../../components/ppdb/dataKosong';
+import ModalJalurAdmin from '../../../../components/Modal/modalJalurAdmin';
+import DataKosong from '../../../../components/Result/DataKosong';
 import { DarkTheme } from "../../../../utils/darkTheme";
 import { FormValuesCreateJalur } from "./JalurPendaftaranAdmin";
 

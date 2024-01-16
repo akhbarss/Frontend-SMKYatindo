@@ -7,8 +7,8 @@ import { BsCheck } from "react-icons/bs";
 import { useLocation, useNavigate } from "react-router-dom";
 import { RegistrationPayload, registration } from "../../apis/registration";
 import Page from "../../components/Page";
-import RegisterIdentitasDiri from "../../components/auth/RegisterIdentitasDiri";
-import RegisterInformasiKredensial from "../../components/auth/RegisterInformasiKredensial";
+import RegisterIdentitasDiri from "../../components/ui/Register/RegisterIdentitasDiri";
+import RegisterInformasiKredensial from "../../components/ui/Register/RegisterInformasiKredensial";
 import SideAuthLayout from "../../layouts/SideAuthLayout";
 import ResponseError from "../../utils/ResponseError";
 import { useBreakPoints } from "../../utils/UseBreakpoints";
@@ -162,7 +162,6 @@ const Register = () => {
               >
                 <RegisterInformasiKredensial
                   registrationMutation={registrationMutation}
-                  noWhatsapp={noWhatssap}
                   password={password}
                   setPassword={setPassword}
                   onSubmit={submitHandler}

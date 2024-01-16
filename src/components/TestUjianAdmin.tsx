@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import {
+    ActionIcon,
     Badge,
     Box,
-    ActionIcon,
     Button,
     Group,
     Menu,
@@ -22,7 +23,7 @@ import { CreateTesUjianPayload, createTestUjian } from "../apis/test-ujian/creat
 import { DeleteTesUjianPayload, deleteTesUjian } from "../apis/test-ujian/deleteTesUjian";
 import { EditTesUjianPayload, editTesUjian } from "../apis/test-ujian/editTesUjian";
 import { getTestUjian } from '../apis/test-ujian/getTestUjian';
-import ModalTestUjian from './modal/modalTestUjian';
+import ModalTestUjian from './Modal/modalTestUjian';
 
 type TypeTestUjianAdmin = {
     idGelombang: number;

@@ -9,10 +9,10 @@ import { useMutation } from "@tanstack/react-query";
 import React from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { printCard } from "../../../apis/pembelian";
-import useQueryFilter from "../../../hooks/useQueryFilter";
-import { Step } from "../../../types/global";
-import ResponseError from "../../../utils/ResponseError";
+import { printCard } from "../../../../apis/pembelian";
+import useQueryFilter from "../../../../hooks/useQueryFilter";
+import { Step } from "../../../../types/global";
+import ResponseError from "../../../../utils/ResponseError";
 import PrintPage from "./PrintPage";
 
 const StepCetakKartu: React.FC<Step> = ({ type = "PEMBELIAN" }) => {

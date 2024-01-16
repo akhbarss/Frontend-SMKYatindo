@@ -1,27 +1,26 @@
 import {
     Button,
     Grid,
-    Select,
     Group,
     Stack,
-    TextInput,
+    TextInput
 } from "@mantine/core"
 import { DateTimePicker } from '@mantine/dates'
 import { UseFormReturnType } from '@mantine/form'
 import React from 'react'
+import { FormValuesTesUjianAdmin } from "../TestUjianAdmin"
 import ModalAdmin from '../modalAdmin'
-import { FormValuesTesUjian } from "../TestUjianAdmin"
 
 type TModalTestUjian = {
     title: string
     opened: boolean
     close: () => void
     action: {
-        actionFn(datas: FormValuesTesUjian): void
+        actionFn(datas: FormValuesTesUjianAdmin): void
         label: string
     }
     loading: boolean
-    formMantine: UseFormReturnType<FormValuesTesUjian, (values: FormValuesTesUjian) => FormValuesTesUjian>
+    formMantine: UseFormReturnType<FormValuesTesUjianAdmin, (values: FormValuesTesUjianAdmin) => FormValuesTesUjianAdmin>
 }
 
 const ModalTestUjian: React.FC<TModalTestUjian> = ({

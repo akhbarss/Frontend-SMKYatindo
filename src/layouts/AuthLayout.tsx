@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { Suspense, useEffect } from "react";
-import PageHeader from "../components/ppdb/pageHeader";
+import PageHeader from "../components/Header/HeaderAuth";
 import { Group } from "@mantine/core";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaHome } from "react-icons/fa";

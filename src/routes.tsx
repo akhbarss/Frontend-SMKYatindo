@@ -4,7 +4,7 @@ import { lazy } from "react";
 import { Navigate, Outlet, RouteObject } from "react-router-dom";
 import Interceptors from "./Interceptor";
 import { ProviderMantine } from "./components";
-import MissingPPDB from "./components/ppdb/missingPPDB";
+import MissingPPDB from "./components/Result/NotFound";
 import Unauthorized from "./components/ppdb/unauthorized";
 import AuthLayout from "./layouts/AuthLayout";
 import DashboardLayout from "./layouts/DashboardLayout";
@@ -128,15 +128,6 @@ export const routes: RouteObject[] = [
                   </JalurPendaftarahAdmin>
                 ),
                 children: [
-                  // {
-                  //   index: true,
-                  //   // Component: lazy(
-                  //   //   () =>
-                  //   //     import(
-                  //   //       "./pages/ppdb/admin/jalur-pendaftaran/JalurPendaftaranAdmin"
-                  //   //     )
-                  //   // ),
-                  // },
                   {
                     path: "smp",
                     Component: JalurPendaftaranAdminSMP

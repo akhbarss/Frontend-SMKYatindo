@@ -19,7 +19,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { modals } from '@mantine/modals'
 import { useDisclosure } from '@mantine/hooks';
 import { useState } from 'react';
-import DataKosong from '../../../../components/ppdb/dataKosong';
+import DataKosong from '../../../../components/Result/DataKosong';
 
 const TesUjianStudent = () => {
     const dark = DarkTheme()

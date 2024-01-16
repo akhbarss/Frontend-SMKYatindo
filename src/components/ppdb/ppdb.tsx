@@ -14,8 +14,6 @@ const Ppdb = () => {
     return (
         <>
             <Box id="ppdb" pt={60} className='flex gap-10 lg:flex-row flex-col mx-auto' >
-                
-
                 <Card
                     shadow="sm"
                     padding={"xl"}

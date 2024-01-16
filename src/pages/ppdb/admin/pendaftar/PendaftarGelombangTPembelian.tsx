@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { HiMiniUserCircle } from 'react-icons/hi2';
 import { Link } from 'react-router-dom';
 import { getAllGelombangPendaftar } from "../../../../apis/gelombang/getAllGelombangPendaftar";
-import DataKosong from '../../../../components/ppdb/dataKosong';
+import DataKosong from '../../../../components/Result/DataKosong';
 import { DarkTheme } from '../../../../utils/darkTheme';
 
 const PendaftarGelombangTPembelian = () => {

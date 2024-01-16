@@ -1,25 +1,24 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
-import { Step } from "../../../types/global";
-import { Box, Button, Stack, Title, LoadingOverlay } from "@mantine/core";
-import FormFieldBiodata, { TFormFieldBiodata } from "../../FormFieldBiodata";
-import FormWrapper from "../../FormWrapper";
-import FormFieldInformasiOrangTua, {
-  TFormFieldInformasiOrangTua,
-} from "../../FormFieldInformasiOrangTua";
-import { SubmitHandler } from "react-hook-form";
+import { Box, Button, LoadingOverlay, Stack, Title } from "@mantine/core";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { getOffsetStatus } from "../../../apis/pembelian";
-import useQueryFilter from "../../../hooks/useQueryFilter";
-import { fillBio } from "../../../apis/pengembalian";
-import toast from "react-hot-toast";
-import ResponseError from "../../../utils/ResponseError";
 import dayjs from "dayjs";
-import { Student } from "../../../types/student";
+import React, { useEffect, useState } from "react";
+import { SubmitHandler } from "react-hook-form";
+import toast from "react-hot-toast";
+import { getOffsetStatus } from "../../../../apis/pembelian";
+import { fillBio } from "../../../../apis/pengembalian";
+import useQueryFilter from "../../../../hooks/useQueryFilter";
+import { Step } from "../../../../types/global";
+import { Student } from "../../../../types/student";
+import ResponseError from "../../../../utils/ResponseError";
 import {
   convertToFileObject,
-} from "../../../utils/imageUtils";
-import { jwtDecode } from "../../../apis/alur/decodeJWT";
+} from "../../../../utils/imageUtils";
+import FormFieldBiodata, { TFormFieldBiodata } from "../../../FormFieldBiodata";
+import FormFieldInformasiOrangTua, {
+  TFormFieldInformasiOrangTua,
+} from "../../../FormFieldInformasiOrangTua";
+import FormWrapper from "../../../FormWrapper";
 
 const StepBiodata: React.FC<Step> = ({ type = "PENGEMBALIAN" }) => {
   const [load, setLoad] = useState(false)
@@ -29,11 +28,6 @@ const StepBiodata: React.FC<Step> = ({ type = "PENGEMBALIAN" }) => {
   const updateBioMutation = useMutation({
     mutationFn: fillBio,
   });
-
-  const { data } = useQuery({
-    queryKey: ["get-session-from-bio"],
-    queryFn: jwtDecode
-  })
 
   const onSubmitBiodata: SubmitHandler<
     TFormFieldBiodata & TFormFieldInformasiOrangTua

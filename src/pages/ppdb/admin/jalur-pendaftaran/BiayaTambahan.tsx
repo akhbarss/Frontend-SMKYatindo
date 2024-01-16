@@ -39,10 +39,10 @@ import {
 } from "../../../../apis/informasi-umum/biaya-tambahan/getAllBiayaTambahan";
 import ModalBiayaTambahanCreate, {
   FormCreateBiayaTambahan,
-} from "../../../../components/modal/modalBiayaTambahanCreate";
+} from "../../../../components/Modal/modalBiayaTambahanCreate";
 import ModalBiayaTambahanEdit, {
   FormEditBiayaTambahan,
-} from "../../../../components/modal/modalBiayaTambahanEdit";
+} from "../../../../components/Modal/modalBiayaTambahanEdit";
 import { DarkTheme } from "../../../../utils/darkTheme";
 
 const BiayaTambahan = () => {

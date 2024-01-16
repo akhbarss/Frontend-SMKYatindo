@@ -1,6 +1,6 @@
 import { Header as MantineHeader, useMantineTheme } from "@mantine/core";
 
-const PageHeader = ({ children }: { children: React.ReactNode }) => {
+const HeaderAuth = ({ children }: { children: React.ReactNode }) => {
   const theme = useMantineTheme();
   const dark = theme.colorScheme === "dark";
 
@@ -28,4 +28,4 @@ const PageHeader = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default PageHeader;
+export default HeaderAuth;

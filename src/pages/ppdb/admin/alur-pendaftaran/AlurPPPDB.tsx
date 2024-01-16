@@ -29,9 +29,9 @@ import {
 } from "../../../../apis/alur/getAlur";
 import Page from "../../../../components/Page";
 import PageLabel from "../../../../components/PageLabel";
-import ModalAlurCreate from "../../../../components/modal/modalAlurCreate";
-import ModalAlurEdit from "../../../../components/modal/modalAlurEdit";
-import DataKosong from "../../../../components/ppdb/dataKosong";
+import ModalAlurCreate from "../../../../components/Modal/modalAlurCreate";
+import ModalAlurEdit from "../../../../components/Modal/modalAlurEdit";
+import DataKosong from "../../../../components/Result/DataKosong";
 import TiptapOutput from "../../../../components/ppdb/tiptapOutput";
 import { DarkTheme } from "../../../../utils/darkTheme";
 
