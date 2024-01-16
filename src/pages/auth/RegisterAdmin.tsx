@@ -19,8 +19,8 @@ import toast, { Toaster } from "react-hot-toast";
 import ResponseError from "../../utils/ResponseError";
 import FormRegisterAdmin, {
   TFormFieldRegisterAdmin,
-} from "../../components/FormRegisterAdmin";
-import FormWrapper from "../../components/FormWrapper";
+} from "../../components/Form/FormRegisterAdmin";
+import FormWrapper from "../../components/Form/FormWrapper";
 import { registrationAdmin } from "../../apis/registration";
 import { SubmitHandler } from "react-hook-form";
 

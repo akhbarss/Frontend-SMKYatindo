@@ -32,7 +32,7 @@ import PageLabel from "../../../../components/PageLabel";
 import ModalAlurCreate from "../../../../components/Modal/modalAlurCreate";
 import ModalAlurEdit from "../../../../components/Modal/modalAlurEdit";
 import DataKosong from "../../../../components/Result/DataKosong";
-import TiptapOutput from "../../../../components/ppdb/tiptapOutput";
+import TiptapOutput from "../../../../components/Fields/FieldTiptapOutput";
 import { DarkTheme } from "../../../../utils/darkTheme";
 
 const AlurPPPDB = () => {

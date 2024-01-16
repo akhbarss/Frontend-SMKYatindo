@@ -5,7 +5,7 @@ import {
 } from '@mantine/core';
 import { FaBars } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import ToggleTheme from '../components/toggleTheme';
+import ToggleTheme from '../components/Button/ToggleTheme';
 import { useBreakPoints } from '../utils/UseBreakpoints';
 
 const Header = () => {

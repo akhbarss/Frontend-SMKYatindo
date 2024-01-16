@@ -8,8 +8,8 @@ import {
 import { DateTimePicker } from '@mantine/dates'
 import { UseFormReturnType } from '@mantine/form'
 import React from 'react'
-import { FormValuesTesUjianAdmin } from "../TestUjianAdmin"
-import ModalAdmin from '../modalAdmin'
+import { FormValuesTesUjianAdmin } from "../TesUjian/TestUjianAdmin"
+import ModalAdmin from './modalAdmin'
 
 type TModalTestUjian = {
     title: string

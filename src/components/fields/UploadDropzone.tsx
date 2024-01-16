@@ -11,7 +11,7 @@ import {
 import { FaUpload } from "react-icons/fa";
 import { ImCross } from "react-icons/im";
 import { HiPhoto } from "react-icons/hi2";
-import { DarkTheme } from "../utils/darkTheme";
+import { DarkTheme } from "../../utils/darkTheme";
 
 interface TUploadDropzone extends DropzoneProps {
   label: string;

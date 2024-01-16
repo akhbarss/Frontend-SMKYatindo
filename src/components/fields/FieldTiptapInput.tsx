@@ -1,35 +1,33 @@
-import { RichTextEditor, Link } from '@mantine/tiptap';
-import { useEditor } from '@tiptap/react';
+import { Link, RichTextEditor } from '@mantine/tiptap';
 import Highlight from '@tiptap/extension-highlight';
-import StarterKit from '@tiptap/starter-kit';
-import Underline from '@tiptap/extension-underline';
-import TextAlign from '@tiptap/extension-text-align';
-import Superscript from '@tiptap/extension-superscript';
 import SubScript from '@tiptap/extension-subscript';
+import Superscript from '@tiptap/extension-superscript';
+import TextAlign from '@tiptap/extension-text-align';
+import Underline from '@tiptap/extension-underline';
+import { useEditor } from '@tiptap/react';
+import StarterKit from '@tiptap/starter-kit';
 import {
-    FaBold,
-    FaItalic,
-    FaUnderline,
-    FaStrikethrough,
-    FaHighlighter,
-    FaCode,
-    FaListUl,
-    FaListOl,
     FaAlignCenter,
     FaAlignJustify,
     FaAlignLeft,
-    FaAlignRight
-} from "react-icons/fa"
+    FaAlignRight,
+    FaBold,
+    FaHighlighter,
+    FaItalic,
+    FaListOl,
+    FaListUl,
+    FaStrikethrough,
+    FaUnderline
+} from "react-icons/fa";
+import { GrBlockQuote } from "react-icons/gr";
 import {
     LuHeading1,
     LuHeading2,
     LuHeading3,
     LuHeading4,
     LuMoreHorizontal,
-
-} from "react-icons/lu"
-import { TbClearFormatting } from "react-icons/tb"
-import { GrBlockQuote } from "react-icons/gr"
+} from "react-icons/lu";
+import { TbClearFormatting } from "react-icons/tb";
 
 const BoldIcon = () => <FaBold size={12} />
 const ItalicIcon = () => <FaItalic size={12} />
@@ -53,11 +51,9 @@ const AlignJustifyIcon = () => <FaAlignJustify size={12} />
 const TiptapInput = ({
     desc,
     setDesc,
-    style
 }: {
     desc: string
     setDesc: React.Dispatch<React.SetStateAction<string>>
-    style?: React.CSSProperties
 }) => {
 
     const padding = { padding: "0.6rem 0.3rem" }

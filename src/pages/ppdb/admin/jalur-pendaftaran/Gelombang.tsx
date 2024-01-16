@@ -32,7 +32,7 @@ import { EditGelombangPayload, editGelombang } from "../../../../apis/gelombang/
 import { getGelombangByIdJalur } from "../../../../apis/gelombang/getGelombangByIdJalur";
 import { TGelombang } from "../../../../apis/jalur/getJalur";
 import Page from "../../../../components/Page";
-import TestUjianAdmin from "../../../../components/TestUjianAdmin";
+import TestUjianAdmin from "../../../../components/TesUjian/TestUjianAdmin";
 import ModalGelombang from "../../../../components/Modal/modalGelombang";
 import { DarkTheme } from "../../../../utils/darkTheme";
 

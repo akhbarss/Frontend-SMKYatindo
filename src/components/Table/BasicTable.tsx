@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unnecessary-type-constraint */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import {
   ColumnDef,

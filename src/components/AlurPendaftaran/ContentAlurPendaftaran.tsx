@@ -10,7 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import { GetAllAlurPendaftaran } from "../../apis/alur/getAlur";
 import { useBreakPoints } from "../../utils/UseBreakpoints";
-import TiptapOutput from "../ppdb/tiptapOutput";
+import TiptapOutput from "../Fields/FieldTiptapOutput";
 
 const AlurPendaftaran = () => {
   const { xs } = useBreakPoints();

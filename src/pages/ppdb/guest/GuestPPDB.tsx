@@ -18,7 +18,7 @@ import { FaInstagram, FaWhatsapp, FaYoutube } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { Link as Anchor } from "react-scroll";
 import AlurPendaftaran from "../../../components/AlurPendaftaran/ContentAlurPendaftaran";
-import Ppdb from "../../../components/ppdb/ppdb";
+import Ppdb from "../../../components/ui/Guest/SectionGuest";
 import { useBreakPoints } from "../../../utils/UseBreakpoints";
 
 const GuestPPDB = () => {

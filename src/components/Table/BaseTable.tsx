@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unnecessary-type-constraint */
 import React, { Fragment } from "react";
 import {
   flexRender,
@@ -130,7 +132,7 @@ const BaseTable = <T extends unknown>({
         <tfoot>
           {table?.getFooterGroups().map((footerGroup) => (
             <tr key={footerGroup.id}>
-              {footerGroup.headers.map((header, index) => (
+              {footerGroup.headers.map((header) => (
                 <th
                   key={header.id}
                   style={{

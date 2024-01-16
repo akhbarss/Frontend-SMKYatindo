@@ -11,9 +11,9 @@ import {
 import { DateInput } from "@mantine/dates";
 import { Controller, useFormContext } from "react-hook-form";
 import toast from "react-hot-toast";
-import { RadioGroupCustom } from "./Fields/RadioGroup";
-import SelectStatus from "./SelectStatus";
-import UploadDropzone from "./UploadDropzone";
+import { RadioGroupCustom } from "../Fields/RadioGroup";
+import SelectStatus from "../Fields/SelectStatus";
+import UploadDropzone from "../Fields/UploadDropzone";
 
 export type TFormFieldBiodata = {
   profile_picture: File[];

@@ -22,7 +22,7 @@ import { statusValue } from "../../../../utils/statusValue";
 import BiodataAdmin from "./BiodataAdmin";
 import Pembayaran from "./Pembayaran";
 import UbahPassword from "./UbahPassword";
-import ProfilePicture from "../../../../components/ppdb/ProfilePicture";
+import ProfilePicture from "../../../../components/Profile/ProfilePicture";
 import { convertToFileObject } from "../../../../utils/imageUtils";
 
 interface TErrResponse extends Error {

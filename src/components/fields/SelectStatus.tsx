@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { Loader, Select, SelectItem } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
-import { getLookup } from "../apis/lookup";
+import { getLookup } from "../../apis/lookup";
 
 const SelectStatus = (props: {
   type: string;

@@ -5,7 +5,7 @@ import { Navigate, Outlet, RouteObject } from "react-router-dom";
 import Interceptors from "./Interceptor";
 import { ProviderMantine } from "./components";
 import MissingPPDB from "./components/Result/NotFound";
-import Unauthorized from "./components/ppdb/unauthorized";
+import Unauthorized from "./components/Result/Unauthorized";
 import AuthLayout from "./layouts/AuthLayout";
 import DashboardLayout from "./layouts/DashboardLayout";
 import GuestLayout from "./layouts/GuestLayout";

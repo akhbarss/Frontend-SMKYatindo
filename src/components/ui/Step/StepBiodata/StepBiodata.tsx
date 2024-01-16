@@ -14,11 +14,11 @@ import ResponseError from "../../../../utils/ResponseError";
 import {
   convertToFileObject,
 } from "../../../../utils/imageUtils";
-import FormFieldBiodata, { TFormFieldBiodata } from "../../../FormFieldBiodata";
+import FormFieldBiodata, { TFormFieldBiodata } from "../../../Form/FormFieldBiodata";
 import FormFieldInformasiOrangTua, {
   TFormFieldInformasiOrangTua,
-} from "../../../FormFieldInformasiOrangTua";
-import FormWrapper from "../../../FormWrapper";
+} from "../../../Form/FormFieldInformasiOrangTua";
+import FormWrapper from "../../../Form/FormWrapper";
 
 const StepBiodata: React.FC<Step> = ({ type = "PENGEMBALIAN" }) => {
   const [load, setLoad] = useState(false)

@@ -19,11 +19,11 @@ import React from 'react';
 import toast from "react-hot-toast";
 import { IoDocumentText, IoEllipsisVertical } from "react-icons/io5";
 import { Link } from 'react-router-dom';
-import { CreateTesUjianPayload, createTestUjian } from "../apis/test-ujian/createTestUjian";
-import { DeleteTesUjianPayload, deleteTesUjian } from "../apis/test-ujian/deleteTesUjian";
-import { EditTesUjianPayload, editTesUjian } from "../apis/test-ujian/editTesUjian";
-import { getTestUjian } from '../apis/test-ujian/getTestUjian';
-import ModalTestUjian from './Modal/modalTestUjian';
+import { CreateTesUjianPayload, createTestUjian } from "../../apis/test-ujian/createTestUjian";
+import { DeleteTesUjianPayload, deleteTesUjian } from "../../apis/test-ujian/deleteTesUjian";
+import { EditTesUjianPayload, editTesUjian } from "../../apis/test-ujian/editTesUjian";
+import { getTestUjian } from '../../apis/test-ujian/getTestUjian';
+import ModalTestUjian from '../Modal/modalTestUjian';
 
 type TypeTestUjianAdmin = {
     idGelombang: number;

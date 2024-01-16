@@ -25,7 +25,7 @@ import { deleteStudentFromBatch } from "../../../../apis/student/deleteStudentFr
 import { exportExcel } from "../../../../apis/student/exportExcel";
 import { getAllStudentByBatchId } from "../../../../apis/student/getAllStudentByBatchId";
 import { getTotalPendaftarByBatch } from "../../../../apis/total-pendaftar/getTotalPendaftarByBatch";
-import DataTable from "../../../../components/DataTable";
+import DataTable from "../../../../components/Table/DataTable";
 import Page from "../../../../components/Page";
 import PageLabel from "../../../../components/PageLabel";
 import { Status } from "../../../../types/global";

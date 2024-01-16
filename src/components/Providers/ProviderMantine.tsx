@@ -11,7 +11,7 @@ import {
   createDataModel,
   createInformasi,
   createModalSuccess,
-} from "./modals";
+} from "../Modal/modals";
 
 const modals = {
   createData: createDataModel,

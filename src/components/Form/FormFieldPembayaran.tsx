@@ -15,7 +15,7 @@ import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
 import { Controller, useFormContext } from "react-hook-form";
 import toast from "react-hot-toast";
 import { NumericFormat } from "react-number-format";
-import { RadioGroupCustom } from "./Fields/RadioGroup";
+import { RadioGroupCustom } from "../Fields/RadioGroup";
 import { Image, Upload, X } from "lucide-react";
 
 const FormFieldPembayaran = () => {

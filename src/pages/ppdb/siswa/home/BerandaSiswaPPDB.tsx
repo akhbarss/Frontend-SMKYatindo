@@ -15,7 +15,7 @@ import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "../../../../apis/alur/decodeJWT";
 import { GetAllAlurPendaftaran } from "../../../../apis/alur/getAlur";
 import Page from "../../../../components/Page";
-import TiptapOutput from "../../../../components/ppdb/tiptapOutput";
+import TiptapOutput from "../../../../components/Fields/FieldTiptapOutput";
 import { useBreakPoints } from "../../../../utils/UseBreakpoints";
 import { gradesUtils } from "../../../../utils/gradesUtils";
 

@@ -12,7 +12,7 @@ import { randomId } from '@mantine/hooks';
 import React from 'react';
 import { FaTrash } from 'react-icons/fa';
 import { NumericFormat } from 'react-number-format';
-import ModalAdmin from '../modalAdmin';
+import ModalAdmin from './modalAdmin';
 
 export type FormEditBiayaTambahan = {
     id: number

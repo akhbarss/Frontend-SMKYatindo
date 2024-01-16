@@ -1,6 +1,6 @@
 import React from "react";
 import { Loader, MultiSelect } from "@mantine/core";
-import { getLookup } from "../apis/lookup";
+import { getLookup } from "../../apis/lookup";
 import { useQuery } from "@tanstack/react-query";
 
 const MultiSelectStatus = (props: {

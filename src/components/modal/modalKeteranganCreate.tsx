@@ -4,8 +4,8 @@ import {
     TextInput
 } from '@mantine/core'
 import React from 'react'
-import ModalAdmin from '../modalAdmin'
-import TiptapInput from '../ppdb/tiptapInput'
+import ModalAdmin from './modalAdmin'
+import TiptapInput from '../Fields/FieldTiptapInput'
 
 type TModalKeteranganCreate = {
     opened: boolean

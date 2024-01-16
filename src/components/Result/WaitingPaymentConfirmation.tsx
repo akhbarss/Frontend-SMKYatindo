@@ -4,14 +4,14 @@ import React from "react";
 const WaitingPaymentConfirmation = () => {
   return (
     <Box
-      sx={(theme) => ({
+      sx={{
         backgroundColor: `transparent`,
         padding: "4rem 0",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-      })}
+      }}
     >
       <img
         src="/svg/wait-pembelianformulir.svg"

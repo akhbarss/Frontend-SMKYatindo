@@ -10,7 +10,7 @@ import { DateTimePicker } from "@mantine/dates"
 import { UseFormReturnType } from "@mantine/form"
 import { NumericFormat } from 'react-number-format'
 import { FormValuesCreateJalur } from "../../pages/ppdb/admin/jalur-pendaftaran/JalurPendaftaranAdmin"
-import ModalAdmin from "../modalAdmin"
+import ModalAdmin from "./modalAdmin"
 
 type TModalJalurAdmin = {
     title: string

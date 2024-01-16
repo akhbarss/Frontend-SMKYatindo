@@ -9,8 +9,8 @@ import { UseMutationResult } from '@tanstack/react-query'
 import React from 'react'
 import { EditAlurPayload } from '../../apis/alur/editAlur'
 import { ResponseType } from '../../types/global'
-import ModalAlur from '../modalAdmin'
-import TiptapInput from '../ppdb/tiptapInput'
+import ModalAlur from './modalAdmin'
+import TiptapInput from '../Fields/FieldTiptapInput'
 
 type TModalAlurEdit = {
     opened: boolean

@@ -27,7 +27,7 @@ import { EditKeteranganPayload, editKeterangan } from "../../../../apis/informas
 import { InformmasiUmumKeterangan, getAllKeterangan } from "../../../../apis/informasi-umum/keterangan/getAllKeterangan"
 import ModalKeteranganCreate from "../../../../components/Modal/modalKeteranganCreate"
 import ModalKeteranganEdit from "../../../../components/Modal/modalKeteranganEdit"
-import TiptapOutput from "../../../../components/ppdb/tiptapOutput"
+import TiptapOutput from "../../../../components/Fields/FieldTiptapOutput"
 import { DarkTheme } from "../../../../utils/darkTheme"
 
 const Keterangan = () => {

@@ -7,7 +7,7 @@ import {
 } from "@mantine/core";
 import { Controller, useFormContext } from "react-hook-form";
 import toast from "react-hot-toast";
-import UploadDropzone from "./UploadDropzone";
+import UploadDropzone from "../Fields/UploadDropzone";
 
 export type TFormFieldInformasiOrangTua = {
   dad_name: string;

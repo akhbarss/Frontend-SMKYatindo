@@ -15,11 +15,11 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import React, { useEffect } from "react";
-import { useDebounce } from "../utils/useDebounce";
+import { useDebounce } from "../../utils/useDebounce";
 import BaseTable, { TBaseTable } from "./BaseTable";
 import { TBasicTable } from "./BasicTable";
 import { Search } from "lucide-react";
-import ButtonColumnFilter from "./ButtonColumnFilter";
+import ButtonColumnFilter from "../Button/ButtonColumnFilter";
 import Pagination from "./Pagination";
 
 type TDataTable<T> = {

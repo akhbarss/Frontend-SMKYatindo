@@ -19,11 +19,11 @@ import useQueryFilter from "../../../../hooks/useQueryFilter";
 import { Step } from "../../../../types/global";
 import ResponseError from "../../../../utils/ResponseError";
 import { formatAngka } from "../../../../utils/formatRupiah";
-import DataTable from "../../../DataTable";
-import FormFieldPembayaran from "../../../FormFieldPembayaran";
-import FormWrapper from "../../../FormWrapper";
-import SelectStatus from "../../../SelectStatus";
-import WaitingPaymentConfirmation from "../../../WaitingPaymentConfirmation";
+import DataTable from "../../../Table/DataTable";
+import FormFieldPembayaran from "../../../Form/FormFieldPembayaran";
+import FormWrapper from "../../../Form/FormWrapper";
+import SelectStatus from "../../../Fields/SelectStatus";
+import WaitingPaymentConfirmation from "../../../Result/WaitingPaymentConfirmation";
 
 const paymentMethod = {
   CASH: "Tunai",

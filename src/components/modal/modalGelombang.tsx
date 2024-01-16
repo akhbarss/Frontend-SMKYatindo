@@ -11,7 +11,7 @@ import { UseFormReturnType } from '@mantine/form'
 import React from 'react'
 import { NumericFormat } from 'react-number-format'
 import { FormValuesGelombang } from '../../pages/ppdb/admin/jalur-pendaftaran/Gelombang'
-import ModalAdmin from '../modalAdmin'
+import ModalAdmin from './modalAdmin'
 
 type TModalGelombang = {
     title: string

@@ -6,7 +6,7 @@ import {
     Text
 } from '@mantine/core'
 import { Link } from 'react-router-dom'
-import { useBreakPoints } from '../../utils/UseBreakpoints'
+import { useBreakPoints } from '../../../utils/UseBreakpoints'
 
 const Ppdb = () => {
     const { xs } = useBreakPoints()

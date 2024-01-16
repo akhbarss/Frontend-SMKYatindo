@@ -1,5 +1,5 @@
 import { CustomFonts } from "./customFonts"
-import ProviderMantine from "./providerMantine"
+import ProviderMantine from "./Providers/ProviderMantine"
 
 export {
     CustomFonts,

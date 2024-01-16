@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useBreakPoints } from '../utils/UseBreakpoints';
 import { FaBars } from 'react-icons/fa';
-import ToggleTheme from '../components/toggleTheme';
+import ToggleTheme from '../components/Button/ToggleTheme';
 
 const HeaderFix = () => {
 
