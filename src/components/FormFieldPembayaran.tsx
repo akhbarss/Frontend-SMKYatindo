@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import {
   Group,
-  Image,
+  Image as MantineImage,
   Radio,
   rem,
   SimpleGrid,
@@ -14,11 +14,9 @@ import {
 import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
 import { Controller, useFormContext } from "react-hook-form";
 import toast from "react-hot-toast";
-import { FaUpload } from "react-icons/fa";
-import { HiPhoto } from "react-icons/hi2";
-import { ImCross } from "react-icons/im";
 import { NumericFormat } from "react-number-format";
 import { RadioGroupCustom } from "./fields/RadioGroup";
+import { Image, Upload, X } from "lucide-react";
 
 const FormFieldPembayaran = () => {
   const theme = useMantineTheme();
@@ -60,25 +58,13 @@ const FormFieldPembayaran = () => {
                 style={{ minHeight: rem(220), pointerEvents: "none" }}
               >
                 <Dropzone.Accept>
-                  <FaUpload
-                    size="3.2rem"
-                    color={
-                      theme.colors[theme.primaryColor][
-                        theme.colorScheme === "dark" ? 4 : 6
-                      ]
-                    }
-                  />
+                  <Upload />
                 </Dropzone.Accept>
                 <Dropzone.Reject>
-                  <ImCross
-                    size="3.2rem"
-                    color={
-                      theme.colors.red[theme.colorScheme === "dark" ? 4 : 6]
-                    }
-                  />
+                  <X />
                 </Dropzone.Reject>
                 <Dropzone.Idle>
-                  <HiPhoto size="3.2rem" />
+                  <Image />
                 </Dropzone.Idle>
                 <Text size="">Upload Bukti Bayar, Max : 5MB</Text>
               </Group>
@@ -92,7 +78,7 @@ const FormFieldPembayaran = () => {
                   value?.map((file, index) => {
                     const imageUrl = URL.createObjectURL(file);
                     return (
-                      <Image
+                      <MantineImage
                         key={index}
                         src={imageUrl}
                         w={20}

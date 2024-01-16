@@ -1,22 +1,12 @@
-import React from "react";
-import { Controller, useFormContext } from "react-hook-form";
 import {
   Grid,
-  Group,
-  Image,
-  rem,
-  SimpleGrid,
   Stack,
   Text,
-  Textarea,
   TextInput,
-  useMantineTheme,
+  Textarea
 } from "@mantine/core";
-import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
+import { Controller, useFormContext } from "react-hook-form";
 import toast from "react-hot-toast";
-import { FaUpload } from "react-icons/fa";
-import { ImCross } from "react-icons/im";
-import { HiPhoto } from "react-icons/hi2";
 import UploadDropzone from "./UploadDropzone";
 
 export type TFormFieldInformasiOrangTua = {
@@ -35,7 +25,6 @@ export type TFormFieldInformasiOrangTua = {
 };
 
 const FormFieldInformasiOrangTua = () => {
-  const theme = useMantineTheme();
   const {
     register,
     control,

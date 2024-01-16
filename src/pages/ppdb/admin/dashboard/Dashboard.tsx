@@ -6,74 +6,53 @@ import {
   SimpleGrid,
   Stack,
   Text,
-  ThemeIcon,
-  useMantineTheme
+  ThemeIcon
 } from "@mantine/core";
-import {
-  IconArrowDownRight,
-  IconArrowUpRight
-} from "@tabler/icons-react";
-import { useMemo } from "react";
-import { FaUser, FaUsers } from "react-icons/fa6";
-import { MdOutlinePriceCheck } from "react-icons/md";
-import { PiTimerBold } from "react-icons/pi";
+import { useQuery } from "@tanstack/react-query";
+import { CheckCheck, LucideIcon, Timer, UsersRound } from "lucide-react";
+import { countStatisticDashboard } from "../../../../apis/statistic-dashboard/count-statistic";
+import { pathStatistic } from "../../../../apis/statistic-dashboard/pathStatistic";
 import Page from "../../../../components/Page";
 import PageLabel from "../../../../components/PageLabel";
 import { DarkTheme } from "../../../../utils/darkTheme";
 
 type TPathStatistics = {
   title: string
+  data: {
+    id: number;
+    label: string;
+    count: string;
+    part: number;
+    color: string;
+  }[],
+  total: number;
 }
 
-const data = [
-  { id: 1, label: "Jalur Reguler", count: "204,001", part: 20, color: "#47d6ab" },
-  { id: 2, label: "Jalur Prestasi", count: "121,017", part: 20, color: "#f7e14f" },
-  { id: 3, label: "Jalur Diskon", count: "31,118", part: 10, color: "#4fcdf7" },
-  { id: 4, label: "Jalur Diskon", count: "41,118", part: 10, color: "#f74f7c" },
-  { id: 5, label: "Jalur Diskon", count: "61,118", part: 20, color: "#4ff76e" },
-  { id: 6, label: "Jalur Diskon", count: "61,118", part: 10, color: "#d54ff7" },
-  { id: 7, label: "Jalur Diskon", count: "61,118", part: 10, color: "#f7a94f" },
-];
+const colors = [
+  "#47d6ab",
+  "#f7e14f",
+  "#4fcdf7",
+  "#f74f7c",
+  "#4ff76e",
+  "#d54ff7",
+  "#f7a94f",
+]
 
-const icons = {
-  up: IconArrowUpRight,
-  down: IconArrowDownRight,
-};
+interface StudentStatsProps {
+  data: {
+    id: number;
+    label: string;
+    stats: number;
+    progress: number;
+    color: string;
+    icon: LucideIcon;
+    size: number;
+  }[]
+}
 
-const statspage = [
-  {
-    id: 1,
-    label: "Siswa Terdaftar",
-    stats: "490.203",
-    progress: 100,
-    color: "blue",
-    icon: FaUsers,
-    size: 30
-  },
-  {
-    id: 2,
-    label: "Menunggu Pembayaran",
-    stats: "456,578",
-    progress: 100,
-    color: "red",
-    icon: PiTimerBold,
-    size: 35
-  },
-  {
-    id: 3,
-    label: "Pembayaran Terkonfirmasi",
-    stats: "2,550",
-    progress: 100,
-    color: "teal",
-    icon: MdOutlinePriceCheck,
-    size: 40
-  },
-] as const;
-
-const StudentStats = () => {
-  const theme = useMantineTheme()
+const StudentStats = ({ data }: StudentStatsProps) => {
   const dark = DarkTheme()
-  const stats = statspage.map((stat) => {
+  const stats = data.map((stat) => {
     const Icon = stat.icon;
     return (
       <Paper withBorder radius="md" p="xs" key={stat.id} shadow="md" sx={theme => ({ backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[9] : "" })}>
@@ -107,8 +86,8 @@ const StudentStats = () => {
   );
 };
 
-const PathStatistics: React.FC<TPathStatistics> = ({ title }) => {
-  const descriptions = data.map((stat) => (
+const PathStatistics: React.FC<TPathStatistics> = ({ title, data, total }) => {
+  const descriptions = data?.map((stat) => (
     <Box
       key={stat.id}
       style={{
@@ -138,14 +117,14 @@ const PathStatistics: React.FC<TPathStatistics> = ({ title }) => {
       </Text>
       <Group my={10} >
         <Text fz="xl" fw={700}>
-          345,765
+          {total}
         </Text>
-        <FaUser size={20} />
+        <UsersRound size={20} />
       </Group>
 
       <Progress
         size="xl"
-        sections={data.map((d) => {
+        sections={data?.map((d) => {
           return {
             value: d.part,
             color: d.color,
@@ -166,34 +145,89 @@ const PathStatistics: React.FC<TPathStatistics> = ({ title }) => {
 };
 
 const Dashboard = () => {
-  const columns = useMemo(() => {
-    return [
-      {
-        id: "No. Formulir",
-        header: "No. Formulir",
-        accessorFn: (data, deps) => {
-          return deps + 1;
-        },
-      },
-      {
-        id: "Nama",
-        header: "Nama",
-        accessorFn: (data, deps) => {
-          return deps + 1;
-        },
-      },
-    ];
-  }, []);
+
+  const { data: countStatistic } = useQuery({
+    queryKey: ["get_count_statistic_dashboard"],
+    queryFn: countStatisticDashboard
+  })
+
+  const { data: resultPathStatistic } = useQuery({
+    queryKey: ["get_path_statistic"],
+    queryFn: pathStatistic
+  })
+
+  const statspage = [
+    {
+      id: 1,
+      label: "Siswa Terdaftar",
+      stats: countStatistic?.data?.registered,
+      progress: 100,
+      color: "blue",
+      icon: UsersRound,
+      size: 30
+    },
+    {
+      id: 2,
+      label: "Menunggu Pembayaran",
+      stats: countStatistic?.data?.waiting_Payment,
+      progress: 100,
+      color: "red",
+      icon: Timer,
+      size: 35
+    },
+    {
+      id: 3,
+      label: "Pembayaran Terkonfirmasi",
+      stats: countStatistic?.data?.payment_Confirmed,
+      progress: 100,
+      color: "teal",
+      icon: CheckCheck ,
+      size: 40
+    },
+  ]
+
+
+  const pembelian = resultPathStatistic?.data?.filter(batch => batch.type == "PEMBELIAN")
+  const totalPembelian = pembelian?.reduce((acc, currentValue) => acc + currentValue.registered, 0);
+  const dataPembelian = pembelian?.map((batch, index) => {
+    return ({
+      id: batch.id,
+      label: `${batch.name} - ${batch.grade.toUpperCase()}`,
+      count: batch.registered + "",
+      color: colors[index],
+      part: (batch.registered / totalPembelian) * 100
+    })
+  })
+
+  const pengembalian = resultPathStatistic?.data?.filter(batch => batch.type == "PENGEMBALIAN")
+  const totalPengembalian = pengembalian?.reduce((acc, currentValue) => acc + currentValue.registered, 0);
+  const dataPengembalian = pengembalian?.map((batch, index) => {
+    return ({
+      id: batch.id,
+      label: `${batch.name} - ${batch.grade.toUpperCase()}`,
+      count: batch.registered + "",
+      color: colors[index],
+      part: (batch.registered / totalPengembalian) * 100
+    })
+  })
+
 
   return (
     <>
       <Page title="Dashboard">
         <PageLabel label="Dashboard" />
         <Stack mt={40} className="style-box max-w-[70rem] mx-auto" spacing={"2rem"}>
-          <StudentStats />
-          <PathStatistics title="Tipe Pembelian" />
-          <PathStatistics title="Tipe Pengembalian" />
-          <PathStatistics title="Gelombang" />
+          <StudentStats data={statspage} />
+          <PathStatistics
+            title="Tipe Pembelian"
+            total={totalPembelian}
+            data={dataPembelian}
+          />
+          <PathStatistics
+            title="Tipe Pengembalian"
+            total={totalPengembalian}
+            data={dataPengembalian}
+          />
         </Stack>
       </Page>
     </>

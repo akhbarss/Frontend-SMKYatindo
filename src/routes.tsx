@@ -31,7 +31,7 @@ export const routes: RouteObject[] = [
           <ProviderMantine>
             <Outlet />
           </ProviderMantine>
-          <ReactQueryDevtools initialIsOpen={false} />
+          {/* <ReactQueryDevtools initialIsOpen={false} /> */}
         </QueryClientProvider>
       </Interceptors>
     ),

@@ -1,19 +1,16 @@
 import {
-    Group,
-    Box,
-    Stack,
-    Paper,
-    PasswordInput,
-    Text,
     Button,
+    Group,
+    PasswordInput,
+    Stack,
+    Text,
     TextInput
 } from "@mantine/core"
+import { matchesField, useForm } from '@mantine/form'
 import { useMutation } from '@tanstack/react-query'
-import { useForm } from '@mantine/form'
-import { isNotEmpty, matchesField } from '@mantine/form'
-import { ChangePasswordPayloadStudent, changePasswordStudent } from '../../../../apis/changePasswordStudent'
 import toast from "react-hot-toast"
 import { useParams } from "react-router-dom"
+import { ChangePasswordPayloadStudent, changePasswordStudent } from '../../../../apis/changePasswordStudent'
 
 const UbahPassword = () => {
     const { userId } = useParams()
@@ -34,11 +31,11 @@ const UbahPassword = () => {
 
     const submitChangePassword = (payload: ChangePasswordPayloadStudent) => {
         changePasswordMutation.mutate(payload, {
-            onSuccess: (res) => {
+            onSuccess: () => {
                 toast.success("Ubah password berhasil!")
                 form.reset()
             },
-            onError: (err) => {
+            onError: () => {
                 toast.error("Gagal mengubah password")
             }
         })

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable @typescript-eslint/no-unnecessary-type-constraint */
-import React, { useEffect } from "react";
+import { Box, Card, Flex, Input, ScrollArea, Text } from "@mantine/core";
 import {
   ExpandedState,
   getCoreRowModel,
@@ -14,11 +14,11 @@ import {
   Row,
   useReactTable,
 } from "@tanstack/react-table";
+import React, { useEffect } from "react";
+import { useDebounce } from "../utils/useDebounce";
 import BaseTable, { TBaseTable } from "./BaseTable";
 import { TBasicTable } from "./BasicTable";
-import { useDebounce } from "../utils/useDebounce";
-import { Box, Card, Flex, Input, ScrollArea, Text } from "@mantine/core";
-import { BiSearch } from "react-icons/bi";
+import { Search } from "lucide-react";
 import ButtonColumnFilter from "./ButtonColumnFilter";
 import Pagination from "./Pagination";
 
@@ -154,7 +154,7 @@ const DataTable = <T extends unknown>({
                       })}
                     >
                       <Input
-                        icon={<BiSearch size="1rem" />}
+                        icon={<Search size={20} />}
                         placeholder={"Cari Data"}
                         onChange={(e) => {
                           e.preventDefault();
@@ -272,7 +272,7 @@ const DataTable = <T extends unknown>({
                       })}
                     >
                       <Input
-                        icon={<BiSearch size="1rem" />}
+                        icon={<Search size={20} />}
                         placeholder={"Cari Data"}
                         onChange={(e) => {
                           e.preventDefault();

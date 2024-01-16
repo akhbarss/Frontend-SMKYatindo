@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unnecessary-type-constraint */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React from "react";
-import { Column } from "@tanstack/react-table";
 import { ActionIcon, Checkbox, Menu } from "@mantine/core";
-import { BiFilter } from "react-icons/bi";
+import { Column } from "@tanstack/react-table";
+import { Filter } from "lucide-react";
 
 type TButtonColumnFilter<T> = {
   columns: Column<T, any>[];
@@ -21,8 +20,8 @@ const ButtonColumnFilter = <T extends unknown>({
   return (
     <Menu position="left-start" offset={10} withArrow arrowPosition="center">
       <Menu.Target>
-        <ActionIcon size={40}>
-          <BiFilter size={60} />
+        <ActionIcon size={40} variant="subtle" >
+          <Filter />
         </ActionIcon>
       </Menu.Target>
       <Menu.Dropdown>

@@ -87,6 +87,7 @@ const JalurPendaftaranAdminSMK = () => {
                 formCreateMantine.reset()
             },
             onError: (error) => {
+                // @ts-ignore
                 const errMsg = error?.response?.data?.messages
                 if (errMsg) {
                     toast.error(errMsg)
@@ -99,13 +100,14 @@ const JalurPendaftaranAdminSMK = () => {
 
     function submitEditJalur(payload: EditJalurPayload) {
         editJalurMutation.mutate(payload, {
-            onSuccess: (response) => {
+            onSuccess: () => {
                 formCreateMantine.reset()
                 closeEdit()
                 refetch()
                 toast.success("Data berhasil diubah")
             },
             onError: (error) => {
+                // @ts-ignore
                 const errMsg = error?.response?.data?.messages
                 if (errMsg) {
                     toast.error(errMsg)
@@ -125,6 +127,7 @@ const JalurPendaftaranAdminSMK = () => {
                 refetch()
             },
             onError: (error) => {
+                // @ts-ignore
                 const errMsg = error?.response?.data?.messages
                 if (errMsg) {
                     toast.error(errMsg)
@@ -210,9 +213,6 @@ const JalurPendaftaranAdminSMK = () => {
                                 hour: 'numeric',
                                 minute: 'numeric'
                             })}
-                        </Text>
-                        <Text color="white">
-                            {item?.countStudent ? item.countStudent : 0} Pendaftar
                         </Text>
                     </Group>
                 </Link>

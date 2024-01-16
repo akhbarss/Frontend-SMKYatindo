@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable prefer-const */
 import { Box, Button, Divider, Group, Text } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import html2pdf from "html2pdf.js";
@@ -27,7 +29,6 @@ interface TPrintContent {
     grade: "SMK" | "SMP"
     dummyCard: boolean;
     textColor: "white" | "black"
-    // dark: boolean
     bgColor: "white" | "black"
 }
 
@@ -52,7 +53,6 @@ class PrintContent extends Component<TPrintContent> {
         } = this.props
 
         const smk = grade === "SMK"
-        const smp = grade === "SMP"
 
         return (
             <div
@@ -78,20 +78,19 @@ class PrintContent extends Component<TPrintContent> {
                         <Divider mt={20} orientation='horizontal' size={"lg"} className={classes[`${smk ? "divider-smk" : "divider-smp"}`]} />
 
                         <div className={classes["biodata"]}>
-                            {
-                                fotoProfile?.length > 0 ? fotoProfile?.map((file, index) => {
-                                    const imageUrl = URL.createObjectURL(file);
-                                    return (
+                            {fotoProfile?.length > 0 ? fotoProfile?.map((file, index) => {
+                                const imageUrl = URL.createObjectURL(file);
+                                return (
                                         <img
                                             height={170}
                                             width={160}
                                             key={index}
                                             src={imageUrl}
-                                            onLoad={() => URL.revokeObjectURL(imageUrl)}
                                         />
-                                    )
-                                }) : <div className={classes["profile"]} />
-                            }
+                                )
+                            }) : (
+                                <div className={classes["profile"]} />
+                            )}
                             <div className={classes["biodata-detail"]}>
                                 <table className={classes["table"]}>
                                     <tbody>
@@ -145,7 +144,7 @@ class PrintContent extends Component<TPrintContent> {
                             </div>
                         </div>
 
-                        <Divider orientation='horizontal' size={"lg"} className={classes[`${smk ? "divider-smk" : "divider-smp"}`]}/>
+                        <Divider orientation='horizontal' size={"lg"} className={classes[`${smk ? "divider-smk" : "divider-smp"}`]} />
 
                         <div className={classes["detail-pendaftaran"]}>
                             <table className="table">
@@ -196,6 +195,7 @@ const PrintPage = () => {
     const componentRef = useRef()
     const { md, } = useBreakPoints()
     const [profileImg, setProfileImg] = useState<File[] | null>(null)
+    const [loading, setLoading] = useState(false)
 
     const {
         data: user,
@@ -235,13 +235,11 @@ const PrintPage = () => {
 
         for (let i = 0; i < selectedMajors.length; i++) {
             const code = selectedMajors[i].trim();
-            const optionNumber = i + 1;
             const selectedMajorName = majors[code];
 
             // result += `Pilihan jurusan ${optionNumber}: "${selectedMajorName}"\n`;
             result.push(selectedMajorName)
         }
-
         return result;
     }
 
@@ -260,8 +258,10 @@ const PrintPage = () => {
                 const html = document.getElementsByTagName("html")[0];
                 try {
                     const exporter = new html2pdf(html, { filename: `PDF_SISWA_.pdf` })
+                    setLoading(false)
                 } catch (error) {
                     toast.error("Terjadi kesalahan")
+                    setLoading(false)
                 }
             }
         }
@@ -273,7 +273,12 @@ const PrintPage = () => {
                 <Button
                     size='md'
                     leftIcon={<FaFilePdf size={25} />}
-                    onClick={handlePrint}
+                    onClick={async () => {
+                        setLoading(true)
+                        handlePrint()
+
+                    }}
+                    loading={loading}
                 >
                     Download
                 </Button>

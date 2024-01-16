@@ -1,20 +1,15 @@
 import { NavLink, Navbar, ScrollArea, createStyles, getStylesRef } from "@mantine/core";
 import { useIsFetching } from "@tanstack/react-query";
+import type { LucideIcon } from "lucide-react";
+import { FileText, GitBranch, GitPullRequestArrow, Home, LayoutDashboard, ShoppingCart, Users } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
-import { IconType } from "react-icons";
-import { FaHome, FaLine } from "react-icons/fa";
-import { GiWaves } from "react-icons/gi";
-import { CgNotes } from "react-icons/cg";
-import { IoGitPullRequest } from "react-icons/io5";
-import { MdAppRegistration, MdDashboard } from "react-icons/md";
-import { RiFileList3Line } from "react-icons/ri";
 import { useLocation, useNavigate } from "react-router-dom";
 import { DarkTheme } from "../../utils/darkTheme";
 
 type TMenuSiswaNavigation = {
   label: string;
   path: string;
-  icon: IconType;
+  icon: LucideIcon;
   color: string;
 }[]
 
@@ -22,8 +17,7 @@ const useStyles = createStyles((theme) => ({
   link: {
     ...theme.fn.focusStyles(),
     backgroundColor: "white",
-    color:
-      theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[7],
+    color: theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[7],
     fontWeight: 600,
     borderRadius: 6,
 
@@ -41,7 +35,7 @@ const useStyles = createStyles((theme) => ({
   linkActive: {
     "&, &:hover": {
       backgroundColor: "#1971C2",
-      color: "white",
+      color: theme.white,
     },
   },
 }))
@@ -63,50 +57,50 @@ const Navigation = ({
       {
         label: "Home",
         path: "/ppdb/main/home",
-        icon: FaHome,
+        icon: Home,
         color: "orange"
       },
       {
         label: "Pembelian",
         path: "/ppdb/main/pembelian",
-        icon: RiFileList3Line,
+        icon: ShoppingCart,
         color: "green"
       },
       {
         label: "Pengembalian",
         path: "/ppdb/main/pengembalian",
-        icon: IoGitPullRequest,
+        icon: GitPullRequestArrow,
         color: "red"
       },
       {
         label: "Tes Ujian",
         path: "/ppdb/main/tes-ujian",
-        icon: CgNotes,
+        icon: FileText,
         color: "blue"
       },
       {
         label: "Dashboard",
         path: "/ppdb/main/dashboard",
-        icon: MdDashboard,
-        color: "cyan"
+        icon: LayoutDashboard,
+        color: "black"
       },
       {
         label: "Alur Pendaftaran",
         path: "/ppdb/main/alur",
-        icon: GiWaves,
+        icon: GitBranch,
         color: "indigo"
       },
       {
         label: "Jalur Pendaftaran",
         path: "/ppdb/main/jalur-pendaftaran",
-        icon: FaLine,
+        icon: GitPullRequestArrow,
         color: "lime"
       },
       {
         label: "Pendaftar",
         path: "/ppdb/main/pendaftar-ppdb",
-        icon: MdAppRegistration,
-        color: "lime"
+        icon: Users,
+        color: "purple"
       },
     ],
     []

@@ -197,9 +197,6 @@ const JalurPendaftaranAdminSMP = () => {
                                 minute: 'numeric'
                             })}
                         </Text>
-                        <Text color="white">
-                            {item?.countStudent ? item.countStudent : 0} Pendaftar
-                        </Text>
                     </Group>
                 </Link>
                 <div className="px-4 flex gap-2 ">

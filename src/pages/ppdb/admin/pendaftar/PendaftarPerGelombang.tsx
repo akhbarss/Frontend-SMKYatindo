@@ -1,25 +1,27 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import {
     ActionIcon,
-    Modal,
     Badge,
     Box,
     Button,
     Group,
+    Modal,
     Paper,
     Skeleton,
     Stack,
     Text,
     Title
 } from "@mantine/core";
-import {
-    IconTrash
-} from "@tabler/icons-react";
+import { useDisclosure } from "@mantine/hooks";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createColumnHelper } from "@tanstack/react-table";
+import { Trash2 } from "lucide-react";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { MdArrowBackIosNew } from "react-icons/md";
 import { Link, useParams } from "react-router-dom";
 import { getGelombangById } from "../../../../apis/gelombang/getGelombangById";
+import { deleteStudentFromBatch } from "../../../../apis/student/deleteStudentFromBatch";
 import { exportExcel } from "../../../../apis/student/exportExcel";
 import { getAllStudentByBatchId } from "../../../../apis/student/getAllStudentByBatchId";
 import { getTotalPendaftarByBatch } from "../../../../apis/total-pendaftar/getTotalPendaftarByBatch";
@@ -29,9 +31,6 @@ import PageLabel from "../../../../components/PageLabel";
 import { Status } from "../../../../types/global";
 import { DarkTheme } from "../../../../utils/darkTheme";
 import { statusValue } from "../../../../utils/statusValue";
-import toast from "react-hot-toast";
-import { useDisclosure } from "@mantine/hooks";
-import { deleteStudentFromBatch } from "../../../../apis/student/deleteStudentFromBatch";
 
 type Student = {
     id: number;
@@ -67,10 +66,10 @@ const PendaftarPerGelombang = () => {
 
     const sampleSubmitData = (batchId: string) => {
         exportExcelMutation.mutate(batchId, {
-            onSuccess: (response) => {
+            onSuccess: () => {
                 toast.success("Success")
             },
-            onError: (err) => toast.error("Gagal"),
+            onError: () => toast.error("Gagal"),
         });
     };
 
@@ -96,6 +95,7 @@ const PendaftarPerGelombang = () => {
         if (pendaftar.id) {
             deleteStudentFromBatchMutation.mutate(pendaftar.id, {
                 onSuccess: res => {
+                    // @ts-ignore
                     const mesg = res?.message
                     queryClient.invalidateQueries({ queryKey: ["get_all_student_by_batch_id"] })
                     closeModal()
@@ -106,6 +106,7 @@ const PendaftarPerGelombang = () => {
                     toast.success("Success")
                 },
                 onError: error => {
+                    // @ts-ignore
                     const errMsg = error?.response?.data?.messages
                     if (errMsg) {
                         toast.error(errMsg)
@@ -218,7 +219,7 @@ const PendaftarPerGelombang = () => {
                             }
                         }}
                     >
-                        <IconTrash />
+                        <Trash2 size={20} />
                     </ActionIcon>
                 )
             },
