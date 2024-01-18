@@ -48,7 +48,7 @@ const UbahPassword = () => {
     return (
         <form onSubmit={form.onSubmit(submitHandler)}>
             <Stack mt={30}>
-                <Text mt={20} fz={30} fw={600}>Ubah Password</Text>
+                <Text mt={20} fz={30} fw={600}>Ubah Kredensial Akun</Text>
                 <TextInput
                     label="No Telpon"
                     {...form.getInputProps("username")}

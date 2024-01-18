@@ -35,8 +35,8 @@ const SelectStatus = (props: {
             input: {
               backgroundColor: props.readOnly && "#2A166F",
               color: props.readOnly && "white",
-              fontWeight: `${props.readOnly ? "bolder" : "normal"}`
-            }
+              fontWeight: `${props.readOnly ? "bolder" : "normal"}`,
+            },
           }}
           // @ts-ignore
           data={

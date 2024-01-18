@@ -17,6 +17,7 @@ import toast from "react-hot-toast";
 import { NumericFormat } from "react-number-format";
 import { RadioGroupCustom } from "../Fields/RadioGroup";
 import { Image, Upload, X } from "lucide-react";
+import { useEffect } from "react";
 
 const FormFieldPembayaran = () => {
   const theme = useMantineTheme();
@@ -58,13 +59,13 @@ const FormFieldPembayaran = () => {
                 style={{ minHeight: rem(220), pointerEvents: "none" }}
               >
                 <Dropzone.Accept>
-                  <Upload />
+                  <Upload size={60} color="green" />
                 </Dropzone.Accept>
                 <Dropzone.Reject>
-                  <X />
+                  <X size={60} />
                 </Dropzone.Reject>
                 <Dropzone.Idle>
-                  <Image />
+                  <Image size={60} color="gray" />
                 </Dropzone.Idle>
                 <Text size="">Upload Bukti Bayar, Max : 5MB</Text>
               </Group>

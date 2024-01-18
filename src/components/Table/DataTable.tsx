@@ -167,11 +167,7 @@ const DataTable = <T extends unknown>({
                   {leftFilter}
                 </Flex>
                 {/* Kanan */}
-                <Box
-                  sx={() => ({
-                    // overflowY: "auto",
-                  })}
-                >
+                <Box>
                   <Flex gap={3} w={"fit-content"}>
                     {rightFilter}
                     <ButtonColumnFilter

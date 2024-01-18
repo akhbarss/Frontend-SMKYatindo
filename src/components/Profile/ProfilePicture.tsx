@@ -1,10 +1,11 @@
-import React, { useCallback, useEffect, useState } from 'react'
 import {
     Avatar,
     Skeleton
 } from "@mantine/core";
-import { convertToFileObject } from '../../utils/imageUtils';
+import { useCallback, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
+import { convertToFileObject } from '../../utils/imageUtils';
+import { openModalImage } from '../../utils/openModalImage';
 
 const ProfilePicture = ({ img }: { img: string }) => {
     const [image, setImg] = useState<File[] | null>(null)
@@ -42,8 +43,9 @@ const ProfilePicture = ({ img }: { img: string }) => {
                             }}
                             size={220}
                             color="cyan"
-                            sx={{ border: "3px solid grey" }}
+                            sx={{ border: "3px solid grey", cursor: "pointer" }}
                             radius={"100%"}
+                            onClick={() => openModalImage(file.name)}
                         />
                     )
                 })
