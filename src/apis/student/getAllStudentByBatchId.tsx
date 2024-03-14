@@ -8,6 +8,7 @@ type TStudent = {
     address: string
     status: Status
     registration_Date: number | null
+    registration_Date_Purchased_Batch: number | null
 }
 
 

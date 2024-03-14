@@ -54,7 +54,7 @@ const ModalKeteranganEdit: React.FC<TModalKeteranganEdit> = ({
                 <Text align="left" mt={30} weight={"bold"}>Deskripsi Keterangan</Text>
 
                 <TiptapInput
-                    desc={description}
+                    value={description}
                     setDesc={setDescription}
                 />
             </Stack>

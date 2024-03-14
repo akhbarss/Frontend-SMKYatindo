@@ -106,10 +106,10 @@ const StepPembayaran: React.FC<Step> = ({ type = "PEMBELIAN" }) => {
   }, []);
 
   const onSubmitPayment: SubmitHandler<any> = (data) => {
-    if (data?.amount !== offset?.data?.registration_batch?.price) {
-      toast.error("Nominal tidak sesuai")
-      return;
-    }
+    // if (data?.amount !== offset?.data?.registration_batch?.price) {
+    //   toast.error("Nominal tidak sesuai")
+    //   return;
+    // }
 
     const formData = new FormData();
     for (const [key, value] of Object.entries(data)) {

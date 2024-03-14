@@ -43,7 +43,7 @@ type Student = {
 const PendaftarPerGelombang = () => {
     const dark = DarkTheme()
     const { gelombangId } = useParams()
-    const { tipeGelombang } = useParams()
+    const { tipeGelombang } = useParams() as {tipeGelombang: "pembelian" | "pengembalian"}
     const queryClient = useQueryClient()
     const [searchName, setSearchName] = useState("")
     const [openedModal, { close: closeModal, open: openModal }] = useDisclosure()
@@ -131,7 +131,7 @@ const PendaftarPerGelombang = () => {
         nama: item?.name ?? "-",
         noWa: item?.phone ?? "-",
         status: item?.status ?? null,
-        tanggalMendaftar: item?.registration_Date ?? null
+        tanggalMendaftar: tipeGelombang == "pembelian" ?  item?.registration_Date ?? null : item?.registration_Date_Purchased_Batch ?? null 
     }))
 
     const filteredStatusStudent = students?.filter(student => {

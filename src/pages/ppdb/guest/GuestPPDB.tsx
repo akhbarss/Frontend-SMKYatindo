@@ -20,9 +20,10 @@ import { Link as Anchor } from "react-scroll";
 import AlurPendaftaran from "../../../components/AlurPendaftaran/ContentAlurPendaftaran";
 import Ppdb from "../../../components/ui/Guest/SectionGuest";
 import { useBreakPoints } from "../../../utils/UseBreakpoints";
+import ReactPlayer from "react-player";
 
 const GuestPPDB = () => {
-  const { md, xs, lg, sm } = useBreakPoints();
+  const { md, xs, lg } = useBreakPoints();
   const theme = useMantineTheme();
   const dark = theme.colorScheme === "dark";
 
@@ -58,7 +59,6 @@ const GuestPPDB = () => {
             </Text>
           </Box>
         </Group>
-        {/* <> */}
           {md ? (
             <>
               <Group mr={20}>
@@ -90,7 +90,6 @@ const GuestPPDB = () => {
           >
             Masuk
           </Button>
-        {/* </> */}
       </MantineHeader>
 
       <Paper className="style-box bg-gray-100 parralax ">
@@ -137,6 +136,15 @@ const GuestPPDB = () => {
               </Box>
             </Group>
           </Box>
+
+          <Card p={0} mx={"auto"} w={{base: "18rem", xs: "24rem", sm: "30rem",lg: "50rem" }} mb={{md: "4rem"}}>
+              <ReactPlayer
+                controls 
+                volume={0.1}
+                width={"100%"}
+                url={"https://youtu.be/_kn0tdEeyJQ?si=vgcxCfIOrYrI2CbU"}
+              />
+          </Card>
 
           {/* PPDB */}
           <Ppdb />

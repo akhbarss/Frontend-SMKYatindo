@@ -224,9 +224,9 @@ const PrintPage = () => {
 
     const majors = {
         TJKT: "Teknik Jaringan Komputer dan Telekomunikasi",
-        TKR: "Teknik Otomotif",
-        TAV: "Teknik Elektronika",
-        AKL: "Akuntansi dan Keuangan Lembaga"
+        TO: "Teknik Otomotif",
+        TE: "Teknik Elektronika",
+        AK: "Akuntansi Keuangan"
     }
 
     function displaySelectedMajors(major: string) {
@@ -237,7 +237,6 @@ const PrintPage = () => {
             const code = selectedMajors[i].trim();
             const selectedMajorName = majors[code];
 
-            // result += `Pilihan jurusan ${optionNumber}: "${selectedMajorName}"\n`;
             result.push(selectedMajorName)
         }
         return result;

@@ -1,4 +1,3 @@
-import React from "react";
 import { PasswordInput, Stack, TextInput } from "@mantine/core";
 import { useFormContext } from "react-hook-form";
 
@@ -8,7 +7,7 @@ export type TFormFieldRegisterAdmin = {
   password: string;
 };
 
-const FormRegisterAdmin = React.forwardRef((props, ref) => {
+const FormRegisterAdmin = () => {
   const {
     register,
     formState: { errors },
@@ -54,6 +53,6 @@ const FormRegisterAdmin = React.forwardRef((props, ref) => {
       />
     </Stack>
   );
-});
+};
 
 export default FormRegisterAdmin;

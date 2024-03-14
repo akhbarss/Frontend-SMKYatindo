@@ -63,7 +63,7 @@ const ModalKeteranganCreate: React.FC<TModalKeteranganCreate> = ({
 
                 <TiptapInput
 
-                    desc={description}
+                    value={description}
                     setDesc={setDescription}
                 />
             </Stack>

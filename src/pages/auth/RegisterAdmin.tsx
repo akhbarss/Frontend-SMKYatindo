@@ -1,28 +1,24 @@
 import {
   Box,
   Button,
-  PasswordInput,
   Group,
   Paper,
   Stack,
-  TextInput,
-  Title,
+  Title
 } from "@mantine/core";
-import Page from "../../components/Page";
-import SideAuthLayout from "../../layouts/SideAuthLayout";
-import { useBreakPoints } from "../../utils/UseBreakpoints";
-import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { LoginPayload, login } from "../../apis/login";
-import toast, { Toaster } from "react-hot-toast";
-import ResponseError from "../../utils/ResponseError";
+import { SubmitHandler } from "react-hook-form";
+import toast from "react-hot-toast";
+import { Link, useNavigate } from "react-router-dom";
+import { registrationAdmin } from "../../apis/registration";
 import FormRegisterAdmin, {
   TFormFieldRegisterAdmin,
 } from "../../components/Form/FormRegisterAdmin";
 import FormWrapper from "../../components/Form/FormWrapper";
-import { registrationAdmin } from "../../apis/registration";
-import { SubmitHandler } from "react-hook-form";
+import Page from "../../components/Page";
+import SideAuthLayout from "../../layouts/SideAuthLayout";
+import ResponseError from "../../utils/ResponseError";
+import { useBreakPoints } from "../../utils/UseBreakpoints";
 
 const RegisterAdmin = () => {
   const { md } = useBreakPoints();
@@ -33,7 +29,7 @@ const RegisterAdmin = () => {
 
   const submitData: SubmitHandler<TFormFieldRegisterAdmin> = (payload) => {
     registrationMutation.mutate(payload, {
-      onSuccess: (response) => {
+      onSuccess: () => {
         toast.success("Sukses mendaftarkan, sekarang anda bisa login! ");
         navigate("/ppdb/auth/login");
       },
