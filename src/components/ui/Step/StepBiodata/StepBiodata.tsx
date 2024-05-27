@@ -221,7 +221,7 @@ const StepBiodata: React.FC<Step> = ({ type = "PENGEMBALIAN" }) => {
             </Box>
 
             {/* prestasi */}
-            {paketJalur.data.pathType == PaketJalur.DISCOUNT ? (
+            {/* {paketJalur?.data.pathType == PaketJalur.DISCOUNT ? (
               ""
             ) : (
               <Box
@@ -243,7 +243,27 @@ const StepBiodata: React.FC<Step> = ({ type = "PENGEMBALIAN" }) => {
                   <FormFieldPrestasi />
                 </Stack>
               </Box>
-            )}
+            )} */}
+              <Box
+                sx={(theme) => ({
+                  backgroundColor: `${
+                    theme.colorScheme === "dark"
+                      ? theme.colors.dark[7]
+                      : theme.white
+                  }`,
+                  marginTop: 10,
+                  padding: "2rem",
+                  boxShadow: "0 5px 10px -8px black",
+                  borderRadius: "7px",
+                  display: paketJalur?.data.pathType == PaketJalur.DISCOUNT  ? "none" : null
+                })}
+              >
+                <Stack>
+                  <Title>Bukti Prestasi</Title>
+
+                  <FormFieldPrestasi />
+                </Stack>
+              </Box>
 
             <Box
               sx={(theme) => ({

@@ -87,6 +87,7 @@ const StudentStats = ({ data }: StudentStatsProps) => {
 };
 
 const PathStatistics: React.FC<TPathStatistics> = ({ title, data, total }) => {
+  console.log({data})
   const descriptions = data?.map((stat) => (
     <Box
       key={stat.id}
@@ -105,7 +106,7 @@ const PathStatistics: React.FC<TPathStatistics> = ({ title, data, total }) => {
       <Group align="flex-end" >
         <Text fw={700}>{stat.count}</Text>
         <Text c={stat.color} fw={700} size="sm">
-          {stat.part}%
+        {stat.part.toFixed(0)}%
         </Text>
       </Group>
     </Box>

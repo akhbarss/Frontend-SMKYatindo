@@ -53,13 +53,13 @@ const FormFieldPrestasi = () => {
           name={`studentAchievement.${0}.attachment`}
           control={control}
         />
-        <Text size={"xs"} c="red">{errors?.studentAchievement?.[0].attachment?.message}</Text>
+        <Text size={"xs"} c="red">{errors?.studentAchievement?.[0]?.attachment?.message}</Text>
       </Box>
 
       <TextInput
         label="Nama Prestasi"
         error={
-          errors.studentAchievement?.[0].title && (
+          errors.studentAchievement?.[0]?.title && (
             <div>{errors.studentAchievement[0].title?.message}</div>
           )
         }
@@ -74,7 +74,7 @@ const FormFieldPrestasi = () => {
       <TextInput
         label="Organisasi"
         error={
-          errors.studentAchievement?.[0].organization && (
+          errors.studentAchievement?.[0]?.organization && (
             <div>{errors.studentAchievement[0].organization?.message}</div>
           )
         }
@@ -128,7 +128,7 @@ const FormFieldPrestasi = () => {
       <TextInput
         label="Nama Prestasi"
         error={
-          errors.studentAchievement?.[1].title?.message && (
+          errors.studentAchievement?.[1]?.title?.message && (
             <div>{errors.studentAchievement[1].title?.message}</div>
           )
         }
@@ -140,7 +140,7 @@ const FormFieldPrestasi = () => {
       <TextInput
         label="Organisasi"
         error={
-          errors.studentAchievement?.[1].organization?.message && (
+          errors.studentAchievement?.[1]?.organization?.message && (
             <div>{errors.studentAchievement[1].organization?.message}</div>
           )
         }

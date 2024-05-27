@@ -49,7 +49,49 @@ const FormFieldDiskon = () => {
           name={`studentDiscounts.${0}.attachment`}
           control={control}
         />
+
+        <Text size={"xs"} c="red">
+          {errors?.studentDiscounts?.[0]?.attachment?.message}
+        </Text>
       </Box>
+
+      <Textarea label="Deskripsi" description="Opsional" />
+
+      <Box id="overlay" style={{ position: "relative" }}>
+        <Controller
+          render={({ field: { onChange, value } }) => (
+            <UploadDropzone
+              children={<div></div>}
+              label={" Bukti 1"}
+              onDrop={(droppedFiles) => {
+                onChange(droppedFiles);
+              }}
+              value={value}
+              multiple={false}
+              onChange={(e) => onChange(e.target.files?.[0] ?? null)}
+              onReject={(files) => {
+                const fileToLarge = files[0].errors[0].code == "file-too-large";
+                if (fileToLarge) {
+                  toast.error("Size gambar terlalu besar dari 5MB");
+                }
+              }}
+            />
+          )}
+          rules={{
+            required: {
+              value: true,
+              message: "Dibutuhkan",
+            },
+          }}
+          name={`studentDiscounts.${1}.attachment`}
+          control={control}
+        />
+
+        <Text size={"xs"} c="red">
+          {errors?.studentDiscounts?.[0]?.attachment?.message}
+        </Text>
+      </Box>
+
       <Textarea label="Deskripsi" description="Opsional" />
     </Stack>
   );
