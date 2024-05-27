@@ -12,6 +12,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Page from "../../../../components/Page";
 import PageLabel from "../../../../components/PageLabel";
 import { useBreakPoints } from "../../../../utils/UseBreakpoints";
+import { PaketJalur } from "../../../../apis/jalur/createJalur";
 
 export type FormValuesCreateJalur = {
   id: number | null
@@ -20,6 +21,7 @@ export type FormValuesCreateJalur = {
   waktuDibuka: string
   waktuDitutup: string
   biayaPendaftaran: number
+  paketJalur: PaketJalur
 }
 
 const JalurPendaftarahAdmin = ({ children }: { children: React.ReactNode }) => {

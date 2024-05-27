@@ -5,6 +5,13 @@ import axios from "../utils/axios";
 export const fillBio = async (
   payload: FormData
 ): Promise<ResponseType<Staging>> => {
-  const response = await axios.put("/v1/student/fill-bio", payload);
-  return response.data;
+
+  const formDataObj = Object.fromEntries(payload.entries());
+  
+  // Log the form data object
+  console.log(formDataObj);
+  // const response = await axios.put("/v1/student/fill-bio", payload);
+  // return response.data;
+  // console.log({payload})
+  return  ""
 };

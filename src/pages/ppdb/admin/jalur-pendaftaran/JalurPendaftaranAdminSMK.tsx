@@ -18,7 +18,7 @@ import toast from "react-hot-toast";
 import { AiFillEdit } from 'react-icons/ai';
 import { BsFillTrashFill } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
-import { CreateJalurPayload, TipeJalur, createJalur } from "../../../../apis/jalur/createJalur";
+import { CreateJalurPayload, PaketJalur, TipeJalur, createJalur } from "../../../../apis/jalur/createJalur";
 import { DeleteJalurPayload, deleteJalur } from "../../../../apis/jalur/deleteJalur";
 import { EditJalurPayload, editJalur } from "../../../../apis/jalur/editJalur";
 import { getAllJalurPendaftaran } from "../../../../apis/jalur/getJalur";
@@ -40,7 +40,8 @@ const JalurPendaftaranAdminSMK = () => {
             waktuDibuka: null,
             waktuDitutup: null,
             tipeJalur: "",
-            biayaPendaftaran: null
+            biayaPendaftaran: null,
+            paketJalur: PaketJalur.REGULAR
         },
         transformValues: (values) => ({
             ...values,
@@ -145,7 +146,8 @@ const JalurPendaftaranAdminSMK = () => {
             end_date: datas.waktuDitutup,
             price: datas.biayaPendaftaran,
             start_date: datas.waktuDibuka,
-            grade: "SMK"
+            grade: "SMK",
+            pathType: datas.paketJalur
         }
         submitCreateJalur(data)
     }

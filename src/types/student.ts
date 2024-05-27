@@ -43,6 +43,10 @@ export type Student = {
   mother_address: string;
   family_card: File[] | string;
   birth_card: File[] | string;
+
+  // feat:: new fitur
+  achievement1_img: string;
+  achievement2_img: string;
 };
 
 export type Staging = {

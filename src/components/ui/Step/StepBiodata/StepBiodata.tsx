@@ -5,23 +5,27 @@ import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
 import { SubmitHandler } from "react-hook-form";
 import toast from "react-hot-toast";
+import { getPaketJalur } from "../../../../apis/jalur/getPaketJalur";
 import { getOffsetStatus } from "../../../../apis/pembelian";
 import { fillBio } from "../../../../apis/pengembalian";
 import useQueryFilter from "../../../../hooks/useQueryFilter";
 import { Step } from "../../../../types/global";
 import { Student } from "../../../../types/student";
 import ResponseError from "../../../../utils/ResponseError";
-import {
-  convertToFileObject,
-} from "../../../../utils/imageUtils";
-import FormFieldBiodata, { TFormFieldBiodata } from "../../../Form/FormFieldBiodata";
+import { convertToFileObject } from "../../../../utils/imageUtils";
+import FormFieldBiodata, {
+  TFormFieldBiodata,
+} from "../../../Form/FormFieldBiodata";
+import FormFieldDiskon from "../../../Form/FormFieldDiskon";
 import FormFieldInformasiOrangTua, {
   TFormFieldInformasiOrangTua,
 } from "../../../Form/FormFieldInformasiOrangTua";
+import FormFieldPrestasi from "../../../Form/FormFieldPrestasi";
 import FormWrapper from "../../../Form/FormWrapper";
+import { PaketJalur } from "../../../../apis/jalur/createJalur";
 
 const StepBiodata: React.FC<Step> = ({ type = "PENGEMBALIAN" }) => {
-  const [load, setLoad] = useState(false)
+  const [load, setLoad] = useState(false);
   const filter = useQueryFilter({ step: 3, stagingId: null });
   const [initialValues, setInit] = useState<Student>(null);
   const queryClient = useQueryClient();
@@ -52,9 +56,9 @@ const StepBiodata: React.FC<Step> = ({ type = "PENGEMBALIAN" }) => {
     updateBioMutation.mutate(formData, {
       onSuccess: () => {
         toast.success("Sukses update informasi biodata");
-        queryClient.invalidateQueries({
-          queryKey: ["get_last_offset_batch"],
-        });
+        // queryClient.invalidateQueries({
+        //   queryKey: ["get_last_offset_batch"],
+        // });
       },
       onError: (err) => ResponseError(err),
     });
@@ -68,30 +72,30 @@ const StepBiodata: React.FC<Step> = ({ type = "PENGEMBALIAN" }) => {
 
   const setValues = async () => {
     const student: Student = offset.data?.student;
-    setLoad(true)
+    setLoad(true);
     if (typeof student?.profile_picture === "string") {
       try {
         student.profile_picture = await convertToFileObject(
           student.profile_picture as string
-        )
+        );
 
         student.birth_card = await convertToFileObject(
           student.birth_card as string
-        )
+        );
 
         student.family_card = await convertToFileObject(
           student.family_card as string
-        )
+        );
         setInit({
           ...student,
           birth_date: student.birth_date
             ? dayjs(student.birth_date).toDate()
             : null,
         });
-        setLoad(false)
+        setLoad(false);
       } catch (error) {
-        setLoad(false)
-        toast.error("Gagal mengambil data biodata, silakan coba lagi")
+        setLoad(false);
+        toast.error("Gagal mengambil data biodata, silakan coba lagi");
       }
     } else if (student?.profile_picture === null) {
       setInit({
@@ -100,30 +104,30 @@ const StepBiodata: React.FC<Step> = ({ type = "PENGEMBALIAN" }) => {
           ? dayjs(student.birth_date).toDate()
           : null,
       });
-      setLoad(false)
+      setLoad(false);
     } else {
       try {
         student.profile_picture = await convertToFileObject(
           student.profile_picture[0].name as string
-        )
+        );
 
         student.birth_card = await convertToFileObject(
           student.birth_card[0].name as string
-        )
+        );
 
         student.family_card = await convertToFileObject(
           student.family_card[0].name as string
-        )
+        );
         setInit({
           ...student,
           birth_date: student.birth_date
             ? dayjs(student.birth_date).toDate()
             : null,
         });
-        setLoad(false)
+        setLoad(false);
       } catch (error) {
-        setLoad(false)
-        toast.error("Gagal mengambil data biodata, silakan coba lagi")
+        setLoad(false);
+        toast.error("Gagal mengambil data biodata, silakan coba lagi");
       }
     }
   };
@@ -133,6 +137,16 @@ const StepBiodata: React.FC<Step> = ({ type = "PENGEMBALIAN" }) => {
       setValues();
     }
   }, [statusSuccess]);
+  const query = useQueryClient();
+  const currentPathId = query.getQueryData(["session"])?.data?.student?.path_id;
+  console.log({ currentPathId });
+
+  const { data: paketJalur } = useQuery({
+    queryKey: ["get_paket_jalur"],
+    queryFn: () => getPaketJalur(currentPathId),
+    enabled: currentPathId !== null,
+  });
+  console.log({ paketJalur });
 
   return (
     <FormWrapper
@@ -141,12 +155,13 @@ const StepBiodata: React.FC<Step> = ({ type = "PENGEMBALIAN" }) => {
       onSubmit={onSubmitBiodata}
     >
       {statusSuccess &&
-        offset.data.current_state?.status === "WAITING_PAYMENT" &&
-        offset.data.current_state?.type === type ? (
+      offset.data.current_state?.status === "WAITING_PAYMENT" &&
+      offset.data.current_state?.type === type ? (
         <Box
           sx={(theme) => ({
-            backgroundColor: `${theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white
-              }`,
+            backgroundColor: `${
+              theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white
+            }`,
             padding: "2rem",
             boxShadow: "0 5px 10px -8px black",
             borderRadius: "7px",
@@ -164,13 +179,14 @@ const StepBiodata: React.FC<Step> = ({ type = "PENGEMBALIAN" }) => {
       ) : (
         <>
           <Box pos={"relative"}>
-
+            {/* biodata siswa */}
             <Box
               sx={(theme) => ({
-                backgroundColor: `${theme.colorScheme === "dark"
-                  ? theme.colors.dark[7]
-                  : theme.white
-                  }`,
+                backgroundColor: `${
+                  theme.colorScheme === "dark"
+                    ? theme.colors.dark[7]
+                    : theme.white
+                }`,
                 padding: "2rem",
                 boxShadow: "0 5px 10px -8px black",
                 borderRadius: "7px",
@@ -180,15 +196,17 @@ const StepBiodata: React.FC<Step> = ({ type = "PENGEMBALIAN" }) => {
                 <Title>Isi Biodata</Title>
 
                 <FormFieldBiodata />
-
               </Stack>
             </Box>
+
+            {/* orang tua */}
             <Box
               sx={(theme) => ({
-                backgroundColor: `${theme.colorScheme === "dark"
-                  ? theme.colors.dark[7]
-                  : theme.white
-                  }`,
+                backgroundColor: `${
+                  theme.colorScheme === "dark"
+                    ? theme.colors.dark[7]
+                    : theme.white
+                }`,
                 marginTop: 10,
                 padding: "2rem",
                 boxShadow: "0 5px 10px -8px black",
@@ -199,6 +217,52 @@ const StepBiodata: React.FC<Step> = ({ type = "PENGEMBALIAN" }) => {
                 <Title>Informasi Orang Tua</Title>
 
                 <FormFieldInformasiOrangTua />
+              </Stack>
+            </Box>
+
+            {/* prestasi */}
+            {paketJalur.data.pathType == PaketJalur.DISCOUNT ? (
+              ""
+            ) : (
+              <Box
+                sx={(theme) => ({
+                  backgroundColor: `${
+                    theme.colorScheme === "dark"
+                      ? theme.colors.dark[7]
+                      : theme.white
+                  }`,
+                  marginTop: 10,
+                  padding: "2rem",
+                  boxShadow: "0 5px 10px -8px black",
+                  borderRadius: "7px",
+                })}
+              >
+                <Stack>
+                  <Title>Bukti Prestasi</Title>
+
+                  <FormFieldPrestasi />
+                </Stack>
+              </Box>
+            )}
+
+            <Box
+              sx={(theme) => ({
+                backgroundColor: `${
+                  theme.colorScheme === "dark"
+                    ? theme.colors.dark[7]
+                    : theme.white
+                }`,
+                marginTop: 10,
+                padding: "2rem",
+                boxShadow: "0 5px 10px -8px black",
+                borderRadius: "7px",
+              })}
+            >
+              <Stack>
+                <Title>Bukti Diskon</Title>
+
+                <FormFieldDiskon />
+
                 <Button
                   type={"submit"}
                   variant={"filled"}
@@ -208,10 +272,9 @@ const StepBiodata: React.FC<Step> = ({ type = "PENGEMBALIAN" }) => {
                 </Button>
               </Stack>
             </Box>
+
             <LoadingOverlay visible={load} zIndex={10} />
-
           </Box>
-
         </>
       )}
     </FormWrapper>

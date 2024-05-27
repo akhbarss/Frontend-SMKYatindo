@@ -1,5 +1,6 @@
 import {
     Button,
+    Divider,
     Grid,
     Group,
     Radio,
@@ -11,6 +12,7 @@ import { UseFormReturnType } from "@mantine/form"
 import { NumericFormat } from 'react-number-format'
 import { FormValuesCreateJalur } from "../../pages/ppdb/admin/jalur-pendaftaran/JalurPendaftaranAdmin"
 import ModalAdmin from "./modalAdmin"
+import { PaketJalur } from "../../apis/jalur/createJalur"
 
 type TModalJalurAdmin = {
     title: string
@@ -37,6 +39,7 @@ const ModalJalurAdmin: React.FC<TModalJalurAdmin> = ({
 }) => {
     function submitHandler(data: typeof formMantine.values) {
         actionFn(data)
+        // console.log(data)
     }
 
     return (
@@ -81,6 +84,47 @@ const ModalJalurAdmin: React.FC<TModalJalurAdmin> = ({
                                     required
                                     label="PENGEMBALIAN"
                                     value={"PENGEMBALIAN"}
+                                />
+                            </Group>
+                        </Radio.Group>
+
+                        <Divider />
+
+                        <Radio.Group
+                            label="Tipe Jalur"
+                            description="Pilih salah satu"
+                            styles={{
+                                error: {
+                                    marginTop: "10px",
+                                },
+                            }}
+                            onChange={(val) => formMantine.setFieldValue("paketJalur", val)}
+                            required
+                            {...formMantine.getInputProps("paketJalur")}
+                        >
+                            <Group
+                                mt={"xs"}
+                                pt={10}
+                                sx={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    alignItems: "start"
+                                }}
+                            >
+                                <Radio
+                                    label="REGULER"
+                                    value={PaketJalur.REGULAR}
+                                    required
+                                />
+                                <Radio
+                                    required
+                                    label="DISKON"
+                                    value={PaketJalur.DISCOUNT}
+                                />
+                                <Radio
+                                    required
+                                    label="PRESTASI"
+                                    value={PaketJalur.ACHIEVEMENT}
                                 />
                             </Group>
                         </Radio.Group>
