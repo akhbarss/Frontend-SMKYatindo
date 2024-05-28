@@ -108,7 +108,10 @@ const FormFieldBiodata = () => {
             error={errors.nisn && <div>{errors.nisn?.message}</div>}
             required
             {...register("nisn", {
-              required: false,
+              required: {
+                message: "dibutuhkan",
+                value: true
+              }
             })}
           />
         </Grid.Col>

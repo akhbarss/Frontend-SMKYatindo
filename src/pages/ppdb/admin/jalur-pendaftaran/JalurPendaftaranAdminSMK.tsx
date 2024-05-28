@@ -163,7 +163,8 @@ const JalurPendaftaranAdminSMK = () => {
             name: datas.namaJalur,
             price: datas.biayaPendaftaran,
             start_date: datas.waktuDibuka,
-            type: datas.tipeJalur as TipeJalur
+            type: datas.tipeJalur as TipeJalur,
+            pathType: datas.paketJalur
         })
     }
 

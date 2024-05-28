@@ -18,7 +18,7 @@ import toast from "react-hot-toast";
 import { AiFillEdit } from 'react-icons/ai';
 import { BsFillTrashFill } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
-import { CreateJalurPayload, TipeJalur, createJalur } from "../../../../apis/jalur/createJalur";
+import { CreateJalurPayload, PaketJalur, TipeJalur, createJalur } from "../../../../apis/jalur/createJalur";
 import { DeleteJalurPayload, deleteJalur } from "../../../../apis/jalur/deleteJalur";
 import { EditJalurPayload, editJalur } from "../../../../apis/jalur/editJalur";
 import { getAllJalurPendaftaran } from "../../../../apis/jalur/getJalur";
@@ -41,7 +41,8 @@ const JalurPendaftaranAdminSMP = () => {
             waktuDibuka: null,
             waktuDitutup: null,
             tipeJalur: "",
-            biayaPendaftaran: null
+            biayaPendaftaran: null,
+            paketJalur: PaketJalur.REGULAR
         },
         transformValues: (values) => ({
             ...values,
@@ -81,13 +82,13 @@ const JalurPendaftaranAdminSMP = () => {
 
     function submitCreateJalur(payload: CreateJalurPayload) {
         createJalurMutation.mutate(payload, {
-            onSuccess: (response) => {
+            onSuccess: () => {
                 refetch()
                 closeCreate()
                 toast.success("Data berhasil ditambahkan")
                 formCreateMantine.reset()
             },
-            onError: (error) => {
+            onError: () => {
                 toast.error("Data gagal ditambahkan")
             },
         })
@@ -95,13 +96,13 @@ const JalurPendaftaranAdminSMP = () => {
 
     function submitEditJalur(payload: EditJalurPayload) {
         editJalurMutation.mutate(payload, {
-            onSuccess: (response) => {
+            onSuccess: () => {
                 formCreateMantine.reset()
                 closeEdit()
                 refetch()
                 toast.success("Data berhasil diubah")
             },
-            onError: (error) => {
+            onError: () => {
                 toast.error("Data gagal diubah")
             },
         })
@@ -115,7 +116,7 @@ const JalurPendaftaranAdminSMP = () => {
                 formCreateMantine.reset()
                 refetch()
             },
-            onError: (error) => {
+            onError: () => {
                 toast.error("Data gagal dihapus")
             },
         })
@@ -128,7 +129,8 @@ const JalurPendaftaranAdminSMP = () => {
             end_date: datas.waktuDitutup,
             price: datas.biayaPendaftaran,
             start_date: datas.waktuDibuka,
-            grade: "SMP"
+            grade: "SMP",
+            pathType: datas.paketJalur
         }
         submitCreateJalur(data)
     }
@@ -144,7 +146,8 @@ const JalurPendaftaranAdminSMP = () => {
             name: datas.namaJalur,
             price: datas.biayaPendaftaran,
             start_date: datas.waktuDibuka,
-            type: datas.tipeJalur as TipeJalur
+            type: datas.tipeJalur as TipeJalur,
+            pathType: datas.paketJalur
         })
     }
 

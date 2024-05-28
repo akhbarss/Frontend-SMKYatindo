@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Box, Button, LoadingOverlay, Stack, Title } from "@mantine/core";
+import { Box, Button, Card, LoadingOverlay, Stack, Title } from "@mantine/core";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
@@ -24,6 +24,11 @@ import FormFieldPrestasi from "../../../Form/FormFieldPrestasi";
 import FormWrapper from "../../../Form/FormWrapper";
 import { PaketJalur } from "../../../../apis/jalur/createJalur";
 
+// attachment: File[];
+//   title: string;
+//   organization: string;
+//   description: string;
+
 const StepBiodata: React.FC<Step> = ({ type = "PENGEMBALIAN" }) => {
   const [load, setLoad] = useState(false);
   const filter = useQueryFilter({ step: 3, stagingId: null });
@@ -37,13 +42,20 @@ const StepBiodata: React.FC<Step> = ({ type = "PENGEMBALIAN" }) => {
     TFormFieldBiodata & TFormFieldInformasiOrangTua
   > = (data) => {
     const formData = new FormData();
+
     for (const [key, value] of Object.entries(data)) {
+      console.log({ key, value });
       if (value !== null) {
         if (
           key === "profile_picture" ||
           key === "family_card" ||
-          key === "birth_card"
+          key === "birth_card" ||
+          key === "achievementAttachment1" ||
+          key === "achievementAttachment2" ||
+          key === "discountAttachment1" ||
+          key === "discountAttachment2"
         ) {
+          console.log({ key, value });
           formData.append(key, value?.[0]);
         } else if (key === "birth_date") {
           formData.append(key, dayjs(value as Date).format("YYYY-MM-DD"));
@@ -221,9 +233,32 @@ const StepBiodata: React.FC<Step> = ({ type = "PENGEMBALIAN" }) => {
             </Box>
 
             {/* prestasi */}
-            {/* {paketJalur?.data.pathType == PaketJalur.DISCOUNT ? (
-              ""
+            {paketJalur?.data.pathType == PaketJalur.ACHIEVEMENT ? (
+              <Box
+                sx={(theme) => ({
+                  backgroundColor: `${
+                    theme.colorScheme === "dark"
+                      ? theme.colors.dark[7]
+                      : theme.white
+                  }`,
+                  marginTop: 10,
+                  padding: "2rem",
+                  boxShadow: "0 5px 10px -8px black",
+                  borderRadius: "7px",
+                })}
+              >
+                <Stack>
+                  <Title>Bukti Prestasi</Title>
+
+                  <FormFieldPrestasi />
+                </Stack>
+              </Box>
             ) : (
+              ""
+            )}
+
+            {/* diskon */}
+            {paketJalur?.data?.pathType == PaketJalur.DISCOUNT ? (
               <Box
                 sx={(theme) => ({
                   backgroundColor: `${
@@ -238,60 +273,25 @@ const StepBiodata: React.FC<Step> = ({ type = "PENGEMBALIAN" }) => {
                 })}
               >
                 <Stack>
-                  <Title>Bukti Prestasi</Title>
+                  <Title>Bukti Diskon</Title>
 
-                  <FormFieldPrestasi />
+                  <FormFieldDiskon />
                 </Stack>
               </Box>
-            )} */}
-              <Box
-                sx={(theme) => ({
-                  backgroundColor: `${
-                    theme.colorScheme === "dark"
-                      ? theme.colors.dark[7]
-                      : theme.white
-                  }`,
-                  marginTop: 10,
-                  padding: "2rem",
-                  boxShadow: "0 5px 10px -8px black",
-                  borderRadius: "7px",
-                  display: paketJalur?.data.pathType == PaketJalur.DISCOUNT  ? "none" : null
-                })}
+            ) : (
+              ""
+            )}
+
+            <Card shadow="lg" mt={"lg"}>
+              <Button
+                fullWidth
+                type={"submit"}
+                variant={"filled"}
+                loading={updateBioMutation.isPending}
               >
-                <Stack>
-                  <Title>Bukti Prestasi</Title>
-
-                  <FormFieldPrestasi />
-                </Stack>
-              </Box>
-
-            <Box
-              sx={(theme) => ({
-                backgroundColor: `${
-                  theme.colorScheme === "dark"
-                    ? theme.colors.dark[7]
-                    : theme.white
-                }`,
-                marginTop: 10,
-                padding: "2rem",
-                boxShadow: "0 5px 10px -8px black",
-                borderRadius: "7px",
-              })}
-            >
-              <Stack>
-                <Title>Bukti Diskon</Title>
-
-                <FormFieldDiskon />
-
-                <Button
-                  type={"submit"}
-                  variant={"filled"}
-                  loading={updateBioMutation.isPending}
-                >
-                  Submit
-                </Button>
-              </Stack>
-            </Box>
+                Submit
+              </Button>
+            </Card>
 
             <LoadingOverlay visible={load} zIndex={10} />
           </Box>

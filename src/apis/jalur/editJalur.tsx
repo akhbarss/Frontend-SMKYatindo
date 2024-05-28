@@ -1,6 +1,6 @@
 import axios from "../../utils/axios";
 import { ResponseType } from "../../types/global";
-import { TipeJalur } from "./createJalur";
+import { PaketJalur, TipeJalur } from "./createJalur";
 
 export type EditJalurPayload = {
     id: number
@@ -9,6 +9,7 @@ export type EditJalurPayload = {
     start_date: string,
     end_date: string
     price: number
+    pathType: PaketJalur;
 };
 
 type EditJalurRequest = {

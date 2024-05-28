@@ -1,4 +1,4 @@
-import { Box, Divider, Stack, Text, TextInput, Textarea } from "@mantine/core";
+import { Box, Stack, Text, Textarea } from "@mantine/core";
 import { Controller, useFormContext } from "react-hook-form";
 import toast from "react-hot-toast";
 import UploadDropzone from "../Fields/UploadDropzone";
@@ -8,7 +8,10 @@ export type StudentDiscounts = {
 }[];
 
 export type TFormFieldInformasiDiskon = {
-  studentDiscounts: StudentDiscounts;
+  discountAttachment1: File[];
+  discountDescription1: string;
+  discountAttachment2: File[];
+  discountDescription2: string;
 };
 
 const FormFieldDiskon = () => {
@@ -46,16 +49,20 @@ const FormFieldDiskon = () => {
               message: "Dibutuhkan",
             },
           }}
-          name={`studentDiscounts.${0}.attachment`}
+          name={`discountAttachment1`}
           control={control}
         />
 
         <Text size={"xs"} c="red">
-          {errors?.studentDiscounts?.[0]?.attachment?.message}
+          {errors?.discountAttachment1?.message}
         </Text>
       </Box>
 
-      <Textarea label="Deskripsi" description="Opsional" />
+      <Textarea
+        label="Deskripsi"
+        description="Opsional"
+        {...register("discountDescription1", { required: false })}
+      />
 
       <Box id="overlay" style={{ position: "relative" }}>
         <Controller
@@ -83,16 +90,20 @@ const FormFieldDiskon = () => {
               message: "Dibutuhkan",
             },
           }}
-          name={`studentDiscounts.${1}.attachment`}
+          name={`discountAttachment2`}
           control={control}
         />
 
         <Text size={"xs"} c="red">
-          {errors?.studentDiscounts?.[0]?.attachment?.message}
+          {errors?.discountAttachment2?.message}
         </Text>
       </Box>
 
-      <Textarea label="Deskripsi" description="Opsional" />
+      <Textarea
+        label="Deskripsi"
+        description="Opsional"
+        {...register("discountDescription2", { required: false })}
+      />
     </Stack>
   );
 };

@@ -13,7 +13,15 @@ export type StudentAchievement = {
 export type TFormFieldInformasiPrestasi = {
   achievement1_img: File[];
   achievement2_img: File[];
-  studentAchievement: StudentAchievement;
+  // studentAchievements: StudentAchievement;
+  achievementAttachment1: File[];
+  achievementTitle1: string;
+  achievementOrganization1: string;
+  achievementDescription1: string;
+  achievementAttachment2: File[];
+  achievementTitle2: string;
+  achievementOrganization2: string;
+  achievementDescription2: string;
 };
 
 const FormFieldPrestasi = () => {
@@ -25,6 +33,7 @@ const FormFieldPrestasi = () => {
   return (
     <Stack>
       <Box id="overlay" style={{ position: "relative" }}>
+        {/* BUKTI PRESTASI 1 */}
         <Controller
           render={({ field: { onChange, value } }) => (
             <UploadDropzone
@@ -50,20 +59,23 @@ const FormFieldPrestasi = () => {
               message: "Dibutuhkan",
             },
           }}
-          name={`studentAchievement.${0}.attachment`}
+          name={`achievementAttachment1`}
           control={control}
         />
-        <Text size={"xs"} c="red">{errors?.studentAchievement?.[0]?.attachment?.message}</Text>
+        <Text size={"xs"} c="red">
+          {errors?.achievementAttachment1?.message}
+        </Text>
       </Box>
 
+      {/* NAMA PRESTASI 1 */}
       <TextInput
         label="Nama Prestasi"
         error={
-          errors.studentAchievement?.[0]?.title && (
-            <div>{errors.studentAchievement[0].title?.message}</div>
+          errors?.achievementTitle1 && (
+            <div>{errors?.achievementTitle1?.message}</div>
           )
         }
-        {...register(`studentAchievement.${0}.title`, {
+        {...register(`achievementTitle1`, {
           required: {
             value: true,
             message: "Dibutuhkan",
@@ -71,14 +83,15 @@ const FormFieldPrestasi = () => {
         })}
       />
 
+      {/* ORGANISASI PRESTASI 1 */}
       <TextInput
         label="Organisasi"
         error={
-          errors.studentAchievement?.[0]?.organization && (
-            <div>{errors.studentAchievement[0].organization?.message}</div>
+          errors?.achievementOrganization1?.message && (
+            <div>{errors?.achievementOrganization1?.message}</div>
           )
         }
-        {...register(`studentAchievement.${0}.organization`, {
+        {...register(`achievementOrganization1`, {
           required: {
             value: true,
             message: "Dibutuhkan",
@@ -86,10 +99,11 @@ const FormFieldPrestasi = () => {
         })}
       />
 
+      {/* KETERANGAN PRESTASI 1 */}
       <Textarea
         description="Opsional"
         label="Keterangan"
-        {...register(`studentAchievement.${0}.description`, {})}
+        {...register(`achievementDescription1`, {})}
       />
 
       <Divider />
@@ -99,7 +113,7 @@ const FormFieldPrestasi = () => {
           render={({ field: { onChange, value } }) => (
             <UploadDropzone
               children={<div></div>}
-              label={" Prestasi 2"}
+              label={" Prestasi 1"}
               onDrop={(droppedFiles) => {
                 onChange(droppedFiles);
               }}
@@ -116,35 +130,37 @@ const FormFieldPrestasi = () => {
           )}
           rules={{
             required: {
-              value: true,
-              message: "Dibutuhkan",
+              // value: true,
+              // message: "Dibutuhkan",
             },
           }}
-          name={`studentAchievement.${1}.attachment`}
+          name={`achievementAttachment2`}
           control={control}
         />
+        <Text size={"xs"} c="red">
+          {errors?.achievementAttachment2?.message}
+        </Text>
       </Box>
 
       <TextInput
         label="Nama Prestasi"
         error={
-          errors.studentAchievement?.[1]?.title?.message && (
-            <div>{errors.studentAchievement[1].title?.message}</div>
+          errors?.achievementTitle2 && (
+            <div>{errors?.achievementTitle2?.message}</div>
           )
         }
-        {...register(`studentAchievement.${1}.title`, {
-          
+        {...register(`achievementTitle2`, {
         })}
       />
 
       <TextInput
         label="Organisasi"
         error={
-          errors.studentAchievement?.[1]?.organization?.message && (
-            <div>{errors.studentAchievement[1].organization?.message}</div>
+          errors?.achievementOrganization2?.message && (
+            <div>{errors?.achievementOrganization2?.message}</div>
           )
         }
-        {...register(`studentAchievement.${1}.organization`, {
+        {...register(`achievementOrganization2`, {
           
         })}
       />
@@ -152,7 +168,7 @@ const FormFieldPrestasi = () => {
       <Textarea
         description="Opsional"
         label="Keterangan"
-        {...register(`studentAchievement.${1}.description`, {})}
+        {...register(`achievementDescription2`, {})}
       />
     </Stack>
   );
