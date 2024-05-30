@@ -68,6 +68,7 @@ const DashboardLayout: React.FC<TDashboard> = ({ children }) => {
           }
           navbar={
             <Navigation
+            toggle={toggle}
               opened={opened}
               access={
                 isSuccess ? user.data?.role_id?.rolesMenus.map((d) => d.path) : []
@@ -84,6 +85,7 @@ const DashboardLayout: React.FC<TDashboard> = ({ children }) => {
               pb={"50px"}
               p={`${sm ? "3rem 2rem" : "3rem 1rem"}`}
               className="flex-[1]"
+              bg={"#f0f2f5"}
             >
 
               {children}

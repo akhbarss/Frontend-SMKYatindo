@@ -44,7 +44,6 @@ const FormFieldPrestasi = () => {
               }}
               value={value}
               multiple={false}
-              onChange={(e) => onChange(e.target.files?.[0] ?? null)}
               onReject={(files) => {
                 const fileToLarge = files[0].errors[0].code == "file-too-large";
                 if (fileToLarge) {
@@ -119,7 +118,6 @@ const FormFieldPrestasi = () => {
               }}
               value={value}
               multiple={false}
-              onChange={(e) => onChange(e.target.files?.[0] ?? null)}
               onReject={(files) => {
                 const fileToLarge = files[0].errors[0].code == "file-too-large";
                 if (fileToLarge) {
@@ -129,10 +127,6 @@ const FormFieldPrestasi = () => {
             />
           )}
           rules={{
-            required: {
-              // value: true,
-              // message: "Dibutuhkan",
-            },
           }}
           name={`achievementAttachment2`}
           control={control}

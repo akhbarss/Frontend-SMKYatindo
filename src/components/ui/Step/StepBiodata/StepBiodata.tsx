@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Box, Button, Card, LoadingOverlay, Stack, Title } from "@mantine/core";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -5,6 +6,7 @@ import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
 import { SubmitHandler } from "react-hook-form";
 import toast from "react-hot-toast";
+import { PaketJalur } from "../../../../apis/jalur/createJalur";
 import { getPaketJalur } from "../../../../apis/jalur/getPaketJalur";
 import { getOffsetStatus } from "../../../../apis/pembelian";
 import { fillBio } from "../../../../apis/pengembalian";
@@ -16,35 +18,33 @@ import { convertToFileObject } from "../../../../utils/imageUtils";
 import FormFieldBiodata, {
   TFormFieldBiodata,
 } from "../../../Form/FormFieldBiodata";
-import FormFieldDiskon from "../../../Form/FormFieldDiskon";
+import FormFieldDiskon, {
+  TFormFieldInformasiDiskon,
+} from "../../../Form/FormFieldDiskon";
 import FormFieldInformasiOrangTua, {
   TFormFieldInformasiOrangTua,
 } from "../../../Form/FormFieldInformasiOrangTua";
-import FormFieldPrestasi from "../../../Form/FormFieldPrestasi";
+import FormFieldPrestasi, {
+  TFormFieldInformasiPrestasi,
+} from "../../../Form/FormFieldPrestasi";
 import FormWrapper from "../../../Form/FormWrapper";
-import { PaketJalur } from "../../../../apis/jalur/createJalur";
-
-// attachment: File[];
-//   title: string;
-//   organization: string;
-//   description: string;
 
 const StepBiodata: React.FC<Step> = ({ type = "PENGEMBALIAN" }) => {
   const [load, setLoad] = useState(false);
-  const filter = useQueryFilter({ step: 3, stagingId: null });
   const [initialValues, setInit] = useState<Student>(null);
-  const queryClient = useQueryClient();
-  const updateBioMutation = useMutation({
-    mutationFn: fillBio,
-  });
+  const filter = useQueryFilter({ step: 3, stagingId: null });
+
+  const updateBioMutation = useMutation({ mutationFn: fillBio });
 
   const onSubmitBiodata: SubmitHandler<
-    TFormFieldBiodata & TFormFieldInformasiOrangTua
+    TFormFieldBiodata &
+      TFormFieldInformasiOrangTua &
+      TFormFieldInformasiPrestasi &
+      TFormFieldInformasiDiskon
   > = (data) => {
     const formData = new FormData();
 
     for (const [key, value] of Object.entries(data)) {
-      console.log({ key, value });
       if (value !== null) {
         if (
           key === "profile_picture" ||
@@ -55,7 +55,6 @@ const StepBiodata: React.FC<Step> = ({ type = "PENGEMBALIAN" }) => {
           key === "discountAttachment1" ||
           key === "discountAttachment2"
         ) {
-          console.log({ key, value });
           formData.append(key, value?.[0]);
         } else if (key === "birth_date") {
           formData.append(key, dayjs(value as Date).format("YYYY-MM-DD"));
@@ -85,7 +84,11 @@ const StepBiodata: React.FC<Step> = ({ type = "PENGEMBALIAN" }) => {
   const setValues = async () => {
     const student: Student = offset.data?.student;
     setLoad(true);
-    if (typeof student?.profile_picture === "string") {
+    if (
+      typeof student?.profile_picture === "string" ||
+      typeof student?.birth_card === "string" ||
+      typeof student?.family_card === "string"
+    ) {
       try {
         student.profile_picture = await convertToFileObject(
           student.profile_picture as string
@@ -120,7 +123,7 @@ const StepBiodata: React.FC<Step> = ({ type = "PENGEMBALIAN" }) => {
     } else {
       try {
         student.profile_picture = await convertToFileObject(
-          student.profile_picture[0].name as string
+          student.profile_picture[0].name
         );
 
         student.birth_card = await convertToFileObject(
@@ -149,16 +152,15 @@ const StepBiodata: React.FC<Step> = ({ type = "PENGEMBALIAN" }) => {
       setValues();
     }
   }, [statusSuccess]);
+
   const query = useQueryClient();
-  const currentPathId = query.getQueryData(["session"])?.data?.student?.path_id;
-  console.log({ currentPathId });
+  const currentPathId = (query.getQueryData(["session"]) as {data: any})?.data?.student?.path_id;
 
   const { data: paketJalur } = useQuery({
     queryKey: ["get_paket_jalur"],
     queryFn: () => getPaketJalur(currentPathId),
     enabled: currentPathId !== null,
   });
-  console.log({ paketJalur });
 
   return (
     <FormWrapper
@@ -190,7 +192,7 @@ const StepBiodata: React.FC<Step> = ({ type = "PENGEMBALIAN" }) => {
         </Box>
       ) : (
         <>
-          <Box pos={"relative"}>
+          <Stack>
             {/* biodata siswa */}
             <Box
               sx={(theme) => ({
@@ -294,7 +296,7 @@ const StepBiodata: React.FC<Step> = ({ type = "PENGEMBALIAN" }) => {
             </Card>
 
             <LoadingOverlay visible={load} zIndex={10} />
-          </Box>
+          </Stack>
         </>
       )}
     </FormWrapper>

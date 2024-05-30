@@ -214,7 +214,7 @@ const FormFieldInformasiOrangTua = () => {
           <div
             className="absolute top-0 left-0 w-full h-full backdrop-brightness-95 z-10 cursor-pointer"
             onClick={async () => {
-              const imgName = control?._options?.defaultValues?.birth_card?.[0]?.name
+              const imgName = control?._options?.defaultValues?.birth_card!?.[0]?.name
               if (imgName) {
                 await openModalImage(imgName)
               }

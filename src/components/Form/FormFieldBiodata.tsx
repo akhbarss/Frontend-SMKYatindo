@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import {
   Box,
@@ -17,10 +18,9 @@ import { openModalImage } from "../../utils/openModalImage";
 import { RadioGroupCustom } from "../Fields/RadioGroup";
 import SelectStatus from "../Fields/SelectStatus";
 import UploadDropzone from "../Fields/UploadDropzone";
-import { getPaketJalur } from "../../apis/jalur/getPaketJalur";
 
 export type TFormFieldBiodata = {
-  profile_picture: File[];
+  profile_picture: File[] | string;
   nisn: string;
   phone: string;
   name: string;
@@ -28,7 +28,7 @@ export type TFormFieldBiodata = {
   gender: string;
   religion: string;
   birth_place: string;
-  birth_date: Date | null;
+  birth_date: Date | string;
   address: string;
   province: string;
   city: string;
@@ -45,7 +45,7 @@ const FormFieldBiodata = () => {
     formState: { errors },
   } = useFormContext<TFormFieldBiodata>();
   const query = useQueryClient()
-  const role = query.getQueryData(["session"])?.data?.role_id?.role_name
+  const role = (query.getQueryData(["session"]) as any)?.data?.role_id?.role_name
 
   
   return (
@@ -74,7 +74,7 @@ const FormFieldBiodata = () => {
               accept={{
                 'image/*': [], // All images
               }}
-              value={value}
+              value={value as File[]}
               multiple={false}
               // @ts-ignore
               onChange={(e) => onChange(e.target.files?.[0] ?? null)}

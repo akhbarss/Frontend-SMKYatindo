@@ -30,11 +30,11 @@ const FormFieldDiskon = () => {
               children={<div></div>}
               label={" Bukti 1"}
               onDrop={(droppedFiles) => {
+                console.log({droppedFiles})
                 onChange(droppedFiles);
               }}
               value={value}
               multiple={false}
-              onChange={(e) => onChange(e.target.files?.[0] ?? null)}
               onReject={(files) => {
                 const fileToLarge = files[0].errors[0].code == "file-too-large";
                 if (fileToLarge) {
@@ -75,7 +75,6 @@ const FormFieldDiskon = () => {
               }}
               value={value}
               multiple={false}
-              onChange={(e) => onChange(e.target.files?.[0] ?? null)}
               onReject={(files) => {
                 const fileToLarge = files[0].errors[0].code == "file-too-large";
                 if (fileToLarge) {

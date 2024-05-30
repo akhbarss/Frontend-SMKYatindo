@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ResponseType } from "../types/global";
 import axios from "../utils/axios";
 import { GetBatchOffsetType } from "../types/batch";

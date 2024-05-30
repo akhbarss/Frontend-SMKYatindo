@@ -9,22 +9,18 @@ import {
   Stack,
   Text,
   TextInput,
-  useMantineTheme,
 } from "@mantine/core";
 import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
+import { Image, Upload, X } from "lucide-react";
 import { Controller, useFormContext } from "react-hook-form";
 import toast from "react-hot-toast";
 import { NumericFormat } from "react-number-format";
 import { RadioGroupCustom } from "../Fields/RadioGroup";
-import { Image, Upload, X } from "lucide-react";
-import { useEffect } from "react";
 
 const FormFieldPembayaran = () => {
-  const theme = useMantineTheme();
   const {
     register,
     control,
-    setValue,
     formState: { errors },
     watch,
   } = useFormContext();

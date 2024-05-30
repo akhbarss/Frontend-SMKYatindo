@@ -1,25 +1,34 @@
-import { Divider, ScrollArea, Skeleton, Stack, Tabs } from "@mantine/core";
+import {
+  Button,
+  Divider,
+  Paper,
+  ScrollArea,
+  Skeleton,
+  Stack,
+  Tabs,
+  Text
+} from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { FaAddressCard, FaRegFlag } from "react-icons/fa";
 import { FaMoneyCheckDollar } from "react-icons/fa6";
 import { RiGitMergeFill } from "react-icons/ri";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { jwtDecode } from "../../../../apis/alur/decodeJWT";
 import { getLastoffset } from "../../../../apis/pembelian";
 import Page from "../../../../components/Page";
 import PageLabel from "../../../../components/PageLabel";
+import TabList from "../../../../components/TabList/TabList";
 import StepCetakKartu from "../../../../components/ui/Step/StepCetakKartu/StepCetakKartu";
 import StepGelombang from "../../../../components/ui/Step/StepGelombang/StepGelombang";
-import StepPembayaran from "../../../../components/ui/Step/StepPembayaran/StepPembayaran";
 import StepPilihJurusan from "../../../../components/ui/Step/StepJurusan/StepPilihJurusan";
-import TabList from "../../../../components/TabList/TabList";
+import StepPembayaran from "../../../../components/ui/Step/StepPembayaran/StepPembayaran";
 import { StyledTabsProps } from "../../../../types/global";
 import generateQueryparam from "../../../../utils/generateQueryParam";
 import useFilter from "../../../../utils/useFilter";
 
 const StyledTabs = (props: StyledTabsProps) => {
-  const { grade } = props
+  const { grade } = props;
   return (
     <Tabs
       unstyled
@@ -48,14 +57,17 @@ const StyledTabs = (props: StyledTabsProps) => {
           },
 
           "&[data-active]": {
-            background: `linear-gradient(45deg, ${(grade == "SMP" && "#2A166F") || (grade == "SMK" && "#FF6C22")}, ${(grade == "SMP" && "#6548DB") || (grade == "SMK" && "#ff9f22")})`,
+            background: `linear-gradient(45deg, ${
+              (grade == "SMP" && "#2A166F") || (grade == "SMK" && "#FF6C22")
+            }, ${
+              (grade == "SMP" && "#6548DB") || (grade == "SMK" && "#ff9f22")
+            })`,
             borderColor: "green",
             color: theme.white,
             boxShadow: "0 10px 20px -10px rgba(0,0,0,0.5)",
           },
         },
       })}
-
       {...props}
     />
   );
@@ -70,7 +82,7 @@ const PembelianSiswaPPDB = () => {
   const {
     data: stagings,
     isSuccess,
-    isFetching
+    isFetching,
   } = useQuery({
     queryKey: ["get_last_offset_batch"],
     queryFn: () => getLastoffset("PEMBELIAN"),
@@ -78,9 +90,7 @@ const PembelianSiswaPPDB = () => {
     notifyOnChangeProps: "all",
   });
 
-  const {
-    data: user,
-  } = useQuery({
+  const { data: user } = useQuery({
     queryFn: jwtDecode,
     queryKey: ["session"],
   });
@@ -112,6 +122,34 @@ const PembelianSiswaPPDB = () => {
       content: <StepCetakKartu />,
     },
   ];
+
+  function ContentSelesaiPembelian() {
+    return (
+      <Paper
+        withBorder
+        radius="md"
+        sx={(theme) => ({
+          backgroundColor:
+            theme.colorScheme === "dark" ? theme.colors.dark[9] : theme.white,
+          padding: "2rem",
+        })}
+      >
+        <Stack maw={800} mx={"auto"}>
+          <Text
+            align={"center"}
+            weight={500}
+            style={{
+              fontSize: "clamp(1rem, 3.4783vw + 0.3043rem, 1.2rem)",
+            }}
+          >
+            Selamat! anda telah menyelesaikan step pembelian. <br /> Silakan
+            melanjutkan ke step pengembalian{" "}
+          </Text>
+          <Button mx={"auto"} component={Link} to={"/ppdb/main/pengembalian"}>Lanjutkan</Button>
+        </Stack>
+      </Paper>
+    );
+  }
   const cardSMP = [
     {
       index: 1,
@@ -131,12 +169,18 @@ const PembelianSiswaPPDB = () => {
       icon: FaAddressCard,
       content: <StepCetakKartu />,
     },
+    {
+      index: 4,
+      label: "Cetak Kartu Peserta",
+      icon: FaAddressCard,
+      content: <ContentSelesaiPembelian />,
+    },
   ];
 
   const queryFilter = useFilter(filter);
   const location = useLocation();
   const navigate = useNavigate();
-  const grade = user?.data?.student?.grade
+  const grade = user?.data?.student?.grade;
 
   useEffect(() => {
     setFilter(
@@ -173,56 +217,58 @@ const PembelianSiswaPPDB = () => {
     navigate(`${location.pathname}?${generateQueryparam(toFilter)}`);
   };
 
-  const stagingCardFilterByGrade = isSuccess && stagings?.data?.filter(staging => staging?.grade === grade)
+  const stagingCardFilterByGrade =
+    isSuccess && stagings?.data?.filter((staging) => staging?.grade === grade);
 
   return (
     <Page title={"Pembelian"}>
       <PageLabel label={"Pembelian"} />
       <Stack className={"style-box max-w-[100rem] mx-auto"}>
-        <StyledTabs
-          grade={grade}
-          value={`${filter.step}`}
-          onTabChange={toStep}
-        >
+        <StyledTabs grade={grade} value={`${filter.step}`} onTabChange={toStep}>
           <>
             <>
-              {isFetching ? <Skeleton mt={40} width={"100%"} height={200} visible /> : (
+              {isFetching ? (
+                <Skeleton mt={40} width={"100%"} height={200} visible />
+              ) : (
                 <>
                   {isSuccess && (
-                    <ScrollArea w={"100%"} display={"flex"} type="always" sx={{ display: 'block' }} offsetScrollbars >
-                      {
-                        grade === "SMK" && (
-
-                          <TabList
-                            activeTabIndex={+filter.step}
-                            card={stagingCardFilterByGrade?.map((staging, index) => {
+                    <ScrollArea
+                      w={"100%"}
+                      display={"flex"}
+                      type="always"
+                      sx={{ display: "block" }}
+                      offsetScrollbars
+                    >
+                      {grade === "SMK" && (
+                        <TabList
+                          activeTabIndex={+filter.step}
+                          card={stagingCardFilterByGrade?.map(
+                            (staging, index) => {
                               return {
                                 label: staging.name,
                                 index: staging.index,
                                 icon: cardSMK[index]?.icon,
                                 is_done: staging.is_done === 1,
                               };
-                            })}
-                          />
-                        )
-                      }
-                      {
-                        grade === "SMP" && (
-
-                          <TabList
-                            activeTabIndex={+filter.step}
-                            card={stagingCardFilterByGrade?.map((staging, index) => {
+                            }
+                          )}
+                        />
+                      )}
+                      {grade === "SMP" && (
+                        <TabList
+                          activeTabIndex={+filter.step}
+                          card={stagingCardFilterByGrade?.map(
+                            (staging, index) => {
                               return {
                                 label: staging.name,
                                 index: staging.index,
                                 icon: cardSMP[index]?.icon,
                                 is_done: staging.is_done === 1,
                               };
-                            })}
-                          />
-                        )
-                      }
-
+                            }
+                          )}
+                        />
+                      )}
                     </ScrollArea>
                   )}
                 </>
@@ -231,19 +277,20 @@ const PembelianSiswaPPDB = () => {
 
             <Divider my={20} />
 
-            {
-              isFetching ? <Skeleton mt={40} width={"100%"} height={200} visible /> : (
-                <>
-                  {grade == "SMK" && cardSMK.find((c) => c.index === filter.step)?.content}
-                  {grade == "SMP" && cardSMP.find((c) => c.index === filter.step)?.content}
-                </>
-              )
-            }
-
+            {isFetching ? (
+              <Skeleton mt={40} width={"100%"} height={200} visible />
+            ) : (
+              <>
+                {grade == "SMK" &&
+                  cardSMK.find((c) => c.index === filter.step)?.content}
+                {grade == "SMP" &&
+                  cardSMP.find((c) => c.index === filter.step)?.content}
+              </>
+            )}
           </>
         </StyledTabs>
       </Stack>
-    </Page >
+    </Page>
   );
 };
 

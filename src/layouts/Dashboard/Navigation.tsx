@@ -1,7 +1,21 @@
-import { NavLink, Navbar, ScrollArea, createStyles, getStylesRef } from "@mantine/core";
+import {
+  NavLink,
+  Navbar,
+  ScrollArea,
+  createStyles,
+  getStylesRef,
+} from "@mantine/core";
 import { useIsFetching } from "@tanstack/react-query";
 import type { LucideIcon } from "lucide-react";
-import { FileText, GitBranch, GitPullRequestArrow, Home, LayoutDashboard, ShoppingCart, Users } from "lucide-react";
+import {
+  FileText,
+  GitBranch,
+  GitPullRequestArrow,
+  Home,
+  LayoutDashboard,
+  ShoppingCart,
+  Users,
+} from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { DarkTheme } from "../../utils/darkTheme";
@@ -11,19 +25,24 @@ type TMenuSiswaNavigation = {
   path: string;
   icon: LucideIcon;
   color: string;
-}[]
+}[];
 
 const useStyles = createStyles((theme) => ({
   link: {
     ...theme.fn.focusStyles(),
     backgroundColor: "white",
-    color: theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[7],
+    color:
+      theme.colorScheme === "dark"
+        ? theme.colors.dark[6]
+        : theme.colors.gray[7],
     fontWeight: 600,
     borderRadius: 6,
 
     "&:hover": {
       backgroundColor:
-        theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[3],
+        theme.colorScheme === "dark"
+          ? theme.colors.dark[6]
+          : theme.colors.gray[3],
       color: theme.colorScheme === "dark" ? theme.white : theme.black,
 
       [`& .${getStylesRef("icon")}`]: {
@@ -38,19 +57,20 @@ const useStyles = createStyles((theme) => ({
       color: theme.white,
     },
   },
-}))
-
+}));
 
 const Navigation = ({
   opened,
   access = [],
+  toggle,
 }: {
   opened: boolean;
   access: string[];
+  toggle: () => void;
 }) => {
   const [menus, setMenus] = useState<TMenuSiswaNavigation>([]);
-  const dark = DarkTheme()
-  const { classes, cx } = useStyles()
+  const dark = DarkTheme();
+  const { classes, cx } = useStyles();
 
   const menusSiswa = useMemo<TMenuSiswaNavigation>(
     () => [
@@ -58,55 +78,58 @@ const Navigation = ({
         label: "Home",
         path: "/ppdb/main/home",
         icon: Home,
-        color: "orange"
+        color: "orange",
       },
       {
         label: "Pembelian",
         path: "/ppdb/main/pembelian",
         icon: ShoppingCart,
-        color: "green"
+        color: "green",
       },
       {
         label: "Pengembalian",
         path: "/ppdb/main/pengembalian",
         icon: GitPullRequestArrow,
-        color: "red"
+        color: "red",
       },
       {
         label: "Tes Ujian",
         path: "/ppdb/main/tes-ujian",
         icon: FileText,
-        color: "blue"
+        color: "blue",
       },
       {
         label: "Dashboard",
         path: "/ppdb/main/dashboard",
         icon: LayoutDashboard,
-        color: "black"
+        color: "black",
       },
       {
         label: "Alur Pendaftaran",
         path: "/ppdb/main/alur",
         icon: GitBranch,
-        color: "indigo"
+        color: "indigo",
       },
       {
         label: "Jalur Pendaftaran",
         path: "/ppdb/main/jalur-pendaftaran",
         icon: GitPullRequestArrow,
-        color: "lime"
+        color: "lime",
       },
       {
         label: "Pendaftar",
         path: "/ppdb/main/pendaftar-ppdb",
         icon: Users,
-        color: "purple"
+        color: "purple",
       },
     ],
     []
   );
 
-  const countQueryFetching = useIsFetching({ queryKey: ["get_last_offset_batch"], fetchStatus: "fetching", })
+  const countQueryFetching = useIsFetching({
+    queryKey: ["get_last_offset_batch"],
+    fetchStatus: "fetching",
+  });
   const { pathname: pathUrl } = useLocation();
   const navigate = useNavigate();
 
@@ -139,20 +162,24 @@ const Navigation = ({
                   [classes.linkActive]: pathUrl.includes(menu.path),
                 })}
                 icon={
-                  <menu.icon color={pathUrl !== menu.path ? menu.color : undefined} size="1.2rem" />
+                  <menu.icon
+                    color={pathUrl !== menu.path ? menu.color : undefined}
+                    size="1.2rem"
+                  />
                 }
                 key={i}
                 variant="filled"
                 label={menu.label}
                 onClick={() => {
                   if (pathUrl.includes(menu.path)) {
-                    return
+                    return;
                   } else {
                     if (countQueryFetching > 0) {
-                      return
-                    } else[
-                      navigate(menu.path as never)
-                    ]
+                      return;
+                    } else {
+                      navigate(menu.path as never);
+                      toggle();
+                    }
                   }
                 }}
               />

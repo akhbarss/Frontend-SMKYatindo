@@ -256,7 +256,7 @@ const PengembalianSiswaPPDB = () => {
             ) : (
               <>
                 <Text mt={40} align="center" maw={450} mx={'auto'}>
-                  Anda belum melakukan menyelesaikan step pembelian, mohon selesaikan step pembelian dahulu
+                  Maaf anda belum menyelesaikan step pembelian, mohon selesaikan step pembelian terlebih dahulu.
                 </Text>
               </>
             )}

@@ -3,7 +3,7 @@ import { Lookup } from "./lookup";
 
 export type Student = {
   id: number;
-  nisn?: string;
+  nisn: string;
   name: string;
   phone: string;
   surname: string;
@@ -18,7 +18,7 @@ export type Student = {
   sub_district: null;
   postal_code: null;
   school_origin: "Yatindo";
-  profile_picture?: File[] | string;
+  profile_picture: File[] | string;
   status: null;
   major: string;
   staging_id: null;
@@ -33,6 +33,7 @@ export type Student = {
   dad_phone: string;
   dad_job: string;
   dad_address: string;
+  registration_date_purchased_batch: string
 
   isPurchasingDone: boolean |null;
   isReturningDone : boolean |null;
@@ -44,9 +45,6 @@ export type Student = {
   family_card: File[] | string;
   birth_card: File[] | string;
 
-  // feat:: new fitur
-  achievement1_img: string;
-  achievement2_img: string;
 };
 
 export type Staging = {

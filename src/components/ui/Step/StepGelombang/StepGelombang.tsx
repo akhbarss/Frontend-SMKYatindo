@@ -24,10 +24,10 @@ const StepGelombang: React.FC<Step> = ({ type = "PEMBELIAN" }) => {
   const queryClient = useQueryClient();
   const { data, isSuccess: getGradeSuccess } = useQuery({
     queryKey: ["get_session_grade"],
-    queryFn: jwtDecode
-  })
+    queryFn: jwtDecode,
+  });
 
-  const grade = data?.data?.student?.grade
+  const grade = data?.data?.student?.grade;
 
   const {
     data: jalur,
@@ -40,8 +40,7 @@ const StepGelombang: React.FC<Step> = ({ type = "PEMBELIAN" }) => {
 
   const {
     data: offset,
-    isLoading: statusLoading,
-    isSuccess: statusSuccess,
+    isLoading: statusLoading
   } = useQuery({
     queryKey: ["student_staging_offset", filter.stagingId, type],
     queryFn: () => getOffsetStatus(filter.stagingId, type),
@@ -82,8 +81,12 @@ const StepGelombang: React.FC<Step> = ({ type = "PEMBELIAN" }) => {
     });
   };
 
-  const filteringJalurByGrade = (jalurSuccess &&
-    jalur && getGradeSuccess && data) && jalur?.data?.filter(item => item.grade === grade?.toUpperCase())
+  const filteringJalurByGrade =
+    jalurSuccess &&
+    jalur &&
+    getGradeSuccess &&
+    data &&
+    jalur?.data?.filter((item) => item.grade === grade?.toUpperCase());
 
   return (
     <Paper
@@ -98,39 +101,49 @@ const StepGelombang: React.FC<Step> = ({ type = "PEMBELIAN" }) => {
       <LoadingOverlay
         visible={chooseBatchMutation.isPending || statusLoading}
       />
-      {statusSuccess && offset.data.offset_data ? (
-        <>
-          <Text weight={500}>Pilihan Anda</Text>
-          <Stack mt={20}>
-            <CardChooseBatch {...offset.data.offset_data.registrationBatch} />
-          </Stack>
-        </>
-      ) : statusLoading ? (
+      {statusLoading ? (
         <Loader />
       ) : (
         <>
           <Text weight={500}>Pilih Salah Satu Gelombang</Text>
           <Stack mt={20}>
             {jalurLoading && <Skeleton content={"Lorem ipsum"} />}
-            {
-              filteringJalurByGrade?.length > 0 ?
-                filteringJalurByGrade?.sort((a, b) => a.id - b.id).map((batch) => (
-
+            {filteringJalurByGrade?.length > 0 ? (
+              filteringJalurByGrade
+                ?.sort((a, b) => a.id - b.id)
+                .map((batch) => (
                   <CardChooseBatch
                     {...batch}
                     key={batch.id}
-                    onClick={() => onChooseBatch(batch.id, batch.name, batch.grade)}
+                    onClick={() => {
+                      if (type == "PEMBELIAN") {
+                        if (
+                          offset?.data?.current_state?.type == "PEMBELIAN" ||
+                          offset?.data?.current_state?.type == "PENGEMBALIAN"
+                        ) {
+                          return;
+                        }
+                        onChooseBatch(batch?.id, batch.name, batch.grade);
+                      } else if (type == "PENGEMBALIAN") {
+                        if (
+                          offset.data?.current_state?.type == "PENGEMBALIAN"
+                        ) {
+                          return;
+                        }
+                        onChooseBatch(batch?.id, batch.name, batch.grade);
+                      }
+                    }}
                   />
-
                 ))
-                : (
-                  <>
-                    <Text size={"xl"} weight={"bold"}>
-                      Belum ada gelombang {type === "PEMBELIAN" ? "pembelian" : "pengembalian"} yang tersedia
-                    </Text>
-                  </>
-                )
-            }
+            ) : (
+              <>
+                <Text size={"xl"} weight={"bold"}>
+                  Belum ada gelombang{" "}
+                  {type === "PEMBELIAN" ? "pembelian" : "pengembalian"} yang
+                  tersedia
+                </Text>
+              </>
+            )}
           </Stack>
         </>
       )}

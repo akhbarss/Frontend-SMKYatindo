@@ -20,17 +20,17 @@ const AppBar = ({
   opened,
   setOpened,
   fullname,
-  grade
+  grade,
 }: {
   opened: boolean;
   setOpened: () => void;
   fullname?: string;
-  grade: "SMK" | "SMP"
+  grade?: "SMK" | "SMP";
 }) => {
-  const { xs } = useBreakPoints()
+  const { xs } = useBreakPoints();
   const theme = useMantineTheme();
   const navigate = useNavigate();
-  const dark = DarkTheme()
+  const dark = DarkTheme();
 
   return (
     <MantineHeader
@@ -44,10 +44,14 @@ const AppBar = ({
           paddingInline: "15px",
         },
         position: "fixed",
-        background: grade ? gradesUtils.find(item => grade === item.grade).bg : dark ? "#363062" : "linear-gradient(to left, #6548DB, #2A166F)",
+        background: grade
+          ? gradesUtils.find((item) => grade === item.grade).bg
+          : dark
+          ? "#363062"
+          : "white",
       }}
     >
-      <Group >
+      <Group>
         <MediaQuery largerThan="md" styles={{ display: "none" }}>
           <Burger
             sx={{ marginLeft: 0 }}
@@ -59,12 +63,20 @@ const AppBar = ({
         </MediaQuery>
 
         <img src="/logo-yatindo-hd.png" alt="Yatindo" className="w-[47px]" />
-        <Divider orientation="vertical" size={"xs"} color="white" sx={{ display: `${!xs && "none"}` }} />
-        <Box >
-          <Text weight={"bold"} lineClamp={1} color="white">
+        <Divider
+          orientation="vertical"
+          size={"xs"}
+          color={grade ? "white" : "dark"}
+          sx={{ display: `${!xs && "none"}` }}
+        />
+        <Box>
+          <Text weight={"bold"} lineClamp={1} color={grade ? "white" : "dark"}>
             PPDB Yatindo
           </Text>
-          <Text color="white" sx={{ display: `${!xs && "none"}` }}>
+          <Text
+            color={grade ? "white" : "dark"}
+            sx={{ display: `${!xs && "none"}` }}
+          >
             Yayasan Tinta Emas Indonesia
           </Text>
         </Box>
@@ -74,10 +86,8 @@ const AppBar = ({
         <Menu width={200} trigger="hover" openDelay={100} closeDelay={400}>
           <Menu.Target>
             <Group spacing={5}>
-              <Avatar
-                radius={"xl"}
-              />
-              <MdKeyboardArrowDown color="white" />
+              <Avatar radius={"xl"} />
+              <MdKeyboardArrowDown color={grade ? "white" : "black"} />
             </Group>
           </Menu.Target>
 
@@ -87,7 +97,7 @@ const AppBar = ({
               Profile
             </Menu.Item>
             <Menu.Item
-            color="red"
+              color="red"
               onClick={() => {
                 localStorage.removeItem("_TuVbwpW");
                 navigate("/ppdb/auth/login");
